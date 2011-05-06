@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from trocaire.medios import *
+from trocaire.medios.models import *
 
 # Create your models here.
 
@@ -22,10 +22,10 @@ class Codigo(models.Model):
         
 class AccesoEscuela(models.Model):
     acceso = models.IntegerField('Acceso a la escuela', choices=CHOICE_ACCESO)
-    fem_estudia = models.ForeignKey('Femenino estudia', Codigo)
-    fem_no_estudia = models.ForeignKey('Femenino no estudia', Codigo)
-    mas_estudia = models.ForeignKey('Masculino estudia', Codigo)
-    mas_no_estudia = models.ForeignKey('Masculino no estudia', Codigo)
+    fem_estudia = models.ForeignKey(Codigo, verbose_name='Femenino estudia', related_name="estudia")
+    fem_no_estudia = models.ForeignKey(Codigo, verbose_name="Femenino no estudia", related_name="no_estudia")
+    mas_estudia = models.ForeignKey(Codigo, verbose_name="Masculino estudia", related_name="masculino")
+    mas_no_estudia = models.ForeignKey(Codigo, verbose_name="Masculino no estudia", related_name="no_masculino")
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "ACCESO A LA ESCUELA. Niñas/Ninos en la escuela"
@@ -38,7 +38,7 @@ class Abastece(models.Model):
         return self.nombre
         
 class Agua(models.Model):
-    sistema = models.ForeignKey('25. Sistema de agua de consumo humano que lo abastece', Abastece)
+    sistema = models.ForeignKey(Abastece, verbose_name='25. Sistema de agua de consumo humano que lo abastece')
     calidad = models.IntegerField('26. Calidad del agua que consume. ¿viene clorada?', choices=CHOICE_CALIDAD)
     clorada = models.IntegerField('27. Si no viene clorada ¿le da usted tratamiento?', choices=CHOICE_CLORADA)
     tiene = models.IntegerField('28. Tiene agua todo los dias en verano', choices=CHOICE_SINO)

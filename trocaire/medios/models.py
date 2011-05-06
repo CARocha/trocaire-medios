@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from trocaire.lugar import *
+from trocaire.lugar.models import *
 # Create your models here.
 
 class Recolector(models.Model):
@@ -12,14 +12,14 @@ class Recolector(models.Model):
 class Encuesta(models.Model):
     ''' Modelo de encuesta principal
     '''
-    municipio = models.ForeignKey('Nombre del Municipio', Municipio)
-    comarca = moels.ForeignKey('Nombre de la comarca', Comarca)
+    municipio = models.ForeignKey(Municipio, verbose_name="Nombre del Municipio")
+    comarca = models.ForeignKey(Comarca, verbose_name="Nombre de la comarca")
     beneficiario = models.CharField('Nombre del Beneficiario/a', max_length=200)
-    encuestador = models.ForeignKey('Nombre del encuestador', Recolector)
+    encuestador = models.ForeignKey(Recolector, verbose_name="Nombre del encuestador")
     def __unicode__(self):
         return self.beneficiario
     class Meta:
-        verbose_name_plural = "Identificación"
+        verbose_name_plural = "Encuesta Linea base"
 
 #Utilitarios para toda la encuesta
         
@@ -28,7 +28,7 @@ CHOICE_SEXO = (
                     (2, 'Femenino')
               )
               
-CHOICE_ESTADO = (
+CHOICE_CIVIL = (
                     (1, 'Casado/a'),
                     (2, 'Soltero/a'),
                     (3, 'Viudo/a')
@@ -133,6 +133,15 @@ CHOICE_AREA = (
     (3, '38. Posee un titulo entregado por el gobierno... y no lo ha inscrito.'),
     (4, '39. Posee un documento no inscrito(compra venta, herencia,otro)'),
     (5, '40. No posee ningún titulo de respaldo'),
-    (6, '41. Si no vive en la propiedad agropecuaria donde trabaja. cuanto es el area del lote donde vive.')
+    (6, '41. Si no vive en la propiedad agropecuaria donde trabaja. cuanto es el area del lote donde vive.'),
     (7, '42. Posee titulo real inscrito en el registro de este lote. Poner el area que tiene con titulo real...')
-)                    
+)
+
+# IV PRODUCCION                    
+
+CHOICE_CALIDAD_PATIO = (
+                    (1, 'Diversificado: se usa bien:produce hortaliza, verduras y frutas y genera excendentes'),
+                    (2, 'Capacidad media. Hay sub-utilización del patio. produce solo para auto-consumo'),
+                    (3, 'Sin capacidad. No lo aprovecha')
+                 )
+

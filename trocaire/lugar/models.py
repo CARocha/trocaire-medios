@@ -29,14 +29,24 @@ class Municipio(models.Model):
     class Meta:
         verbose_name_plural = "Municipios"
         ordering = ['departamento__nombre',]
-
+        
 class Comunidad(models.Model):
+    municipio = models.ForeignKey(Municipio)
+    nombre = models.CharField(max_length=40)
+
+    class Meta:
+        verbose_name_plural="Comunidad"
+
+    def __unicode__(self):
+        return self.nombre
+
+class Comarca(models.Model):
     municipio = models.ForeignKey(Municipio)
 #    microcuenca = models.ForeignKey(Microcuenca,null=True,blank=True)
     nombre = models.CharField(max_length=40)
 
     class Meta:
-        verbose_name_plural="Comunidad"
+        verbose_name_plural="Comarca"
 
     def __unicode__(self):
         return self.nombre

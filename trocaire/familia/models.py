@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from trocaire.medios import *
+from trocaire.medios.models import *
 
 # Create your models here.
 
@@ -11,7 +11,7 @@ class Composicion(models.Model):
     '''
     sexo = models.IntegerField('1. Sexo del beneficiario/a', choices=CHOICE_SEXO)
     edad = models.IntegerField('2. Edad del beneficiario/a')
-    estado = models.IntegerField('3. Estado Civil', choices=CHOICE_ESTADO)
+    estado = models.IntegerField('3. Estado Civil', choices=CHOICE_CIVIL)
     beneficio = models.IntegerField('4. El o la beneficiario/a es el jefe de familas', choices=CHOICE_JEFE)
     relacion = models.IntegerField('5. Si no es jefe/a de famila... cuál es su relacion con el jefe de Familia',
                                     choices=CHOICE_RELACION)
@@ -24,7 +24,7 @@ class Composicion(models.Model):
         verbose_name_plural = "COMPOSICIÓN DE LA FAMILIA"
         
 class Descripcion(models.Model):
-    descripcion = models.IntegerField('Descripción', choices=)
+    descripcion = models.IntegerField('Descripción', choices=CHOICE_DESCRIPCION)
     femenino = models.IntegerField()
     masculino = models.IntegerField()
     encuesta = models.ForeignKey(Encuesta)

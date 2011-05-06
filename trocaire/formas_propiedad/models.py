@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from trocaire.medios import *
+from trocaire.medios.models import *
 
 # Create your models here.
 
@@ -28,3 +28,6 @@ class Propiedad(models.Model):
     conflicto = models.IntegerField('43. Su propiedad tiene conflicto con otras  personas que la reclaman como propia o han invadido', choices=CHOICE_SINO)
     ciclo = models.ManyToManyField(Ciclo,verbose_name='44. ciclo agricola de un año. Para sus actividades agropecuarias alquilo, hizo mediería o le prestaron.')
     zonas = models.ManyToManyField(Riegos,verbose_name="45. En su propiedad y en la casa. ¿Hay zonas de riesgo?", help_text="Enumerar los 3 mas importantes")
+    encuesta = models.ForeignKey(Encuesta)
+    class Meta:
+        verbose_name_plural = "Propiedad"
