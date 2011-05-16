@@ -44,7 +44,13 @@ class AdminInmigracionInline(admin.TabularInline):
 class AdminAccesoEscuela(admin.TabularInline):
     model = AccesoEscuela
     extra = 1
-    max_num = 5
+    max_num = 3
+    can_delete = False
+    
+class AdminRazonesNoEstudia(admin.TabularInline):
+    model = RazonesNoEstudia
+    extra = 1
+    max_num = 2
     can_delete = False
 
 class AdminAbasteceInline(admin.TabularInline):
@@ -327,7 +333,7 @@ class EncuestaAdmin(admin.ModelAdmin):
     save_on_top = True
     actions_on_top = True
     inlines = [AdminComposicionInline,AdminDescripcionInline,AdminEscolaridadInline,
-               AdminInmigracionInline,AdminAccesoEscuela,AdminAbasteceInline,
+               AdminInmigracionInline,AdminAccesoEscuela,AdminRazonesNoEstudia,AdminAbasteceInline,
                AdminTierraInline,AdminPropiedadInline,AdminCultivosPeriodosInline,
                AdminCultivosPermanentesInline,AdminCultivosAnualesInline,AdminHortalizaInline,
                AdminConsumoDiarioInline,AdminPricipalLimitacionInline,AdminPatioCultivadaInline,

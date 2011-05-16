@@ -30,10 +30,18 @@ class Descripcion(models.Model):
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "DESCRIPCIÓN"
+
+Choice_escolaridad = (
+                            (1, "1) Analfabeto o hasta 3er grado"),
+                            (2, "2) 4 y hasta 6 grado de Primaria"),
+                            (3, "3) Algo de Secundaria"),
+                            (4, "4) Bachiller o Técnico Medio"),
+                            (5, "5) Universidad o Profesional Universitario")
+                     )
         
 class Escolaridad(models.Model):
-    beneficia = models.IntegerField('13. Beneficiaria/o')
-    conyugue = models.IntegerField('14. Conyugue')
+    beneficia = models.IntegerField(choices=Choice_escolaridad, verbose_name="13. Beneficiaria/o")
+    conyugue = models.IntegerField(choices=Choice_escolaridad, verbose_name="14. Conyugue")
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "ESCOLARIDAD"

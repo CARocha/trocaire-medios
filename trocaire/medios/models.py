@@ -8,6 +8,15 @@ class Recolector(models.Model):
     nombre = models.CharField(max_length=200)
     def __unicode__(self):
         return self.nombre
+        
+class Contraparte(models.Model):
+    nombre = models.CharField(max_length=200)
+    
+    def __unicode__(self):
+        return self.nombre
+        
+    class Meta:
+        verbose_name_plural = "Contrapartes Trocaire"
 
 class Encuesta(models.Model):
     ''' Modelo de encuesta principal
@@ -16,8 +25,11 @@ class Encuesta(models.Model):
     comarca = models.ForeignKey(Comarca, verbose_name="Nombre de la comarca")
     beneficiario = models.CharField('Nombre del Beneficiario/a', max_length=200)
     encuestador = models.ForeignKey(Recolector, verbose_name="Nombre del encuestador")
+    contraparte = models.ForeignKey(Contraparte, null=True, blank=True)
+    
     def __unicode__(self):
         return self.beneficiario
+
     class Meta:
         verbose_name_plural = "Encuesta Linea base"
 
@@ -74,9 +86,8 @@ CHOICE_INMIGRACION = (
 CHOICE_ACCESO = (
     (1, '20. Número de niñas/os entre 6 y 17 años con discapacidad o deficiencia imposibilitados de ir a la escuela'),
     (2, '21. Número de niñas/os entre 6 y 14 años No incluye con discapacidad o deficiencia. Cuántos estudian o no estudian.'),
-    (3, '22. Razón principal porque no estudia.'),
-    (4, '23. Número de niñas/os entre 15 y 17 años. No incluye con discapacidad o deficiencia. '),
-    (5, '24. Razón principal porque no estudian')
+    (3, '23. Número de niñas/os entre 15 y 17 años. No incluye con discapacidad o deficiencia. ')
+    
 )
 
 CHOICE_CALIDAD = (

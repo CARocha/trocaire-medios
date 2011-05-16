@@ -7,8 +7,8 @@ from trocaire.medios.models import *
 
 class Inmigracion(models.Model):
     inmigra = models.IntegerField('Inmigración', choices=CHOICE_INMIGRACION)
-    mujer = models.IntegerField('Mujer Cantidad')
-    hombre = models.IntegerField('Hombre Cantidad')
+    mujer = models.IntegerField('Mujer Cantidad', default=0)
+    hombre = models.IntegerField('Hombre Cantidad', default=0)
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "INMIGRACIÓN"
@@ -22,14 +22,26 @@ class Codigo(models.Model):
         
 class AccesoEscuela(models.Model):
     acceso = models.IntegerField('Acceso a la escuela', choices=CHOICE_ACCESO)
-    fem_estudia = models.ForeignKey(Codigo, verbose_name='Femenino estudia', related_name="estudia")
-    fem_no_estudia = models.ForeignKey(Codigo, verbose_name="Femenino no estudia", related_name="no_estudia")
-    mas_estudia = models.ForeignKey(Codigo, verbose_name="Masculino estudia", related_name="masculino")
-    mas_no_estudia = models.ForeignKey(Codigo, verbose_name="Masculino no estudia", related_name="no_masculino")
+    fem_estudia = models.IntegerField(verbose_name='Femenino estudia')
+    fem_no_estudia = models.IntegerField(verbose_name="Femenino no estudia")
+    mas_estudia = models.IntegerField(verbose_name="Masculino estudia")
+    mas_no_estudia = models.IntegerField(verbose_name="Masculino no estudia")
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "ACCESO A LA ESCUELA. Niñas/Ninos en la escuela"
-        
+
+Choice_no_estudia = (
+                        (1, '22. Razón principal porque no estudia.'),
+                        (2, '24. Razón principal porque no estudian')
+                    )
+class RazonesNoEstudia(models.Model):
+     acceso = models.IntegerField('Acceso a la escuela', choices=Choice_no_estudia)
+     fem_no_estudia = models.ForeignKey(Codigo, verbose_name="Femenino no estudia", related_name="Niñas No estudian")
+     mas_no_estudia = models.ForeignKey(Codigo, verbose_name="Masculino no estudia", related_name="Niños No estudian")
+     encuesta = models.ForeignKey(Encuesta)
+     
+     class Meta:
+           verbose_name_plural = "Razones porque NO estudia los Niños/as"
 # Parte del agua
 
 class Abastece(models.Model):
