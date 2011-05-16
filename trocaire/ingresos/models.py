@@ -119,7 +119,9 @@ class Productos(models.Model):
 class Lactios(models.Model):
     producto = models.ForeignKey(Productos)
     invierno_precio = models.FloatField()
+    cantidad_invi = models.FloatField('Cantidad en Invierno')
     verano_precio = models.FloatField()
+    cantidad_vera = models.FloatField('Cantidad en Verano')
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Producto en el ultimo año"
@@ -161,11 +163,11 @@ class OtrosIngresos(models.Model):
         verbose_name_plural = "Otros ingresos en el nucleo familiar (Estimación de ingresos anuales)"
         
 choice_vendes = (
-                                (1,'Vende Individual. No incluye vender en ferias'),
-                                (2,'Vende colectivo. NO incluye venta en la cooperativa'),
-                                (3,'Vende a la cooperativa de la que es socio'),
-                                (4,'Vende en ferias campesinas'),
-                                (5,'No aplica. No vende')
+                                (1,'1. Vende Individual. No incluye vender en ferias'),
+                                (2,'2. Vende colectivo. NO incluye venta en la cooperativa'),
+                                (3,'3. Vende a la cooperativa de la que es socio'),
+                                (4,'4. Vende en ferias campesinas'),
+                                (5,'5. No aplica. No vende')
                                 
                           )
                           
@@ -182,7 +184,7 @@ class ProductosPrincipales(models.Model):
         return self.nombre
         
 class VendeProducto(models.Model):
-    principal = models.ForeignKey(ProductosPrincipales, verbose_name="La principal")
+    principal = models.ForeignKey(ProductosPrincipales, verbose_name="Rubros")
     forma = models.IntegerField('Forma principal de venta', choices=choice_vendes)
     encuesta = models.ForeignKey(Encuesta)
     class Meta:

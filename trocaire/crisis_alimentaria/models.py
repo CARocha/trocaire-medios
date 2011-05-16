@@ -24,12 +24,12 @@ class Crisis(models.Model):
 # ACCESO A CREDITO
 
 choice_credito = (
-                    (1,'No tiene. No recibe credito'),
-                    (2,'Banca tradicional, micro-financiera'),
-                    (3,'Cooperativa, proyectos, ONG'),
-                    (4,'Banquito comunal'),
-                    (5,'Comerciante, pretamista'),
-                    (6,'Otro')
+                    (1,'1. No tiene. No recibe credito'),
+                    (2,'2. Banca tradicional, micro-financiera'),
+                    (3,'3. Cooperativa, proyectos, ONG'),
+                    (4,'4. Banquito comunal'),
+                    (5,'5. Comerciante, pretamista'),
+                    (6,'6. Otro')
                )  
                
 class AccesoCredito(models.Model):

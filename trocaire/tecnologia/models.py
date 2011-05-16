@@ -15,7 +15,7 @@ choice_riego = (
                
 class Riego(models.Model):
     respuesta = models.IntegerField(choices=choice_riego)
-    area = models.FloatField('Área regadas', help_text="en manzanas")
+    area = models.FloatField('Área regadas en Manzanas', help_text="en manzanas")
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "123. Tiene riego (Área regada en manzana)"
@@ -31,7 +31,7 @@ choice_CSA = (
                
 class AreaProtegida(models.Model):
     respuesta = models.IntegerField(choices=choice_CSA)
-    cantidad = models.FloatField('Cantidad protegida', help_text="en manzanas")
+    cantidad = models.FloatField('Cantidad protegida en Manzanas', help_text="en manzanas")
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "124. Área protegida con obras de CSA (En manzana)"
@@ -47,25 +47,25 @@ choice_tecnologias = (
 class UsoTecnologia(models.Model):
     tecnologia = models.IntegerField(choices=choice_tecnologias)
     granos = models.IntegerField('Granos y hortalizas', choices=CHOICE_SINO)
-    anuales = models.IntegerField('Granos y hortalizas', choices=CHOICE_SINO)
-    permanentes = models.IntegerField('Granos y hortalizas', choices=CHOICE_SINO)
-    pastos = models.IntegerField('Granos y hortalizas', choices=CHOICE_SINO)
+    anuales = models.IntegerField('Anuales', choices=CHOICE_SINO)
+    permanentes = models.IntegerField('Permanentes', choices=CHOICE_SINO)
+    pastos = models.IntegerField('Pastos', choices=CHOICE_SINO)
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Tecnologia utilizada en la producción agropecuaria"
         
 choice_maiz = (
-                    (1,'Maíz criollo'),
-                    (2,'Maíz mejorado'),
-                    (3,'Otra'),
-                    (4,'No sembró Maíz')
+                    (1,'1. Maíz criollo'),
+                    (2,'2. Maíz mejorado'),
+                    (3,'3. Otra'),
+                    (4,'4. No sembró Maíz')
                     
                )
 choice_frijol = (
-                    (1,'Frijol criollo'),
-                    (2,'Frijol mejorado'),
-                    (3,'Otra'),
-                    (4,'No sembró Frijol')
+                    (1,'1. Frijol criollo'),
+                    (2,'2. Frijol mejorado'),
+                    (3,'3. Otra'),
+                    (4,'4. No sembró Frijol')
                    
                )
                
