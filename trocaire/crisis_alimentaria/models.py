@@ -28,7 +28,7 @@ choice_credito = (
                     (2,'2. Banca tradicional, micro-financiera'),
                     (3,'3. Cooperativa, proyectos, ONG'),
                     (4,'4. Banquito comunal'),
-                    (5,'5. Comerciante, pretamista'),
+                    (5,'5. Comerciante, prestamista'),
                     (6,'6. Otro')
                )  
                

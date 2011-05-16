@@ -352,4 +352,5 @@ class EncuestaAdmin(admin.ModelAdmin):
 #    date_hierarchy = 'fecha'
                
 admin.site.register(Encuesta, EncuestaAdmin)
+admin.site.register(Contraparte)
     
