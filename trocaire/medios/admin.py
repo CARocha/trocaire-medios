@@ -353,4 +353,5 @@ class EncuestaAdmin(admin.ModelAdmin):
                
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Contraparte)
+admin.site.register(Recolector)
     
