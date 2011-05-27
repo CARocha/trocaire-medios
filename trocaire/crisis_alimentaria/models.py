@@ -23,20 +23,18 @@ class Crisis(models.Model):
         
 # ACCESO A CREDITO
 
-choice_credito = (
-                    (1,'1. No tiene. No recibe credito'),
-                    (2,'2. Banca tradicional, micro-financiera'),
-                    (3,'3. Cooperativa, proyectos, ONG'),
-                    (4,'4. Banquito comunal'),
-                    (5,'5. Comerciante, prestamista'),
-                    (6,'6. Otro')
-               )  
-               
+class Credito(models.Model):
+    nombre = models.CharField(max_length=200)
+    def __unicode__(self):
+        return self.nombre
+    class Meta:
+        verbose_name_plural = "Tipos de creditos"
+              
 class AccesoCredito(models.Model):
-    hombre = models.IntegerField(choices=choice_credito)
-    mujer =  models.IntegerField(choices=choice_credito)
-    otro_hombre = models.IntegerField('Otro hombre que vive en el hogar', choices=choice_credito)
-    otra_mujer = models.IntegerField('Otra mujer que vive en el hogar', choices=choice_credito)
+    hombre = models.ManyToManyField(Credito, related_name="Hombre")
+    mujer =  models.ManyToManyField(Credito, related_name="Mujer")
+    otro_hombre = models.ManyToManyField(Credito ,verbose_name='Otro hombre que vive en el hogar', related_name="Hombre vive")
+    otra_mujer = models.ManyToManyField(Credito ,verbose_name='Otra mujer que vive en el hogar', related_name="Mujer vive")
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "142. Podria decirnos cuál es su principal fuente de crédito (matrimonio)"         

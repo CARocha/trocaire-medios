@@ -31,12 +31,12 @@ class CHortalizas(models.Model):
         
 class CultivosPeriodos(models.Model):
     cultivos = models.ForeignKey(CPeriodos, verbose_name="Cultivos de periodos")
-    primera = models.IntegerField('Ciclo de Primera')
-    postrera = models.IntegerField('Ciclo de Postrera')
-    apante = models.IntegerField('Ciclo de Apante')
-    p_primera = models.IntegerField('Producción del ciclo de Primera')
-    p_postrera = models.IntegerField('Producción del ciclo de postrera')
-    p_apante = models.IntegerField('Producción del ciclo de apante')
+    primera = models.FloatField('Ciclo de Primera')
+    postrera = models.FloatField('Ciclo de Postrera')
+    apante = models.FloatField('Ciclo de Apante')
+    p_primera = models.FloatField('Producción del ciclo de Primera')
+    p_postrera = models.FloatField('Producción del ciclo de postrera')
+    p_apante = models.FloatField('Producción del ciclo de apante')
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Cultivos de Periodos"
@@ -66,8 +66,8 @@ class Hortalizas(models.Model):
         verbose_name_plural = "Cultivos Anuales"
         
 class ConsumoDiario(models.Model):
-    maiz = models.IntegerField('76. Maiz')
-    frijol = models.IntegerField('77. Frijol')
+    maiz = models.FloatField('76. Maiz')
+    frijol = models.FloatField('77. Frijol')
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Consumo diario de maíz y frijol.Libras consumidas por familia"
@@ -95,8 +95,8 @@ class PatioCultivada(models.Model):
         verbose_name_plural = "Área del patio cultivada en manzanas"
         
 class Arboles(models.Model):
-    patio = models.IntegerField('82. En el patio')
-    otra = models.IntegerField('83. En otras áreas' )
+    patio = models.FloatField('82. En el patio')
+    otra = models.FloatField('83. En otras áreas' )
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "81. Número de árboles frutales en el patio y en otras áreas de la finca no comerciales... o eventualmente comerciales"

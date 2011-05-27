@@ -2,6 +2,7 @@
 
 from django.db import models
 from trocaire.lugar.models import *
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Recolector(models.Model):
@@ -26,6 +27,7 @@ class Encuesta(models.Model):
     beneficiario = models.CharField('Nombre del Beneficiario/a', max_length=200)
     encuestador = models.ForeignKey(Recolector, verbose_name="Nombre del encuestador")
     contraparte = models.ForeignKey(Contraparte, null=True, blank=True)
+    usuario = models.ForeignKey(User)
     
     def __unicode__(self):
         return self.beneficiario

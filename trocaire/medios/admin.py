@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 from trocaire.participacion_ciudadana.models import *
 from trocaire.diversidad_alimentaria.models import *
@@ -330,6 +331,16 @@ class AdminTomaDecicionInline(admin.TabularInline):
     can_delete = False
     
 class EncuestaAdmin(admin.ModelAdmin):
+    def save_model(self, request, obj, form, change):
+        obj.usuario = request.user
+        obj.save()
+        
+    def queryset(self, request):
+        qs = super(EncuestaAdmin, self).queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(usuario=request.user)
+        
     save_on_top = True
     actions_on_top = True
     inlines = [AdminComposicionInline,AdminDescripcionInline,AdminEscolaridadInline,
