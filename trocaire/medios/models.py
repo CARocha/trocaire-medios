@@ -99,43 +99,43 @@ CHOICE_CALIDAD = (
                  )
                  
 CHOICE_CLORADA = (
-                    (1, 'Le da tratamiento'),
-                    (2, 'No le da tratamiento'),
-                    (3, 'No aplica. Viene clorada')
+                    (1, '1) Le da tratamiento'),
+                    (2, '2) No le da tratamiento'),
+                    (3, '3) No aplica. Viene clorada')
                  )
 CHOICE_SINO = (
-                    (1, 'Si'),
-                    (2, 'No')
+                    (1, '1) Si'),
+                    (2, '2) No')
                  )                                  
 
 CHOICE_TECHO = (
-                    (1, 'Zinc o playcen'),
-                    (2, 'Teco y otros'),
-                    (3, 'Paja o ripios')
+                    (1, '1) Zinc o playcen'),
+                    (2, '2) Teco y otros'),
+                    (3, '3) Paja o ripios')
                  )
                  
 CHOICE_PISO = (
-                    (1, 'Ladrillo, Cemento'),
-                    (2, 'Tierra y otros'),
-                    (3, 'Tierra')
+                    (1, '1) Ladrillo, Cemento'),
+                    (2, '2) Tierra y otros'),
+                    (3, '3) Tierra')
                  )
                  
 CHOICE_PAREDES = (
-                    (1, 'Ladrillo, bloque, adobe, talquezal'),
-                    (2, 'Madera, minifalda'),
-                    (3, 'Materiales en mal estado')
+                    (1, '1) Ladrillo, bloque, adobe, talquezal'),
+                    (2, '2) Madera, minifalda'),
+                    (3, '3) Materiales en mal estado')
                  )         
              
 CHOICE_SERVICIO = (
-                    (1, 'Inodoro'),
-                    (2, 'Letrina'),
-                    (3, 'No tiene')
+                    (1, '1) Inodoro'),
+                    (2, '2) Letrina'),
+                    (3, '3) No tiene')
                  )   
                  
 CHOICE_ESTADO = (
-                    (1, 'Buen estado'),
-                    (2, 'Ni muy bueno ni muy malo'),
-                    (3, 'En muy mal estado')
+                    (1, '1) Buen estado'),
+                    (2, '2) Ni muy bueno ni muy malo'),
+                    (3, '3) En muy mal estado')
                  )
                  
 # III FORMAS DE PROPIEDAD
