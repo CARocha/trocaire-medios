@@ -153,8 +153,8 @@ CHOICE_AREA = (
 # IV PRODUCCION                    
 
 CHOICE_CALIDAD_PATIO = (
-                    (1, 'Diversificado: se usa bien:produce hortaliza, verduras y frutas y genera excendentes'),
-                    (2, 'Capacidad media. Hay sub-utilización del patio. produce solo para auto-consumo'),
-                    (3, 'Sin capacidad. No lo aprovecha')
+                    (1, '1. Diversificado: se usa bien:produce hortaliza, verduras y frutas y genera excendentes'),
+                    (2, '2. Capacidad media. Hay sub-utilización del patio. produce solo para auto-consumo'),
+                    (3, '3. Sin capacidad. No lo aprovecha')
                  )
 
