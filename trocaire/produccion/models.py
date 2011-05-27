@@ -63,7 +63,7 @@ class Hortalizas(models.Model):
     produccion = models.FloatField(verbose_name="Producción")
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
-        verbose_name_plural = "Cultivos Anuales"
+        verbose_name_plural = "Hortalizas"
         
 class ConsumoDiario(models.Model):
     maiz = models.FloatField('76. Maiz')

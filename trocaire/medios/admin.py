@@ -343,6 +343,7 @@ class EncuestaAdmin(admin.ModelAdmin):
         
     save_on_top = True
     actions_on_top = True
+    exclude = ('usuario',)
     inlines = [AdminComposicionInline,AdminDescripcionInline,AdminEscolaridadInline,
                AdminInmigracionInline,AdminAccesoEscuela,AdminRazonesNoEstudia,AdminAbasteceInline,
                AdminTierraInline,AdminPropiedadInline,AdminCultivosPeriodosInline,
