@@ -38,33 +38,33 @@ class Encuesta(models.Model):
 #Utilitarios para toda la encuesta
         
 CHOICE_SEXO = (
-                    (1, 'Masculino'),
-                    (2, 'Femenino')
+                    (1, '1) Masculino'),
+                    (2, '2) Femenino')
               )
               
 CHOICE_CIVIL = (
-                    (1, 'Casado/a'),
-                    (2, 'Soltero/a'),
-                    (3, 'Viudo/a')
+                    (1, '1) Casado/a'),
+                    (2, '2) Soltero/a'),
+                    (3, '3) Viudo/a')
                 )
               
 CHOICE_JEFE = (
-                    (1, 'Si'),
-                    (2, 'No'),
-                    (3, 'Compartida')
+                    (1, '1) Si'),
+                    (2, '2) No'),
+                    (3, '3) Compartida')
               )
 CHOICE_RELACION = (
-                    (1, 'Conyugue'),
-                    (2, 'Madre/Padre'),
-                    (3, 'Hijo/Hija'),
-                    (4, 'Otro/a'),
-                    (5, 'No aplica')
+                    (1, '1) Conyugue'),
+                    (2, '2) Madre/Padre'),
+                    (3, '3) Hijo/Hija'),
+                    (4, '4) Otro/a'),
+                    (5, '5) No aplica')
                   )
                   
 CHOICE_SEXO_JEFE = (
-                    (1, 'Masculino'),
-                    (2, 'Femenino'),
-                    (3, 'No aplica')
+                    (1, '1) Masculino'),
+                    (2, '2) Femenino'),
+                    (3, '3) No aplica')
                    )
                    
 CHOICE_DESCRIPCION = (
@@ -93,9 +93,9 @@ CHOICE_ACCESO = (
 )
 
 CHOICE_CALIDAD = (
-                    (1, 'Si'),
-                    (2, 'No'),
-                    (3, 'No sabe')
+                    (1, '1) Si'),
+                    (2, '2) No'),
+                    (3, '3) No sabe')
                  )
                  
 CHOICE_CLORADA = (
