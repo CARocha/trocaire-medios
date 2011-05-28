@@ -36,7 +36,8 @@ Choice_escolaridad = (
                             (2, "2) 4 y hasta 6 grado de Primaria"),
                             (3, "3) Algo de Secundaria"),
                             (4, "4) Bachiller o Técnico Medio"),
-                            (5, "5) Universidad o Profesional Universitario")
+                            (5, "5) Universidad o Profesional Universitario"),
+                            (6, "6) No aplica")
                      )
         
 class Escolaridad(models.Model):
