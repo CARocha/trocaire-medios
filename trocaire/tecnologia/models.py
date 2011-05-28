@@ -6,11 +6,11 @@ from trocaire.medios.models import *
 # Create your models here.
 
 choice_riego = (
-                    (1,'No tiene'),
-                    (2,'Aspersión'),
-                    (3,'Goteo'),
-                    (4,'Gravedad'),
-                    (5,'Otro')
+                    (1,'1. No tiene'),
+                    (2,'2. Aspersión'),
+                    (3,'3. Goteo'),
+                    (4,'4. Gravedad'),
+                    (5,'5. Otro')
                )
                
 class Riego(models.Model):
@@ -21,12 +21,12 @@ class Riego(models.Model):
         verbose_name_plural = "123. Tiene riego (Área regada en manzana)"
         
 choice_CSA = (
-                    (1,'No tiene'),
-                    (2,'Granos y hortalizas'),
-                    (3,'Anuales'),
-                    (4,'Permanentes'),
-                    (5,'Pastos'),
-                    (6,'Área total')
+                    (1,'1. No tiene'),
+                    (2,'2. Granos y hortalizas'),
+                    (3,'3. Anuales'),
+                    (4,'4. Permanentes'),
+                    (5,'5. Pastos'),
+                    (6,'6. Área total')
                )
                
 class AreaProtegida(models.Model):
