@@ -7,9 +7,9 @@ from trocaire.medios.models import *
 
 class Tierra(models.Model):
     area = models.IntegerField('Área y propiedad en Manzanas', choices=CHOICE_AREA)
-    mujer = models.IntegerField('De la mujer')
-    hombre = models.IntegerField('Del hombre')
-    ambos = models.IntegerField('De ambos')
+    mujer = models.FloatField('De la mujer')
+    hombre = models.FloatField('Del hombre')
+    ambos = models.FloatField('De ambos')
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "PROPIEDAD DE LA TIERRA"
