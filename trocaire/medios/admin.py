@@ -296,6 +296,8 @@ class AdminAccesoCreditoInline(admin.TabularInline):
     max_num = 1
     can_delete = False
     
+admin.site.register(Credito)
+    
 # participacion ciudadana
 
 class AdminParticipacionInline(admin.TabularInline):
