@@ -105,7 +105,8 @@ CHOICE_CLORADA = (
                  )
 CHOICE_SINO = (
                     (1, '1) Si'),
-                    (2, '2) No')
+                    (2, '2) No'),
+                    (3, '3) No aplica')
                  )                                  
 
 CHOICE_TECHO = (
