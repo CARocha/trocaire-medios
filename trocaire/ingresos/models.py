@@ -65,6 +65,16 @@ class CultivosIPeriodos(models.Model):
     class Meta:
         verbose_name_plural = "Ventas agricolas"
         
+    def suma_primera(self):
+        primera = self.cuanto_primera * self.precio_primera
+        return primera
+    def suma_postrera(self):
+        postrera = self.cuanto_postrera * self.precio_postrera
+        return postrera
+    def suma_apante(self):
+        apante = self.cuanto_apante * self.precio_apante
+        return apante
+        
 class CultivosIPermanentes(models.Model):
     cultivo = models.ForeignKey(CIPermanentes)
     cuanto = models.FloatField('Cuánto vendio', help_text="En qq")
@@ -73,6 +83,11 @@ class CultivosIPermanentes(models.Model):
     class Meta:
         verbose_name_plural = "Cultivos Permanentes"
         
+    def perma(self):
+        total = self.cuanto * self.precio
+        
+        return total
+        
 class CultivosIEstacionales(models.Model):
     cultivo = models.ForeignKey(CIEstacionales)
     cuanto = models.FloatField('Cuánto vendio', help_text="En qq")
@@ -80,6 +95,15 @@ class CultivosIEstacionales(models.Model):
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Cultivos Estacionales"
+        
+#    def save(self, *args, **kwargs)
+#        self.total = self.cuanto * self.precio
+#        super(CultivosIEstacionales, self).save(*args, **kwargs)
+        
+    def estacional(self):
+        total = self.cuanto * self.precio
+        
+        return total
 
 class IHortalizas(models.Model):
     hortaliza = models.ForeignKey(CIHortalizas)
@@ -90,12 +114,25 @@ class IHortalizas(models.Model):
     class Meta:
         verbose_name_plural = "Hortalizas"
         
+    def hortalizas(self):
+        total = self.cuanto * self.precio
+        
+        return total
+        
 class IngresoPatio(models.Model):
     invierno = models.FloatField('Monto de los ingreso obtenido en invierno')
     verano = models.FloatField('Monto de los ingreso obtenido en verano')
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Ingreso por la producción agrícola del patio"
+        
+    def sumar(*args):
+        pass
+        
+    def patio(self):
+        total = self.invierno + self.verano
+        
+        return total
         
 class Ganados(models.Model):
     nombre = models.CharField(max_length=200)
@@ -109,6 +146,11 @@ class IngresoGanado(models.Model):
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Ingresos por la comercialización del ganado mayor y menor"
+        
+    def ganados(self):
+        total = self.vendidos * self.valor
+        
+        return total
         
 class Productos(models.Model):
     nombre = models.CharField(max_length=200)
@@ -126,6 +168,15 @@ class Lactios(models.Model):
     class Meta:
         verbose_name_plural = "Producto en el ultimo año"
         
+    def lacti(self):
+        lista = []
+        invierno = self.cantidad_invi * self.invierno_precio
+        verano = self.cantidad_vera * self.verano_precio
+        total = invierno + verano
+        
+        lista = [invierno, verano, total]
+        return lista
+        
 class PProcesado(models.Model):
     nombre = models.CharField(max_length=200)
     def __unicode__(self):
@@ -138,6 +189,11 @@ class ProductosProcesado(models.Model):
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Ingresos por la producción, comercializacion e ingresos por productos procesados"
+        
+    def procesado(self):
+        total = self.monto
+        
+        return total        
         
 class OtrasActividades(models.Model):
     nombre = models.CharField(max_length=200)
@@ -161,6 +217,10 @@ class OtrosIngresos(models.Model):
     encuesta = models.ForeignKey(Encuesta)
     class Meta:
         verbose_name_plural = "Otros ingresos en el nucleo familiar (Estimación de ingresos anuales)"
+        
+    def otros(self):
+        total = self.mayo + self.junio + self.julio + self.agosto + self.septiembre + self.octubre + self.noviembre + self.diciembre + self.enero + self.febrero + self.marzo + self.abril
+        return total
         
 choice_vendes = (
                                 (1,'1. Vende Individual. No incluye vender en ferias'),

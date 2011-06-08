@@ -209,7 +209,7 @@ admin.site.register(Ganados)
 class AdminLactiosInline(admin.TabularInline):
     model = Lactios
     extra = 1
-    max_num = 1
+    max_num = 5
     can_delete = False
     
 admin.site.register(Productos)
