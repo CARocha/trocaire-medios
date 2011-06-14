@@ -42,7 +42,6 @@ def ingresos(request):
         for fuente in Fuentes.objects.filter(clasificacion=opcion[0]):
             for principal in fuente.principalesfuentes_set.all():
                 lista.append(principal.encuesta)
-            #conteo = Encuesta.objects.filter( b[0]=a.clasificacion, principalesfuentes__fuente=a).count()
         cantidad = len(lista)
         dicc[opcion[1]] = cantidad
     suma = 0    

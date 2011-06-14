@@ -360,9 +360,9 @@ class EncuestaAdmin(admin.ModelAdmin):
                AdminAccesoCreditoInline,AdminParticipacionInline,AdminParticipacionCPCInline,AdminFrecuenciaInline,
                AdminGeneroInline,AdminTomaDecicionInline,              
                ]
-    #list_display = ()
-    #list_filter = ['comunidad']
-#    search_fields = []
+    list_display = ['beneficiario', 'municipio', 'comarca', 'contraparte' ]
+    list_filter = ['contraparte']
+    search_fields = ['beneficiario']
 #    date_hierarchy = 'fecha'
                
 admin.site.register(Encuesta, EncuestaAdmin)

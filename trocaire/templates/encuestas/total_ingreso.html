@@ -10,7 +10,7 @@ $(document).ready(function() {
    chart = new Highcharts.Chart({
       chart: {
          renderTo: 'container',
-         defaultSeriesType: 'line',
+         defaultSeriesType: 'column',
          marginRight: 130,
          marginBottom: 25
       },
@@ -62,6 +62,8 @@ $(document).ready(function() {
 </script>
 {% endblock %}
 
+{% load humanize %}
+
 {% block contenido %}
     <table class="tabla-resultados" style="width:100%;">
     <caption>Totales de todos los Ingresos</caption>
@@ -109,11 +111,11 @@ $(document).ready(function() {
         </tr>
         <tr>
 		    <th>Gran total</th>
-            <th>{{ grandisimo_total }}</th>
+            <th>{{ grandisimo_total|intcomma }}</th>
         </tr>
         <tr>
 		    <th>Promedio</th>
-            <th>{{ promedio }}</th>
+            <th>{{ promedio|intcomma }}</th>
         </tr>
               
 </table>
