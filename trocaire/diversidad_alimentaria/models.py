@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-
 from django.db import models
-from trocaire.medios.models import *
+from trocaire.medios.models import CHOICE_SINO, Encuesta 
 
-# Create your models here.
-
-choice_alimento = (
+CHOICE_ALIMENTO = (
                     (1,'Granos'),
                     (2,'Féculas'),
                     (3,'Hortalizas y verduras'),

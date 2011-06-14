@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from trocaire.medios.models import *
-
-# Create your models here.
+from trocaire.medios.models import CHOICE_SEXO, CHOICE_JEFE, CHOICE_RELACION, \
+        CHOICE_SEXO_JEFE, CHOICE_DESCRIPCION, CHOICE_CIVIL, Encuesta 
 
 class Composicion(models.Model):
     ''' Modelo sobre la composicion de la 
@@ -13,7 +12,7 @@ class Composicion(models.Model):
     edad = models.IntegerField('2. Edad del beneficiario/a')
     estado = models.IntegerField('3. Estado Civil', choices=CHOICE_CIVIL)
     beneficio = models.IntegerField('4. El o la beneficiario/a es el jefe de familas', choices=CHOICE_JEFE)
-    relacion = models.IntegerField('5. Si no es jefe/a de famila... cuál es su relacion con el jefe de Familia',
+    relacion = models.IntegerField('5. Si no es jefe/a de famila... cuál es su relación con el jefe de Familia',
                                     choices=CHOICE_RELACION)
     sexo_jefe = models.IntegerField('6. Si no es jefe/a... Cuál es el sexo del jefe de familia',
                                     choices=CHOICE_SEXO_JEFE)
@@ -21,17 +20,18 @@ class Composicion(models.Model):
     encuesta = models.ForeignKey(Encuesta)
     
     class Meta:
-        verbose_name_plural = "COMPOSICIÓN DE LA FAMILIA"
-        
+        verbose_name_plural = "COMPOSICIÓN DE LA FAMILIA" 
+
 class Descripcion(models.Model):
     descripcion = models.IntegerField('Descripción', choices=CHOICE_DESCRIPCION)
     femenino = models.IntegerField()
     masculino = models.IntegerField()
     encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = "DESCRIPCIÓN"
 
-Choice_escolaridad = (
+CHOICE_ESCOLARIDAD = (
                             (1, "1) Analfabeto o hasta 3er grado"),
                             (2, "2) 4 y hasta 6 grado de Primaria"),
                             (3, "3) Algo de Secundaria"),
@@ -41,8 +41,9 @@ Choice_escolaridad = (
                      )
         
 class Escolaridad(models.Model):
-    beneficia = models.IntegerField(choices=Choice_escolaridad, verbose_name="13. Beneficiaria/o")
-    conyugue = models.IntegerField(choices=Choice_escolaridad, verbose_name="14. Conyugue")
+    beneficia = models.IntegerField(choices=CHOICE_ESCOLARIDAD, verbose_name="13. Beneficiaria/o")
+    conyugue = models.IntegerField(choices=CHOICE_ESCOLARIDAD, verbose_name="14. Conyugue")
     encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = "ESCOLARIDAD"
