@@ -3,20 +3,21 @@
 from django.db import models
 from trocaire.medios.models import *
 
-# Create your models here.
-
 class Inmigracion(models.Model):
     inmigra = models.IntegerField('Inmigración', choices=CHOICE_INMIGRACION)
     mujer = models.IntegerField('Mujer Cantidad', default=0)
     hombre = models.IntegerField('Hombre Cantidad', default=0)
     encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
-        verbose_name_plural = "INMIGRACIÓN"
+        verbose_name_plural = "Inmigración"
         
 class Codigo(models.Model):
     nombre = models.CharField(max_length=200)
+
     def __unicode__(self):
         return self.nombre
+
     class Meta:
         verbose_name_plural = "Codigo de porque no estudian"
         
@@ -27,25 +28,28 @@ class AccesoEscuela(models.Model):
     mas_estudia = models.IntegerField(verbose_name="Masculino estudia")
     mas_no_estudia = models.IntegerField(verbose_name="Masculino no estudia")
     encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = "ACCESO A LA ESCUELA. Niñas/Ninos en la escuela"
 
-Choice_no_estudia = (
+CHOICE_NO_ESTUDIA = (
                         (1, '22. Razón principal porque no estudia.'),
                         (2, '24. Razón principal porque no estudian')
                     )
+
 class RazonesNoEstudia(models.Model):
-     acceso = models.IntegerField('Acceso a la escuela', choices=Choice_no_estudia)
+     acceso = models.IntegerField('Acceso a la escuela', choices=CHOICE_NO_ESTUDIA)
      fem_no_estudia = models.ForeignKey(Codigo, verbose_name="Femenino no estudia", related_name="Niñas No estudian")
      mas_no_estudia = models.ForeignKey(Codigo, verbose_name="Masculino no estudia", related_name="Niños No estudian")
      encuesta = models.ForeignKey(Encuesta)
      
      class Meta:
            verbose_name_plural = "Razones porque NO estudia los Niños/as"
-# Parte del agua
 
+# Parte del agua
 class Abastece(models.Model):
     nombre = models.CharField(max_length=200)
+
     def __unicode__(self):
         return self.nombre
         
@@ -62,5 +66,6 @@ class Agua(models.Model):
     cuartos = models.IntegerField('34. Número de cuartos en la vivienda (ambientes)')
     estado = models.IntegerField('35. La vivienda se encuentra en buen o mal estado', choices=CHOICE_ESTADO)
     encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = "MATERIALES DE LA VIVIENDA"

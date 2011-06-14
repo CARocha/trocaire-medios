@@ -1,29 +1,26 @@
 # -*- coding: utf-8 -*-
-
 from django.db import models
-from trocaire.medios.models import *
+from trocaire.medios.models import Encuesta 
 
-# Create your models here.
-
-choice_comercializacion = (
-                                (1,'Granos básicos'),
-                                (2,'Cultivos permanentes'),
-                                (3,'Cualtivos anuales')
+CHOICE_COMERCIALIZACION = (
+                             (1,'Granos básicos'),
+                             (2,'Cultivos permanentes'),
+                             (3,'Cualtivos anuales')
                           )
                           
-choice_clasificacion = (
-                                (1,'Agropecuarios'),
-                                (2,'Comercio'),
-                                (3,'Forestal'),
-                                (4,'Trabajo asalariado'),
-                                (5,'Remesas'),
-                                (6,'Alquieres'),
-                                (7,'Otros')
-                          )
+CHOICE_CLASIFICACION = (
+                          (1,'Agropecuarios'),
+                          (2,'Comercio'),
+                          (3,'Forestal'),
+                          (4,'Trabajo asalariado'),
+                          (5,'Remesas'),
+                          (6,'Alquieres'),
+                          (7,'Otros')
+                        )
 
 class Fuentes(models.Model):
     nombre = models.CharField(max_length=200)
-    clasificacion = models.IntegerField(choices=choice_clasificacion)
+    clasificacion = models.IntegerField(choices=CHOICE_CLASIFICACION)
 
     def __unicode__(self):
         return self.nombre
@@ -128,9 +125,7 @@ class IngresoPatio(models.Model):
         verbose_name_plural = "Ingreso por la producción agrícola del patio"
         
     def total(self):
-        total = self.invierno + self.verano
-        
-        return total
+        return self.invierno + self.verano
         
 class Ganados(models.Model):
     nombre = models.CharField(max_length=200)
@@ -218,20 +213,22 @@ class OtrosIngresos(models.Model):
         verbose_name_plural = "Otros ingresos en el nucleo familiar (Estimación de ingresos anuales)"
         
     def total(self):
-        return  self.mayo + self.junio + self.julio + self.agosto + self.septiembre + self.octubre + self.noviembre + self.diciembre + self.enero + self.febrero + self.marzo + self.abril
+        return  self.mayo + self.junio + self.julio + self.agosto +\
+                self.septiembre + self.octubre + self.noviembre +\
+                self.diciembre + self.enero + self.febrero + self.marzo +\
+                self.abril
         
-choice_vendes = (
-                                (1,'1. Vende Individual. No incluye vender en ferias'),
-                                (2,'2. Vende colectivo. NO incluye venta en la cooperativa'),
-                                (3,'3. Vende a la cooperativa de la que es socio'),
-                                (4,'4. Vende en ferias campesinas'),
-                                (5,'5. No aplica. No vende')
-                                
-                          )
+CHOICE_VENDE = (
+                 (1,'1. Vende Individual. No incluye vender en ferias'),
+                 (2,'2. Vende colectivo. NO incluye venta en la cooperativa'),
+                 (3,'3. Vende a la cooperativa de la que es socio'),
+                 (4,'4. Vende en ferias campesinas'),
+                 (5,'5. No aplica. No vende')
+               )
                           
 class PrincipalForma(models.Model):
     principal = models.IntegerField('121. Cuál es la principal forma de comercializar su producción',
-                                    choices=choice_vendes)
+                                    choices=CHOICE_VENDE)
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
@@ -245,7 +242,7 @@ class ProductosPrincipales(models.Model):
         
 class VendeProducto(models.Model):
     principal = models.ForeignKey(ProductosPrincipales, verbose_name="Rubros")
-    forma = models.IntegerField('Forma principal de venta', choices=choice_vendes)
+    forma = models.IntegerField('Forma principal de venta', choices=CHOICE_VENDE)
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
