@@ -34,16 +34,27 @@ def index(request, template_name="index.html"):
                               
 def ingresos(request):
     numero = Encuesta.objects.all().count()
-    lista = []
-    for a in Fuentes.objects.filter(clasificacion=1):
-        conteo = Encuesta.objects.filter(principalesfuentes__fuente=a).count()
-        lista.append(conteo)
+    
+    
+    dicc = {}
+    for opcion in choice_clasificacion:
+        lista = []
+        for fuente in Fuentes.objects.filter(clasificacion=opcion[0]):
+            for principal in fuente.principalesfuentes_set.all():
+                lista.append(principal.encuesta)
+            #conteo = Encuesta.objects.filter( b[0]=a.clasificacion, principalesfuentes__fuente=a).count()
+        cantidad = len(lista)
+        dicc[opcion[1]] = cantidad
+    suma = 0    
+    for k, v in dicc.items():
+        suma += v
     return render_to_response('encuestas/ingreso.html', locals(),
                               context_instance=RequestContext(request))
 
 
 
 def sumas_de_ingresos(request):
+    numero_encuestas = Encuesta.objects.all().count()
     c_peridos = []
     #esta es la vista de periodos
     periodo = CultivosIPeriodos.objects.all()
@@ -125,7 +136,7 @@ def sumas_de_ingresos(request):
         total_otros += v
     # sumas de todos los totales  de todas las tablas de los ingresos
     grandisimo_total = gran_total + total_perma + total_esta + total_horta + total_patio + total_ganado +  total_lactio + total_procesado + total_otros
-    promedio = round((grandisimo_total / 9),2)  
+    promedio = round((grandisimo_total / numero_encuestas),2)  
         
 #    for periodo in CIPeriodos.objects.all():
 #        c_primera = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(c_primera=Sum('cultivosiperiodos__cuanto_primera'))['c_primera']
