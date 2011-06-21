@@ -73,5 +73,6 @@ class Semilla(models.Model):
     maiz = models.IntegerField('Maíz', choices=CHOICE_MAIZ)
     frijol = models.IntegerField(choices=CHOICE_FRIJOL)
     encuesta = models.ForeignKey(Encuesta)
+
     class Meta:
         verbose_name_plural = "129. Cuál es el principal tipo de semilla que utilizó para sembrar Maíz y Frijol"       

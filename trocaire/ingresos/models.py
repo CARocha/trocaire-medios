@@ -65,45 +65,53 @@ class CultivosIPeriodos(models.Model):
     precio_postrera = models.FloatField('Precio de venta de ciclo de postrera', help_text="En C$")
     precio_apante = models.FloatField('Precio de venta de ciclo de apante', help_text="En C$")
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total_primera = models.FloatField(editable=False)
+    total_postrera = models.FloatField(editable=False)
+    total_apante = models.FloatField(editable=False)
+    total_primera = models.FloatField(editable=False)
+    total = models.FloatField(editable=False)
 
     class Meta:
         verbose_name_plural = "Ventas agricolas"
-        
-    def total_primera(self):
-        return self.cuanto_primera * self.precio_primera
 
-    def total_postrera(self):
-        return self.cuanto_postrera * self.precio_postrera
-
-    def total_apante(self):
-        return self.cuanto_apante * self.precio_apante
-    
-    def total(self):
-        return self.total_primera() + self.total_postrera() + self.total_apante()
+    def save(self, *args, **kwargs):
+        '''Save sobrecargado para calcular totales'''
+        self.total_primera = self.cuanto_primera * self.precio_primera
+        self.total_postrera = self.cuanto_postrera * self.precio_postrera
+        self.total_apante = self.cuanto_apante * self.precio_apante
+        self.total = self.total_primera + self.total_postrera + self.total_apante
+        super(CultivosIPeriodos, self).save(*args, **kwargs)
         
 class CultivosIPermanentes(models.Model):
     cultivo = models.ForeignKey(CIPermanentes)
     cuanto = models.FloatField('Cuánto vendio', help_text="En qq")
     precio = models.FloatField('Precio de venta', help_text="En C$")
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total = models.FloatField(editable=False)
+
     class Meta:
         verbose_name_plural = "Cultivos Permanentes"
         
-    def total(self):
-        total = self.cuanto * self.precio
-        
-        return total
+    def save(self, *args, **kwargs):
+        self.total = self.cuanto * self.precio
+        super(CultivosIPermanentes, self).save(*args, **kwargs)
         
 class CultivosIEstacionales(models.Model):
     cultivo = models.ForeignKey(CIEstacionales)
     cuanto = models.FloatField('Cuánto vendio', help_text="En qq")
     precio = models.FloatField('Precio de venta', help_text="En C$")
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total = models.FloatField(editable=False)
+
     class Meta:
         verbose_name_plural = "Cultivos Estacionales"
         
-    def total(self):
-        return self.cuanto * self.precio
+    def save(self, *args, **kwargs):
+        self.total = self.cuanto * self.precio
+        super(CultivosIEstacionales, self).save(*args, **kwargs)
 
 class IHortalizas(models.Model):
     hortaliza = models.ForeignKey(CIHortalizas)
@@ -111,21 +119,29 @@ class IHortalizas(models.Model):
     precio = models.FloatField('Precio de venta', help_text="En C$")
     equivalencias = models.FloatField()
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total = models.FloatField(editable=False)
+    
     class Meta:
         verbose_name_plural = "Hortalizas"
         
-    def total(self):
-        return tself.cuanto * self.precio
+    def save(self, *args, **kwargs):
+        self.total = self.cuanto * self.precio
+        super(IHortalizas, self).save(*args, **kwargs)
         
 class IngresoPatio(models.Model):
     invierno = models.FloatField('Monto de los ingreso obtenido en invierno')
     verano = models.FloatField('Monto de los ingreso obtenido en verano')
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total = models.FloatField(editable=False)
+
     class Meta:
         verbose_name_plural = "Ingreso por la producción agrícola del patio"
-        
-    def total(self):
-        return self.invierno + self.verano
+
+    def save(self, *args, **kwargs):
+        self.total = self.invierno * self.verano
+        super(IHortalizas, self).save(*args, **kwargs)
         
 class Ganados(models.Model):
     nombre = models.CharField(max_length=200)
@@ -138,12 +154,15 @@ class IngresoGanado(models.Model):
     vendidos = models.IntegerField('Número de animales vendidos')
     valor = models.FloatField('Valor de venta')
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total = models.FloatField(editable=False)
 
     class Meta:
         verbose_name_plural = "Ingresos por la comercialización del ganado mayor y menor"
         
-    def total(self):
-        return self.vendidos * self.valor
+    def save(self, *args, **kwargs):
+        self.total = self.vendidos * self.valor
+        super(IHortalizas, self).save(*args, **kwargs)
         
 class Productos(models.Model):
     nombre = models.CharField(max_length=200)
@@ -159,16 +178,19 @@ class Lactios(models.Model):
     verano_precio = models.FloatField()
     cantidad_vera = models.FloatField('Cantidad en Verano')
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total = models.FloatField(editable=False)
+    total_verano = models.FloatField(editable=False)
+    total_invierno  = models.FloatField(editable=False)
 
     class Meta:
         verbose_name_plural = "Producto en el ultimo año"
         
-    def total(self):
-        #TODO: REVISAR
-        invierno = self.cantidad_invi * self.invierno_precio
-        verano = self.cantidad_vera * self.verano_precio
-        total = invierno + verano
-        return [invierno, verano, total]
+    def save(self, *args, **kwargs):
+        self.total_invierno = self.cantidad_invi * self.invierno_precio
+        self.total_verano = self.cantidad_vera * self.verano_precio
+        self.total = invierno + verano
+        super(Lactios, self).save(*args, **kwargs)
         
 class PProcesado(models.Model):
     nombre = models.CharField(max_length=200)
@@ -208,15 +230,18 @@ class OtrosIngresos(models.Model):
     marzo = models.FloatField()
     abril = models.FloatField()
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    total = models.FloatField(editable=False)
 
     class Meta:
         verbose_name_plural = "Otros ingresos en el nucleo familiar (Estimación de ingresos anuales)"
         
-    def total(self):
-        return  self.mayo + self.junio + self.julio + self.agosto +\
+    def save(self, *args, **kwargs):
+        self.total = self.mayo + self.junio + self.julio + self.agosto +\
                 self.septiembre + self.octubre + self.noviembre +\
                 self.diciembre + self.enero + self.febrero + self.marzo +\
                 self.abril
+        super(OtrosIngresos, self).save(*args, **kwargs)
         
 CHOICE_VENDE = (
                  (1,'1. Vende Individual. No incluye vender en ferias'),

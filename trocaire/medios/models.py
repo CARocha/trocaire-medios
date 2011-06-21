@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-
 from django.db import models
 from trocaire.lugar.models import *
 from django.contrib.auth.models import User
-# Create your models here.
 
 class Recolector(models.Model):
     nombre = models.CharField(max_length=200)
