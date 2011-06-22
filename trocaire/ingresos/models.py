@@ -189,7 +189,7 @@ class Lactios(models.Model):
     def save(self, *args, **kwargs):
         self.total_invierno = self.cantidad_invi * self.invierno_precio
         self.total_verano = self.cantidad_vera * self.verano_precio
-        self.total = invierno + verano
+        self.total = self.total_invierno + self.total_verano
         super(Lactios, self).save(*args, **kwargs)
         
 class PProcesado(models.Model):

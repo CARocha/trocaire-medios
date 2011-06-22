@@ -11,41 +11,58 @@ class Migration(DataMigration):
         #haciendo los calculos pertinentes
         print 'migrando Ingreso Patio'
         for algo in orm.IngresoPatio.objects.all():
+            algo.total = algo.invierno * algo.verano
             algo.save()
 
         print 'migrando Ingreso Ganado'
         for algo in orm.IngresoGanado.objects.all():
+            algo.total = algo.vendidos * algo.valor
             algo.save()
 
         print 'migrando Ingreso Hortalizas'
         for algo in orm.IHortalizas.objects.all():
+            algo.total = algo.cuanto * algo.precio
             algo.save()
 
         print 'migrando Cultivos IEstacionas'
         for algo in orm.CultivosIEstacionales.objects.all():
+            algo.total = algo.cuanto * algo.precio
             algo.save()
 
         print 'migrando Lactios'
         for algo in orm.Lactios.objects.all():
+            algo.total_invierno = algo.cantidad_invi * algo.invierno_precio
+            algo.total_verano = algo.cantidad_vera * algo.verano_precio
+            algo.total = algo.total_invierno + algo.total_verano
             algo.save()
 
         print 'migrando CultivosPermanentes'
         for algo in orm.CultivosIPermanentes.objects.all():
+            algo.total = algo.cuanto * algo.precio
             algo.save()
 
         print 'migrando Otros Ingresos'
         for algo in orm.OtrosIngresos.objects.all():
+            try:
+                algo.total = algo.mayo + algo.junio + algo.julio + algo.agosto +\
+                        algo.septiembre + algo.octubre + algo.noviembre +\
+                        algo.diciembre + algo.enero + algo.febrero + algo.marzo +\
+                        algo.abril
+            except:
+                print "hacer esta manual", algo.id
             algo.save()
 
         print 'migrando Cultivos Periodos'
         for algo in orm.CultivosIPeriodos.objects.all():
+            algo.total_primera = algo.cuanto_primera * algo.precio_primera
+            algo.total_postrera = algo.cuanto_postrera * algo.precio_postrera
+            algo.total_apante = algo.cuanto_apante * algo.precio_apante
+            algo.total = algo.total_primera + algo.total_postrera + algo.total_apante
             algo.save()
-
 
     def backwards(self, orm):
         "Write your backwards methods here."
         pass
-
 
     models = {
         'auth.group': {
