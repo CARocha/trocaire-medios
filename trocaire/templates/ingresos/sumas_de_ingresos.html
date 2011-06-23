@@ -1,0 +1,184 @@
+{% extends "base.html"%}
+
+{% block extrahead%}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container',
+         defaultSeriesType: 'column',
+         marginRight: 130,
+         marginBottom: 25
+      },
+      title: {
+         text: 'Ingresos Totales',
+         x: -20 //center
+      },
+      subtitle: {
+         text: 'Grafico ingresos',
+         x: -20
+      },
+      xAxis: {
+         categories: ['Cultivos periodos', 'Cutivos permanentes', 'Cultivos estacionales', 
+                      'Hortalizas', 'Ingreso por patio', 'Ingreso por ganado', 'Ingresos por lactios', 
+                      'Productos procesados', 'Otros ingresos']
+      },
+      yAxis: {
+         title: {
+            text: 'Ingresos en miles'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y;
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Ingresos',
+         data: [{{gran_total}}, {{total_perma}}, {{total_esta}}, {{total_horta}}, {{total_patio}}, {{total_ganado}}, {{total_lactio}}, {{total_procesado}}, {{total_otros}}]
+      }]
+   });
+   
+   
+});
+</script>
+{% endblock %}
+
+{% load humanize %}
+
+{% block contenido %}
+    <table class="tabla-resultados" style="width:100%;">
+    <caption>Totales de todos los Ingresos</caption>
+    <thead>
+        <tr>
+		    <th>Categoria</th>
+            <th>Cantidad</th>
+         </tr>
+    </thead>
+        <tr>
+		    <td>Cultivos periodos</td>
+            <td>{{ gran_total }}</td>
+        </tr>   
+        <tr>
+		    <td>Cutivos permanentes</td>
+            <td>{{ total_perma }}</td>
+        </tr>
+        <tr>
+		    <td>Cultivos estacionales</td>
+            <td>{{ total_esta }}</td>
+        </tr>
+        <tr>
+		    <td>Hortalizas</td>
+            <td>{{ total_horta }}</td>
+        </tr>   
+        <tr>
+		    <td>Ingresos por patio</td>
+            <td>{{total_patio}}</td>
+        </tr>
+        <tr>
+		    <td>Ingreso por ganado</td>
+            <td>{{ total_ganado }}</td>
+        </tr>
+        <tr>
+		    <td>Ingreso por lactios</td>
+            <td>{{ total_lactio }}</td>
+        </tr>   
+        <tr>
+		    <td>Productos procesados</td>
+            <td>{{ total_procesado }}</td>
+        </tr>
+        <tr>
+		    <td>Otros Ingresos</td>
+            <td>{{ total_otros }}</td>
+        </tr>
+        <tr>
+		    <th>Gran total</th>
+            <th>{{ grandisimo_total|intcomma }}</th>
+        </tr>
+        <tr>
+		    <th>Promedio</th>
+            <th>{{ promedio|intcomma }}</th>
+        </tr>
+              
+</table>
+
+<div id="container">
+<h3>cultivos de periodos</h3>
+{% for a in periodo %}
+    {{a.suma_primera}}
+{%endfor%}
+<br>
+<h3>cultivos de permanentes</h3>
+{{permanente}}
+{% for b in permanente %}
+    {{b.perma}}
+{%endfor%}
+<br>
+<h3>cultivos de estacionales</h3>
+{{estacional}}
+{% for a in estacional %}
+    {{a.estacional}}
+{%endfor%}
+<br>
+<h3>Hortalizas</h3>
+{{hortaliza}}
+{% for a in hortaliza %}
+    {{a.hortalizas}}
+{%endfor%}
+<br>
+<h3>Ingreso por patio</h3>
+{{patio}}
+{% for a in patio %}
+    {{a.patio}}
+{%endfor%}<br>
+total del patio
+{{total_patio}}
+<br>
+<h3>ingreso por ganados</h3>
+{{ganado}}
+{% for a in ganado %}
+    {{a.ganados}}
+{%endfor%}
+<br>
+<h3>ingresos por lactio</h3>
+{{lactio}}
+{% for a in lactio %}
+    {{a.lacti}}
+{%endfor%}
+<br>
+<h3>producto procesados</h3>
+{{producto}}
+{% for a in producto %}
+    {{a.procesado}}
+{%endfor%}
+<br>
+<h3>Otros ingresos</h3>
+{{ingreso}}
+{% for a in ingreso %}
+    {{a.otros}}
+{%endfor%}
+
+---------------------------
+
+{{todo}}
+
+
+{% endblock %}

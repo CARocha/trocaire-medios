@@ -15,7 +15,7 @@ def ingresos(request):
     
     
     dicc = {}
-    for opcion in choice_clasificacion:
+    for opcion in CHOICE_CLASIFICACION:
         lista = []
         for fuente in Fuentes.objects.filter(clasificacion=opcion[0]):
             for principal in fuente.principalesfuentes_set.all():
@@ -129,7 +129,7 @@ def sumas_de_ingresos(request):
 #        
 #        c_peridos.append([total_primera,total_postrera,total_apante])
     
-    return render_to_response('encuestas/total_ingreso.html', locals(),
+    return render_to_response('ingresos/sumas_de_ingresos.html', locals(),
                                context_instance=RequestContext(request))
  
 #FUNCIONES PARA LAS URL
