@@ -4,13 +4,15 @@ from datetime import date
 from django.http import Http404, HttpResponse
 from django.template.defaultfilters import slugify
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
+from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404,  redirect
+from django.http import HttpResponseRedirect
 from django.views.generic.simple import direct_to_template
 from django.utils import simplejson
 from django.db.models import Sum, Count, Avg
 from django.core.exceptions import ViewDoesNotExist
 
 #importaciones de los models
+from forms import ConsultarForm
 from trocaire.calidad_vida.models import *
 from trocaire.crisis_alimentaria.models import *
 from trocaire.diversidad_alimentaria.models import *
@@ -26,6 +28,59 @@ from trocaire.tecnologia.models import *
 
 
 # Create your views here.
+
+def _query_set_filtrado(request):
+    anio = int(request.session['fecha'])
+    params = {}
+    if 'fecha' in request.session:
+        params['fecha__year'] = anio
+        
+        
+        if 'departamento' in request.session:
+            if 'municipio' in request.session:
+                if 'comarca' in request.session:
+                    params['comarca'] = request.session['comarca']
+                else:
+                    params['comarca__municipio'] = request.session['municipio']
+            else:
+                params['comarca__municipio__departamento'] = request.session['departamento']
+            
+        unvalid_keys = []
+        for key in params:
+            if not params[key]:
+                unvalid_keys.append(key)
+        
+        for key in unvalid_keys:
+            del params[key]
+
+        return Encuestas.objects.filter(**params)   
+
+#===============================================================================
+def consultar(request): 
+    if request.method == 'POST':
+        form = ConsultarForm(request.POST)
+        if form.is_valid():
+            request.session['fecha'] = form.cleaned_data['fecha']
+            request.session['departamento'] = form.cleaned_data['departamento']
+            try:
+                municipio = Municipio.objects.get(id=form.cleaned_data['municipio']) 
+            except:
+                municipio = None
+            try:
+                comarca = Comarca.objects.get(id=form.cleaned_data['comarca'])
+            except:
+                comarca = None
+
+            request.session['municipio'] = municipio
+            request.session['comarca'] = comarca          
+            request.session['centinel'] = 1
+            return HttpResponseRedirect('/encuestas/generales/')
+    else:
+        form = ConsultarForm()
+    return render_to_response('encuestas/consultar.html', locals(),
+                              context_instance=RequestContext(request))
+
+#===============================================================================
 
 def index(request, template_name="index.html"):
                
@@ -137,21 +192,7 @@ def sumas_de_ingresos(request):
     grandisimo_total = gran_total + total_perma + total_esta + total_horta + total_patio + total_ganado +  total_lactio + total_procesado + total_otros
     promedio = round((grandisimo_total / numero_encuestas),2)  
         
-#    for periodo in CIPeriodos.objects.all():
-#        c_primera = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(c_primera=Sum('cultivosiperiodos__cuanto_primera'))['c_primera']
-#        precio_primera = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(precio_primera=Sum('cultivosiperiodos__precio_primera'))['precio_primera']
-#        
-#        c_postrera = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(c_postrera=Sum('cultivosiperiodos__cuanto_postrera'))['c_postrera']
-#        precio_postrera = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(precio_postrera=Sum('cultivosiperiodos__precio_postrera'))['precio_postrera']
-#        
-#        c_apante = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(c_apante=Sum('cultivosiperiodos__cuanto_apante'))['c_apante']
-#        precio_apante = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(precio_apante=Sum('cultivosiperiodos__precio_apante'))['precio_apante']
 
-#        total_primera = c_primera * precio_primera
-#        total_postrera = c_postrera * precio_postrera
-#        total_apante = c_apante * precio_apante
-#        
-#        c_peridos.append([total_primera,total_postrera,total_apante])
     
     return render_to_response('encuestas/total_ingreso.html', locals(),
                                context_instance=RequestContext(request))
@@ -171,7 +212,17 @@ VALID_VIEWS = {
     
     }
 
-#FUNCIONES UTILITARIAS PARA TODO EL SITIO                              
+#FUNCIONES UTILITARIAS PARA TODO EL SITIO 
+def get_municipios(request, departamento):
+    municipios = Municipio.objects.filter(departamento = departamento)
+    lista = [(municipio.id, municipio.nombre) for municipio in municipios]
+    return HttpResponse(simplejson.dumps(lista), mimetype='application/javascript')
+        
+def get_comarca(request, municipio):
+    comarcas = Comarca.objects.filter(municipio = municipio)
+    lista = [(comarca.id, comarca.nombre) for comarca in comarcas]
+    return HttpResponse(simplejson.dumps(lista), mimetype='application/javascript')
+                             
 def saca_porcentajes(values):
     """sumamos los valores y devolvemos una lista con su porcentaje"""
     total = sum(values)
