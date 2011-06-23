@@ -272,3 +272,13 @@ class VendeProducto(models.Model):
 
     class Meta:
         verbose_name_plural = "122. Como vende cada uno de los siguientes productos"  
+
+class TotalIngreso(models.Model):
+    encuesta = models.ForeignKey(Encuesta)
+    total = models.FloatField(editable=False)
+
+    class Meta:
+        verbose_name_plural = 'Totales'
+
+    def __unicode__(self):
+        return 'Total para la encuesta %s' % self.encuesta
