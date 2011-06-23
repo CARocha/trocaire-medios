@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{%block extrahead%}
+<script type="text/javascript">
+    $(document).ready(function() {
+        var departamento = document.getElementById("id_departamento");
+        var municipio = document.getElementById("id_municipio");
+        var comarca = document.getElementById("id_comarca");
+        
+        //municipios
+        $("#id_departamento").change(function () {
+            var index = departamento.options.selectedIndex;
+            var id = departamento.options[index].value;
+            $.getJSON("ajax/municipio/" + id +"/",
+            function(data){
+                municipio.options.length = 0;
+                municipio.options[0] = new Option("--------");
+                for(i=0; i< data.length; i++){
+                    municipio.options[i+1] = new Option(data[i][1], data[i][0]);
+                }
+            });
+        });
+        
+        //comarca
+        $("#id_municipio").change(function () {
+            var index = municipio.options.selectedIndex;
+            var id = municipio.options[index].value;
+            $.getJSON("ajax/comarca/" + id +"/",
+            function(data){
+                comarca.options.length = 0;
+                comarca.options[0] = new Option("---------");
+                for(i=0; i< data.length; i++){
+                    comarca.options[i+1] = new Option(data[i][1], data[i][0]);
+                }
+            });
+        });
+        
+    });
+</script>
+{% endblock %}
+
+
+{% block contenido %}
+<div>  
+    <div class="form-title">Formulario de consulta</div>  
+    <form method="POST" action="." id="consultar-form">{% csrf_token %}
+        <div class="general">
+            <div class="label">{{form.fecha.label}}</div>
+            <div class="filtros">{{form.fecha}}<br>{{form.fecha.errors}}</div>
+            <div class="clean"></div>
+            <div class="label">{{form.departamento.label}}</div>
+            <div class="filtros">{{form.departamento}}<br>{{form.departamento.errors}}</div>
+            <div class="clean"></div>
+            <div class="label">{{form.municipio.label}}</div>
+            <div class="filtros">{{form.municipio}}<br>{{form.municipio.errors}}</div>
+            <div class="clean"></div>
+        </div>        
+        <div class="lugar">
+            <div class="label">{{form.comarca.label}}</div>
+            <div class="filtros">{{form.comarca}}<br>{{form.comarca.errors}}</div> 
+            <div class="clean"></div>    
+        </div>
+    
+        <button class="consultar">Consultar</button>
+    </form>
+</div>
+<div class="clean"></div>
+<br>
+{% endblock %}
