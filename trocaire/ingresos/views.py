@@ -7,7 +7,6 @@ from django.views.generic.simple import direct_to_template
 from django.utils import simplejson
 from django.db.models import Sum, Count, Avg
 from django.core.exceptions import ViewDoesNotExist
-from django.db.models.signals import post_save
 
 from models import *
 

@@ -6,9 +6,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^', include('trocaire.medios.urls')),
-    (r'^ingresos/', include('trocaire.ingresos.urls')),
     (r'^admin/', include(admin.site.urls)),
+    (r'^ingresos/', include('trocaire.ingresos.urls')),
+    (r'^', include('trocaire.medios.urls')),
 )
 
 if DEBUG:

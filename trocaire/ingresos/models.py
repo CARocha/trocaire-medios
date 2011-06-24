@@ -274,7 +274,7 @@ class VendeProducto(models.Model):
         verbose_name_plural = "122. Como vende cada uno de los siguientes productos"  
 
 class TotalIngreso(models.Model):
-    encuesta = models.ForeignKey(Encuesta)
+    encuesta = models.ForeignKey(Encuesta, unique=True)
     total = models.FloatField(editable=False)
 
     class Meta:
@@ -282,3 +282,34 @@ class TotalIngreso(models.Model):
 
     def __unicode__(self):
         return 'Total para la encuesta %s' % self.encuesta
+
+    def save(self, *args, **kwargs):
+        self.total = self._get_total()
+        super(TotalIngreso, self).save(*args, **kwargs)
+    
+    def _get_total(self):
+        params = dict(encuesta = self.encuesta)
+        totales = [CultivosIPeriodos.objects.filter(**params).aggregate(t=models.Sum('total'))['t'], \
+                CultivosIEstacionales.objects.filter(**params).aggregate(t=models.Sum('total'))['t'], \
+                CultivosIPermanentes.objects.filter(**params).aggregate(t=models.Sum('total'))['t'], \
+                IHortalizas.objects.filter(**params).aggregate(t=models.Sum('total'))['t'], \
+                IngresoPatio.objects.filter(**params).aggregate(t=models.Sum('total'))['t'], \
+                IngresoGanado.objects.filter(**params).aggregate(t=models.Sum('total'))['t'], \
+                Lactios.objects.filter(**params).aggregate(t=models.Sum('total'))['t'], \
+                ProductosProcesado.objects.filter(**params).aggregate(t=models.Sum('monto'))['t'], \
+                OtrosIngresos.objects.filter(**params).aggregate(t=models.Sum('total'))['t']] 
+        total = sum(filter(None, totales))
+        return total
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=Encuesta)
+def create_encuesta_callback(sender, **kwargs):
+    encuesta = kwargs['instance']
+    try:
+        total_ingreso = TotalIngreso.objects.get(encuesta=encuesta)
+        total_ingreso.save()
+    except:
+        total_ingreso = TotalIngreso(encuesta=encuesta)
+        total_ingreso.save()
