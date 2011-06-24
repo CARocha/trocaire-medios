@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.views.generic.simple import direct_to_template
 from django.utils import simplejson
-from django.db.models import Sum, Count, Avg
+from django.db.models import Sum, Count, Avg, Max, Min
 from django.core.exceptions import ViewDoesNotExist
 
 from models import *
@@ -130,7 +130,34 @@ def sumas_de_ingresos(request):
     
     return render_to_response('ingresos/sumas_de_ingresos.html', locals(),
                                context_instance=RequestContext(request))
- 
+
+def ingreso_por_rango(request):
+    #puntas = dicc con maximo y minimo
+    puntas = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+    super_maximo = puntas['maximo'] * 1.15 #fin de la recta
+    super_minimo = puntas['maximo'] * 0.15 #inicio de la recta
+    SEPARACIONES = 6 
+    rango = puntas['maximo'] / SEPARACIONES 
+    parametros = [(puntas['maximo']-(rango*valor[0]),(puntas['maximo']-(rango*valor[1]))) \
+            for valor in zip(range(SEPARACIONES+1,0,-1), range(SEPARACIONES,0,-1))]
+    parametros.pop(0)
+
+    valores = []
+    #categorias: para pintarlo en el eje X del grafo
+    categorias = []
+    
+    for parametro in parametros:
+        valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
+        categorias.append('%.2f a %.2f' % parametro)
+
+    maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
+    valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
+    categorias.append('%.2f a mas' % maximo_a_evaluar)
+    
+    return render_to_response('ingresos/ingreso_por_rango.html', 
+                              {'valores': valores, 'categorias': categorias}, 
+                              context_instance=RequestContext(request))
+
 #FUNCIONES PARA LAS URL
 def _get_view(request, vista):
     if vista in VALID_VIEWS:
@@ -140,6 +167,7 @@ def _get_view(request, vista):
 
 VALID_VIEWS = {
     'ingreso': ingresos,
+    'rangos': ingreso_por_rango,
     'total': sumas_de_ingresos,
     }
 
