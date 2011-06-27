@@ -131,17 +131,25 @@ def sumas_de_ingresos(request):
     return render_to_response('ingresos/sumas_de_ingresos.html', locals(),
                                context_instance=RequestContext(request))
 
-def ingreso_por_rango(request):
+def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     #puntas = dicc con maximo y minimo
-    #puntas = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
-    puntas = dict(maximo=70000, minimo=0) 
-    super_maximo = puntas['maximo'] * 1.15 #fin de la recta
-    super_minimo = puntas['maximo'] * 0.15 #inicio de la recta
-    SEPARACIONES = 15 
-    rango = puntas['maximo'] / SEPARACIONES 
+    puntas_calc = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+    if maximo:
+        maximo, minimo = int(maximo), int(minimo) 
+        puntas = dict(maximo=maximo, minimo=minimo) 
+    else:
+        puntas = puntas_calc
+
+    super_maximo = puntas['maximo'] * 1.15 if not maximo else maximo * 1.15 #fin de la recta
+    super_minimo = puntas['maximo'] * 0.15 if not minimo else minimo * 1.15 #inicio de la recta
+    SEPARACIONES = int(separaciones) if separaciones else 10
+    rango = puntas['maximo']/ SEPARACIONES 
     parametros = [(puntas['maximo']-(rango*valor[0]),(puntas['maximo']-(rango*valor[1]))) \
-            for valor in zip(range(SEPARACIONES+1,0,-1), range(SEPARACIONES,0,-1))]
+            for valor in \
+            zip(range(SEPARACIONES+1, 0,-1),\
+            range(SEPARACIONES, 0,-1))]
     parametros.pop(0)
+    print parametros
 
     valores = []
     #categorias: para pintarlo en el eje X del grafo
@@ -168,7 +176,6 @@ def _get_view(request, vista):
 
 VALID_VIEWS = {
     'ingreso': ingresos,
-    'rangos': ingreso_por_rango,
     'total': sumas_de_ingresos,
     }
 
