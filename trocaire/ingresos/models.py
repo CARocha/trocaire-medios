@@ -141,7 +141,7 @@ class IngresoPatio(models.Model):
 
     def save(self, *args, **kwargs):
         self.total = self.invierno * self.verano
-        super(IHortalizas, self).save(*args, **kwargs)
+        super(IngresoPatio, self).save(*args, **kwargs)
         
 class Ganados(models.Model):
     nombre = models.CharField(max_length=200)
@@ -162,7 +162,7 @@ class IngresoGanado(models.Model):
         
     def save(self, *args, **kwargs):
         self.total = self.vendidos * self.valor
-        super(IHortalizas, self).save(*args, **kwargs)
+        super(IngresoGanado, self).save(*args, **kwargs)
         
 class Productos(models.Model):
     nombre = models.CharField(max_length=200)
@@ -191,7 +191,7 @@ class Lactios(models.Model):
         self.total_verano = self.cantidad_vera * self.verano_precio
         self.total = self.total_invierno + self.total_verano
         super(Lactios, self).save(*args, **kwargs)
-        
+
 class PProcesado(models.Model):
     nombre = models.CharField(max_length=200)
     def __unicode__(self):

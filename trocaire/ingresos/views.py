@@ -133,10 +133,11 @@ def sumas_de_ingresos(request):
 
 def ingreso_por_rango(request):
     #puntas = dicc con maximo y minimo
-    puntas = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+    #puntas = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+    puntas = dict(maximo=70000, minimo=0) 
     super_maximo = puntas['maximo'] * 1.15 #fin de la recta
     super_minimo = puntas['maximo'] * 0.15 #inicio de la recta
-    SEPARACIONES = 6 
+    SEPARACIONES = 15 
     rango = puntas['maximo'] / SEPARACIONES 
     parametros = [(puntas['maximo']-(rango*valor[0]),(puntas['maximo']-(rango*valor[1]))) \
             for valor in zip(range(SEPARACIONES+1,0,-1), range(SEPARACIONES,0,-1))]
