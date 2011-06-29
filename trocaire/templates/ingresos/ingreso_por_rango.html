@@ -4,6 +4,23 @@
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+function redirigir(form){
+   var maximo = form.txt_maximo.value; 
+   var minimo = form.txt_minimo.value; 
+   var rango = form.select_rango.value; 
+   var url = '';
+   
+   if (maximo && minimo && rango){
+     url = '/ingresos/rangos/' + maximo + '/' + minimo + '/' + rango + '/';
+     window.location = url;
+   }else if(maximo && rango){
+     url = '/ingresos/rangos/' + maximo + '/0/' + rango + '/';
+     window.location = url;
+   }else if(minimo && rango){
+     alert('Favor seleccionar valor máximo');
+     $('#txt_maximo').focus();
+   }
+}
 var chart;
 $(document).ready(function() {
    chart = new Highcharts.Chart({
@@ -60,62 +77,27 @@ $(document).ready(function() {
 {% load humanize %}
 
 {% block contenido %}
-    <!--
-    <table class="tabla-resultados" style="width:100%;">
-    <caption>Totales de todos los Ingresos</caption>
-    <thead>
-        <tr>
-		    <th>Categoria</th>
-            <th>Cantidad</th>
-         </tr>
-    </thead>
-        <tr>
-		    <td>Cultivos periodos</td>
-            <td>{{ gran_total }}</td>
-        </tr>   
-        <tr>
-		    <td>Cutivos permanentes</td>
-            <td>{{ total_perma }}</td>
-        </tr>
-        <tr>
-		    <td>Cultivos estacionales</td>
-            <td>{{ total_esta }}</td>
-        </tr>
-        <tr>
-		    <td>Hortalizas</td>
-            <td>{{ total_horta }}</td>
-        </tr>   
-        <tr>
-		    <td>Ingresos por patio</td>
-            <td>{{total_patio}}</td>
-        </tr>
-        <tr>
-		    <td>Ingreso por ganado</td>
-            <td>{{ total_ganado }}</td>
-        </tr>
-        <tr>
-		    <td>Ingreso por lactios</td>
-            <td>{{ total_lactio }}</td>
-        </tr>   
-        <tr>
-		    <td>Productos procesados</td>
-            <td>{{ total_procesado }}</td>
-        </tr>
-        <tr>
-		    <td>Otros Ingresos</td>
-            <td>{{ total_otros }}</td>
-        </tr>
-        <tr>
-		    <th>Gran total</th>
-            <th>{{ grandisimo_total|intcomma }}</th>
-        </tr>
-        <tr>
-		    <th>Promedio</th>
-            <th>{{ promedio|intcomma }}</th>
-        </tr>
-              
-  </table>--!>
-
+<div id='form'>
+  <form method='GET' action='.'>
+    <p><label for='txt_maximo'>Máximo</label><input id='txt_maximo' type='text' /></p>
+    <p><label for='txt_minimo'>Minimo</label><input id='txt_minimo' type='text' /></p>
+    <p><label for='txt_minimo'>Separaciones</label>
+    <select id='select_rango'>
+      <option value='3'>3</option>
+      <option value='4'>4</option>
+      <option value='5'>5</option>
+      <option value='6'>6</option>
+      <option value='7'>7</option>
+      <option value='8'>8</option>
+      <option value='9'>9</option>
+      <option value='10'>10</option>
+      <option value='11'>11</option>
+      <option value='12'>12</option>
+      <option value='13'>13</option>
+      <option value='14'>14</option>
+    </select></p>
+    <p><input type='button' onClick="redirigir(this.form)" value='Cambiar'/></p>
+  </form>
+  </div>
   <div id="container"></div>
-
 {% endblock %}

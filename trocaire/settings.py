@@ -1,5 +1,3 @@
-# Django settings for trocaire project.
-
 from local_settings import *
 
 SITE_ID = 1
