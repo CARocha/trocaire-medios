@@ -158,9 +158,9 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
         valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
         categorias.append('%.2f a %.2f' % parametro)
     
-    valores_acumulados = [sum(valores[:valores.index(foo)+1]) for foo in valores]
     maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
     valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
+    valores_acumulados = [sum(valores[:valores.index(foo)+1]) for foo in valores]
     categorias.append('%.2f a mas' % maximo_a_evaluar)
     
     return render_to_response('ingresos/ingreso_por_rango.html', 
