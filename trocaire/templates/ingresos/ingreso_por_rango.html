@@ -22,6 +22,7 @@ function redirigir(form){
    }
 }
 var chart;
+var chart2;
 $(document).ready(function() {
    chart = new Highcharts.Chart({
       chart: {
@@ -68,8 +69,51 @@ $(document).ready(function() {
          data: [{%for valor in valores%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
       }]
    });
-   
-   
+  chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'acumulado_container',
+         defaultSeriesType: 'column',
+      },
+      title: {
+         text: 'Ingresos Totales Acumulados',
+         x: -20 //center
+      },
+      subtitle: {
+         text: 'Grafico ingresos',
+         x: -20
+      },
+      xAxis: {
+         categories: [{%for valor in categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
+      },
+      yAxis: {
+         title: {
+            text: 'Ingresos en miles'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y;
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Ingresos',
+         data: [{%for valor in valores_acumulados%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
+      }]
+   });
 });
 </script>
 {% endblock %}
@@ -100,4 +144,5 @@ $(document).ready(function() {
   </form>
   </div>
   <div id="container"></div>
+  <div id="acumulado_container"></div>
 {% endblock %}

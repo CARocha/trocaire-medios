@@ -143,13 +143,12 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     super_maximo = puntas['maximo'] * 1.15 if not maximo else maximo * 1.15 #fin de la recta
     super_minimo = puntas['maximo'] * 0.15 if not minimo else minimo * 1.15 #inicio de la recta
     SEPARACIONES = int(separaciones) if separaciones else 10
-    rango = puntas['maximo']/ SEPARACIONES 
+    rango = puntas['maximo'] / SEPARACIONES 
     parametros = [(puntas['maximo']-(rango*valor[0]),(puntas['maximo']-(rango*valor[1]))) \
             for valor in \
             zip(range(SEPARACIONES+1, 0,-1),\
             range(SEPARACIONES, 0,-1))]
     parametros.pop(0)
-    print parametros
 
     valores = []
     #categorias: para pintarlo en el eje X del grafo
@@ -158,13 +157,16 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     for parametro in parametros:
         valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
         categorias.append('%.2f a %.2f' % parametro)
-
+    
+    valores_acumulados = [sum(valores[:valores.index(foo)+1]) for foo in valores]
     maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
     valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
     categorias.append('%.2f a mas' % maximo_a_evaluar)
     
     return render_to_response('ingresos/ingreso_por_rango.html', 
-                              {'valores': valores, 'categorias': categorias}, 
+                              {'valores': valores,
+                               'categorias': categorias,
+                               'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))
 
 #FUNCIONES PARA LAS URL
