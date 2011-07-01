@@ -148,7 +148,8 @@ $(document).ready(function() {
   </form>
   <form method="POST" action="{% url consultar %}">
     {% csrf_token %}
-    {{form.as_p}}
+    <label>{{form.contraparte.label}}</label>{{form.contraparte}}
+    {{form.next_url}}
     <p><input type='submit'  value='Cambiar'/></p>
   </form>
   </div>

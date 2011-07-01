@@ -9,7 +9,7 @@ from trocaire.medios.models import *
 from trocaire.lugar.models import *
 
 def _query_set_filtrado(request):
-    anio = int(request.session['fecha'])
+    #anio = int(request.session['fecha'])
     params = {}
     #if 'fecha' in request.session:
     #    params['fecha__year'] = anio
@@ -41,7 +41,7 @@ def consultar(request):
     if request.method == 'POST':
         form = ConsultarForm(request.POST)
         if form.is_valid():
-            request.session['fecha'] = form.cleaned_data['fecha']
+            #request.session['fecha'] = form.cleaned_data['fecha']
             request.session['departamento'] = form.cleaned_data['departamento']
             request.session['contraparte'] = form.cleaned_data['contraparte']
             try:
