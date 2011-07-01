@@ -8,6 +8,7 @@ from django.utils import simplejson
 from django.db.models import Sum, Count, Avg, Max, Min
 from django.core.exceptions import ViewDoesNotExist
 
+from medios.forms import ConsultarForm
 from models import *
 
 def ingresos(request):
@@ -154,12 +155,16 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     for parametro in parametros:
         valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
         categorias.append('%.2f a %.2f' % parametro)
-
-    valores.append(TotalIngreso.objects.filter(total__gte=puntas['maximo']).count())
-    categorias.append('%.2f a mas' % puntas['maximo'])
+    
+    maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
+    valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
+    valores_acumulados = [sum(valores[:valores.index(foo)+1]) for foo in valores]
+    categorias.append('%.2f a mas' % maximo_a_evaluar)
     
     return render_to_response('ingresos/ingreso_por_rango.html', 
-                              {'valores': valores, 'categorias': categorias}, 
+                              {'valores': valores,
+                               'categorias': categorias,
+                               'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))
 
 #FUNCIONES PARA LAS URL

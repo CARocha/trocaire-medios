@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from django.http import HttpResponse 
+from django.http import HttpResponse, HttpResponseRedirect
 
 #importaciones de los models
 from forms import ConsultarForm
@@ -14,7 +14,9 @@ def _query_set_filtrado(request):
     if 'fecha' in request.session:
         params['fecha__year'] = anio
         
-        
+    if 'contraparte' in request.session:
+        params['contraparte'] =  request.session['contraparte'] 
+
         if 'departamento' in request.session:
             if 'municipio' in request.session:
                 if 'comarca' in request.session:
@@ -41,6 +43,7 @@ def consultar(request):
         if form.is_valid():
             request.session['fecha'] = form.cleaned_data['fecha']
             request.session['departamento'] = form.cleaned_data['departamento']
+            request.session['contraparte'] = form.cleaned_data['contraparte']
             try:
                 municipio = Municipio.objects.get(id=form.cleaned_data['municipio']) 
             except:
@@ -53,7 +56,10 @@ def consultar(request):
             request.session['municipio'] = municipio
             request.session['comarca'] = comarca          
             request.session['centinel'] = 1
-            return HttpResponseRedirect('/encuestas/generales/')
+            if form.cleaned_data['next_url']:
+                return HttpResponseRedirect(form.cleaned_data['next_url'])
+            else:
+                return HttpResponseRedirect('/encuestas/generales/')
     else:
         form = ConsultarForm()
     return render_to_response('encuestas/consultar.html', locals(),
