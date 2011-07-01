@@ -97,8 +97,11 @@ $(document).ready(function() {
       },
       tooltip: {
          formatter: function() {
+                      var len = this.series.data.length;
+                      var maximo = this.series.data[len-1].y;
+                      var porcentaje = (parseFloat(this.y)/maximo) * 100;
                    return '<b>'+ this.series.name +'</b><br/>'+
-               this.x +': '+ this.y;
+                   this.y + '(' + parseInt(porcentaje) + '%)';
          }
       },
       legend: {
