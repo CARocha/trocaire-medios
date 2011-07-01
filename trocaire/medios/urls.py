@@ -2,9 +2,9 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 urlpatterns = patterns('trocaire.medios.views',
-    (r'^$', 'index'),
-    (r'^consultar/$', 'consultar'),
+    url(r'^$', 'index'),
+    url(r'^consultar/$', 'consultar', name="consultar"),
     #para extrar los lugares
-    (r'^consultar/ajax/municipio/(?P<departamento>\d+)/$', 'get_municipios'),
-    (r'^consultar/ajax/comarca/(?P<municipio>\d+)/$', 'get_comarca'),
+    url(r'^consultar/ajax/municipio/(?P<departamento>\d+)/$', 'get_municipios'),
+    url(r'^consultar/ajax/comarca/(?P<municipio>\d+)/$', 'get_comarca'),
 )

@@ -9,6 +9,7 @@ from django.db.models import Sum, Count, Avg, Max, Min
 from django.core.exceptions import ViewDoesNotExist
 
 from medios.forms import ConsultarForm
+from medios.views import _query_set_filtrado 
 from models import *
 
 def ingresos(request):
@@ -134,7 +135,7 @@ def sumas_de_ingresos(request):
 
 def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     #puntas = dicc con maximo y minimo
-    puntas_calc = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+    puntas_calc = TotalIngreso.objects.filter(encuesta__in = _query_set_filtrado(request)).aggregate(maximo = Max('total'), minimo = Min('total'))
     if maximo:
         maximo, minimo = int(maximo), int(minimo) 
         puntas = dict(maximo=maximo, minimo=minimo) 
@@ -160,10 +161,13 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
     valores_acumulados = [sum(valores[:valores.index(foo)+1]) for foo in valores]
     categorias.append('%.2f a mas' % maximo_a_evaluar)
+
+    form = ConsultarForm()
     
     return render_to_response('ingresos/ingreso_por_rango.html', 
                               {'valores': valores,
                                'categorias': categorias,
+                               'form': form,
                                'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))
 

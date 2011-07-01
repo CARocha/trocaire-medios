@@ -24,6 +24,7 @@ function redirigir(form){
 var chart;
 var chart2;
 $(document).ready(function() {
+   $("#id_next_url").attr({value:window.location.pathname});
    chart = new Highcharts.Chart({
       chart: {
          renderTo: 'container',
@@ -144,6 +145,11 @@ $(document).ready(function() {
       <option value='14'>14</option>
     </select></p>
     <p><input type='button' onClick="redirigir(this.form)" value='Cambiar'/></p>
+  </form>
+  <form method="POST" action="{% url consultar %}">
+    {% csrf_token %}
+    {{form.as_p}}
+    <p><input type='submit'  value='Cambiar'/></p>
   </form>
   </div>
   <div id="container"></div>

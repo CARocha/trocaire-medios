@@ -11,8 +11,8 @@ from trocaire.lugar.models import *
 def _query_set_filtrado(request):
     anio = int(request.session['fecha'])
     params = {}
-    if 'fecha' in request.session:
-        params['fecha__year'] = anio
+    #if 'fecha' in request.session:
+    #    params['fecha__year'] = anio
         
     if 'contraparte' in request.session:
         params['contraparte'] =  request.session['contraparte'] 
@@ -34,7 +34,7 @@ def _query_set_filtrado(request):
         for key in unvalid_keys:
             del params[key]
 
-        return Encuestas.objects.filter(**params)   
+        return Encuesta.objects.filter(**params)   
 
 #===============================================================================
 def consultar(request): 
