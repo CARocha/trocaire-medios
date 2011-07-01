@@ -8,6 +8,7 @@ from django.utils import simplejson
 from django.db.models import Sum, Count, Avg, Max, Min
 from django.core.exceptions import ViewDoesNotExist
 
+from medios.forms import ConsultarForm
 from models import *
 
 def ingresos(request):

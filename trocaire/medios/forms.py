@@ -12,3 +12,5 @@ class ConsultarForm(forms.Form):
                                           required=False, empty_label="Todos los Departamentos")
     municipio = forms.CharField(widget = forms.Select, required=False)
     comarca = forms.CharField(widget = forms.Select, required=False)
+    contraparte = forms.ModelChoiceField(queryset=Contraparte.objects.all())
+    next_url = forms.CharField(widget = forms.HiddenInput, required=False)
