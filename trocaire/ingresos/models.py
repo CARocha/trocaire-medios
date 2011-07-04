@@ -7,7 +7,7 @@ CHOICE_COMERCIALIZACION = (
                              (2,'Cultivos permanentes'),
                              (3,'Cualtivos anuales')
                           )
-                          
+
 CHOICE_CLASIFICACION = (
                           (1,'Agropecuarios'),
                           (2,'Comercio'),
@@ -24,20 +24,20 @@ class Fuentes(models.Model):
 
     def __unicode__(self):
         return self.nombre
-        
+
 class PrincipalesFuentes(models.Model):
     fuente = models.ManyToManyField(Fuentes, verbose_name="Fuentes de ingreso")
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
         verbose_name_plural = "Cuales son las principales fuentes de ingreso de la familia"
-        
+
 class CIPeriodos(models.Model):
     nombre = models.CharField(max_length=200)
 
     def __unicode__(self):
         return self.nombre
-        
+
 class CIPermanentes(models.Model):
     nombre = models.CharField(max_length=200)
 

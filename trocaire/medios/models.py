@@ -26,7 +26,7 @@ class Encuesta(models.Model):
     encuestador = models.ForeignKey(Recolector, verbose_name="Nombre del encuestador")
     contraparte = models.ForeignKey(Contraparte, null=True, blank=True)
     usuario = models.ForeignKey(User)
-    
+
     def __unicode__(self):
         return self.beneficiario
 
@@ -34,7 +34,6 @@ class Encuesta(models.Model):
         verbose_name_plural = "Encuesta Linea base"
 
 #Utilitarios para toda la encuesta
-        
 CHOICE_SEXO = (
                     (1, '1) Masculino'),
                     (2, '2) Femenino')
