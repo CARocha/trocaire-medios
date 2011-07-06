@@ -37,7 +37,7 @@ def _query_set_filtrado(request):
         return Encuesta.objects.filter(**params)   
 
 #===============================================================================
-def consultar(request): 
+def consultar(request):
     if request.method == 'POST':
         form = ConsultarForm(request.POST)
         if form.is_valid():
@@ -54,8 +54,18 @@ def consultar(request):
                 comarca = None
 
             request.session['municipio'] = municipio
-            request.session['comarca'] = comarca          
-            request.session['centinel'] = 1
+            request.session['comarca'] = comarca
+
+            #cosas de otros modelos!
+            parametros = {}
+            parametros['familia.escolaridad']['beneficia'] = forms.cleaned_data['escolaridad_beneficiario']
+            parametros['familia.escolaridad']['conyugue'] = forms.cleaned_data['escolaridad_conyugue']
+            parametros['familia.composicion']['sexo'] = forms.cleaned_data['familia_beneficiario']
+            #parametros['formas_propiedad.finca']['area'] = forms.cleaned_data['finca_area_total']
+            #parametros['produccion.ganadomayor']['num_vacas'] = forms.cleaned_data['finca_num_vacas']
+            #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
+            #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
+
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
             else:
