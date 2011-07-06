@@ -24,7 +24,6 @@ function redirigir(form){
 var chart;
 var chart2;
 $(document).ready(function() {
-   $("#id_next_url").attr({value:window.location.pathname});
    chart = new Highcharts.Chart({
       chart: {
          renderTo: 'container',
@@ -146,13 +145,9 @@ $(document).ready(function() {
     </select></p>
     <p><input type='button' onClick="redirigir(this.form)" value='Cambiar'/></p>
   </form>
-  <form method="POST" action="{% url consultar %}">
-    {% csrf_token %}
-    <label>{{form.contraparte.label}}</label>{{form.contraparte}}
-    {{form.next_url}}
-    <p><input type='submit'  value='Cambiar'/></p>
-  </form>
   </div>
+  <a href="#form-facebox" rel="facebox">Consultar</a>
   <div id="container"></div>
   <div id="acumulado_container"></div>
+  {% include "encuestas/form_facebox.html"%}
 {% endblock %}
