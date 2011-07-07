@@ -3,6 +3,7 @@ from django import forms
 
 from trocaire.medios.models import *
 from trocaire.familia.models import CHOICE_ESCOLARIDAD
+from trocaire.genero.models import CHOICE_ASPECTO_RESPUESTA
 from trocaire.lugar.models import *
 from trocaire.ingresos.models import Fuentes
 
@@ -27,8 +28,8 @@ class ConsultarForm(forms.Form):
     #credito
     credito_acceso = forms.ChoiceField(choices=CHOICE_SINO, required=False)
     #toma de desicion
-    desicion_gasto_mayor = forms.ChoiceField(choices=CHOICE_SEXO, required=False)
-    desicion_inversion = forms.ChoiceField(choices=CHOICE_SEXO, required=False)
+    desicion_gasto_mayor = forms.ChoiceField(choices=CHOICE_ASPECTO_RESPUESTA, required=False)
+    desicion_inversion = forms.ChoiceField(choices=CHOICE_ASPECTO_RESPUESTA, required=False)
     #finca
     finca_area_total = forms.FloatField(required=False) #rango
     finca_num_vacas= forms.FloatField(required=False) #rango

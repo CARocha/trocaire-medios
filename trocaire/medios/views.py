@@ -2,6 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
+from django.db.models import get_model
 
 #importaciones de los models
 from forms import ConsultarForm
@@ -33,8 +34,14 @@ def _query_set_filtrado(request):
         
         for key in unvalid_keys:
             del params[key]
+        #despelote
+        encuestas_id = []
+        for key in request.session['parametros']:
+            model = get_model(*key.split('.'))
+            ids = model.objects.filter(**request.session['parametros'][key]).values_list('id', flat=True)
+            encuestas_id += ids
 
-        return Encuesta.objects.filter(**params)   
+        return Encuesta.objects.filter(id__in = encuestas_id, **params)
 
 #===============================================================================
 def consultar(request):
@@ -57,14 +64,23 @@ def consultar(request):
             request.session['comarca'] = comarca
 
             #cosas de otros modelos!
-            parametros = {}
-            parametros['familia.escolaridad']['beneficia'] = forms.cleaned_data['escolaridad_beneficiario']
-            parametros['familia.escolaridad']['conyugue'] = forms.cleaned_data['escolaridad_conyugue']
-            parametros['familia.composicion']['sexo'] = forms.cleaned_data['familia_beneficiario']
+            parametros = {'familia.escolaridad': {}, 'familia.composicion': {}, 
+                          'genero.tomadecicion': {}, 'ingresos.principalesfuentes': {},
+                          'ingresos.totalingreso': {}}
+            parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']
+            parametros['familia.escolaridad']['conyugue'] = form.cleaned_data['escolaridad_conyugue']
+            parametros['familia.composicion']['sexo'] = form.cleaned_data['familia_beneficiario']
+            #desicion gasto mayor!
+            parametros['genero.tomadecicion']['aspectos'] = 1
+            parametros['genero.tomadecicion']['respuesta'] =  form.cleaned_data['desicion_gasto_mayor']
+            #ingresos
+            parametros['ingresos.principalesfuentes']['fuente'] = form.cleaned_data['ingresos_fuente']#TODO: cambiarlo a fuente__in
+            parametros['ingresos.totalingreso']['total'] = form.cleaned_data['ingresos_total']
             #parametros['formas_propiedad.finca']['area'] = forms.cleaned_data['finca_area_total']
             #parametros['produccion.ganadomayor']['num_vacas'] = forms.cleaned_data['finca_num_vacas']
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
+            request.session['parametros'] = parametros
 
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
