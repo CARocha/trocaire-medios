@@ -3,6 +3,7 @@
 <script src="/archivos/js/facebox/facebox.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(document).ready(function() {
+       $('a[rel*=facebox]').facebox();
        $("#id_next_url").attr({value:window.location.pathname});
         var departamento = document.getElementById("id_departamento");
         var municipio = document.getElementById("id_municipio");

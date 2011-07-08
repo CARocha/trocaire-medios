@@ -9,8 +9,10 @@ from django.db.models import Sum, Count, Avg, Max, Min
 from django.core.exceptions import ViewDoesNotExist
 
 from medios.forms import ConsultarForm
-from medios.views import _query_set_filtrado 
+from medios.views import _query_set_filtrado
 from models import *
+
+lista_acumulada = lambda valores: [sum(valores[:i]) for i in range(1, len(valores)+1)]
 
 def ingresos(request):
     numero = Encuesta.objects.all().count()
@@ -23,7 +25,7 @@ def ingresos(request):
                 lista.append(principal.encuesta)
         cantidad = len(lista)
         dicc[opcion[1]] = cantidad
-    suma = 0    
+    suma = 0
     for k, v in dicc.items():
         suma += v
     return render_to_response('encuestas/ingreso.html', locals(),
@@ -112,7 +114,7 @@ def sumas_de_ingresos(request):
         total_otros += v
     # sumas de todos los totales  de todas las tablas de los ingresos
     grandisimo_total = gran_total + total_perma + total_esta + total_horta + total_patio + total_ganado +  total_lactio + total_procesado + total_otros
-    promedio = round((grandisimo_total / numero_encuestas),2)  
+    promedio = round((grandisimo_total / numero_encuestas),2)
         
 #    for periodo in CIPeriodos.objects.all():
 #        c_primera = Encuesta.objects.filter(cultivosiperiodos__cultivo = periodo).aggregate(c_primera=Sum('cultivosiperiodos__cuanto_primera'))['c_primera']
@@ -141,8 +143,8 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     else:
         puntas_calc = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
     if maximo:
-        maximo, minimo = int(maximo), int(minimo) 
-        puntas = dict(maximo=maximo, minimo=minimo) 
+        maximo, minimo = int(maximo), int(minimo)
+        puntas = dict(maximo=maximo, minimo=minimo)
     else:
         puntas = puntas_calc
 
@@ -169,7 +171,8 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
         valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar, encuesta__in=encuestas).count())
     else:
         valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
-    valores_acumulados = [sum(valores[:valores.index(foo)+1]) for foo in valores]
+
+    valores_acumulados = lista_acumulada(valores)
     categorias.append('%.2f a mas' % maximo_a_evaluar)
 
     form = ConsultarForm()
@@ -200,7 +203,7 @@ def saca_porcentajes(values):
     valores_cero = [] #lista para anotar los indices en los que da cero el porcentaje
     for i in range(len(values)):
         porcentaje = (float(values[i])/total)*100
-        values[i] = "%.2f" % porcentaje + '%' 
+        values[i] = "%.2f" % porcentaje + '%'
     return values
 
 def saca_porcentajes(dato, total, formato=True):
@@ -214,5 +217,5 @@ def saca_porcentajes(dato, total, formato=True):
             return porcentaje
         else:
             return '%.2f' % porcentaje
-    else: 
+    else:
         return 0
