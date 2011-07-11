@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^ingresos/', include('trocaire.ingresos.urls')),
+    (r'^produccion/', include('trocaire.produccion.urls')),
     (r'^', include('trocaire.medios.urls')),
 )
 
