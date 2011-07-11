@@ -75,7 +75,8 @@ def consultar(request):
             parametros['genero.tomadecicion']['respuesta'] =  form.cleaned_data['desicion_gasto_mayor']
             #ingresos
             parametros['ingresos.principalesfuentes']['fuente'] = form.cleaned_data['ingresos_fuente']#TODO: cambiarlo a fuente__in
-            parametros['ingresos.totalingreso']['total'] = form.cleaned_data['ingresos_total']
+            parametros['ingresos.totalingreso']['total__gte'] = form.cleaned_data['ingresos_total_min']
+            parametros['ingresos.totalingreso']['total__lte'] = form.cleaned_data['ingresos_total_max']
             #parametros['formas_propiedad.finca']['area'] = forms.cleaned_data['finca_area_total']
             #parametros['produccion.ganadomayor']['num_vacas'] = forms.cleaned_data['finca_num_vacas']
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']

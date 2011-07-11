@@ -24,17 +24,21 @@ class ConsultarForm(forms.Form):
     familia_dependientes = forms.IntegerField(min_value=0, required=False)
     #ingresos(ambos son rangos)
     ingresos_fuente = forms.ModelChoiceField(queryset=Fuentes.objects.all(), required=False)
-    ingresos_total = forms.FloatField(required=False)
+    ingresos_total_max = forms.FloatField(required=False)
+    ingresos_total_min = forms.FloatField(required=False)
     #credito
     credito_acceso = forms.ChoiceField(choices=CHOICE_SINO, required=False)
     #toma de desicion
     desicion_gasto_mayor = forms.ChoiceField(choices=CHOICE_ASPECTO_RESPUESTA, required=False)
     desicion_inversion = forms.ChoiceField(choices=CHOICE_ASPECTO_RESPUESTA, required=False)
     #finca
-    finca_area_total = forms.FloatField(required=False) #rango
-    finca_num_vacas= forms.FloatField(required=False) #rango
-    finca_riego = forms.ChoiceField(choices=CHOICE_SINO, required=False)
-    finca_conssa= forms.ChoiceField(choices=CHOICE_SINO, required=False)
-    finca_num_productos= forms.FloatField(required=False) #rango
+    #finca_area_total_max = forms.FloatField(required=False) #rango
+    #finca_area_total_min = forms.FloatField(required=False) #rango
+    #finca_num_vacas_max = forms.FloatField(required=False) #rango
+    #finca_num_vacas_min = forms.FloatField(required=False) #rango
+    #finca_riego = forms.ChoiceField(choices=CHOICE_SINO, required=False)
+    #finca_conssa= forms.ChoiceField(choices=CHOICE_SINO, required=False)
+    #finca_num_productos_max = forms.FloatField(required=False) #rango
+    #finca_num_productos_min = forms.FloatField(required=False) #rango
     #magia
     next_url = forms.CharField(widget=forms.HiddenInput, required=False)

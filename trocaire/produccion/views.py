@@ -14,45 +14,23 @@ from models import *
 
 lista_acumulada = lambda valores: [sum(valores[:i]) for i in range(1, len(valores)+1)]
 
-def produccion_por_rango(request, maximo=None, minimo=0, separaciones=10, modelo=None):
+def produccion_por_rango(request, modelo, maximo=None, minimo=0, separaciones=10):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
+    model = get_model('produccion', modelo)
+
     if encuestas:
-        puntas_calc = TotalIngreso.objects.filter(encuesta__in = encuestas).aggregate(maximo = Max('total'), minimo = Min('total'))
+        puntas_calc = model.objects.filter(encuesta__in = encuestas).aggregate(max_manzana = Max('manzana'), 
+                min_manzana = Min('manzana'), max_produccion=Max('produccion'), min_produccion = Min('produccion'))
     else:
-        puntas_calc = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+        puntas_calc = model.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
     if maximo:
         maximo, minimo = int(maximo), int(minimo)
         puntas = dict(maximo=maximo, minimo=minimo)
     else:
         puntas = puntas_calc
 
-    SEPARACIONES = int(separaciones) if separaciones else 10
-    rango = (puntas['maximo']-puntas['minimo'])/ (SEPARACIONES)
     
-    rangos = range(int(puntas['minimo']), int(puntas['maximo']), int(rango))
-    parametros = zip(rangos, rangos[1:])
-    parametros.append((rangos[len(rangos)-1], puntas['maximo']))
-
-    valores = []
-    #categorias: para pintarlo en el eje X del grafo
-    categorias = []
-    
-    for parametro in parametros:
-        if encuestas:
-            valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1], encuesta__in=encuestas).count())
-        else:
-            valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
-        categorias.append('%.2f a %.2f' % parametro)
-    
-    maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
-    if encuestas:
-        valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar, encuesta__in=encuestas).count())
-    else:
-        valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
-
-    valores_acumulados = lista_acumulada(valores)
-    categorias.append('%.2f a mas' % maximo_a_evaluar)
 
     form = ConsultarForm()
     
@@ -63,4 +41,31 @@ def produccion_por_rango(request, maximo=None, minimo=0, separaciones=10, modelo
                                'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))
 
+def calculate_values(modelo, maximo, minimo, puntas, separaciones, campo):
+    SEPARACIONES = int(separaciones) if separaciones else 10
+    rango = (puntas[campo]-puntas[campo])/ (SEPARACIONES)
 
+    rangos = range(int(puntas[campo]), int(puntas[campo]), int(rango))
+    parametros = zip(rangos, rangos[1:])
+    parametros.append((rangos[len(rangos)-1], puntas['maximo']))
+
+    valores = []
+    #categorias: para pintarlo en el eje X del grafo
+    categorias = []
+
+    for parametro in parametros:
+        params = {'%s__gte' % campo: 
+        if encuestas:
+            valores.append(model.objects.filter(total__gte=parametro[0], total__lt=parametro[1], encuesta__in=encuestas).count())
+        else:
+            valores.append(model.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
+        categorias.append('%.2f a %.2f' % parametro)
+    
+    maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
+    if encuestas:
+        valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar, encuesta__in=encuestas).count())
+    else:
+        valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
+
+    valores_acumulados = lista_acumulada(valores)
+    categorias.append('%.2f a mas' % maximo_a_evaluar)

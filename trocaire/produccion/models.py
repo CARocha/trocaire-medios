@@ -39,6 +39,14 @@ class CultivosPeriodos(models.Model):
     p_postrera = models.FloatField('Producción del ciclo de postrera')
     p_apante = models.FloatField('Producción del ciclo de apante')
     encuesta = models.ForeignKey(Encuesta)
+    #campos ocultos
+    manzana = models.FloatField(editable=False)
+    produccion = models.FloatField(editable=False)
+
+    def save(self, *args, **kwargs):
+        self.manzana = sum(filter(None, [self.primera, self.postrera, self.apante]))
+        self.produccion= sum(filter(None, [self.p_primera, self.p_postrera, self.p_apante]))
+        super(CultivosPeriodos, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Cultivos de Periodos"

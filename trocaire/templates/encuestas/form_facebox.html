@@ -55,6 +55,9 @@
             <div class="label">{{form.municipio.label}}</div>
             <div class="filtros">{{form.municipio}}<br>{{form.municipio.errors}}</div>
             <div class="clean"></div>
+            <div class="label">{{form.comarca.label}}</div>
+            <div class="filtros">{{form.comarca}}<br>{{form.comarca.errors}}</div> 
+            <div class="clean"></div>    
             <div class="label">{{form.escolaridad_beneficiario.label}}</div>
             <div class="filtros">{{form.escolaridad_beneficiario}}<br>{{form.escolaridad_beneficiario.errors}}</div>
             <div class="clean"></div>
@@ -67,8 +70,8 @@
             <div class="label">{{form.familia_beneficiario.label}}</div>
             <div class="filtros">{{form.familia_beneficiario}}<br>{{form.familia_beneficiario.errors}}</div>
             <div class="clean"></div>
-            <div class="label">{{form.ingresos_fuente.label}}</div>
-            <div class="filtros">{{form.ingresos_total}}<br>{{form.ingresos_total.errors}}</div>
+            <div class="label">{{form.ingresos_total.label}}</div>
+            <div class="filtros">desde {{form.ingresos_total_min}} hasta {{form.ingresos_total_max}}<br>{{form.ingresos_total.errors}}</div>
             <div class="clean"></div>
             <div class="label">{{form.credito_acceso.label}}</div>
             <div class="filtros">{{form.credito_acceso}}<br>{{form.credito_acceso.errors}}</div>
@@ -79,6 +82,7 @@
             <div class="label">{{form.desicion_inversion.label}}</div>
             <div class="filtros">{{form.desicion_inversion}}<br>{{form.desicion_inversion.errors}}</div>
             <div class="clean"></div>
+            <!--
             <div class="label">{{form.finca_area_total.label}}</div>
             <div class="filtros">{{form.finca_area_total}}<br>{{form.finca_area_total.errors}}</div>
             <div class="clean"></div>
@@ -96,14 +100,9 @@
             <div class="clean"></div>
             <div class="label">{{form.finca_num_productos.label}}</div>
             <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-            <div class="clean"></div>
+            <div class="clean"></div>-->
             {{form.next_url}}
         </div>        
-        <div class="lugar">
-            <div class="label">{{form.comarca.label}}</div>
-            <div class="filtros">{{form.comarca}}<br>{{form.comarca.errors}}</div> 
-            <div class="clean"></div>    
-        </div>
     
         <button class="consultar">Consultar</button>
     </form>
