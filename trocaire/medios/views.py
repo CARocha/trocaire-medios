@@ -37,12 +37,22 @@ def _query_set_filtrado(request):
         #despelote
         encuestas_id = []
         for key in request.session['parametros']:
+            #TODO: REVISAR ESTO
+            try:
+                for k, v in request.session['parametros'][key].items():
+                    print k, v
+                    if v is None:
+                        del request.session['parametros'][key][k]
+            except:
+                if not request.session['parametros'][key]:
+                    del request.session['parametros'][key]
+            print request.session['parametros'][key], key
             model = get_model(*key.split('.'))
             try:
                 ids = model.objects.filter(**request.session['parametros'][key]).values_list('id', flat=True)
-                encuestas_id += ids
             except:
                 pass
+            encuestas_id += ids
 
         return Encuesta.objects.filter(id__in = encuestas_id, **params)
 

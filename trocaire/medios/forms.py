@@ -13,7 +13,7 @@ class CustomChoiceField(forms.ChoiceField):
 
     def __init__(self, *args, **kwargs):
         super(CustomChoiceField, self).__init__(*args, **kwargs)
-        self.choices.insert(0, ('', '--------'))
+        self.choices.insert(0, (None , '--------'))
 
 class ConsultarForm(forms.Form):
     #fecha = CustomChoiceField(choices=ANOS_CHOICES)
