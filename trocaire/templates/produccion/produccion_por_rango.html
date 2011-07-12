@@ -169,7 +169,7 @@ $(document).ready(function() {
          defaultSeriesType: 'column',
       },
       title: {
-         text: 'Manzanas Producidas de {{model}}',
+         text: 'Manzanas sembradas de {{model}}',
          x: -20 //center
       },
       subtitle: {
@@ -181,7 +181,7 @@ $(document).ready(function() {
       },
       yAxis: {
          title: {
-            text: 'Manzanas producidas'
+            text: 'Manzanas sembradas'
          },
          plotLines: [{
             value: 0,
@@ -241,6 +241,12 @@ $(document).ready(function() {
   </form>
   </div>
   <a href="#form-facebox" rel="facebox">Consultar</a>
+  <ul>
+    <li><a href="{%url produccion_por_rango "cultivosperiodos"%}">Producción por rango(Cultivos Periodos)</a></li>
+    <li><a href="{%url produccion_por_rango "cultivospermanentes"%}">Producción por rango(Cultivos Permanentes)</a></li>
+    <li><a href="{%url produccion_por_rango "cultivosanuales"%}">Producción por rango(Cultivos Anuales)</a></li>
+    <li><a href="{%url produccion_por_rango "hortalizas"%}">Producción por rango(Cultivos Hortalizas)</a></li>
+  </ul>
   <div id="container"></div>
   <div id="acumulado_container"></div>
   <div id="container2"></div>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block contenido %}
+<h2>Indicadores</h2>
+
+<ul>
+  <li><a href="{%url ingreso_por_rango %}">Ingreso por rango</a></li>
+  <li><a href="{%url produccion_por_rango "cultivosperiodos"%}">Producción por rango(Cultivos Periodos)</a></li>
+  <li><a href="{%url produccion_por_rango "cultivospermanentes"%}">Producción por rango(Cultivos Permanentes)</a></li>
+  <li><a href="{%url produccion_por_rango "cultivosanuales"%}">Producción por rango(Cultivos Anuales)</a></li>
+  <li><a href="{%url produccion_por_rango "hortalizas"%}">Producción por rango(Cultivos Hortalizas)</a></li>
+</ul>
+
+{%endblock%}

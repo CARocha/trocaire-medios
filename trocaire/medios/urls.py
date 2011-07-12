@@ -7,4 +7,5 @@ urlpatterns = patterns('trocaire.medios.views',
     #para extrar los lugares
     url(r'^consultar/ajax/municipio/(?P<departamento>\d+)/$', 'get_municipios'),
     url(r'^consultar/ajax/comarca/(?P<municipio>\d+)/$', 'get_comarca'),
+    url(r'^encuestas/generales/$', 'indicadores', name="indicadores"),
 )

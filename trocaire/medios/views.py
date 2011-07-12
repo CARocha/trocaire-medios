@@ -112,3 +112,7 @@ def get_comarca(request, municipio):
     comarcas = Comarca.objects.filter(municipio = municipio)
     lista = [(comarca.id, comarca.nombre) for comarca in comarcas]
     return HttpResponse(simplejson.dumps(lista), mimetype='application/javascript')
+
+def indicadores(request):
+    return render_to_response('encuestas/indicadores.html',
+                              context_instance=RequestContext(request))
