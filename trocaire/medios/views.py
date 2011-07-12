@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import get_model
+from django.utils import simplejson
 
 #importaciones de los models
 from forms import ConsultarForm
