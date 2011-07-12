@@ -38,23 +38,17 @@ def _query_set_filtrado(request):
         encuestas_id = []
         for key in request.session['parametros']:
             #TODO: REVISAR ESTO
-            try:
-                for k, v in request.session['parametros'][key].items():
-                    print k, v
-                    if v is None:
-                        del request.session['parametros'][key][k]
-            except:
-                if not request.session['parametros'][key]:
-                    del request.session['parametros'][key]
-            print request.session['parametros'][key], key
+            for k, v in request.session['parametros'][key].items():
+                if v is None or str(v) == 'None':
+                    del request.session['parametros'][key][k]
             model = get_model(*key.split('.'))
-            try:
+            if len(request.session['parametros'][key]):
                 ids = model.objects.filter(**request.session['parametros'][key]).values_list('id', flat=True)
-            except:
-                pass
-            encuestas_id += ids
-
-        return Encuesta.objects.filter(id__in = encuestas_id, **params)
+                encuestas_id += ids
+        if not encuestas_id:
+            return Encuesta.objects.filter(**params)
+        else:
+            return Encuesta.objects.filter(id__in = encuestas_id, **params)
 
 #===============================================================================
 def consultar(request):
@@ -84,7 +78,7 @@ def consultar(request):
             parametros['familia.escolaridad']['conyugue'] = form.cleaned_data['escolaridad_conyugue']
             parametros['familia.composicion']['sexo'] = form.cleaned_data['familia_beneficiario']
             #desicion gasto mayor!
-            parametros['genero.tomadecicion']['aspectos'] = 1
+            #parametros['genero.tomadecicion']['aspectos'] = 1
             parametros['genero.tomadecicion']['respuesta'] =  form.cleaned_data['desicion_gasto_mayor']
             #ingresos
             parametros['ingresos.principalesfuentes']['fuente'] = form.cleaned_data['ingresos_fuente']#TODO: cambiarlo a fuente__in
