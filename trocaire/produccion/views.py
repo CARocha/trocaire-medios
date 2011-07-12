@@ -23,11 +23,12 @@ def produccion_por_rango(request, modelo, maximo=None, minimo=0, separaciones=10
         puntas_calc = model.objects.filter(encuesta__in = encuestas).aggregate(max_manzana = Max('manzana'), 
                 min_manzana = Min('manzana'), max_produccion=Max('produccion'), min_produccion = Min('produccion'))
     else:
-        puntas_calc = model.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+        puntas_calc = model.objects.all().aggregate(max_manzana = Max('manzana'), 
+                min_manzana = Min('manzana'), max_produccion=Max('produccion'), min_produccion = Min('produccion'))
 
     if maximo:
         maximo, minimo = int(maximo), int(minimo)
-        puntas = dict(maximo=maximo, minimo=minimo)
+        puntas = dict(max_produccion=maximo, min_produccion=minimo, max_manzana=maximo, min_manzana=minimo)
     else:
         puntas = puntas_calc
 
@@ -38,7 +39,9 @@ def produccion_por_rango(request, modelo, maximo=None, minimo=0, separaciones=10
     form = ConsultarForm()
      
     return render_to_response('produccion/produccion_por_rango.html', 
-                              {'form': form, 'calculos':calculos},
+                              {'form': form, 'calculos':calculos, 
+                               'model': model._meta.verbose_name,
+                               'model_name': model._meta.module_name},
                               context_instance=RequestContext(request))
 
 def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, encuestas=None):

@@ -11,10 +11,10 @@ function redirigir(form){
    var url = '';
    
    if (maximo && minimo && rango){
-     url = '/ingresos/rangos/' + maximo + '/' + minimo + '/' + rango + '/';
+     url = '/produccion/rangos/{{model_name}}/' + maximo + '/' + minimo + '/' + rango + '/';
      window.location = url;
    }else if(maximo && rango){
-     url = '/ingresos/rangos/' + maximo + '/0/' + rango + '/';
+     url = '/produccion/rangos/{{model_name}}/' + maximo + '/0/' + rango + '/';
      window.location = url;
    }else if(minimo && rango){
      alert('Favor seleccionar valor máximo');
@@ -30,19 +30,19 @@ $(document).ready(function() {
          defaultSeriesType: 'column',
       },
       title: {
-         text: 'Ingresos Totales',
+         text: 'Manzanas Producidas de {{model}}',
          x: -20 //center
       },
       subtitle: {
-         text: 'Grafico ingresos',
+         text: 'Grafico manzanas producidas',
          x: -20
       },
       xAxis: {
-         categories: [{%for valor in categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
+         categories: [{%for valor in calculos.0.categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
       },
       yAxis: {
          title: {
-            text: 'Ingresos en miles'
+            text: 'Manzanas producidas'
          },
          plotLines: [{
             value: 0,
@@ -65,8 +65,8 @@ $(document).ready(function() {
          borderWidth: 0
       },
       series: [{
-         name: 'Ingresos',
-         data: [{%for valor in valores%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
+         name: 'Manzanas producidas',
+         data: [{%for valor in calculos.0.valores%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
       }]
    });
   chart = new Highcharts.Chart({
@@ -75,19 +75,19 @@ $(document).ready(function() {
          defaultSeriesType: 'column',
       },
       title: {
-         text: 'Ingresos Totales Acumulados',
+         text: 'Manzanas Producidas de {{model}}',
          x: -20 //center
       },
       subtitle: {
-         text: 'Grafico ingresos',
+         text: 'Gráfico acumulado',
          x: -20
       },
       xAxis: {
-         categories: [{%for valor in categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
+         categories: [{%for valor in calculos.0.categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
       },
       yAxis: {
          title: {
-            text: 'Ingresos en miles'
+            text: 'Manzanas producidas'
          },
          plotLines: [{
             value: 0,
@@ -113,8 +113,102 @@ $(document).ready(function() {
          borderWidth: 0
       },
       series: [{
-         name: 'Ingresos',
-         data: [{%for valor in valores_acumulados%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
+         name: 'Manzanas',
+         data: [{%for valor in calculos.0.valores_acumulados%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
+      }]
+   });
+  //segunda serie
+  chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container2',
+         defaultSeriesType: 'column',
+      },
+      title: {
+         text: 'Manzanas Sembradas de {{model}}',
+         x: -20 //center
+      },
+      subtitle: {
+         text: 'Grafico manzanas',
+         x: -20
+      },
+      xAxis: {
+         categories: [{%for valor in calculos.1.categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
+      },
+      yAxis: {
+         title: {
+            text: 'Manzanas sembradas'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y;
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Manzanas',
+         data: [{%for valor in calculos.1.valores%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
+      }]
+   });
+  chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'acumulado_container2',
+         defaultSeriesType: 'column',
+      },
+      title: {
+         text: 'Manzanas Producidas de {{model}}',
+         x: -20 //center
+      },
+      subtitle: {
+         text: 'Gráfico acumulado',
+         x: -20
+      },
+      xAxis: {
+         categories: [{%for valor in calculos.1.categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
+      },
+      yAxis: {
+         title: {
+            text: 'Manzanas producidas'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                      var len = this.series.data.length;
+                      var maximo = this.series.data[len-1].y;
+                      var porcentaje = (parseFloat(this.y)/maximo) * 100;
+                   return '<b>'+ this.series.name +'</b><br/>'+
+                   this.y + '(' + parseInt(porcentaje) + '%)';
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Manzanas',
+         data: [{%for valor in calculos.1.valores_acumulados%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
       }]
    });
 });
@@ -149,5 +243,7 @@ $(document).ready(function() {
   <a href="#form-facebox" rel="facebox">Consultar</a>
   <div id="container"></div>
   <div id="acumulado_container"></div>
+  <div id="container2"></div>
+  <div id="acumulado_container2"></div>
   {% include "encuestas/form_facebox.html"%}
 {% endblock %}
