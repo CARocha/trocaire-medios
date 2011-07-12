@@ -49,7 +49,7 @@ def _query_set_filtrado(request):
         if not encuestas_id:
             return Encuesta.objects.filter(**params)
         else:
-            return Encuesta.objects.filter(id__in = encuestas_id, **params)
+            return Encuesta.objects.filter(id__in = set(encuestas_id), **params)
 
 #===============================================================================
 def consultar(request):
