@@ -37,19 +37,24 @@ def _query_set_filtrado(request):
             del params[key]
         #despelote
         encuestas_id = []
-        for key in request.session['parametros']:
+        reducir = False
+        last_key = (None, None)
+        for i, key in enumerate(request.session['parametros']):
             #TODO: REVISAR ESTO
             for k, v in request.session['parametros'][key].items():
                 if v is None or str(v) == 'None':
                     del request.session['parametros'][key][k]
             model = get_model(*key.split('.'))
             if len(request.session['parametros'][key]):
+                reducir = True if (last_key[1] != key > 1 and last_key[0] == None) or reducir==True else False
+                last_key = (i, key)
                 ids = model.objects.filter(**request.session['parametros'][key]).values_list('id', flat=True)
                 encuestas_id += ids
         if not encuestas_id:
             return Encuesta.objects.filter(**params)
         else:
-            return Encuesta.objects.filter(id__in = set(encuestas_id), **params)
+            ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id
+            return Encuesta.objects.filter(id__in = ids_definitivos, **params)
 
 #===============================================================================
 def consultar(request):
@@ -103,7 +108,6 @@ def consultar(request):
 #===============================================================================
 
 def index(request, template_name="index.html"):
-               
     return render_to_response(template_name, locals(),
                               context_instance=RequestContext(request))
 
@@ -121,3 +125,12 @@ def get_comarca(request, municipio):
 def indicadores(request):
     return render_to_response('encuestas/indicadores.html',
                               context_instance=RequestContext(request))
+
+def reducir_lista(lista):
+    '''reduce la lista dejando solo los elementos que son repetidos
+       osea lo contraron a unique'''
+    nueva_lista = []
+    for foo in lista:
+        if lista.count(foo) > 1 and foo not in nueva_lista:
+            nueva_lista.append(foo)
+    return nueva_lista
