@@ -14,16 +14,16 @@ from models import *
 
 lista_acumulada = lambda valores: [sum(valores[:i]) for i in range(1, len(valores)+1)]
 
-def produccion_por_rango(request, modelo, maximo=None, minimo=0, separaciones=10):
+def produccion_por_rango(request, modelo, cultivos, maximo=None, minimo=0, separaciones=10, template_name='produccion/produccion_por_rango.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
     model = get_model('produccion', modelo)
 
     if encuestas:
-        puntas_calc = model.objects.filter(encuesta__in = encuestas).aggregate(max_manzana = Max('manzana'), 
+        puntas_calc = model.objects.filter(encuesta__in = encuestas, cultivos__in=cultivos).aggregate(max_manzana = Max('manzana'), 
                 min_manzana = Min('manzana'), max_produccion=Max('produccion'), min_produccion = Min('produccion'))
     else:
-        puntas_calc = model.objects.all().aggregate(max_manzana = Max('manzana'), 
+        puntas_calc = model.objects.filter(cultivos__in = cultivos).aggregate(max_manzana = Max('manzana'), 
                 min_manzana = Min('manzana'), max_produccion=Max('produccion'), min_produccion = Min('produccion'))
 
     if maximo:
@@ -33,18 +33,18 @@ def produccion_por_rango(request, modelo, maximo=None, minimo=0, separaciones=10
         puntas = puntas_calc
 
     calculos = []
-    calculos.append(__calculate_values(model, maximo, minimo, puntas, separaciones, 'produccion', encuestas))
-    calculos.append(__calculate_values(model, maximo, minimo, puntas, separaciones, 'manzana', encuestas))
+    calculos.append(__calculate_values(model, maximo, minimo, puntas, separaciones, 'produccion', cultivos, encuestas))
+    calculos.append(__calculate_values(model, maximo, minimo, puntas, separaciones, 'manzana', cultivos, encuestas))
 
     form = ConsultarForm()
      
-    return render_to_response('produccion/produccion_por_rango.html', 
+    return render_to_response(template_name, 
                               {'form': form, 'calculos':calculos, 
                                'model': model._meta.verbose_name,
                                'model_name': model._meta.module_name},
                               context_instance=RequestContext(request))
 
-def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, encuestas=None):
+def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, cultivos, encuestas=None):
     SEPARACIONES = int(separaciones) if separaciones else 10
     rango = (puntas['max_' + campo]-puntas['min_' +campo])/ (SEPARACIONES)
 
@@ -57,13 +57,12 @@ def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, encu
     categorias = []
 
     for parametro in parametros:
-        params = {'%s__gte' % campo: parametro[0], '%s__lt' % campo: parametro[1]}
+        params = {'%s__gte' % campo: parametro[0], '%s__lt' % campo: parametro[1], 'cultivos__in': cultivos}
         if encuestas:
             valores.append(modelo.objects.filter(encuesta__in = encuestas, **params).count())
         else:
             valores.append(modelo.objects.filter(**params).count())
         categorias.append('%.2f a %.2f' % parametro)
-    
     maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
     params = {'%s__gte' % campo: maximo_a_evaluar}
     if encuestas:

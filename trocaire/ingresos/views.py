@@ -135,13 +135,13 @@ def sumas_de_ingresos(request):
     return render_to_response('ingresos/sumas_de_ingresos.html', locals(),
                                context_instance=RequestContext(request))
 
-def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
+def generic_range(request, model, maximo=None, minimo=0, separaciones=10, template_name='ingresos/generic_range_view.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
     if encuestas:
-        puntas_calc = TotalIngreso.objects.filter(encuesta__in = encuestas).aggregate(maximo = Max('total'), minimo = Min('total'))
+        puntas_calc = model.objects.filter(encuesta__in = encuestas).aggregate(maximo = Max('total'), minimo = Min('total'))
     else:
-        puntas_calc = TotalIngreso.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+        puntas_calc = model.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
     if maximo:
         maximo, minimo = int(maximo), int(minimo)
         puntas = dict(maximo=maximo, minimo=minimo)
@@ -161,23 +161,23 @@ def ingreso_por_rango(request, maximo=None, minimo=0, separaciones=10):
     
     for parametro in parametros:
         if encuestas:
-            valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1], encuesta__in=encuestas).count())
+            valores.append(model.objects.filter(total__gte=parametro[0], total__lt=parametro[1], encuesta__in=encuestas).count())
         else:
-            valores.append(TotalIngreso.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
+            valores.append(model.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
         categorias.append('%.2f a %.2f' % parametro)
     
     maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
     if encuestas:
-        valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar, encuesta__in=encuestas).count())
+        valores.append(model.objects.filter(total__gte=maximo_a_evaluar, encuesta__in=encuestas).count())
     else:
-        valores.append(TotalIngreso.objects.filter(total__gte=maximo_a_evaluar).count())
+        valores.append(model.objects.filter(total__gte=maximo_a_evaluar).count())
 
     valores_acumulados = lista_acumulada(valores)
     categorias.append('%.2f a mas' % maximo_a_evaluar)
 
     form = ConsultarForm()
     
-    return render_to_response('ingresos/ingreso_por_rango.html', 
+    return render_to_response(template_name, 
                               {'valores': valores,
                                'categorias': categorias,
                                'form': form,
