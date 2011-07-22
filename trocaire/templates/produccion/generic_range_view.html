@@ -1,0 +1,153 @@
+{% extends "base.html"%}
+{% block extrahead%}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function redirigir(form){
+   var maximo = form.txt_maximo.value; 
+   var minimo = form.txt_minimo.value; 
+   var rango = form.select_rango.value; 
+   var url = '';
+   
+   if (maximo && minimo && rango){
+     url = '/ingresos/rangos/' + maximo + '/' + minimo + '/' + rango + '/';
+     window.location = url;
+   }else if(maximo && rango){
+     url = '/ingresos/rangos/' + maximo + '/0/' + rango + '/';
+     window.location = url;
+   }else if(minimo && rango){
+     alert('Favor seleccionar valor máximo');
+     $('#txt_maximo').focus();
+   }
+}
+var chart;
+var chart2;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container',
+         defaultSeriesType: 'column',
+      },
+      title: {
+         text: 'Ingresos Totales',
+         x: -20 //center
+      },
+      subtitle: {
+         text: 'Grafico ingresos',
+         x: -20
+      },
+      xAxis: {
+         categories: [{%for valor in categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
+      },
+      yAxis: {
+         title: {
+            text: 'Ingresos en miles'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y;
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Ingresos',
+         data: [{%for valor in valores%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
+      }]
+   });
+  chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'acumulado_container',
+         defaultSeriesType: 'column',
+      },
+      title: {
+         text: 'Ingresos Totales Acumulados',
+         x: -20 //center
+      },
+      subtitle: {
+         text: 'Grafico ingresos',
+         x: -20
+      },
+      xAxis: {
+         categories: [{%for valor in categorias%}{%if not forloop.last%}'{{valor}}', {%else%}'{{valor}}'{%endif%}{%endfor%}]
+      },
+      yAxis: {
+         title: {
+            text: 'Ingresos en miles'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                      var len = this.series.data.length;
+                      var maximo = this.series.data[len-1].y;
+                      var porcentaje = (parseFloat(this.y)/maximo) * 100;
+                   return '<b>'+ this.series.name +'</b><br/>'+
+                   this.y + '(' + parseInt(porcentaje) + '%)';
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: 'Ingresos',
+         data: [{%for valor in valores_acumulados%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
+      }]
+   });
+});
+</script>
+{% endblock %}
+
+{% load humanize %}
+
+{% block contenido %}
+<div id='form'>
+  <form method='GET' action='.'>
+    <p><label for='txt_maximo'>Máximo</label><input id='txt_maximo' type='text' /></p>
+    <p><label for='txt_minimo'>Minimo</label><input id='txt_minimo' type='text' /></p>
+    <p><label for='txt_minimo'>Separaciones</label>
+    <select id='select_rango'>
+      <option value='3'>3</option>
+      <option value='4'>4</option>
+      <option value='5'>5</option>
+      <option value='6'>6</option>
+      <option value='7'>7</option>
+      <option value='8'>8</option>
+      <option value='9'>9</option>
+      <option value='10' selected='true'>10</option>
+      <option value='11'>11</option>
+      <option value='12'>12</option>
+      <option value='13'>13</option>
+      <option value='14'>14</option>
+    </select></p>
+    <p><input type='button' onClick="redirigir(this.form)" value='Cambiar'/></p>
+  </form>
+  </div>
+  <a href="#form-facebox" rel="facebox">Consultar</a>
+  <div id="container"></div>
+  <div id="acumulado_container"></div>
+  {% include "encuestas/form_facebox.html"%}
+{% endblock %}
