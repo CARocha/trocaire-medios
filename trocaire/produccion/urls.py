@@ -22,9 +22,24 @@ urlpatterns = patterns('trocaire.produccion.views',
         {'model': 'ganadomayor', 'field': 'cantidad', 'extra_params': {'ganado': 7}}, name="produccion_aves"),
     url(r'rangos/animales-aves/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', 
         {'model': 'ganadomayor', 'field': 'cantidad', 'extra_params': {'ganado': 7}},  name="produccion_aves"),
-    #numero cerdos 
-    url(r'rangos/animales-cerdos/$', 'generic_range', 
-        {'model': 'ganadomayor', 'field': 'cantidad', 'extra_params': {'ganado': 8}}, name="produccion_cerdos"),
-    url(r'rangos/animales-cerdos/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', 
-        {'model': 'ganadomayor', 'field': 'cantidad', 'extra_params': {'ganado': 8}},  name="produccion_cerdos"),
+    #productividd maiz 
+    url(r'rangos/productividad-maiz/$', 'generic_range', 
+        {'model': 'cultivosperiodos', 'field': 'productividad', 'extra_params': {'cultivos__in': [1,2]}}, name="productividad_maiz"),
+    url(r'rangos/productividad-maiz/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', 
+        {'model': 'cultivosperiodos', 'field': 'productividad', 'extra_params': {'cultivos__in': [1,2]}},  name="productividad_maiz"),
+    #productividd frijol 
+    url(r'rangos/productividad-frijol/$', 'generic_range', 
+        {'model': 'cultivosperiodos', 'field': 'productividad', 'extra_params': {'cultivos': 3}}, name="productividad_frijol"),
+    url(r'rangos/productividad-frijol/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', 
+        {'model': 'cultivosperiodos', 'field': 'productividad', 'extra_params': {'cultivos': 3}},  name="productividad_frijol"),
+    #productividad cafe 
+    url(r'rangos/productividad-cafe/$', 'generic_range', 
+        {'model': 'cultivospermanentes', 'field': 'productividad', 'extra_params': {'cultivos': 1}}, name="productividad_cafe"),
+    url(r'rangos/productividad-cafe/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', 
+        {'model': 'cultivospermanentes', 'field': 'productividad', 'extra_params': {'cultivos': 1}},  name="productividad_cafe"),
+    #productividad cacao 
+    url(r'rangos/productividad-cacao/$', 'generic_range', 
+        {'model': 'cultivospermanentes', 'field': 'productividad', 'extra_params': {'cultivos': 2}}, name="productividad_cacao"),
+    url(r'rangos/productividad-cacao/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', 
+        {'model': 'cultivospermanentes', 'field': 'productividad', 'extra_params': {'cultivos': 2}},  name="productividad_cacao"),
 )

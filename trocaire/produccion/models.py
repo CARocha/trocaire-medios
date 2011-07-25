@@ -42,10 +42,12 @@ class CultivosPeriodos(models.Model):
     #campos ocultos
     manzana = models.FloatField(editable=False)
     produccion = models.FloatField(editable=False)
+    productividad = models.FloatField(editable=False)
 
     def save(self, *args, **kwargs):
         self.manzana = sum(filter(None, [self.primera, self.postrera, self.apante]))
         self.produccion= sum(filter(None, [self.p_primera, self.p_postrera, self.p_apante]))
+        self.productividad = self.produccion / self.manzana if self.manzana != 0 else 0
         super(CultivosPeriodos, self).save(*args, **kwargs)
 
     class Meta:
@@ -56,6 +58,12 @@ class CultivosPermanentes(models.Model):
     manzana = models.FloatField(verbose_name="Área Manzanas")
     produccion = models.FloatField(verbose_name="Producción")
     encuesta = models.ForeignKey(Encuesta)
+    #ocultos
+    productividad = models.FloatField(editable=False)
+
+    def save(self, *args, **kwargs):
+        self.productividad = self.produccion / self.manzana if self.manzana != 0 else 0
+        super(CultivosPermanentes, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Cultivos Permanentes"
@@ -65,6 +73,12 @@ class CultivosAnuales(models.Model):
     manzana = models.FloatField(verbose_name="Área Manzanas")
     produccion = models.FloatField(verbose_name="Producción")
     encuesta = models.ForeignKey(Encuesta)
+    #ocultos
+    productividad = models.FloatField(editable=False)
+
+    def save(self, *args, **kwargs):
+        self.productividad = self.produccion / self.manzana if self.manzana != 0 else 0
+        super(CultivosPermanentes, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Cultivos Anuales"
@@ -74,6 +88,12 @@ class Hortalizas(models.Model):
     manzana = models.FloatField(verbose_name="Área Manzanas")
     produccion = models.FloatField(verbose_name="Producción")
     encuesta = models.ForeignKey(Encuesta)
+    #ocultos
+    productividad = models.FloatField(editable=False)
+
+    def save(self, *args, **kwargs):
+        self.productividad = self.produccion / self.manzana if self.manzana != 0 else 0
+        super(CultivosPermanentes, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Hortalizas"
