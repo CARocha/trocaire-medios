@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.views.generic.simple import direct_to_template
 from django.utils import simplejson
-from django.db.models import Sum, Count, Avg, Max, Min
+from django.db.models import Sum, Count, Avg, Max, Min, get_model
 from django.core.exceptions import ViewDoesNotExist
 
 from medios.forms import ConsultarForm
@@ -135,13 +135,14 @@ def sumas_de_ingresos(request):
     return render_to_response('ingresos/sumas_de_ingresos.html', locals(),
                                context_instance=RequestContext(request))
 
-def generic_range(request, model, maximo=None, minimo=0, separaciones=10, template_name='ingresos/generic_range_view.html'):
+def generic_range(request, model, field, extra_params={}, maximo=None, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
+    model = get_model('ingresos', model)
     if encuestas:
-        puntas_calc = model.objects.filter(encuesta__in = encuestas).aggregate(maximo = Max('total'), minimo = Min('total'))
+        puntas_calc = model.objects.filter(encuesta__in = encuestas, **extra_params).aggregate(maximo = Max(field), minimo = Min(field))
     else:
-        puntas_calc = model.objects.all().aggregate(maximo = Max('total'), minimo = Min('total'))
+        puntas_calc = model.objects.filter(**extra_params).aggregate(maximo = Max(field), minimo = Min(field))
     if maximo:
         maximo, minimo = int(maximo), int(minimo)
         puntas = dict(maximo=maximo, minimo=minimo)
@@ -160,17 +161,21 @@ def generic_range(request, model, maximo=None, minimo=0, separaciones=10, templa
     categorias = []
     
     for parametro in parametros:
+        extra_params["%s__gte" % field] = parametro[0]
+        extra_params["%s__lt" % field] = parametro[1]
         if encuestas:
-            valores.append(model.objects.filter(total__gte=parametro[0], total__lt=parametro[1], encuesta__in=encuestas).count())
+            valores.append(model.objects.filter(encuesta__in=encuestas, **extra_params).count())
         else:
-            valores.append(model.objects.filter(total__gte=parametro[0], total__lt=parametro[1]).count())
+            valores.append(model.objects.filter(**extra_params).count())
         categorias.append('%.2f a %.2f' % parametro)
     
     maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
+    del extra_params["%s__lt" % field]
+    extra_params["%s__gte" % field] =  maximo_a_evaluar 
     if encuestas:
-        valores.append(model.objects.filter(total__gte=maximo_a_evaluar, encuesta__in=encuestas).count())
+        valores.append(model.objects.filter(encuesta__in=encuestas, **extra_params).count())
     else:
-        valores.append(model.objects.filter(total__gte=maximo_a_evaluar).count())
+        valores.append(model.objects.filter(**extra_params).count())
 
     valores_acumulados = lista_acumulada(valores)
     categorias.append('%.2f a mas' % maximo_a_evaluar)
@@ -183,6 +188,7 @@ def generic_range(request, model, maximo=None, minimo=0, separaciones=10, templa
                                'form': form,
                                'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))
+
 
 #FUNCIONES PARA LAS URL
 def _get_view(request, vista):
