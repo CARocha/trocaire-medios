@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^ingresos/', include('trocaire.ingresos.urls')),
     (r'^produccion/', include('trocaire.produccion.urls')),
+    (r'^propiedad/', include('trocaire.formas_propiedad.urls')),
     (r'^', include('trocaire.medios.urls')),
 )
 

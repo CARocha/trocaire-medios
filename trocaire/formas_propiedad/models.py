@@ -8,6 +8,15 @@ class Tierra(models.Model):
     hombre = models.FloatField('Del hombre')
     ambos = models.FloatField('De ambos')
     encuesta = models.ForeignKey(Encuesta)
+    #campos hipsters
+    area_total = models.FloatField(editable=False, default=0)
+
+    def save(self, *args, **kwargs):
+        if self.ambos == 0:
+            self.area_total = self.mujer + self.hombre
+        else:
+            self.area_total = self.ambos
+        super(Tierra, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "PROPIEDAD DE LA TIERRA"
