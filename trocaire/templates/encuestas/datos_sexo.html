@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Datos por sexo{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            showInLegend: true
+         },
+         series: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.percentage.toFixed(1) + ' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
+        }
+    }    
+    var chart;
+    $(document).ready(function(){
+    	chart = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'sexo-jefe',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Sexo del jefe de familia'
+            },
+            subtitle: {
+                text: 'Varón - Mujer - No aplica'
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [['Masculino', {{tabla_sexo_jefe.1}}], ['Femenino', {{tabla_sexo_jefe.2}}], ['No aplica', {{tabla_sexo_jefe.3}}] ]}]
+        });
+        return false;        
+    });
+</script>
+{% endblock %}
+
+{% block contenido %}
+<div>
+	<table class="tabla-resultados">
+	<caption>Sexo del jefe de familia</caption>
+	<thead>
+		<tr>		
+			<th>Varón</th>
+			<th>Mujer</th>
+			<th>No aplica</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{tabla_sexo_jefe.1|get_frec:tabla_sexo_jefe}}</td>
+			<td>{{tabla_sexo_jefe.2|get_frec:tabla_sexo_jefe}}</td>
+			<td>{{tabla_sexo_jefe.3|get_frec:tabla_sexo_jefe}}</td>
+		</tr>
+	</tbody>
+	</table>
+	<div id="sexo-jefe" class="grafo"></div>
+</div>
+<br>
+<div>
+		<table class="tabla-resultados">
+	<caption>Sexo del beneficiario</caption>
+	<thead>
+		<tr>		
+			<th>Varón</th>
+			<th>Mujer</th>			
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{tabla_sexo_beneficiario.masculino|get_frec:tabla_sexo_beneficiario}}</td>
+			<td>{{tabla_sexo_beneficiario.femenino|get_frec:tabla_sexo_beneficiario}}</td>			
+		</tr>
+	</tbody>
+	</table>
+	<div id="sexo-beneficiario"></div>
+</div>
+{% endblock %}

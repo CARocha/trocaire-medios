@@ -8,6 +8,7 @@ from django.utils import simplejson
 #importaciones de los models
 from forms import ConsultarForm
 from trocaire.medios.models import *
+from trocaire.familia.models import *
 from trocaire.lugar.models import *
 
 def _query_set_filtrado(request):
@@ -125,6 +126,21 @@ def get_comarca(request, municipio):
 def indicadores(request):
     return render_to_response('encuestas/indicadores.html',
                               context_instance=RequestContext(request))
+    
+def datos_sexo(request):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True)    
+    composicion_familia = Composicion.objects.filter(encuesta__id__in=encuestas)    
+    tabla_sexo_jefe = {1: 0, 2: 0, 3: 0}
+    tabla_sexo_beneficiario = {}
+    for composicion in composicion_familia:
+        if composicion.relacion == 1:
+            tabla_sexo_jefe[composicion.sexo] += 1
+        else:
+            tabla_sexo_jefe[composicion.sexo_jefe] += 1
+    tabla_sexo_beneficiario['masculino'] = composicion_familia.filter(sexo=1).count()
+    tabla_sexo_beneficiario['femenino'] = composicion_familia.filter(sexo=2).count()                
+        
+    return render_to_response('encuestas/datos_sexo.html', RequestContext(request, locals()))
 
 def reducir_lista(lista):
     '''reduce la lista dejando solo los elementos que son repetidos
