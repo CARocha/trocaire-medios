@@ -1,4 +1,6 @@
-# Django settings for trocaire project.
+import os
+
+PROJECT_DIR = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
