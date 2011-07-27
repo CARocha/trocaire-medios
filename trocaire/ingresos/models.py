@@ -28,6 +28,14 @@ class Fuentes(models.Model):
 class PrincipalesFuentes(models.Model):
     fuente = models.ManyToManyField(Fuentes, verbose_name="Fuentes de ingreso")
     encuesta = models.ForeignKey(Encuesta)
+    #campos ocultos
+    fuentes_ap = models.IntegerField(default=0, editable=False)
+    fuentes_no_ap = models.IntegerField(default=0, editable=False)
+
+    def save(*args, **kwargs):
+        self.fuentes_ap = fuente.filter(id__in = [1,2,3,4,5]).count()
+        self.fuentes_no_ap = fuente.exclude(id__in = [1,2,3,4,5]).count()
+        super(Principales, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Cuales son las principales fuentes de ingreso de la familia"
