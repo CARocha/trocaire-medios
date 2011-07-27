@@ -33,10 +33,9 @@
         formatter: function() {
             return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
         }
-    }    
-    var chart;
+    }
     $(document).ready(function(){
-    	chart = new Highcharts.Chart({
+    	var chart = new Highcharts.Chart({
         	chart: {
             	renderTo: 'sexo-jefe',
                 defaultSeriesType: 'pie',
@@ -52,8 +51,24 @@
             tooltip: tooltip,
             plotOptions: plotOptions,
             series: [{data: [['Masculino', {{tabla_sexo_jefe.1}}], ['Femenino', {{tabla_sexo_jefe.2}}], ['No aplica', {{tabla_sexo_jefe.3}}] ]}]
+        }); 
+    	var chart2 = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'sexo-beneficiario',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Sexo del beneficiario'
+            },
+            subtitle: {
+                text: 'Varón - Mujer'
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [['Masculino', {{tabla_sexo_beneficiario.masculino}}], ['Femenino', {{tabla_sexo_beneficiario.femenino}}] ]}]
         });
-        return false;        
     });
 </script>
 {% endblock %}
@@ -96,6 +111,6 @@
 		</tr>
 	</tbody>
 	</table>
-	<div id="sexo-beneficiario"></div>
+	<div id="sexo-beneficiario" class="grafo"></div>
 </div>
 {% endblock %}
