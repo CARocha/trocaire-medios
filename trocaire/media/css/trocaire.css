@@ -125,7 +125,7 @@ a{
 .salidas a{
     display: inline-block;
     height: 246px;
-    width: 185px;
+    width: 285px;
     margin-left: 10px;
 }
 /*.mapeo{    */
@@ -138,7 +138,13 @@ a{
     -webkit-box-shadow: 0px 2px 7px #000;
 }
 .monitoreo{    
-    background: url(../img/monitoreo.png) no-repeat;
+    background: url(../img/monitoreo.jpg) no-repeat;
+    -moz-box-shadow: 0px 2px 7px #942406;
+    -webkit-box-shadow: 0px 2px 7px #942406;
+}
+
+.monitoreo_avanzado{    
+    background: url(../img/monitoreo_avanzado.jpg) no-repeat;
     -moz-box-shadow: 0px 2px 7px #942406;
     -webkit-box-shadow: 0px 2px 7px #942406;
 }
