@@ -135,7 +135,7 @@ def sumas_de_ingresos(request):
     return render_to_response('ingresos/sumas_de_ingresos.html', locals(),
                                context_instance=RequestContext(request))
 
-def generic_range(request, model, field, extra_params={}, maximo=None, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
+def generic_range(request, model, field, title, serie, subtitle, eje, extra_params={}, maximo=None, minimo=0, separaciones=10, template_name='ingresos/generic_range_view.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
     model = get_model('ingresos', model)
@@ -186,6 +186,10 @@ def generic_range(request, model, field, extra_params={}, maximo=None, minimo=0,
                               {'valores': valores,
                                'categorias': categorias,
                                'form': form,
+                               'title': title,
+                               'subtitle': subtitle,
+                               'eje': eje,
+                               'serie': serie,
                                'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))
 
