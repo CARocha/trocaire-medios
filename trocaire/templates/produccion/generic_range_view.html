@@ -3,6 +3,8 @@
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="{{MEDIA_URL}}js/2leveltab.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet"  href="{{MEDIA_URL}}css/2leveltab.css" >
 <script type="text/javascript">
 function obtener_url(){
   var fullpath = window.location.pathname;
@@ -137,6 +139,32 @@ $(document).ready(function() {
 {% load humanize %}
 
 {% block contenido %}
+<ul id="maintab" class="basictab">
+<li><a href="http://www.javascriptkit.com">Home</a></li>
+<li class="selected" rel="tutorials"><a href="#">Tutorials &#9660;</a></li>
+<li rel="references"><a href="#">References &#9660;</a></li>
+<li><a href="http://www.javascriptkit.com/cutpastejava.shtml">JavaScripts</a></li>
+</ul>
+
+<div id="references" class="submenustyle">
+<a href="http://www.javascriptkit.com/jsref/">JavaScript Reference</a>
+<a href="http://www.javascriptkit.com/domref/">DOM Reference</a>
+<a href="http://www.javascriptkit.com/dhtmltutors/cssreference.shtml">CSS Reference</a>
+</div>
+
+<div id="tutorials" class="submenustyle">
+<a href="http://www.javascriptkit.com/javatutors/">JavaScript Tutorials</a>
+<a href="http://www.javascriptkit.com/dhtmltutors/">DHTML & CSS Tutorials</a>
+<a href="http://www.javascriptkit.com/howto/">Web Building tutorials</a>
+<a href="http://www.javascriptkit.com/howto/htaccess.shtml">htaccess Tutorial</a>
+</div>
+
+
+<script type="text/javascript">
+//initialize tab menu, by passing in ID of UL
+initalizetab("maintab")
+</script>
+
 <div id='form'>
   <form method='GET' action='.'>
     <p><label for='txt_maximo'>Máximo</label><input id='txt_maximo' type='text' /></p>
