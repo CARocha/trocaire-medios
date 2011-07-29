@@ -137,6 +137,40 @@ $(document).ready(function() {
 {% load humanize %}
 
 {% block contenido %}
+<ul id="maintab" class="basictab">
+    <li rel="ingresos"><a href="http://www.javascriptkit.com">INGRESOS</a></li>
+    <li class="selected" rel="produccion"><a href="#">PRODUCCIÓN &#9660;</a></li>
+    <li rel="productividad"><a href="#">PRODUCTIVIDAD &#9660;</a></li>
+</ul>
+
+<div id="ingresos" class="submenustyle">
+    <a {%ifequal dondetoy 'totalingreso'%}class="activa"{%endifequal%} href="/ingresos/rangos/">Ingresos Totales</a>
+    <a {%ifequal dondetoy 'ganadoingreso'%}class="activa"{%endifequal%}href="/ingresos/rangos/ganado/">Ganado</a>
+    <a {%ifequal dondetoy 'fuentesapingreso'%}class="activa"{%endifequal%}href="/ingresos/rangos/fuentes-ap/">Fuentes Agropecuarias</a>
+    <a {%ifequal dondetoy 'fuentesnoapingreso'%}class="activa"{%endifequal%}href="/ingresos/rangos/fuentes-no-ap/">Fuentes no Agropecuarias</a>
+</div>
+
+<div id="produccion" class="submenustyle">
+    <a {%ifequal dondetoy 'maizprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/maiz/">Maíz</a>
+    <a {%ifequal dondetoy 'frijolprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/frijol/">Frijol</a>
+    <a {%ifequal dondetoy 'cafeprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cafe/">Café</a>
+    <a {%ifequal dondetoy 'cacaoprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cacao/">Cacao</a>
+    <a {%ifequal dondetoy 'animalesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-bovino/">Animales Bovinos</a>
+    <a {%ifequal dondetoy 'avesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-aves/">Aves</a>
+</div>
+
+<div id="productividad" class="submenustyle">
+    <a href="/produccion/rangos/productividad-maiz/">Maíz</a>
+    <a href="/produccion/rangos/productividad-frijol/">Frijol</a>
+    <a href="/produccion/rangos/productividad-cafe/">Cacao</a>
+    <a href="/produccion/rangos/productividad-cacao/">Café</a>
+</div>
+
+<script type="text/javascript">
+//initialize tab menu, by passing in ID of UL
+initalizetab("maintab")
+</script>
+
 <div id='form'>
   <form method='GET' action='.'>
     <p><label for='txt_maximo'>Máximo</label><input id='txt_maximo' type='text' /></p>

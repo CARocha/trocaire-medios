@@ -3,6 +3,8 @@
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script src="{{MEDIA_URL}}js/2leveltab.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet"  href="{{MEDIA_URL}}css/2leveltab.css" >
 <script type="text/javascript">
 function obtener_url(){
   var fullpath = window.location.pathname;
@@ -137,6 +139,40 @@ $(document).ready(function() {
 {% load humanize %}
 
 {% block contenido %}
+<ul id="maintab" class="basictab">
+    <li rel="ingresos"><a href="http://www.javascriptkit.com">INGRESOS</a></li>
+    <li class="selected" rel="produccion"><a href="#">PRODUCCIÓN &#9660;</a></li>
+    <li rel="productividad"><a href="#">PRODUCTIVIDAD &#9660;</a></li>
+</ul>
+
+<div id="ingresos" class="submenustyle">
+    <a href="/ingresos/rangos/">Ingresos Totales</a>
+    <a href="/ingresos/rangos/ganado/">Ganado</a>
+    <a href="/ingresos/rangos/fuentes-ap/">Fuentes Agropecuarias</a>
+    <a href="/ingresos/rangos/fuentes-no-ap/">Fuentes no Agropecuarias</a>
+</div>
+
+<div id="produccion" class="submenustyle">
+    <a {%ifequal dondetoy 'maizprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/maiz/">Maíz</a>
+    <a {%ifequal dondetoy 'frijolprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/frijol/">Frijol</a>
+    <a {%ifequal dondetoy 'cafeprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cafe/">Café</a>
+    <a {%ifequal dondetoy 'cacaoprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cacao/">Cacao</a>
+    <a {%ifequal dondetoy 'animalesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-bovino/">Animales Bovinos</a>
+    <a {%ifequal dondetoy 'avesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-aves/">Aves</a>
+</div>
+
+<div id="productividad" class="submenustyle">
+    <a {%ifequal dondetoy 'maizproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-maiz/">Maíz</a>
+    <a {%ifequal dondetoy 'frijolproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-frijol/">Frijol</a>
+    <a {%ifequal dondetoy 'cafeproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-cafe/">Cafe</a>
+    <a {%ifequal dondetoy 'cacaoproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-cacao/">Cacao</a>
+</div>
+
+<script type="text/javascript">
+//initialize tab menu, by passing in ID of UL
+initalizetab("maintab")
+</script>
+
 <div id='form'>
   <form method='GET' action='.'>
     <p><label for='txt_maximo'>Máximo</label><input id='txt_maximo' type='text' /></p>
