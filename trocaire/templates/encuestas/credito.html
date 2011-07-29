@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Datos de credito{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            showInLegend: true
+         },
+         series: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.percentage.toFixed(1) + ' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y;
+        }
+    }
+    $(document).ready(function(){
+    	var chart = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Información sobre crédito'
+            },
+            subtitle: {
+                text: ''
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for value in tabla_credito %}['{{value.0}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });    	
+    });
+</script>
+{% endblock %}
+
+{% block contenido %}
+<div>
+	<table class="tabla-resultados">
+		<caption>Datos de crédito en la familia</caption>
+		<thead>
+			<tr>
+				<th>Tipo de crédito</th>
+				<th>Total</th>
+				<th>%</th>
+				<th>Hombre Jefe</th>
+				<th>Mujer Jefe</th>
+				<th>Compartido</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in tabla_credito %}
+			<tr>
+				<td>{{value.0}}</td>
+				<td>{{value.1}}</td>
+				<td>{{value.1|get_frec:credito}}</td>
+				{% with tabla=credito_h_m|get_value:value.0 %}
+				<td>{{tabla.1}}</td>
+				<td>{{tabla.2}}</td>
+				<td>{{tabla.3}}</td>
+				{% endwith %}				
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+{% endblock %}
