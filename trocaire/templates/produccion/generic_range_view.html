@@ -4,23 +4,36 @@
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+function obtener_url(){
+  var fullpath = window.location.pathname;
+  var pathArray = fullpath.split('/');
+  var newPath = "";
+  for(i=0; i < pathArray.length; i++){
+    if (isNaN(pathArray[i]))
+        newPath += '/' + pathArray[i];
+  }
+  newPath += '/';
+  return newPath;
+}
+
 function redirigir(form){
    var maximo = form.txt_maximo.value; 
    var minimo = form.txt_minimo.value; 
    var rango = form.select_rango.value; 
-   var url = '';
+   var url = obtener_url();
    
    if (maximo && minimo && rango){
-     url = '/ingresos/rangos/' + maximo + '/' + minimo + '/' + rango + '/';
+     url += maximo + '/' + minimo + '/' + rango + '/';
      window.location = url;
    }else if(maximo && rango){
-     url = '/ingresos/rangos/' + maximo + '/0/' + rango + '/';
+     url +=  maximo + '/0/' + rango + '/';
      window.location = url;
    }else if(minimo && rango){
      alert('Favor seleccionar valor máximo');
      $('#txt_maximo').focus();
    }
 }
+
 var chart;
 var chart2;
 $(document).ready(function() {
@@ -30,11 +43,11 @@ $(document).ready(function() {
          defaultSeriesType: 'column',
       },
       title: {
-         text: 'Ingresos Totales',
+         text: '{{title}}',
          x: -20 //center
       },
       subtitle: {
-         text: 'Grafico ingresos',
+         text: '{{subtitle}}',
          x: -20
       },
       xAxis: {
@@ -42,7 +55,7 @@ $(document).ready(function() {
       },
       yAxis: {
          title: {
-            text: 'Ingresos en miles'
+         text: '{{eje}}'
          },
          plotLines: [{
             value: 0,
@@ -65,7 +78,7 @@ $(document).ready(function() {
          borderWidth: 0
       },
       series: [{
-         name: 'Ingresos',
+         name: '{{serie}}',
          data: [{%for valor in valores%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
       }]
    });
@@ -75,11 +88,11 @@ $(document).ready(function() {
          defaultSeriesType: 'column',
       },
       title: {
-         text: 'Ingresos Totales Acumulados',
+         text: '{{title}} Acumulados',
          x: -20 //center
       },
       subtitle: {
-         text: 'Grafico ingresos',
+         text: '{{subtitle}}',
          x: -20
       },
       xAxis: {
@@ -87,7 +100,7 @@ $(document).ready(function() {
       },
       yAxis: {
          title: {
-            text: 'Ingresos en miles'
+         text: '{{eje}}'
          },
          plotLines: [{
             value: 0,
@@ -113,7 +126,7 @@ $(document).ready(function() {
          borderWidth: 0
       },
       series: [{
-         name: 'Ingresos',
+         name: '{{serie}}',
          data: [{%for valor in valores_acumulados%}{%if not forloop.last%}{{valor}}, {%else%}{{valor}}{%endif%}{%endfor%}]
       }]
    });

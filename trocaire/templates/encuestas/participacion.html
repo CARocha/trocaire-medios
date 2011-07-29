@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Datos por sexo{% endblock %}
+{% block extratitle %}Participación de la Familia{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -37,37 +37,37 @@
     $(document).ready(function(){
     	var chart = new Highcharts.Chart({
         	chart: {
-            	renderTo: 'sexo-jefe',
+            	renderTo: 'grafo-cpc',
                 defaultSeriesType: 'pie',
                 height: 480,
                 width: 960
             },
             title: {
-                text: 'Sexo del jefe de familia'
+                text: 'Participación de los miembros de la familia en los CPC'
             },
             subtitle: {
-                text: 'Varón - Mujer - Compartido'
+                text: 'Hombre, Mujer, Ambos'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [['Masculino', {{tabla_sexo_jefe.1}}], ['Femenino', {{tabla_sexo_jefe.2}}], ['Compartida', {{tabla_sexo_jefe.3}}] ]}]
+            series: [{data: [{% for key, value in part_cpc.items %}['{{key|title}}', {{value}}]{% if not forloop.last %}, {% endif %}{% endfor %} ]}]
         }); 
     	var chart2 = new Highcharts.Chart({
         	chart: {
-            	renderTo: 'sexo-beneficiario',
+            	renderTo: 'grafo-asam',
                 defaultSeriesType: 'pie',
                 height: 480,
                 width: 960
             },
             title: {
-                text: 'Sexo del beneficiario'
+                text: 'Participación de los miembros de la familia en Asambleas Comunitarias'
             },
             subtitle: {
-                text: 'Varón - Mujer'
+            	text: 'Hombre, Mujer, Ambos'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [['Masculino', {{tabla_sexo_beneficiario.masculino}}], ['Femenino', {{tabla_sexo_beneficiario.femenino}}] ]}]
+            series: [{data: [{% for key, value in part_asam.items %}['{{key|title}}', {{value}}]{% if not forloop.last %}, {% endif %}{% endfor %} ]}]
         });
     });
 </script>
@@ -75,42 +75,49 @@
 
 {% block contenido %}
 <div>
-	<table class="tabla-resultados">
-	<caption>Sexo del jefe de familia</caption>
-	<thead>
-		<tr>		
-			<th>Varón</th>
-			<th>Mujer</th>
-			<th>Compartida</th>
+<div class="title">Participación Ciudadana de la Familia</div>
+<table class="tabla-resultados">
+<caption>Participación de los miembros de la familia en los CPC</caption>
+	<thead>	
+		<tr>
+			<th>Quien participa</th>
+			<th>Total</th>
+			<th>%</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for key, value in part_cpc.items %}
 		<tr>
-			<td>{{tabla_sexo_jefe.1|get_frec:tabla_sexo_jefe}}</td>
-			<td>{{tabla_sexo_jefe.2|get_frec:tabla_sexo_jefe}}</td>
-			<td>{{tabla_sexo_jefe.3|get_frec:tabla_sexo_jefe}}</td>
+			<td>{{key|title}}</td>
+			<td>{{value}}</td>
+			<td>{{value|get_frec:part_cpc}}</td>	
 		</tr>
+		{% endfor %}
 	</tbody>
-	</table>
-	<div id="sexo-jefe" class="grafo"></div>
+</table>
+<div id="grafo-cpc" class="grafo"></div>
 </div>
 <br>
 <div>
-		<table class="tabla-resultados">
-	<caption>Sexo del beneficiario</caption>
-	<thead>
-		<tr>		
-			<th>Varón</th>
-			<th>Mujer</th>			
+<table class="tabla-resultados">
+<caption>Participación de los miembros de la familia en Asambleas Comunitarias</caption>
+	<thead>	
+		<tr>
+			<th>Quien participa</th>
+			<th>Total</th>
+			<th>%</th>
 		</tr>
 	</thead>
 	<tbody>
+		{% for key, value in part_asam.items %}
 		<tr>
-			<td>{{tabla_sexo_beneficiario.masculino|get_frec:tabla_sexo_beneficiario}}</td>
-			<td>{{tabla_sexo_beneficiario.femenino|get_frec:tabla_sexo_beneficiario}}</td>			
+			<td>{{key|title}}</td>
+			<td>{{value}}</td>
+			<td>{{value|get_frec:part_asam}}</td>	
 		</tr>
+		{% endfor %}
 	</tbody>
-	</table>
-	<div id="sexo-beneficiario" class="grafo"></div>
+</table>
+<div id="grafo-asam" class="grafo"></div>
 </div>
 {% endblock %}

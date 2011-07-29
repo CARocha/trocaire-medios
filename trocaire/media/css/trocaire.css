@@ -125,7 +125,7 @@ a{
 .salidas a{
     display: inline-block;
     height: 246px;
-    width: 185px;
+    width: 285px;
     margin-left: 10px;
 }
 /*.mapeo{    */
@@ -138,7 +138,13 @@ a{
     -webkit-box-shadow: 0px 2px 7px #000;
 }
 .monitoreo{    
-    background: url(../img/monitoreo.png) no-repeat;
+    background: url(../img/monitoreo.jpg) no-repeat;
+    -moz-box-shadow: 0px 2px 7px #942406;
+    -webkit-box-shadow: 0px 2px 7px #942406;
+}
+
+.monitoreo_avanzado{    
+    background: url(../img/monitoreo_avanzado.jpg) no-repeat;
     -moz-box-shadow: 0px 2px 7px #942406;
     -webkit-box-shadow: 0px 2px 7px #942406;
 }
@@ -403,4 +409,67 @@ label #id_year{
 	padding-left: 1px;
 }
 
+#consultar-form{
+    background:url(../img/fondoformgrande.jpg) no-repeat;
+    width:395px;
+}
+
+.general{
+    padding:35px 10px 0px 10px;
+}
+
+.label{
+    font-size:12px;
+    color:#000;
+}
+
+#id_escolaridad_beneficiario, #id_contraparte, #id_departamento, #id_municipio, #id_comarca,
+#id_escolaridad_conyugue, #id_familia_dependientes, #id_familia_beneficiario,#id_credito_acceso,
+#id_desicion_gasto_mayor, #id_desicion_inversion{
+    width:165px;
+}
+
+.columnaform{
+    float:left;
+    width:180px;
+}
+
+#consultar-form button{
+    background:url(../img/consultarform.jpg) no-repeat;
+    width:178px;
+    height:68px;
+    border:0;
+    float:right;
+    cursor:pointer;
+}
+
+#bloqueindicadores{
+    float:right;
+    width:565px;
+}
+
+.indicadorcategoria{
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+    color:#1e6d9a;
+    border-bottom:#f6a217 1px solid;
+    margin-bottom:5px;
+    margin-top:10px;
+}
+
+#bloqueindicadores a{
+    float:left;
+    display:block;
+    background:#f9da6d;
+    border:#e0b15a 1px solid;
+    color:#a45400;
+    padding:4px 8px;
+    margin:5px 5px;
+    text-decoration:none;
+    font-size:14px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+}
 

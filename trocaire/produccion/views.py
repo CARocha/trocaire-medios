@@ -76,7 +76,7 @@ def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, cult
     return dict(categorias = categorias, valores_acumulados = valores_acumulados,
                valores = valores)
 
-def generic_range(request, model, field, extra_params, maximo=None, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
+def generic_range(request, model, field, title, serie, subtitle, eje, extra_params, maximo=None, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
     model = get_model('produccion', model)
@@ -127,7 +127,9 @@ def generic_range(request, model, field, extra_params, maximo=None, minimo=0, se
                               {'valores': valores,
                                'categorias': categorias,
                                'form': form,
+                               'title': title,
+                               'subtitle': subtitle,
+                               'eje': eje,
+                               'serie': serie,
                                'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))
-
-

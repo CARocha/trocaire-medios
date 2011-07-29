@@ -19,3 +19,6 @@ local_settings.py
 *.tar
 *.tar.bz2
 *.tar.gz
+.project
+.pydevproject
+.settings
