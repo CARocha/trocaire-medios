@@ -7,11 +7,13 @@ from django.utils import simplejson
 
 #importaciones de los models
 from forms import ConsultarForm
+from trocaire.medios.templatetags.tools import *
 from trocaire.medios.models import *
 from trocaire.familia.models import *
 from trocaire.participacion_ciudadana.models import *
 from trocaire.crisis_alimentaria.models import *
 from trocaire.lugar.models import *
+from trocaire.ingresos.models import *
 import copy
 
 def _query_set_filtrado(request):
@@ -213,6 +215,21 @@ def participacion(request):
     part_asam = query2.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))
     return render_to_response('encuestas/participacion.html', RequestContext(request, locals()))
 
+def ingreso_agropecuario(request):
+    encuestas = _query_set_filtrado(request)
+    query = PrincipalesFuentes.objects.filter(encuesta__in=encuestas)
+    jefe_ids = _queryid_hombre_mujer(encuestas.values_list('id', flat=True))
+    
+    #obtener queries segun jefe de familia
+    query_hombre = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[1])
+    query_mujer = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[2])    
+    query_compartido = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[3])
+            
+    ingreso_agropecuario = {'total': calcular_frecuencia(query.filter(fuentes_ap__gte=1).count(), query.count()),
+            'hombre': calcular_frecuencia(query_hombre.filter(fuentes_ap__gte=1).count(), query.count()), 
+            'mujer': calcular_frecuencia(query_mujer.filter(fuentes_ap__gte=1).count(), query.count()),
+            'compartido': calcular_frecuencia(query_compartido.filter(fuentes_ap__gte=1).count(), query.count()),}
+    return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
 def reducir_lista(lista):
     '''reduce la lista dejando solo los elementos que son repetidos
@@ -245,7 +262,25 @@ def _hombre_mujer_dicc(ids, jefe=False):
     return {
             'hombre': composicion_familia.filter(sexo=1).count(),
             'mujer': composicion_familia.filter(sexo=2).count()
-            }        
+            }
+    
+def _queryid_hombre_mujer(ids):
+    '''funcion que retorna las encuestas separadas por tipo de jefe,
+    Hombre, Mujer y Compartido'''
+    composicion_familia = Composicion.objects.filter(encuesta__id__in=ids)
+    
+    '''1: Hombre, 2: Mujer, 3: Compartido'''    
+    dicc = {1: [], 2: [], 3: []}
+    for composicion in composicion_familia:
+        #validar si el beneficiario es el jefe de familia
+        if composicion.beneficio == 1:
+            dicc[composicion.sexo].append(composicion.encuesta.id)
+        elif composicion.beneficio == 2:
+            dicc[composicion.sexo_jefe].append(composicion.encuesta.id)     
+        else:
+            dicc[3].append(composicion.encuesta.id)
+            
+    return dicc                    
      
 def _order_dicc(dicc):
     return sorted(dicc.items(), key=lambda x: x[1], reverse=True)

@@ -15,4 +15,5 @@ urlpatterns = patterns('trocaire.medios.views',
     url(r'^encuestas/escolaridad/$', 'escolaridad', name="escolaridad"),
     url(r'^encuestas/credito/$', 'credito', name="credito"),
     url(r'^encuestas/participacion/$', 'participacion', name="participacion"),
+    url(r'^encuestas/ingreso-agropecuario/$', 'ingreso_agropecuario', name="ingreso_agropecuario"),
 )
