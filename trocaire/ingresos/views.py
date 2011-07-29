@@ -181,6 +181,8 @@ def generic_range(request, model, field, title, serie, subtitle, eje, extra_para
     categorias.append('%.2f a mas' % maximo_a_evaluar)
 
     form = ConsultarForm()
+    #WTF de django
+    del extra_params["%s__gte" % field]
     
     return render_to_response(template_name, 
                               {'valores': valores,
