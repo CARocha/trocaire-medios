@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Escolaridad del beneficiario{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            showInLegend: true
+         },
+         series: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.percentage.toFixed(1) + ' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y;
+        }
+    }
+    $(document).ready(function(){
+    	var chart = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Nivel educativo de Beneficiarios/as'
+            },
+            subtitle: {
+                text: ''
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for value in tabla_esc_benef %}['{{value.0}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });    	
+    });
+</script>
+{% endblock %}
+
+{% block contenido %}
+<div>
+	<div class="title">Datos de Escolaridad de los beneficiarios</div>
+	<table class="tabla-resultados">
+	<caption>Escolaridad del beneficiario</caption>
+	<thead>
+		<tr>
+			<th>Nivel académico</th>
+			<th>Total</th>
+			<th>%</th>
+			<th>Hombres</th>
+			<th>Mujeres</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for value in tabla_esc_benef %}
+			<tr>
+				<td>{{value.0}}</td>
+				<td>{{value.1}}</td>
+				<td>{{value.1|get_frec:esc_benef}}</td>
+				{% with tabla=esc_h_m|get_value:value.0 %}
+				<td>{{tabla.hombre}}</td>
+				<td>{{tabla.mujer}}</td>
+				{% endwith %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+{% endblock %}

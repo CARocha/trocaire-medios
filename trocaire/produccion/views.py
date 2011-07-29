@@ -76,13 +76,15 @@ def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, cult
     return dict(categorias = categorias, valores_acumulados = valores_acumulados,
                valores = valores)
 
-def generic_range(request, model, field, title, serie, subtitle, eje, extra_params, maximo=None, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
+def generic_range(request, model, field, title, serie, subtitle, eje, extra_params, maximo=0, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
     model = get_model('produccion', model)
     if encuestas:
+        print "cerote", extra_params
         puntas_calc = model.objects.filter(encuesta__in = encuestas, **extra_params).aggregate(maximo = Max(field), minimo = Min(field))
     else:
+        print "mierda"
         puntas_calc = model.objects.filter(**extra_params).aggregate(maximo = Max(field), minimo = Min(field))
     if maximo:
         maximo, minimo = int(maximo), int(minimo)
@@ -122,6 +124,8 @@ def generic_range(request, model, field, title, serie, subtitle, eje, extra_para
     categorias.append('%.2f a mas' % maximo_a_evaluar)
 
     form = ConsultarForm()
+    #WTF de django
+    del extra_params["%s__gte" % field]
     
     return render_to_response(template_name, 
                               {'valores': valores,
