@@ -13,5 +13,6 @@ urlpatterns = patterns('trocaire.medios.views',
     url(r'^encuestas/datos-x-sexo/$', 'datos_sexo', name="datos_sexo"),
     url(r'^encuestas/sexo-beneficiario/$', 'sexo_beneficiario', name="sexo-beneficiario"),
     url(r'^encuestas/escolaridad/$', 'escolaridad', name="escolaridad"),
+    url(r'^encuestas/credito/$', 'credito', name="credito"),
     url(r'^encuestas/participacion/$', 'participacion', name="participacion"),
 )
