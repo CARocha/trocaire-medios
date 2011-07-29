@@ -235,11 +235,12 @@ $(document).ready(function() {
 </div>
 
 <div id="produccion" class="submenustyle">
-    <a href="/produccion/rangos/maiz/">Maíz</a>
-    <a href="/produccion/rangos/frijol/">Frijol</a>
-    <a href="/produccion/rangos/cafe/">Cacao</a>
-    <a href="/produccion/rangos/cacao/">Animales Bovinos</a>
-    <a href="/produccion/rangos/animales-aves/">Aves</a>
+    <a {%ifequal dondetoy 'maizprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/maiz/">Maíz</a>
+    <a {%ifequal dondetoy 'frijolprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/frijol/">Frijol</a>
+    <a {%ifequal dondetoy 'cafeprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cafe/">Café</a>
+    <a {%ifequal dondetoy 'cacaoprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cacao/">Cacao</a>
+    <a {%ifequal dondetoy 'animalesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-bovino/">Animales Bovinos</a>
+    <a {%ifequal dondetoy 'avesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-aves/">Aves</a>
 </div>
 
 <div id="productividad" class="submenustyle">
@@ -248,7 +249,6 @@ $(document).ready(function() {
     <a href="/produccion/rangos/productividad-cafe/">Cacao</a>
     <a href="/produccion/rangos/productividad-cacao/">Café</a>
 </div>
-
 
 <script type="text/javascript">
 //initialize tab menu, by passing in ID of UL
