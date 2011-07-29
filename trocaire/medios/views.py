@@ -142,6 +142,20 @@ def datos_sexo(request):
         
     return render_to_response('encuestas/datos_sexo.html', RequestContext(request, locals()))
 
+def agua_clorada(request):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True) 
+    
+    #aguas_cloradas = Encuesta.objects.filter(encuesta__id__in=encuestas)  
+    tabla_aguas = {}
+    tabla_aguas['m_clora'] = encuestas.filter(composicion__sexo_jefe=1,agua__calidad=1).count()
+    tabla_aguas['m_trata'] = encuestas.filter(composicion__sexo_jefe=1,agua__calidad=2).count()
+    tabla_aguas['masculino'] = tabla_aguas['m_clora'] + tabla_aguas['m_trata']
+    tabla_aguas['f_clora'] = encuestas.filter(composicion__sexo_jefe=2,agua__calidad=1).count()
+    tabla_aguas['f_trata'] = encuestas.filter(composicion__sexo_jefe=2,agua__calidad=2).count()
+    tabla_aguas['femenino'] = tabla_aguas['f_clora'] + tabla_aguas['f_trata']
+    tabla_aguas['total'] = tabla_aguas['masculino'] + tabla_aguas['femenino']
+    
+    return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
 def reducir_lista(lista):
     '''reduce la lista dejando solo los elementos que son repetidos
        osea lo contraron a unique'''

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Datos por sexo{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+   var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'sexo-jefe',
+         defaultSeriesType: 'column',
+         marginRight: 130,
+         marginBottom: 25
+      },
+      title: {
+         text: '% Aumentado el acceso de las familas a agua segura para el consumo humano',
+         x: -20 //center
+      },
+      subtitle: {
+         text: '',
+         x: -20
+      },
+      xAxis: {
+         categories: ['Total', 'Mujer', 'Varón']
+      },
+      yAxis: {
+         title: {
+            text: '%'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y;
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: '% de familias consumiendo agua clorada o tratada',
+         data: [{{tabla_aguas.total}}, {{tabla_aguas.masculino}}, {{tabla_aguas.femenino}}]
+      }]
+   });
+   
+   
+});
+</script>
+{% endblock %}
+
+{% block contenido %}
+
+{{tabla_aguas}}
+<div>
+	<table class="tabla-resultados">
+	<caption>% de familas consumiendo agua clorada o tratada</caption>
+	<thead>
+		<tr>		
+			<th>Total</th>
+			<th>Mujer jefa</th>
+			<th>Varón jefe</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{tabla_aguas.total|get_frec:tabla_aguas}}</td>
+			<td>{{tabla_aguas.femenino|get_frec:tabla_aguas}}</td>
+			<td>{{tabla_aguas.masculino|get_frec:tabla_aguas}}</td>
+		</tr>
+	</tbody>
+	</table>
+	<div id="sexo-jefe" class="grafo"></div>
+</div>
+<br>
+{% endblock %}
