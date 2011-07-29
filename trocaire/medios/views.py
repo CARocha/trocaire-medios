@@ -2,7 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import get_model, Sum
+from django.db.models import get_model, Sum, Q
 from django.utils import simplejson
 
 #importaciones de los models
@@ -10,6 +10,7 @@ from forms import ConsultarForm
 from trocaire.medios.models import *
 from trocaire.familia.models import *
 from trocaire.participacion_ciudadana.models import *
+from trocaire.crisis_alimentaria.models import *
 from trocaire.lugar.models import *
 import copy
 
@@ -187,6 +188,20 @@ def escolaridad(request):
     
     return render_to_response('encuestas/escolaridad.html', RequestContext(request, locals()))
 
+def credito(request):
+    encuestas = _query_set_filtrado(request)
+    opciones = Credito.objects.all()
+    credito = {}
+    credito_h_m = {}
+    for op in opciones:
+        query = AccesoCredito.objects.filter(Q(hombre=op) | Q(mujer=op) | Q(otro_hombre=op) | Q(otra_mujer=op),
+                                                                encuesta__in=encuestas)
+        credito[op.nombre] = query.count()
+        credito_h_m[op.nombre] = _hombre_mujer_dicc(query.values_list('encuesta__id', flat=True), jefe=True)
+    tabla_credito = _order_dicc(copy.deepcopy(credito))
+            
+    return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
+
 def participacion(request):
     encuestas = _query_set_filtrado(request)
     part_cpc = {}
@@ -213,7 +228,20 @@ def _hombre_mujer_dicc(ids, jefe=False):
     hombres y mujeres de una lista de ids. Si jefe=True, retorna los
     jefes de familia hombres y mujeres segun la lista de ids :D'''
     composicion_familia = Composicion.objects.filter(encuesta__id__in=ids)
-    
+    if jefe:
+        '''1: Hombre, 2: Mujer, 3: Compartido'''    
+        dicc = {1: 0, 2: 0, 3: 0}    
+        for composicion in composicion_familia:
+            #validar si el beneficiario es el jefe de familia
+            if composicion.beneficio == 1:
+                dicc[composicion.sexo] += 1
+            elif composicion.beneficio == 2:
+                dicc[composicion.sexo_jefe] += 1     
+            else:
+                dicc[3] += 1
+            
+        return dicc
+                       
     return {
             'hombre': composicion_familia.filter(sexo=1).count(),
             'mujer': composicion_familia.filter(sexo=2).count()
