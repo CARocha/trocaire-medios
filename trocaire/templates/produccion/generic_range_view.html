@@ -140,25 +140,33 @@ $(document).ready(function() {
 
 {% block contenido %}
 <ul id="maintab" class="basictab">
-<li><a href="http://www.javascriptkit.com">Home</a></li>
-<li class="selected" rel="tutorials"><a href="#">Tutorials &#9660;</a></li>
-<li rel="references"><a href="#">References &#9660;</a></li>
-<li><a href="http://www.javascriptkit.com/cutpastejava.shtml">JavaScripts</a></li>
+    <li rel="ingresos"><a href="http://www.javascriptkit.com">INGRESOS</a></li>
+    <li class="selected" rel="produccion"><a href="#">PRODUCCIÓN &#9660;</a></li>
+    <li rel="productividad"><a href="#">PRODUCTIVIDAD &#9660;</a></li>
 </ul>
 
-<div id="references" class="submenustyle">
-<a href="http://www.javascriptkit.com/jsref/">JavaScript Reference</a>
-<a href="http://www.javascriptkit.com/domref/">DOM Reference</a>
-<a href="http://www.javascriptkit.com/dhtmltutors/cssreference.shtml">CSS Reference</a>
+<div id="ingresos" class="submenustyle">
+    <a href="/ingresos/rangos/">Ingresos Totales</a>
+    <a href="/ingresos/rangos/ganado/">Ganado</a>
+    <a href="/ingresos/rangos/fuentes-ap/">Fuentes Agropecuarias</a>
+    <a href="/ingresos/rangos/fuentes-no-ap/">Fuentes no Agropecuarias</a>
 </div>
 
-<div id="tutorials" class="submenustyle">
-<a href="http://www.javascriptkit.com/javatutors/">JavaScript Tutorials</a>
-<a href="http://www.javascriptkit.com/dhtmltutors/">DHTML & CSS Tutorials</a>
-<a href="http://www.javascriptkit.com/howto/">Web Building tutorials</a>
-<a href="http://www.javascriptkit.com/howto/htaccess.shtml">htaccess Tutorial</a>
+<div id="produccion" class="submenustyle">
+    <a {%ifequal dondetoy 'maizprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/maiz/">Maíz</a>
+    <a {%ifequal dondetoy 'frijolprod'%}class="activa"{%endifequal%}  href="/produccion/rangos/frijol/">Frijol</a>
+    <a {%ifequal dondetoy 'cafeprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cafe/">Café</a>
+    <a {%ifequal dondetoy 'cacaoprod'%}class="activa"{%endifequal%} href="/produccion/rangos/cacao/">Cacao</a>
+    <a {%ifequal dondetoy 'animalesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-bovino/">Animales Bovinos</a>
+    <a {%ifequal dondetoy 'avesprod'%}class="activa"{%endifequal%} href="/produccion/rangos/animales-aves/">Aves</a>
 </div>
 
+<div id="productividad" class="submenustyle">
+    <a href="/produccion/rangos/productividad-maiz/">Maíz</a>
+    <a href="/produccion/rangos/productividad-frijol/">Frijol</a>
+    <a href="/produccion/rangos/productividad-cafe/">Cacao</a>
+    <a href="/produccion/rangos/productividad-cacao/">Café</a>
+</div>
 
 <script type="text/javascript">
 //initialize tab menu, by passing in ID of UL
