@@ -244,10 +244,10 @@ $(document).ready(function() {
 </div>
 
 <div id="productividad" class="submenustyle">
-    <a href="/produccion/rangos/productividad-maiz/">Maíz</a>
-    <a href="/produccion/rangos/productividad-frijol/">Frijol</a>
-    <a href="/produccion/rangos/productividad-cafe/">Cacao</a>
-    <a href="/produccion/rangos/productividad-cacao/">Café</a>
+    <a {%ifequal dondetoy 'maizproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-maiz/">Maíz</a>
+    <a {%ifequal dondetoy 'frijolproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-frijol/">Frijol</a>
+    <a {%ifequal dondetoy 'cacaoproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-cafe/">Cacao</a>
+    <a {%ifequal dondetoy 'cafeproductividad'%}class="activa"{%endifequal%} href="/produccion/rangos/productividad-cacao/">Café</a>
 </div>
 
 <script type="text/javascript">
