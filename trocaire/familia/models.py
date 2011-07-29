@@ -18,7 +18,7 @@ class Composicion(models.Model):
                                     choices=CHOICE_SEXO_JEFE)
     num_familia = models.IntegerField('7. Número de familas que viven en la vivienda')
     encuesta = models.ForeignKey(Encuesta)
-    
+
     class Meta:
         verbose_name_plural = "COMPOSICIÓN DE LA FAMILIA" 
 
