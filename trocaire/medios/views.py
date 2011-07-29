@@ -2,14 +2,16 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import get_model
+from django.db.models import get_model, Sum
 from django.utils import simplejson
 
 #importaciones de los models
 from forms import ConsultarForm
 from trocaire.medios.models import *
 from trocaire.familia.models import *
+from trocaire.participacion_ciudadana.models import *
 from trocaire.lugar.models import *
+import copy
 
 def _query_set_filtrado(request):
     #anio = int(request.session['fecha'])
@@ -127,20 +129,73 @@ def indicadores(request):
     return render_to_response('encuestas/indicadores.html',
                               context_instance=RequestContext(request))
     
-def datos_sexo(request):
+#========================= Salidas sencillas ==================================
+def datos_sexo(request):    
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)    
-    composicion_familia = Composicion.objects.filter(encuesta__id__in=encuestas)    
+    composicion_familia = Composicion.objects.filter(encuesta__id__in=encuestas)
+    '''1: Hombre, 2: Mujer, 3: Compartido'''    
     tabla_sexo_jefe = {1: 0, 2: 0, 3: 0}
     tabla_sexo_beneficiario = {}
     for composicion in composicion_familia:
-        if composicion.relacion == 1:
+        #validar si el beneficiario es el jefe de familia
+        if composicion.beneficio == 1:
             tabla_sexo_jefe[composicion.sexo] += 1
+        elif composicion.beneficio == 2:
+            tabla_sexo_jefe[composicion.sexo_jefe] += 1            
         else:
-            tabla_sexo_jefe[composicion.sexo_jefe] += 1
+            tabla_sexo_jefe[3] += 1
     tabla_sexo_beneficiario['masculino'] = composicion_familia.filter(sexo=1).count()
     tabla_sexo_beneficiario['femenino'] = composicion_familia.filter(sexo=2).count()                
         
     return render_to_response('encuestas/datos_sexo.html', RequestContext(request, locals()))
+
+def sexo_beneficiario(request):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
+    composicion_familia = Composicion.objects.filter(encuesta__id__in=encuestas)
+    '''1: hombre, 2: mujer'''
+    mujer_jefe = {1:0, 2:0}
+    hombre_jefe = {1:0, 2:0}
+    
+    for composicion in composicion_familia:
+        #validando si el beneficiario es el jefe y es hombre
+        if composicion.beneficio == 1 and composicion.sexo == 1:            
+            hombre_jefe[1] += 1
+        #si el beneficiario es jefe y es mujer
+        elif composicion.beneficio == 1 and composicion.sexo == 2:
+            mujer_jefe[2] += 1
+        #si el beneficiario no es el jefe, buscar su sexo
+        elif composicion.beneficio == 2:
+            if composicion.sexo_jefe == 1:
+                hombre_jefe[composicion.sexo] += 1
+            elif composicion.sexo_jefe == 2:
+                mujer_jefe[composicion.sexo] += 1                        
+    
+    return render_to_response('encuestas/sexo_beneficiario.html', RequestContext(request, locals()))
+
+def escolaridad(request):    
+    encuestas = _query_set_filtrado(request)
+    esc_benef = {}
+    #escolaridad por hombre y mujer
+    esc_h_m = {}
+    for nivel_edu in CHOICE_ESCOLARIDAD:
+        escolaridad_query = Escolaridad.objects.filter(beneficia=nivel_edu[0], encuesta__in=encuestas)
+        esc_benef[nivel_edu[1]] = escolaridad_query.count()
+        esc_h_m[nivel_edu[1]] = _hombre_mujer_dicc(escolaridad_query.values_list('encuesta__id', flat=True))        
+    tabla_esc_benef = _order_dicc(copy.deepcopy(esc_benef))
+    
+    return render_to_response('encuestas/escolaridad.html', RequestContext(request, locals()))
+
+def participacion(request):
+    encuestas = _query_set_filtrado(request)
+    part_cpc = {}
+    part_asam = {}    
+    query1 = ParticipacionCPC.objects.filter(encuesta__in=encuestas, organismo=1)
+    part_cpc = query1.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))    
+    
+    query2 = ParticipacionCPC.objects.filter(encuesta__in=encuestas, organismo=2)
+    part_asam = query2.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))
+    return render_to_response('encuestas/participacion.html', RequestContext(request, locals()))
+
 
 def reducir_lista(lista):
     '''reduce la lista dejando solo los elementos que son repetidos
@@ -150,3 +205,20 @@ def reducir_lista(lista):
         if lista.count(foo) > 1 and foo not in nueva_lista:
             nueva_lista.append(foo)
     return nueva_lista
+
+def _hombre_mujer_dicc(ids, jefe=False):
+    '''Funcion que por defecto retorna la cantidad de beneficiarios
+    hombres y mujeres de una lista de ids. Si jefe=True, retorna los
+    jefes de familia hombres y mujeres segun la lista de ids :D'''
+    composicion_familia = Composicion.objects.filter(encuesta__id__in=ids)
+    
+    return {
+            'hombre': composicion_familia.filter(sexo=1).count(),
+            'mujer': composicion_familia.filter(sexo=2).count()
+            }        
+     
+def _order_dicc(dicc):
+    return sorted(dicc.items(), key=lambda x: x[1], reverse=True)
+      
+    
+

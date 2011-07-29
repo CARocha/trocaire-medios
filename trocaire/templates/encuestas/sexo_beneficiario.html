@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Datos por sexo{% endblock %}
+{% block extratitle %}Sexo del beneficiario{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -37,37 +37,37 @@
     $(document).ready(function(){
     	var chart = new Highcharts.Chart({
         	chart: {
-            	renderTo: 'sexo-jefe',
+            	renderTo: 'grafo-mujer',
                 defaultSeriesType: 'pie',
                 height: 480,
                 width: 960
             },
             title: {
-                text: 'Sexo del jefe de familia'
+                text: 'Sexo del beneficiario cuando la mujer es Jefa de Familia'
             },
             subtitle: {
-                text: 'Varón - Mujer - Compartido'
+                text: 'Hombre - Mujer'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [['Masculino', {{tabla_sexo_jefe.1}}], ['Femenino', {{tabla_sexo_jefe.2}}], ['Compartida', {{tabla_sexo_jefe.3}}] ]}]
+            series: [{data: [['Hombre', {{mujer_jefe.1}}], ['Mujer', {{mujer_jefe.2}}] ]}]
         }); 
     	var chart2 = new Highcharts.Chart({
         	chart: {
-            	renderTo: 'sexo-beneficiario',
+            	renderTo: 'grafo-hombre',
                 defaultSeriesType: 'pie',
                 height: 480,
                 width: 960
             },
             title: {
-                text: 'Sexo del beneficiario'
+                text: 'Sexo del beneficiario cuando el hombre es Jefe de Familia'
             },
             subtitle: {
-                text: 'Varón - Mujer'
+                text: 'Hombre - Mujer'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [['Masculino', {{tabla_sexo_beneficiario.masculino}}], ['Femenino', {{tabla_sexo_beneficiario.femenino}}] ]}]
+            series: [{data: [['Hombre', {{hombre_jefe.1}}], ['Mujer', {{hombre_jefe.2}}] ]}]
         });
     });
 </script>
@@ -75,42 +75,41 @@
 
 {% block contenido %}
 <div>
+	<p>Datos de sexo de beneficiario según jefe de familia</p>	
 	<table class="tabla-resultados">
-	<caption>Sexo del jefe de familia</caption>
-	<thead>
-		<tr>		
-			<th>Varón</th>
+		<caption>Sexo del beneficiario cuando la mujer es Jefa de Familia</caption>
+		<thead>
+			<tr>
+			<th>Hombre</th>
 			<th>Mujer</th>
-			<th>Compartida</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>{{tabla_sexo_jefe.1|get_frec:tabla_sexo_jefe}}</td>
-			<td>{{tabla_sexo_jefe.2|get_frec:tabla_sexo_jefe}}</td>
-			<td>{{tabla_sexo_jefe.3|get_frec:tabla_sexo_jefe}}</td>
-		</tr>
-	</tbody>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<td>{{mujer_jefe.1|get_frec:mujer_jefe}}</td>
+			<td>{{mujer_jefe.2|get_frec:mujer_jefe}}</td>
+			</tr>
+		</tbody>
 	</table>
-	<div id="sexo-jefe" class="grafo"></div>
+	<div id="grafo-mujer" class="grafo"></div>
 </div>
 <br>
 <div>
-		<table class="tabla-resultados">
-	<caption>Sexo del beneficiario</caption>
-	<thead>
-		<tr>		
-			<th>Varón</th>
-			<th>Mujer</th>			
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>{{tabla_sexo_beneficiario.masculino|get_frec:tabla_sexo_beneficiario}}</td>
-			<td>{{tabla_sexo_beneficiario.femenino|get_frec:tabla_sexo_beneficiario}}</td>			
-		</tr>
-	</tbody>
+	<table class="tabla-resultados">
+		<caption>Sexo del beneficiario cuando el hombre es Jefe de Familia</caption>
+		<thead>
+			<tr>
+			<th>Hombre</th>
+			<th>Mujer</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			<td>{{hombre_jefe.1|get_frec:hombre_jefe}}</td>
+			<td>{{hombre_jefe.2|get_frec:hombre_jefe}}</td>
+			</tr>
+		</tbody>
 	</table>
-	<div id="sexo-beneficiario" class="grafo"></div>
+	<div id="grafo-hombre" class="grafo"></div>
 </div>
 {% endblock %}
