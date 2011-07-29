@@ -100,7 +100,9 @@ def consultar(request):
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
             else:
-                return HttpResponseRedirect('/encuestas/generales/')
+                muestra_indicador =1
+                return render_to_response('encuestas/consultar.html', locals(),
+                              context_instance=RequestContext(request))
     else:
         form = ConsultarForm()
     return render_to_response('encuestas/consultar.html', locals(),
