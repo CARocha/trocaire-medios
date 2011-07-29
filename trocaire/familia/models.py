@@ -18,6 +18,20 @@ class Composicion(models.Model):
                                     choices=CHOICE_SEXO_JEFE)
     num_familia = models.IntegerField('7. Número de familas que viven en la vivienda')
     encuesta = models.ForeignKey(Encuesta)
+    #ocultos
+    dependientes = models.FloatField(editable=False, default=0)
+
+    def save(self, *args, **kwargs):
+        #debe de haber una mejor manera de hacer esto pero me vale gaver! :-D
+        viejos = sum(map(sum, Descripcion.objects.filter(descripcion = 4, encuesta = self.encuesta).values_list('femenino','masculino')))
+        discapacitados = sum(map(sum,Descripcion.objects.filter(descripcion = 5, encuesta = self.encuesta).values_list('femenino','masculino')))
+        adultos = sum(map(sum,Descripcion.objects.filter(descripcion = 3, encuesta = self.encuesta).values_list('femenino','masculino')))
+        chateles = sum(map(sum,Descripcion.objects.filter(descripcion = 2, encuesta = self.encuesta).values_list('femenino','masculino')))
+        try:
+            self.dependientes = (viejos + chateles + discapacitados) / (float(adultos) - discapacitados)
+        except:
+            self.dependientes = 0
+        super(Composicion, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "COMPOSICIÓN DE LA FAMILIA" 
