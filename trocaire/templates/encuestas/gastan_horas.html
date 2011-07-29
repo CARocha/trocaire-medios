@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Aguas clorada{% endblock %}
+{% block extratitle %}Familias gastan más de una hora para recolectar agua{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -16,7 +16,7 @@ $(document).ready(function() {
          marginBottom: 25
       },
       title: {
-         text: '% Aumentado el acceso de las familas a agua segura para el consumo humano',
+         text: '% familas que gastan más de una hora para recolectar agua',
          x: -20 //center
       },
       subtitle: {
@@ -52,7 +52,7 @@ $(document).ready(function() {
       },
       series: [{
          name: '% de familias consumiendo agua clorada o tratada',
-         data: [{{tabla_aguas.total}}, {{tabla_aguas.femenino}}, {{tabla_aguas.masculino}}]
+         data: [{{tablas_gastan.total}}, {{tablas_gastan.femenino}}, {{tablas_gastan.masculino}}]
       }]
    });
    
@@ -63,7 +63,7 @@ $(document).ready(function() {
 
 {% block contenido %}
 
-{{tabla_aguas}}
+{{tablas_gastan}}
 <div>
 	<table class="tabla-resultados">
 	<caption>% de familas consumiendo agua clorada o tratada</caption>
@@ -76,9 +76,9 @@ $(document).ready(function() {
 	</thead>
 	<tbody>
 		<tr>
-			<td>{{tabla_aguas.total|get_frec:tabla_aguas}}</td>
-			<td>{{tabla_aguas.femenino|get_frec:tabla_aguas}}</td>
-			<td>{{tabla_aguas.masculino|get_frec:tabla_aguas}}</td>
+			<td>{{tablas_gastan.total|get_frec:tablas_gastan}}</td>
+			<td>{{tablas_gastan.femenino|get_frec:tablas_gastan}}</td>
+			<td>{{tablas_gastan.masculino|get_frec:tablas_gastan}}</td>
 		</tr>
 	</tbody>
 	</table>

@@ -156,6 +156,7 @@ def agua_clorada(request):
     
     #aguas_cloradas = Encuesta.objects.filter(encuesta__id__in=encuestas)  
     tabla_aguas = {}
+    
     tabla_aguas['m_clora'] = encuestas.filter(composicion__sexo_jefe=1,agua__calidad=1).count()
     tabla_aguas['m_trata'] = encuestas.filter(composicion__sexo_jefe=1,agua__calidad=2).count()
     tabla_aguas['masculino'] = tabla_aguas['m_clora'] + tabla_aguas['m_trata']
@@ -165,7 +166,29 @@ def agua_clorada(request):
     tabla_aguas['total'] = tabla_aguas['masculino'] + tabla_aguas['femenino']
     
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
+    
+def gastan_horas(request):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
+    #salidas cuantas horas gastan 
+    tablas_gastan = {}
+    
+    tablas_gastan['masculino'] = encuestas.filter(composicion__sexo_jefe=1, agua__tiempo=3).count()
+    tablas_gastan['femenino'] = encuestas.filter(composicion__sexo_jefe=2, agua__tiempo=3).count()
+    tablas_gastan['total'] =  tablas_gastan['masculino'] + tablas_gastan['femenino']
+    
+    return render_to_response('encuestas/gastan_horas.html', RequestContext(request,locals()))
 
+def familias_practicas(request):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
+    #salida 124
+    dicc = {}
+    for a in CHOICE_CSA:
+        query = areaprotegida.filter(respuesta=a[0], encuesta__in=encuestas)
+        dicc[a[1]] = query.count()
+        
+    return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))    
+               
+    
 def sexo_beneficiario(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
     composicion_familia = Composicion.objects.filter(encuesta__id__in=encuestas)
