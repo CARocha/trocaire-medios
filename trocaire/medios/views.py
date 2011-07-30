@@ -14,6 +14,7 @@ from trocaire.participacion_ciudadana.models import *
 from trocaire.crisis_alimentaria.models import *
 from trocaire.lugar.models import *
 from trocaire.ingresos.models import *
+from trocaire.produccion.models import *
 import copy
 
 def _query_set_filtrado(request):
@@ -229,10 +230,84 @@ def ingreso_agropecuario(request):
     query_compartido = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[3])
             
     ingreso_agropecuario = {'total': calcular_frecuencia(query.filter(fuentes_ap__gte=1).count(), query.count()),
-            'hombre': calcular_frecuencia(query_hombre.filter(fuentes_ap__gte=1).count(), query.count()), 
-            'mujer': calcular_frecuencia(query_mujer.filter(fuentes_ap__gte=1).count(), query.count()),
-            'compartido': calcular_frecuencia(query_compartido.filter(fuentes_ap__gte=1).count(), query.count()),}
+            'hombre': calcular_frecuencia(query_hombre.filter(fuentes_ap__gte=1).count(), query_hombre.count()), 
+            'mujer': calcular_frecuencia(query_mujer.filter(fuentes_ap__gte=1).count(), query_mujer.count()),
+            'compartido': calcular_frecuencia(query_compartido.filter(fuentes_ap__gte=1).count(), query_compartido.count()),}
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
+
+def ingreso_familiar(request):
+    encuestas = _query_set_filtrado(request)
+    ingresos = TotalIngreso.objects.filter(encuesta__in=encuestas).values_list('total', flat=True)
+    jefe_ids = _queryid_hombre_mujer(encuestas.values_list('id', flat=True))
+    
+    #obtener queries segun jefe de familia
+    query_hombre_jefe = TotalIngreso.objects.filter(encuesta__id__in=jefe_ids[1]).values_list('total', flat=True)
+    query_mujer_jefe = TotalIngreso.objects.filter(encuesta__id__in=jefe_ids[2]).values_list('total', flat=True)    
+    query_compartido_jefe = TotalIngreso.objects.filter(encuesta__id__in=jefe_ids[3]).values_list('total', flat=True)
+    
+    promedio = {'total': calcular_promedio(ingresos),
+                'hombre_jefe': calcular_promedio(query_hombre_jefe),
+                'mujer_jefe': calcular_promedio(query_mujer_jefe),
+                'compartido': calcular_promedio(query_compartido_jefe)
+                }
+    
+    mediana = {'total': calcular_mediana(ingresos),
+                'hombre_jefe': calcular_mediana(query_hombre_jefe),
+                'mujer_jefe': calcular_mediana(query_mujer_jefe),
+                'compartido': calcular_mediana(query_compartido_jefe)
+                }
+    
+    return render_to_response('encuestas/ingreso_familiar.html', RequestContext(request, locals()))
+
+def abastecimiento(request):
+    encuestas = _query_set_filtrado(request)
+    jefes_ids = _queryid_hombre_mujer(encuestas.values_list('id', flat=True), flag=True)     
+    frijol = {1: 0, 2: 0, 3: 0}
+    maiz = {1: 0, 2: 0, 3: 0}
+    
+    encuestas_sin_consumo = []
+    encuestas_sin_maiz = []
+    encuestas_sin_frijol = []
+    
+    for key, lista in jefes_ids.items():
+        for encuesta in lista:
+            #total_personas = sum([desc.femenino+desc.masculino for desc in Descripcion.objects.filter(encuesta=encuesta)])
+            try:
+                consumo_query = ConsumoDiario.objects.get(encuesta=encuesta)
+                maiz_query = CultivosPeriodos.objects.get(encuesta=encuesta, cultivos__id=1)                
+            except ConsumoDiario.DoesNotExist:
+                encuestas_sin_consumo.append(encuesta.id)
+                jefes_ids[key].remove(encuesta)              
+                continue
+            except CultivosPeriodos.DoesNotExist:
+                encuestas_sin_maiz.append(encuesta.id)   
+                jefes_ids[key].remove(encuesta)             
+                continue
+            except:                
+                continue
+                
+            try:
+                frijol_query = CultivosPeriodos.objects.get(encuesta=encuesta, cultivos__id=3)                
+            except CultivosPeriodos.DoesNotExist:
+                encuestas_sin_frijol.append(encuesta.id)
+                jefes_ids[key].remove(encuesta)
+                continue
+            
+            produccion_diaria_maiz = round((maiz_query.produccion*float(100))/float(365), 2)
+            produccion_diaria_frijol = round((frijol_query.produccion*float(100))/float(365), 2)
+            if consumo_query.maiz <= produccion_diaria_maiz:
+                maiz[key] += 1
+        
+            if consumo_query.frijol <= produccion_diaria_frijol:
+                frijol[key] += 1
+                
+    frijol['total'] = sum(frijol.values())
+    maiz['total'] = sum(maiz.values())
+    
+    totales = {1: len(jefes_ids[1]), 2: len(jefes_ids[2]), 3: len(jefes_ids[3])}
+    totales['total'] = sum(totales.values())
+            
+    return render_to_response('encuestas/abastecimiento.html', RequestContext(request, locals()))
 
 def reducir_lista(lista):
     '''reduce la lista dejando solo los elementos que son repetidos
@@ -266,8 +341,8 @@ def _hombre_mujer_dicc(ids, jefe=False):
             'hombre': composicion_familia.filter(sexo=1).count(),
             'mujer': composicion_familia.filter(sexo=2).count()
             }
-    
-def _queryid_hombre_mujer(ids):
+
+def _queryid_hombre_mujer(ids, flag=False):
     '''funcion que retorna las encuestas separadas por tipo de jefe,
     Hombre, Mujer y Compartido'''
     composicion_familia = Composicion.objects.filter(encuesta__id__in=ids)
@@ -277,16 +352,43 @@ def _queryid_hombre_mujer(ids):
     for composicion in composicion_familia:
         #validar si el beneficiario es el jefe de familia
         if composicion.beneficio == 1:
-            dicc[composicion.sexo].append(composicion.encuesta.id)
+            if not flag:
+                dicc[composicion.sexo].append(composicion.encuesta.id)
+            else:
+                dicc[composicion.sexo].append(composicion.encuesta)
         elif composicion.beneficio == 2:
-            dicc[composicion.sexo_jefe].append(composicion.encuesta.id)     
+            if not flag:
+                dicc[composicion.sexo_jefe].append(composicion.encuesta.id)
+            else:
+                dicc[composicion.sexo_jefe].append(composicion.encuesta)                          
         else:
-            dicc[3].append(composicion.encuesta.id)
+            if not flag:
+                dicc[3].append(composicion.encuesta.id)
+            else:
+                dicc[3].append(composicion.encuesta)
             
     return dicc                    
      
 def _order_dicc(dicc):
     return sorted(dicc.items(), key=lambda x: x[1], reverse=True)
-      
+
+def calcular_promedio(lista):
+    n = len(lista)
+    total_suma = sum(lista)
+    
+    return round(total_suma/n, 2) 
+
+def calcular_mediana(lista):
+    n = len(lista)
+    lista = sorted(lista)
+    
+    #calcular si lista es odd or even
+    if (n%2) == 1:
+        index = (n+1)/2
+        return lista[index-1]
+    else:
+        index_1 = (n/2)
+        index_2 = index_1+1
+        return calcular_promedio([lista[index_1-1], lista[index_2-1]])
     
 
