@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Aguas clorada{% endblock %}
+{% block extratitle %}Familias gastan más de una hora para recolectar agua{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -16,7 +16,7 @@ $(document).ready(function() {
          marginBottom: 25
       },
       title: {
-         text: '% Aumentado el acceso de las familas a agua segura para el consumo humano',
+         text: 'Aumentado el número de familias que realizan prácticas de conservación de suelo y agua',
          x: -20 //center
       },
       subtitle: {
@@ -24,7 +24,7 @@ $(document).ready(function() {
          x: -20
       },
       xAxis: {
-         categories: ['Total', 'Mujer', 'Varón']
+         categories: ['Total', 'Mujer jefa', 'Varón jefe']
       },
       yAxis: {
          title: {
@@ -51,9 +51,10 @@ $(document).ready(function() {
          borderWidth: 0
       },
       series: [{
-         name: '% de familias consumiendo agua clorada o tratada',
-         data: [{{tabla_aguas.porcentaje_total}}, {{tabla_aguas.porcentaje_femenino}},
-                {{tabla_aguas.porcentaje_masculino}}]
+         name: '% de familias',
+         {%for a in dicc_h_m.items%}
+         data: [{%for caca in a.1.items%}{{caca.1}},{%endfor%}]
+         {%endfor%}
       }]
    });
    
@@ -64,14 +65,11 @@ $(document).ready(function() {
 
 {% block contenido %}
 
-{{tabla_aguas}}
-total_filtrado-->{{numero}}<br>
-total_hombres_jefes-->{{jefe_varon}}<br>
-total_mujer_jefes -->{{jefe_mujer}}<br>
-total_no_aplica -->{{jefe_no_aplica}}
+{{dicc}}
+{{numero}}
 <div>
 	<table class="tabla-resultados">
-	<caption>% de familas consumiendo agua clorada o tratada</caption>
+	<caption>% de familias</caption>
 	<thead>
 		<tr>		
 			<th>Total</th>
@@ -80,11 +78,15 @@ total_no_aplica -->{{jefe_no_aplica}}
 		</tr>
 	</thead>
 	<tbody>
+	    {% for value in tabla_csa %}
 		<tr>
-			<td>{{tabla_aguas.porcentaje_total}}</td>
-			<td>{{tabla_aguas.porcentaje_femenino}}</td>
-			<td>{{tabla_aguas.porcentaje_masculino}}</td>
+			{% with tabla=dicc_h_m|get_value:value.0 %}
+				<td>{{tabla.1}}</td>
+				<td>{{tabla.2}}</td>
+				<td>{{tabla.3}}</td>
+		    {% endwith %}	
 		</tr>
+		{%endfor%}
 	</tbody>
 	</table>
 	<div id="sexo-jefe" class="grafo"></div>

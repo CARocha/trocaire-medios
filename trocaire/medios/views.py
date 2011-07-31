@@ -2,7 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
-from django.db.models import get_model, Sum, Q
+from django.db.models import get_model, Sum, Q, Max, Min, Avg, Count
 from django.utils import simplejson
 
 #importaciones de los models
@@ -11,6 +11,7 @@ from trocaire.medios.models import *
 from trocaire.familia.models import *
 from trocaire.participacion_ciudadana.models import *
 from trocaire.crisis_alimentaria.models import *
+from trocaire.tecnologia.models import *
 from trocaire.lugar.models import *
 import copy
 
@@ -154,28 +155,51 @@ def datos_sexo(request):
 
 def agua_clorada(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True) 
-    
+    numero = encuestas.count()
     #aguas_cloradas = Encuesta.objects.filter(encuesta__id__in=encuestas)  
     tabla_aguas = {}
     
-    tabla_aguas['m_clora'] = encuestas.filter(composicion__sexo_jefe=1,agua__calidad=1).count()
-    tabla_aguas['m_trata'] = encuestas.filter(composicion__sexo_jefe=1,agua__calidad=2).count()
+    jefe_varon = encuestas.filter(composicion__sexo_jefe=1).count()
+    jefe_mujer = encuestas.filter(composicion__sexo_jefe=2).count()
+    jefe_no_aplica = encuestas.filter(composicion__sexo_jefe=3).count()
+    
+    tabla_aguas['m_clora'] = encuestas.filter(composicion__sexo=1,composicion__sexo_jefe=1,
+                                              agua__calidad=1).count()
+    tabla_aguas['m_trata'] = encuestas.filter(composicion__sexo=1,composicion__sexo_jefe=1,
+                                              agua__calidad=2).count()
+    
     tabla_aguas['masculino'] = tabla_aguas['m_clora'] + tabla_aguas['m_trata']
-    tabla_aguas['f_clora'] = encuestas.filter(composicion__sexo_jefe=2,agua__calidad=1).count()
-    tabla_aguas['f_trata'] = encuestas.filter(composicion__sexo_jefe=2,agua__calidad=2).count()
+    tabla_aguas['porcentaje_masculino'] = round(saca_porcentajes(tabla_aguas['masculino'],jefe_varon),1)
+    
+    tabla_aguas['f_clora'] = encuestas.filter(composicion__sexo=2,composicion__sexo_jefe=2,
+                                              agua__calidad=1).count()
+    tabla_aguas['f_trata'] = encuestas.filter(composicion__sexo=1,composicion__sexo_jefe=2,
+                                              agua__calidad=2).count()
+    
     tabla_aguas['femenino'] = tabla_aguas['f_clora'] + tabla_aguas['f_trata']
-    tabla_aguas['total'] = tabla_aguas['masculino'] + tabla_aguas['femenino']
+    tabla_aguas['porcentaje_femenino'] = round(saca_porcentajes(tabla_aguas['femenino'],jefe_mujer),1)
+    
+    tabla_aguas['total'] =  tabla_aguas['masculino'] + tabla_aguas['femenino']
+    tabla_aguas['porcentaje_total'] = round(saca_porcentajes(tabla_aguas['total'],numero),1)
     
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
 def gastan_horas(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
+    numero = encuestas.count()
     #salidas cuantas horas gastan 
     tablas_gastan = {}
     
-    tablas_gastan['masculino'] = encuestas.filter(composicion__sexo_jefe=1, agua__tiempo=3).count()
-    tablas_gastan['femenino'] = encuestas.filter(composicion__sexo_jefe=2, agua__tiempo=3).count()
+    tablas_gastan['masculino'] = encuestas.filter(composicion__sexo=1,
+                                 composicion__sexo_jefe=1, agua__tiempo=3).count()
+    tablas_gastan['porcentaje_masculino'] = round(saca_porcentajes(tablas_gastan['masculino'],numero),1)
+    
+    tablas_gastan['femenino'] = encuestas.filter(composicion__sexo=2,
+                                composicion__sexo_jefe=2, agua__tiempo=3).count()
+    tablas_gastan['porcentaje_femenino'] = round(saca_porcentajes(tablas_gastan['femenino'],numero),1)
+    
     tablas_gastan['total'] =  tablas_gastan['masculino'] + tablas_gastan['femenino']
+    tablas_gastan['porcentaje_total'] = round(saca_porcentajes(tablas_gastan['total'],numero),1)
     
     return render_to_response('encuestas/gastan_horas.html', RequestContext(request,locals()))
 
@@ -183,12 +207,41 @@ def familias_practicas(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
     #salida 124
     dicc = {}
-    for a in CHOICE_CSA:
-        query = areaprotegida.filter(respuesta=a[0], encuesta__in=encuestas)
-        dicc[a[1]] = query.count()
+    dicc_h_m = {}
+    #for a in CHOICE_CSA:
+    query = AreaProtegida.objects.filter(respuesta__in=[2,3,4,5,6], encuesta__in=encuestas)
+    dicc['familias'] = query.count()
+    dicc_h_m['familias'] = _hombre_mujer_dicc(query.values_list('encuesta__id', flat=True), jefe=True)
+    tabla_csa= _order_dicc(copy.deepcopy(dicc))
         
     return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))    
+
+def promedio_suelo(request):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
+    numero = encuestas.count()
+    #salida 124
+    dicc = {}
+    dicc_h_m = {}
+    suma = 0
+    for a in CHOICE_CSA:
+        hombre = encuestas.filter(areaprotegida__respuesta=a[0], composicion__sexo=1, composicion__sexo_jefe=1).aggregate(Avg('areaprotegida__cantidad'))
+        #suma +=hombre
+        dicc[a[1]] = hombre
                
+    return render_to_response('encuestas/promedio_suelo.html', RequestContext(request,locals()))
+
+def acceso_tierra(request):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
+    numero = encuestas.count()
+    #salidas cuantas horas gastan
+    dicc = {}
+    for a in CHOICE_AREA[1:6]:
+        total = encuestas.filter(tierra__area=a[0]).count()
+        hombre = encuestas.filter(composicion__sexo=1, composicion__sexo_jefe=1, tierra__area=a[0]).count()
+        mujer = encuestas.filter(composicion__sexo=2, composicion__sexo_jefe=2, tierra__area=a[0]).count()
+        dicc[a[1]] = (hombre,mujer,total)
+    
+    return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
     
 def sexo_beneficiario(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
@@ -288,5 +341,27 @@ def _hombre_mujer_dicc(ids, jefe=False):
 def _order_dicc(dicc):
     return sorted(dicc.items(), key=lambda x: x[1], reverse=True)
       
-    
+#FUNCIONES UTILITARIAS PARA TODO EL SITIO                              
+def saca_porcentajes(values):
+    """sumamos los valores y devolvemos una lista con su porcentaje"""
+    total = sum(values)
+    valores_cero = [] #lista para anotar los indices en los que da cero el porcentaje
+    for i in range(len(values)):
+        porcentaje = (float(values[i])/total)*100
+        values[i] = "%.2f" % porcentaje + '%'
+    return values
+
+def saca_porcentajes(dato, total, formato=True):
+    '''Si formato es true devuelve float caso contrario es cadena'''
+    if dato != None:
+        try:
+            porcentaje = (dato/float(total)) * 100 if total != None or total != 0 else 0
+        except:
+            return 0
+        if formato:
+            return porcentaje
+        else:
+            return '%.2f' % porcentaje
+    else:
+        return 0    
 
