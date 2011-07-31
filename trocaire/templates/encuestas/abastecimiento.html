@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Autoabastecimiento de granos básicos{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+        column: {            
+            borderWidth: 0
+        },
+        series: {
+            pointWidth: 30,            
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.y +' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return ''+
+                '<b>' + this.series.name + ' '+ this.x +':</b> '+ this.y;
+        }
+    }
+    var leyenda = {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        shadow: true
+    }    
+    $(document).ready(function() {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'grafo',
+                    defaultSeriesType: 'column',
+                    height: 480,
+                    width: 960
+                },
+                title: {
+                    text: 'Autoabastecimiento de granos básicos de familias'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        'Total', 'Hombre Jefe', 'Mujer Jefa', 'Compartido'
+                    ]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Porcentajes'
+                    }
+                },
+                legend: leyenda,
+                tooltip: tooltip,
+                plotOptions: plotOptions,
+                series: [{name: '% Familias que se autoabastecen de maíz', data: [{{maiz.total|calcular_frecuencia:totales.total}}, 
+                                                                                  {{maiz.1|calcular_frecuencia:totales.1}}, 
+                                                                                  {{maiz.2|calcular_frecuencia:totales.2}}, 
+                                                                                  {{maiz.3|calcular_frecuencia:totales.3}}]},
+                         {name: '% Familias que se autoabastecen de frijol', data: [{{frijol.total|calcular_frecuencia:totales.total}}, 
+                                                                                    {{frijol.1|calcular_frecuencia:totales.1}}, 
+                                                                                    {{frijol.2|calcular_frecuencia:totales.2}}, 
+                                                                                    {{frijol.3|calcular_frecuencia:totales.3}}]}
+                         ]
+            });
+    });
+</script>
+{% endblock %}
+
+{% block contenido %}
+<div>
+	<div class="title">Granos básicos</div>
+	<table class="tabla-resultados">
+	<caption>Autoabastecimiento de granos básicos</caption>
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>Total: {{totales.total}}</th>			
+			<th>Hombre Jefe: {{totales.1}}</th>
+			<th>Mujere Jefe: {{totales.2}}</th>
+			<th>Compartido: {{totales.3}}</th>
+		</tr>
+	</thead>
+		<tbody>			
+			<tr>
+				<td>Familias que se autoabastecen de maíz</td>
+				<td>{{maiz.total}} ({{maiz.total|calcular_frecuencia:totales.total}} %)</td>
+				<td>{{maiz.1}} ({{maiz.1|calcular_frecuencia:totales.1}} %)</td>
+				<td>{{maiz.2}} ({{maiz.2|calcular_frecuencia:totales.2}} %)</td>
+				<td>{{maiz.3}} ({{maiz.3|calcular_frecuencia:totales.3}} %)</td>						
+			</tr>
+			<tr>
+				<td>Familias que se autoabastecen de frijol</td>
+				<td>{{frijol.total}} ({{frijol.total|calcular_frecuencia:totales.total}} %)</td>
+				<td>{{frijol.1}} ({{frijol.1|calcular_frecuencia:totales.1}} %)</td>
+				<td>{{frijol.2}} ({{frijol.2|calcular_frecuencia:totales.2}} %)</td>
+				<td>{{frijol.3}} ({{frijol.3|calcular_frecuencia:totales.3}} %)</td>				
+			</tr>			
+		</tbody>
+	</table>
+	<div>
+		Encuestas sin registro de consumo: {{encuestas_sin_consumo|length}}<br>
+		Encuestas sin registro de maiz: {{encuestas_sin_maiz|length}}<br>
+		Encuestas sin registro de frijol: {{encuestas_sin_frijol|length}}<br>
+		Total encuestas: {{encuestas.count}}
+	</div>
+	<div id="grafo" class="grafo"></div>
+</div>
+{% endblock %}

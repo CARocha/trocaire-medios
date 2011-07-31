@@ -1,7 +1,8 @@
-#Fri Jul 29 09:39:21 CST 2011
+#Fri Jul 29 14:10:53 CST 2011
 eclipse.preferences.version=1
 encoding//crisis_alimentaria/models.py=utf-8
 encoding//familia/models.py=utf-8
 encoding//ingresos/models.py=utf-8
 encoding//medios/models.py=utf-8
 encoding//medios/views.py=utf-8
+encoding//produccion/models.py=utf-8
