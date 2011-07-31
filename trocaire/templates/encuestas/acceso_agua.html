@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Aguas clorada{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+  var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container',
+         defaultSeriesType: 'column'
+      },
+      title: {
+         text: 'Aumentado el acceso a agua para agricultura'
+      },
+      subtitle: {
+         text: ''
+      },
+      xAxis: {
+         categories: [
+            'Total', 
+            'Mujer jefa', 
+            'Varón jefe'
+         ]
+      },
+      yAxis: {
+         min: 0,
+         title: {
+            text: 'conteo'
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         //backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
+         align: 'left',
+         verticalAlign: 'top',
+         x: 100,
+         y: 70,
+         floating: true,
+         shadow: true
+      },
+      tooltip: {
+         formatter: function() {
+            return ''+
+               this.x +': '+ this.y +'';
+         }
+      },
+      plotOptions: {
+         column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+         }
+      },
+           series: [{
+         name: 'Aspersión',
+         data: [{{tabla_acceso.t_aspersion}},{{tabla_acceso.m_aspersion}},{{tabla_acceso.h_aspersion}}]
+   
+      }, {
+         name: 'Goteo',
+         data: [{{tabla_acceso.t_goteo}},{{tabla_acceso.m_goteo}},{{tabla_acceso.h_goteo}}]
+   
+      }, {
+         name: 'Gravedad',
+         data: [{{tabla_acceso.t_gravedad}},{{tabla_acceso.m_gravedad}},{{tabla_acceso.h_gravedad}}]
+   
+      },{
+        name: 'No aplica',
+         data: [{{tabla_acceso.t_no_aplica}},{{tabla_acceso.m_no_aplica}},{{tabla_acceso.h_no_aplica}}]
+      },{
+        name: 'Otros',
+         data: [{{tabla_acceso.t_otros}},{{tabla_acceso.m_otros}},{{tabla_acceso.h_otros}}]
+      }]
+   });
+   
+ });
+</script>
+{% endblock %}
+
+{% block contenido %}
+
+{{tabla_acceso}}
+total_filtrado-->{{numero}}<br>
+<div>
+	<table class="tabla-resultados">
+	<caption>% de familas consumiendo agua clorada o tratada</caption>
+	<thead>
+		<tr>		
+			<th>Tipo</th>
+			<th>Total</th>
+			<th>Mujer jefa</th>
+			<th>Varón jefe</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+		    <td>Aspersión</td>
+			<td>{{tabla_acceso.t_aspersion}}</td>
+			<td>{{tabla_acceso.m_aspersion}}</td>
+			<td>{{tabla_acceso.h_aspersion}}</td>
+		</tr>
+		<tr>
+		    <td>Goteo</td>
+			<td>{{tabla_acceso.t_goteo}}</td>
+			<td>{{tabla_acceso.m_goteo}}</td>
+			<td>{{tabla_acceso.h_goteo}}</td>
+		</tr>
+		<tr>
+		    <td>Gravedad</td>
+			<td>{{tabla_acceso.t_gravedad}}</td>
+			<td>{{tabla_acceso.m_gravedad}}</td>
+			<td>{{tabla_acceso.h_gravedad}}</td>
+		</tr>
+		<tr>
+		    <td>No aplica</td>
+			<td>{{tabla_acceso.t_no_aplica}}</td>
+			<td>{{tabla_acceso.m_no_aplica}}</td>
+			<td>{{tabla_acceso.h_no_aplica}}</td>
+		</tr>
+		<tr>
+		    <td>Otros</td>
+			<td>{{tabla_acceso.t_otros}}</td>
+			<td>{{tabla_acceso.m_otros}}</td>
+			<td>{{tabla_acceso.h_otros}}</td>
+		</tr>
+	</tbody>
+	</table>
+	<div id="container" class="grafo"></div>
+</div>
+<br>
+{% endblock %}

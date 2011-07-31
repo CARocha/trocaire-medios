@@ -43,50 +43,121 @@
                 width: 960
             },
             title: {
-                text: 'Información sobre crédito'
+                text: 'Acceso a tierra'
             },
             subtitle: {
                 text: ''
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for value in tabla_credito %}['{{value.0}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
-        });    	
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });
+        
+        var chart2 = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo1',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Hombre jefe'
+            },
+            subtitle: {
+                text: ''
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.hombre}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });
+        
+        var chart3 = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo2',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Mujer jefe'
+            },
+            subtitle: {
+                text: ''
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.mujer}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });
+           	
     });
 </script>
 {% endblock %}
 
 {% block contenido %}
-
-{{dicc}}
 <div>
 	<table class="tabla-resultados">
-		<caption>Datos de crédito en la familia</caption>
+		<caption>Totales</caption>
 		<thead>
 			<tr>
-				<th>Tipo de crédito</th>
-				<th>Total</th>
+				<th>Tipo</th>
+				<th>Frecuencia</th>
 				<th>%</th>
-				<th>Hombre Jefe</th>
-				<th>Mujer Jefe</th>
-				<th>Compartido</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% for value in tabla_credito %}
+			{% for value in tabla_dicc1 %}
 			<tr>
-				<td>{{value.0}}</td>
-				<td>{{value.1}}</td>
-				<td>{{value.1|get_frec:credito}}</td>
-				{% with tabla=credito_h_m|get_value:value.0 %}
-				<td>{{tabla.1}}</td>
-				<td>{{tabla.2}}</td>
-				<td>{{tabla.3}}</td>
-				{% endwith %}				
-			</tr>
+			    <td>{{value.0}}</td>
+			    <td>{{value.1}}</td>
+			    <td>{{value.1|get_frec:dicc1}}</td>		
 			{% endfor %}
 		</tbody>
 	</table>
 	<div id="grafo" class="grafo"></div>
+</div>
+<div>
+	<table class="tabla-resultados">
+		<caption>Varón Jefe</caption>
+		<thead>
+			<tr>
+				<th>Tipo</th>
+				<th>Frecuencia</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in tabla_dicc1 %}
+			<tr>
+			    <td>{{value.0}}</td>
+			    {% with tabla=dicc1_h_m|get_value:value.0 %}
+				<td>{{tabla.hombre}}</td>
+				
+				{% endwith %}
+		    </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo1" class="grafo"></div>
+</div>
+<div>
+	<table class="tabla-resultados">
+		<caption>Mujer jefa</caption>
+		<thead>
+			<tr>
+				<th>Tipo</th>
+				<th>Frecuencia</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in tabla_dicc1 %}
+			<tr>
+			    <td>{{value.0}}</td>
+			    {% with tabla=dicc1_h_m|get_value:value.0 %}
+				<td>{{tabla.mujer}}</td>
+				{% endwith %}
+		    </tr>		
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo2" class="grafo"></div>
 </div>
 {% endblock %}

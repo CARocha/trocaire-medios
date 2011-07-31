@@ -16,6 +16,7 @@ from trocaire.tecnologia.models import *
 from trocaire.lugar.models import *
 from trocaire.ingresos.models import *
 from trocaire.produccion.models import *
+from trocaire.formas_propiedad.models import *
 import copy
 
 def _query_set_filtrado(request):
@@ -227,7 +228,6 @@ def promedio_suelo(request):
     numero = encuestas.count()
     #salida 124
     dicc = {}
-    dicc_h_m = {}
     suma = 0
     for a in CHOICE_CSA:
         hombre = encuestas.filter(areaprotegida__respuesta=a[0], composicion__sexo=1, composicion__sexo_jefe=1).aggregate(Avg('areaprotegida__cantidad'))
@@ -237,17 +237,46 @@ def promedio_suelo(request):
     return render_to_response('encuestas/promedio_suelo.html', RequestContext(request,locals()))
 
 def acceso_tierra(request):
-    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
+    encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
     #salidas cuantas horas gastan
-    dicc = {}
+    dicc1 = {}
+    dicc1_h_m = {}
     for a in CHOICE_AREA[1:6]:
-        total = encuestas.filter(tierra__area=a[0]).count()
-        hombre = encuestas.filter(composicion__sexo=1, composicion__sexo_jefe=1, tierra__area=a[0]).count()
-        mujer = encuestas.filter(composicion__sexo=2, composicion__sexo_jefe=2, tierra__area=a[0]).count()
-        dicc[a[1]] = (hombre,mujer,total)
-    
+        total = Tierra.objects.filter(area=a[0], encuesta__in=encuestas)
+        dicc1[a[1]] = total.count()
+        dicc1_h_m[a[1]] = _hombre_mujer_dicc(total.values_list('encuesta__id', flat=True))
+    tabla_dicc1 = _order_dicc(copy.deepcopy(dicc1))
+     
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
+    
+def acceso_agua(request):
+    encuestas = _query_set_filtrado(request)
+    numero = encuestas.count()
+    tabla_acceso = {}
+    #hombre_jefe
+    tabla_acceso['h_aspersion'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=2).count()
+    tabla_acceso['h_goteo'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=3).count()
+    tabla_acceso['h_gravedad'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=4).count()
+    tabla_acceso['h_no_aplica'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=1).count()
+    tabla_acceso['h_otros'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=5).count()
+    #mujer_jefe
+    tabla_acceso['m_aspersion'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=2).count()
+    tabla_acceso['m_goteo'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=3).count()
+    tabla_acceso['m_gravedad'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=4).count()
+    tabla_acceso['m_no_aplica'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=1).count()
+    tabla_acceso['m_otros'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=5).count()
+    #total
+    tabla_acceso['t_aspersion'] = tabla_acceso['h_aspersion'] + tabla_acceso['m_aspersion']
+    tabla_acceso['t_goteo'] = tabla_acceso['h_goteo'] + tabla_acceso['m_goteo']
+    tabla_acceso['t_gravedad'] = tabla_acceso['h_gravedad'] + tabla_acceso['m_gravedad']
+    tabla_acceso['t_no_aplica'] = tabla_acceso['h_no_aplica'] + tabla_acceso['m_no_aplica']
+    tabla_acceso['t_otros'] = tabla_acceso['h_otros'] + tabla_acceso['m_otros']
+    
+    
+    return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
+    
+    
     
 def sexo_beneficiario(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
