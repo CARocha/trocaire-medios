@@ -14,7 +14,7 @@ from models import *
 
 lista_acumulada = lambda valores: [sum(valores[:i]) for i in range(1, len(valores)+1)]
 
-def produccion_por_rango(request, modelo, cultivos, maximo=None, minimo=0, separaciones=10, template_name='produccion/produccion_por_rango.html'):
+def produccion_por_rango(request, modelo, dondetoy, cultivos, maximo=None, minimo=0, separaciones=10, template_name='produccion/produccion_por_rango.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
     model = get_model('produccion', modelo)
@@ -41,6 +41,7 @@ def produccion_por_rango(request, modelo, cultivos, maximo=None, minimo=0, separ
     return render_to_response(template_name, 
                               {'form': form, 'calculos':calculos, 
                                'model': model._meta.verbose_name,
+                               'dondetoy': dondetoy,
                                'model_name': model._meta.module_name},
                               context_instance=RequestContext(request))
 
@@ -76,7 +77,7 @@ def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, cult
     return dict(categorias = categorias, valores_acumulados = valores_acumulados,
                valores = valores)
 
-def generic_range(request, model, field, title, serie, subtitle, eje, extra_params, maximo=0, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
+def generic_range(request, model, field, title, dondetoy, serie, subtitle, eje, extra_params, maximo=0, minimo=0, separaciones=10, template_name='produccion/generic_range_view.html'):
     #puntas = dicc con maximo y minimo
     encuestas = _query_set_filtrado(request)
     model = get_model('produccion', model)
@@ -135,5 +136,6 @@ def generic_range(request, model, field, title, serie, subtitle, eje, extra_para
                                'subtitle': subtitle,
                                'eje': eje,
                                'serie': serie,
+                               'dondetoy': dondetoy,
                                'valores_acumulados': valores_acumulados},
                               context_instance=RequestContext(request))

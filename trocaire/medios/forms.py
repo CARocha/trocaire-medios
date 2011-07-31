@@ -27,7 +27,8 @@ class ConsultarForm(forms.Form):
     escolaridad_conyugue = CustomChoiceField(choices=CHOICE_ESCOLARIDAD, required=False)
     #familia
     familia_beneficiario = CustomChoiceField(CHOICE_SEXO, required=False)
-    #familia_dependientes = forms.IntegerField(min_value=0, required=False)
+    dependientes_max = forms.IntegerField('dependientes', min_value=0, required=False)
+    dependientes_min = forms.IntegerField(min_value=0, required=False)
     #ingresos(ambos son rangos)
     ingresos_fuente = forms.ModelChoiceField(queryset=Fuentes.objects.all(), required=False)
     ingresos_total_max = forms.FloatField(required=False)

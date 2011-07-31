@@ -473,3 +473,7 @@ label #id_year{
     -moz-border-radius: 3px;
 }
 
+.activa{
+    font-weight:bold;
+}
+
