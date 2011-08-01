@@ -261,32 +261,31 @@ $(document).ready(function() {
 initalizetab("maintab")
 </script>
 
-<div id='form'>
-  <form method='GET' action='.'>
-    <p><label for='txt_maximo'>Máximo</label><input id='txt_maximo' type='text' /></p>
-    <p><label for='txt_minimo'>Minimo</label><input id='txt_minimo' type='text' /></p>
-    <p><label for='txt_minimo'>Separaciones</label>
-    <select id='select_rango'>
-      <option value='3'>3</option>
-      <option value='4'>4</option>
-      <option value='5'>5</option>
-      <option value='6'>6</option>
-      <option value='7'>7</option>
-      <option value='8'>8</option>
-      <option value='9'>9</option>
-      <option value='10' selected='true'>10</option>
-      <option value='11'>11</option>
-      <option value='12'>12</option>
-      <option value='13'>13</option>
-      <option value='14'>14</option>
-    </select></p>
-    <p><input type='button' onClick="redirigir(this.form)" value='Cambiar'/></p>
-  </form>
+<div id="formulariomax">
+    <div id='form'>
+      <form method='GET' action='.'>
+        <label for='txt_maximo'>Máximo</label><input id='txt_maximo' type='text' />
+        <label for='txt_minimo'>Minimo</label><input id='txt_minimo' type='text' />
+        <label for='txt_minimo'>Separaciones</label>
+        <select id='select_rango'>
+          <option value='3'>3</option>
+          <option value='4'>4</option>
+          <option value='5'>5</option>
+          <option value='6'>6</option>
+          <option value='7'>7</option>
+          <option value='8'>8</option>
+          <option value='9'>9</option>
+          <option value='10' selected='true'>10</option>
+          <option value='11'>11</option>
+          <option value='12'>12</option>
+          <option value='13'>13</option>
+          <option value='14'>14</option>
+        </select>
+        <input id="botonmax"type='button' onClick="redirigir(this.form)" value=''/>
+      </form>
+</div>
   </div>
-  <a href="#form-facebox" rel="facebox">Consultar</a>
-  <ul>
-    <li><a href="{%url produccion_maiz %}">Producción por rango(Cultivos Periodos)</a></li>
-  </ul>
+  <a href="#form-facebox" rel="facebox"><br><img src="{{MEDIA_URL}}img/cambiarfiltros.png"></a>
   <div id="container"></div>
   <div id="acumulado_container"></div>
   <div id="container2"></div>
