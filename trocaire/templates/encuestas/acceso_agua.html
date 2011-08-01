@@ -49,11 +49,16 @@ $(document).ready(function() {
          }
       },
       plotOptions: {
-         column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-         }
-      },
+                column: {
+                    groupPadding: 0,
+                    pointPadding: 0.9,
+                    borderWidth: 0
+                },
+                series: {
+                    pointWidth: 35,
+                    minPointLength : 1
+                }
+            },
            series: [{
          name: 'Aspersión',
          data: [{{tabla_acceso.t_aspersion}},{{tabla_acceso.m_aspersion}},{{tabla_acceso.h_aspersion}}]
@@ -80,12 +85,10 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contenido %}
-
-{{tabla_acceso}}
 total_filtrado-->{{numero}}<br>
 <div>
 	<table class="tabla-resultados">
-	<caption>% de familas consumiendo agua clorada o tratada</caption>
+	<caption>Aumentado el acceso a agua para agricultura</caption>
 	<thead>
 		<tr>		
 			<th>Tipo</th>

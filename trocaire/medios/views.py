@@ -17,6 +17,7 @@ from trocaire.lugar.models import *
 from trocaire.ingresos.models import *
 from trocaire.produccion.models import *
 from trocaire.formas_propiedad.models import *
+from trocaire.genero.models import *
 import copy
 
 def _query_set_filtrado(request):
@@ -276,7 +277,26 @@ def acceso_agua(request):
     
     return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
     
-    
+def hombre_responsable(request):
+    encuestas = _query_set_filtrado(request)
+    numero = encuestas.count()
+    tabla_responsable = {}
+    for hombre in CHOICE_GENERO:
+        conteo = Genero.objects.filter(encuesta__in=encuestas, responsabilidades=hombre[0]).count()
+        tabla_responsable[hombre[1]] = conteo
+
+    tabla_resp = _order_dicc(copy.deepcopy(tabla_responsable))
+                
+    return render_to_response('encuestas/hombre_responsable.html', RequestContext(request,locals()))    
+
+def mujeres_decisiones(request):
+    encuestas = _query_set_filtrado(request)
+    numero = encuestas.count()
+    tabla_mujeres = {}
+    for a in CHOICE_ASPECTO:
+        con_hombre = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=1, aspecto=a[0]).count()
+        con_mujer = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=2, aspecto=a[0]).count()
+            
     
 def sexo_beneficiario(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
