@@ -14,14 +14,17 @@
                 defaultSeriesType: 'column'
             },
             title: {
-                text: '% de familias donde los hombre realizan tareas domésticas'
+                text: 'Mujeres con pareja que toman decisiones'
             },
             subtitle: {
                 text: ''
             },
             xAxis: {
                 categories: [
-                    'Opciones'
+                    'Varón',
+                    'Mujer',
+                    'Ambos',
+                    'No aplica'
                 ]
             },
             yAxis: {
@@ -34,7 +37,7 @@
             tooltip: {
                 formatter: function() {
                     return ''+
-                        this.series.name +': '+ this.y +'%';
+                        this.series.name +': '+ this.y +'';
                 }
             },
             plotOptions: {
@@ -48,14 +51,26 @@
                     minPointLength : 1
                 }
             },
-            series: [
+            series: [{%for a in tabla_mu%}
                 {
-                    name: 'Gastos mayores para la casa',
-                    {%for a in value%}
-                    data: [{{a.0}},{{a.1}},{{a.2}},{{a.3}}],
-                    {%endfor%}
+                        name: '{{a.0}}',
+                        data: [{%for b in a.1%}{{b}},{%endfor%}],
+                        dataLabels: {
+                        enabled: true,
+                        rotation: 0,
+                        color: '#632D00',
+                        align: 'center',
+                        x: -3,
+                        y: 0,
+                            formatter: function() {
+                                return this.y+'';
+                                                  },
+                        style: {
+                            font: 'normal 13px Verdana, sans-serif'
+                                }
+                                }   
                 },
-                {% endfor %}]
+                {%endfor%}]
         });
     });
 </script>
@@ -63,7 +78,6 @@
 
 {% block contenido %}
 total_filtrado-->{{numero}}<br>
-{{tabla_mu}}
 <div>
 	<table class="tabla-resultados">
 	<caption>% de familias donde los hombre realizan tareas domésticas</caption>
