@@ -12,7 +12,7 @@
         $("#id_departamento").change(function () {
             var index = departamento.options.selectedIndex;
             var id = departamento.options[index].value;
-            $.getJSON("ajax/municipio/" + id +"/",
+            $.getJSON("/consultar/ajax/municipio/" + id +"/",
             function(data){
                 municipio.options.length = 0;
                 municipio.options[0] = new Option("--------");
@@ -26,7 +26,7 @@
         $("#id_municipio").change(function () {
             var index = municipio.options.selectedIndex;
             var id = municipio.options[index].value;
-            $.getJSON("ajax/comarca/" + id +"/",
+            $.getJSON("/consultar/ajax/comarca/" + id +"/",
             function(data){
                 comarca.options.length = 0;
                 comarca.options[0] = new Option("---------");
