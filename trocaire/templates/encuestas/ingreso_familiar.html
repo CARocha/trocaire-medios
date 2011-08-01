@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Ingreso Familiar{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+        column: {            
+            borderWidth: 0
+        },
+        series: {
+            pointWidth: 30,            
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.y;
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return ''+
+                this.series.name + ' '+ this.x +': US$ '+ this.y;
+        }
+    }
+    var leyenda = {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        shadow: true
+    }    
+    $(document).ready(function() {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'grafo',
+                    defaultSeriesType: 'column',
+                    height: 480,
+                    width: 960
+                },
+                title: {
+                    text: 'Aumentados los ingresos familiares'
+                },
+                subtitle: {
+                    text: 'Cantidades en Dólares US$'
+                },
+                xAxis: {
+                    categories: [
+                        'Total', 'Hombre Jefe', 'Mujer Jefa', 'Compartido'
+                    ]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Miles'
+                    }
+                },
+                legend: leyenda,
+                tooltip: tooltip,
+                plotOptions: plotOptions,
+                series: [{name: 'Promedio', data: [{{promedio.total}}, {{promedio.hombre_jefe}}, {{promedio.mujer_jefe}}, {{promedio.compartido}}]},
+                         {name: 'Mediana', data: [{{mediana.total}}, {{mediana.hombre_jefe}}, {{mediana.mujer_jefe}}, {{mediana.compartido}}]}
+                         ]
+            });
+    });
+</script>
+{% endblock %}
+
+{% block contenido %}
+<div>
+	<div class="title">Datos de ingresos de la familia</div>
+	<table class="tabla-resultados">
+	<caption>Ingresos familiares todas las actividades</caption>
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>Total</th>			
+			<th>Hombre Jefe</th>
+			<th>Mujere Jefe</th>
+			<th>Compartido</th>
+		</tr>
+	</thead>
+		<tbody>			
+			<tr>
+				<td>Porcentaje de ingresos familiares <b>US$</b></td>
+				<td>{{promedio.total|currency}}</td>
+				<td>{{promedio.hombre_jefe|currency}}</td>
+				<td>{{promedio.mujer_jefe|currency}}</td>
+				<td>{{promedio.compartido|currency}}</td>				
+			</tr>
+			<tr>
+				<td>Mediana ingresos familiares <b>US$</b></td>
+				<td>{{mediana.total|currency}}</td>
+				<td>{{mediana.hombre_jefe|currency}}</td>
+				<td>{{mediana.mujer_jefe|currency}}</td>
+				<td>{{mediana.compartido|currency}}</td>				
+			</tr>			
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+{% endblock %}

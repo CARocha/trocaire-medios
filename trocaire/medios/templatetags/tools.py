@@ -1,4 +1,5 @@
 from django import template
+import locale
 register = template.Library()
 
 @register.filter
@@ -36,12 +37,19 @@ def get_frec(value, tabla):
     '''value valor a calcular frecuencia sobre total de la tabla'''
     return calcular_frecuencia(value, sum(tabla.values()))
 
+@register.filter
 def calcular_frecuencia(cantidad, total):
     if total == None or cantidad == None or total == 0:
         x = 0
     else:
         x = (cantidad * 100) / float(total)
     return round(x, 1)
+
+@register.filter()
+def currency(value):    
+    return '{:20,.2f}'.format(value)
+
+
 
 
 
