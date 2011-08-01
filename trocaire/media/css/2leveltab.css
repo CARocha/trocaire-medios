@@ -1,8 +1,8 @@
 .basictab{
 padding: 3px 0;
 margin-left: 0;
-font: bold 12px Verdana;
-border-bottom: 1px solid gray;
+font-family: "Arial", sans-serif;
+font-size:14px;
 list-style-type: none;
 margin-bottom: 0;
 text-align: left; /*set to left, center, or right to align the menu as desired*/
@@ -11,16 +11,24 @@ text-align: left; /*set to left, center, or right to align the menu as desired*/
 .basictab li{
 display: inline;
 margin: 0;
+font-family: "Arial", sans-serif;
 }
 
 .basictab li a{
+font-family: "Arial", sans-serif;
 text-decoration: none;
-padding: 3px 7px;
+padding: 8px 10px 3px 10px;
 margin-right: 2px;
-border: 1px solid gray;
 border-bottom: none;
-background-color: white;
-color: black;
+font-weight:normal;
+background-color:#e9d17a;
+color: #914100;
+   border-top-right-radius:4px;
+   border-top-left-radius:4px;
+   -moz-border-radius-topright:4px;
+   -moz-border-radius-topleft:4px;
+   -webkit-border-top-left-radius:4px;
+   -webkit-border-top-right-radius:4px;
 }
 
 
@@ -29,7 +37,7 @@ color: black;
 }
 
 .basictab li a:hover{
-background-color: #dbffff;
+background-color:#fdf3d0;
 color: black;
 }
 
@@ -38,19 +46,28 @@ color: black;
 }
 
 .basictab li.selected a{ /*selected tab effect*/
-position: relative;
-top: 1px;
-padding-top: 4px;
-background-color: #dbffff;
-color: black;
+
+padding: 8px 10px 3px 10px;
+background-color:#fdf3d0;
+color: #914100;
+font-weight:bold;
+   border-top-right-radius:4px;
+   border-top-left-radius:4px;
+   -moz-border-radius-topright:4px;
+   -moz-border-radius-topleft:4px;
+   -webkit-border-top-left-radius:4px;
+   -webkit-border-top-right-radius:4px;
 }
 
 
 .submenustyle{
+font-family: "Arial", sans-serif;
 padding: 2px 1px;
-border: 1px solid black;
 border-top-width: 0;
+font-size:14px;
 width: auto;
+height:44px;
+background:url(../img/fondomenusub.png) repeat-x;
 display: none;
 filter:alpha(opacity=0);
 -moz-opacity:0;
@@ -61,11 +78,15 @@ width: 100%;
 }
 
 .submenustyle a{
-border-right: 1px dashed black;
-padding: 1px 5px;
+border-right: 1px solid #e5ca84;
+padding: 13px 20px;
 text-decoration: none;
+display:block;
+float:left;
+color:#535353;
 }
 
 .submenustyle a:hover{
-background-color: #ebffff;
+background-color: #fbe5a9;
+color:#000;
 }

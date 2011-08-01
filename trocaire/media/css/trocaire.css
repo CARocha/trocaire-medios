@@ -495,5 +495,15 @@ label #id_year{
 
 .activa{
     font-weight:bold;
+    background:#fbe5a9;
+}
+
+#formulariomax{
+    background:#e5f1f6;
+    height:53px;
+    padding:10px;
+}
+#formulariomax #txt_maximo, #formulariomax #txt_minimo,{
+    float:left;
 }
 
