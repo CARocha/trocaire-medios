@@ -42,6 +42,17 @@ $(document).ready(function() {
                this.x +': '+ this.y;
          }
       },
+      plotOptions: {
+                column: {
+                    groupPadding: 0,
+                    pointPadding: 0.9,
+                    borderWidth: 0
+                },
+                series: {
+                    pointWidth: 35,
+                    minPointLength : 1
+                }
+            },
       legend: {
          layout: 'vertical',
          align: 'right',
@@ -63,12 +74,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contenido %}
-
-{{tabla_aguas}}
 total_filtrado-->{{numero}}<br>
-total_hombres_jefes-->{{jefe_varon}}<br>
-total_mujer_jefes -->{{jefe_mujer}}<br>
-total_no_aplica -->{{jefe_no_aplica}}
 <div>
 	<table class="tabla-resultados">
 	<caption>% de familas consumiendo agua clorada o tratada</caption>

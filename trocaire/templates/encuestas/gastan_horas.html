@@ -42,6 +42,17 @@ $(document).ready(function() {
                this.x +': '+ this.y;
          }
       },
+      plotOptions: {
+                column: {
+                    groupPadding: 0,
+                    pointPadding: 0.9,
+                    borderWidth: 0
+                },
+                series: {
+                    pointWidth: 35,
+                    minPointLength : 1
+                }
+            },
       legend: {
          layout: 'vertical',
          align: 'right',
@@ -62,8 +73,6 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contenido %}
-
-{{tablas_gastan}}
 {{numero}}
 <div>
 	<table class="tabla-resultados">
