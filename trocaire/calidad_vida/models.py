@@ -58,7 +58,7 @@ class Agua(models.Model):
     calidad = models.IntegerField('26. Calidad del agua que consume. ¿viene clorada?', choices=CHOICE_CALIDAD)
     clorada = models.IntegerField('27. Si no viene clorada ¿le da usted tratamiento?', choices=CHOICE_CLORADA)
     tiene = models.IntegerField('28. Tiene agua todo los dias en verano', choices=CHOICE_SINO)
-    tiempo = models.IntegerField('29. Cuánto tiempo diario le toma traer el agua en verano', choices=CHOICE_CLORADA)
+    tiempo = models.IntegerField('29. Cuánto tiempo diario le toma traer el agua en verano', choices=CHOICE_TIEMPO)
     techo = models.IntegerField('30. Materiales del techo', choices=CHOICE_TECHO)
     piso = models.IntegerField('31. Materiales del piso', choices=CHOICE_PISO)
     paredes = models.IntegerField('32. Materiales en las paredes', choices=CHOICE_PAREDES)

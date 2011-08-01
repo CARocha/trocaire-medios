@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Familias gastan más de una hora para recolectar agua{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+   var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'sexo-jefe',
+         defaultSeriesType: 'column',
+         marginRight: 130,
+         marginBottom: 25
+      },
+      title: {
+         text: 'Aumentado el número de familias que realizan prácticas de conservación de suelo y agua',
+         x: -20 //center
+      },
+      subtitle: {
+         text: '',
+         x: -20
+      },
+      xAxis: {
+         categories: ['Total', 'Mujer jefa', 'Varón jefe']
+      },
+      yAxis: {
+         title: {
+            text: '%'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y;
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: '% de familias',
+         {%for a in dicc_h_m.items%}
+         data: [{%for caca in a.1.items%}{{caca.1}},{%endfor%}]
+         {%endfor%}
+      }]
+   });
+   
+   
+});
+</script>
+{% endblock %}
+
+{% block contenido %}
+<div>
+	<table class="tabla-resultados">
+	<caption>% de familias</caption>
+	<thead>
+		<tr>		
+			<th>Total</th>
+			<th>Mujer jefa</th>
+			<th>Varón jefe</th>
+		</tr>
+	</thead>
+	<tbody>
+	    {% for value in tabla_csa %}
+		<tr>
+			{% with tabla=dicc_h_m|get_value:value.0 %}
+				<td>{{tabla.1}}</td>
+				<td>{{tabla.2}}</td>
+				<td>{{tabla.3}}</td>
+		    {% endwith %}	
+		</tr>
+		{%endfor%}
+	</tbody>
+	</table>
+	<div id="sexo-jefe" class="grafo"></div>
+</div>
+<br>
+{% endblock %}

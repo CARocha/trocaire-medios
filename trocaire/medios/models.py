@@ -100,6 +100,13 @@ CHOICE_CLORADA = (
                     (2, '2) No le da tratamiento'),
                     (3, '3) No aplica. Viene clorada')
                  )
+                 
+CHOICE_TIEMPO = (
+                    (1, '1) Menos de 30 minutos'),
+                    (2, '2) 30 minutos a 1 hora'),
+                    (3, '3) Más de 1 hora'),
+                    (4, '4) Tiene agua en casa')
+                  )                 
 CHOICE_SINO = (
                     (1, '1) Si'),
                     (2, '2) No'),

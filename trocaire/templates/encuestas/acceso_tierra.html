@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Datos de credito{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            showInLegend: true
+         },
+         series: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.percentage.toFixed(1) + ' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y;
+        }
+    }
+    $(document).ready(function(){
+    	var chart = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Acceso a tierra'
+            },
+            subtitle: {
+                text: ''
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });
+        
+        var chart2 = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo1',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Hombre jefe'
+            },
+            subtitle: {
+                text: ''
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.hombre}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });
+        
+        var chart3 = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo2',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Mujer jefe'
+            },
+            subtitle: {
+                text: ''
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.mujer}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });
+           	
+    });
+</script>
+{% endblock %}
+
+{% block contenido %}
+<div>
+	<table class="tabla-resultados">
+		<caption>Totales</caption>
+		<thead>
+			<tr>
+				<th>Tipo</th>
+				<th>Frecuencia</th>
+				<th>%</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in tabla_dicc1 %}
+			<tr>
+			    <td>{{value.0}}</td>
+			    <td>{{value.1}}</td>
+			    <td>{{value.1|get_frec:dicc1}}</td>		
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+<div>
+	<table class="tabla-resultados">
+		<caption>Varón Jefe</caption>
+		<thead>
+			<tr>
+				<th>Tipo</th>
+				<th>Frecuencia</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in tabla_dicc1 %}
+			<tr>
+			    <td>{{value.0}}</td>
+			    {% with tabla=dicc1_h_m|get_value:value.0 %}
+				<td>{{tabla.hombre}}</td>
+				
+				{% endwith %}
+		    </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo1" class="grafo"></div>
+</div>
+<div>
+	<table class="tabla-resultados">
+		<caption>Mujer jefa</caption>
+		<thead>
+			<tr>
+				<th>Tipo</th>
+				<th>Frecuencia</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for value in tabla_dicc1 %}
+			<tr>
+			    <td>{{value.0}}</td>
+			    {% with tabla=dicc1_h_m|get_value:value.0 %}
+				<td>{{tabla.mujer}}</td>
+				{% endwith %}
+		    </tr>		
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo2" class="grafo"></div>
+</div>
+{% endblock %}

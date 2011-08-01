@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Familias gastan más de una hora para recolectar agua{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+   var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'sexo-jefe',
+         defaultSeriesType: 'column',
+         marginRight: 130,
+         marginBottom: 25
+      },
+      title: {
+         text: '% familas que gastan más de una hora para recolectar agua',
+         x: -20 //center
+      },
+      subtitle: {
+         text: '',
+         x: -20
+      },
+      xAxis: {
+         categories: ['Total', 'Mujer', 'Varón']
+      },
+      yAxis: {
+         title: {
+            text: '%'
+         },
+         plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+         }]
+      },
+      tooltip: {
+         formatter: function() {
+                   return '<b>'+ this.series.name +'</b><br/>'+
+               this.x +': '+ this.y;
+         }
+      },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 100,
+         borderWidth: 0
+      },
+      series: [{
+         name: '% de familas que gastan más de una hora para recolectar agua',
+         data: [{{tablas_gastan.porcentaje_total}}, {{tablas_gastan.porcentaje_femenino}}, {{tablas_gastan.porcentaje_masculino}}]
+      }]
+   });
+   
+   
+});
+</script>
+{% endblock %}
+
+{% block contenido %}
+
+{{tablas_gastan}}
+{{numero}}
+<div>
+	<table class="tabla-resultados">
+	<caption>% de familas que gastan más de una hora para recolectar agua</caption>
+	<thead>
+		<tr>		
+			<th>Total</th>
+			<th>Mujer jefa</th>
+			<th>Varón jefe</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>{{tablas_gastan.porcentaje_total}}</td>
+			<td>{{tablas_gastan.porcentaje_femenino}}</td>
+			<td>{{tablas_gastan.porcentaje_masculino}}</td>
+		</tr>
+	</tbody>
+	</table>
+	<div id="sexo-jefe" class="grafo"></div>
+</div>
+<br>
+{% endblock %}
