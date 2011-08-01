@@ -38,40 +38,45 @@
         });
     });
 </script>
-<div id="form-facebox" style="display:none;">  
-    <div class="form-title">Formulario de consulta</div>  
+<div id="form-facebox" style="display:none;">   
     <form method="POST" action="/consultar/" id="consultar-form">{% csrf_token %}
         <div class="general">
-            <div class="label">{{form.fecha.label}}</div>
-            <div class="filtros">{{form.fecha}}<br>{{form.fecha.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.contraparte.label}}</div>
-            <div class="filtros">{{form.contraparte}}<br>{{form.contraparte.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.departamento.label}}</div>
-            <div class="filtros">{{form.departamento}}<br>{{form.departamento.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.municipio.label}}</div>
-            <div class="filtros">{{form.municipio}}<br>{{form.municipio.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.comarca.label}}</div>
-            <div class="filtros">{{form.comarca}}<br>{{form.comarca.errors}}</div> 
-            <div class="clean"></div>    
-            <div class="label">{{form.escolaridad_beneficiario.label}}</div>
-            <div class="filtros">{{form.escolaridad_beneficiario}}<br>{{form.escolaridad_beneficiario.errors}}</div>
-            <div class="clean"></div>
+                        <div class="columnaform">
+                <div class="label">{{form.fecha.label}}</div>
+                <div class="filtros">{{form.fecha}}<br>{{form.fecha.errors}}</div>
+                <div class="clean"></div>
+                <div class="label">{{form.contraparte.label}}</div>
+                <div class="filtros">{{form.contraparte}}<br>{{form.contraparte.errors}}</div>
+                <div class="clean"></div>
+                <div class="label">{{form.departamento.label}}</div>
+                <div class="filtros">{{form.departamento}}<br>{{form.departamento.errors}}</div>
+                <div class="clean"></div>
+                <div class="label">{{form.municipio.label}}</div>
+                <div class="filtros">{{form.municipio}}<br>{{form.municipio.errors}}</div>
+                <div class="clean"></div>
+                <div class="label">{{form.comarca.label}}</div>
+                <div class="filtros">{{form.comarca}}<br>{{form.comarca.errors}}</div> 
+                <div class="clean"></div>    
+                <div class="label">{{form.escolaridad_beneficiario.label}}</div>
+                <div class="filtros">{{form.escolaridad_beneficiario}}<br>{{form.escolaridad_beneficiario.errors}}</div>
+                <div class="clean"></div>
             <div class="label">{{form.escolaridad_conyugue.label}}</div>
             <div class="filtros">{{form.escolaridad_conyugue}}<br>{{form.escolaridad_conyugue.errors}}</div>
             <div class="clean"></div>
-            <!--<div class="label">{{form.familia_dependientes.label}}</div>
-            <div class="filtros">{{form.familia_dependientes}}<br>{{form.familia_dependientes.errors}}</div>
-            <div class="clean"></div>-->
+        </div>
+        <div class="columnaform"><br>
+            <div class="label">{{form.dependientes_max.label}}</div>
+            <div class="filtros">{{form.dependientes_max}}<br>{{form.dependientes_max.errors}}</div>
+            <div class="filtros">{{form.dependientes_min}}<br>{{form.dependientes_min.errors}}</div>
+            <div class="clean"></div>
             <div class="label">{{form.familia_beneficiario.label}}</div>
             <div class="filtros">{{form.familia_beneficiario}}<br>{{form.familia_beneficiario.errors}}</div>
             <div class="clean"></div>
-            <div class="label">{{form.ingresos_total.label}}</div>
-            <div class="filtros">desde {{form.ingresos_total_min}} hasta {{form.ingresos_total_max}}<br>{{form.ingresos_total.errors}}</div>
+<!--
+            <div class="label">{{form.ingresos_fuente.label}}</div>
+            <div class="filtros">{{form.ingresos_total}}<br>{{form.ingresos_total.errors}}</div>
             <div class="clean"></div>
+-->
             <div class="label">{{form.credito_acceso.label}}</div>
             <div class="filtros">{{form.credito_acceso}}<br>{{form.credito_acceso.errors}}</div>
             <div class="clean"></div>
@@ -81,7 +86,7 @@
             <div class="label">{{form.desicion_inversion.label}}</div>
             <div class="filtros">{{form.desicion_inversion}}<br>{{form.desicion_inversion.errors}}</div>
             <div class="clean"></div>
-            <!--
+<!--
             <div class="label">{{form.finca_area_total.label}}</div>
             <div class="filtros">{{form.finca_area_total}}<br>{{form.finca_area_total.errors}}</div>
             <div class="clean"></div>
@@ -99,11 +104,14 @@
             <div class="clean"></div>
             <div class="label">{{form.finca_num_productos.label}}</div>
             <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-            <div class="clean"></div>-->
-            {{form.next_url}}
+            <div class="clean"></div>
+--> {{form.next_url}}
+            </div>
+            <div class="clean"></div>
+                    <button class="consultar"></button>
+        <div class="clean"></div>
         </div>        
-    
-        <button class="consultar">Consultar</button>
+   
     </form>
 </div>
 <div class="clean"></div>

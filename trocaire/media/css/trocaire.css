@@ -500,8 +500,28 @@ label #id_year{
 
 #formulariomax{
     background:#e5f1f6;
-    height:53px;
+    height:25px;
     padding:10px;
+}
+
+#formulariomax label{
+    font-weight:bold;
+    font-size:12px;
+    margin-right:5px;
+}
+
+
+#botonmax{
+    width:105px;
+    height:32px;
+    background:url(../img/actualizarmax.png) no-repeat;
+    border:0;
+    float:right;
+    margin-right:260px;
+}
+
+#botonmax:hover{
+    background:url(../img/actualizarmax2.png) no-repeat;
 }
 #formulariomax #txt_maximo, #formulariomax #txt_minimo,{
     float:left;

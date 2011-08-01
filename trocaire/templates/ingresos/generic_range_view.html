@@ -193,11 +193,11 @@ initalizetab("maintab")
           <option value='13'>13</option>
           <option value='14'>14</option>
         </select>
-        <input type='button' onClick="redirigir(this.form)" value='Cambiar'/>
+        <input id="botonmax"type='button' onClick="redirigir(this.form)" value=''/>
       </form>
 </div>
   </div>
-  <a href="#form-facebox" rel="facebox">Consultar</a>
+  <a href="#form-facebox" rel="facebox"><br><img src="{{MEDIA_URL}}img/cambiarfiltros.png"></a>
   <div id="container"></div>
   <div id="acumulado_container"></div>
   {% include "encuestas/form_facebox.html"%}
