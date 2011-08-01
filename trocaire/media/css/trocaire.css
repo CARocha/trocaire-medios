@@ -93,6 +93,16 @@ a{
 .filtro_sprite:hover{
     background-position: 0 -28px;
 }
+
+.inicio_sprite{
+    background: url(../img/iniciosprite.png) no-repeat;
+    display: inline-block;
+    width: 102px;
+    height: 28px;
+}
+.inicio_sprite:hover{
+    background-position: 0 -28px;
+}
 .banner{
     background: url(../img/banner.png) repeat-x;
     height: 286px;    
@@ -443,6 +453,10 @@ label #id_year{
     cursor:pointer;
 }
 
+#consultar-form button:hover{
+    background:url(../img/consultarform2.jpg) no-repeat;
+}
+
 #bloqueindicadores{
     float:right;
     width:565px;
@@ -471,6 +485,12 @@ label #id_year{
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
+}
+
+#bloqueindicadores a:hover{
+    background:#fff167;
+
+
 }
 
 .activa{

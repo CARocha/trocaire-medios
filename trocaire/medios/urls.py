@@ -5,6 +5,7 @@ from django.views.generic.simple import direct_to_template
 urlpatterns = patterns('trocaire.medios.views',
     url(r'^$', 'index'),
     url(r'^consultar/$', 'consultar', name="consultar"),
+    url(r'^consultarsimple/$', 'consultarsimple', name="consultar"),
     #para extrar los lugares
     url(r'^consultar/ajax/municipio/(?P<departamento>\d+)/$', 'get_municipios'),
     url(r'^consultar/ajax/comarca/(?P<municipio>\d+)/$', 'get_comarca'),

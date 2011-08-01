@@ -107,16 +107,67 @@ def consultar(request):
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
             request.session['parametros'] = parametros
-
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
             else:
-                muestra_indicador =1
+                muestra_indicador = 1
                 return render_to_response('encuestas/consultar.html', locals(),
-                              context_instance=RequestContext(request))
+                            context_instance=RequestContext(request))
     else:
         form = ConsultarForm()
     return render_to_response('encuestas/consultar.html', locals(),
+                              context_instance=RequestContext(request))
+
+def consultarsimple(request):
+    if request.method == 'POST':
+        form = ConsultarForm(request.POST)
+        if form.is_valid():
+            #request.session['fecha'] = form.cleaned_data['fecha']
+            request.session['departamento'] = form.cleaned_data['departamento']
+            request.session['contraparte'] = form.cleaned_data['contraparte']
+            try:
+                municipio = Municipio.objects.get(id=form.cleaned_data['municipio']) 
+            except:
+                municipio = None
+            try:
+                comarca = Comarca.objects.get(id=form.cleaned_data['comarca'])
+            except:
+                comarca = None
+
+            request.session['municipio'] = municipio
+            request.session['comarca'] = comarca
+
+            #cosas de otros modelos!
+            parametros = {'familia.escolaridad': {}, 'familia.composicion': {}, 
+                          'genero.tomadecicion': {}, 'ingresos.principalesfuentes': {},
+                          'ingresos.totalingreso': {}}
+            parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']
+            parametros['familia.escolaridad']['conyugue'] = form.cleaned_data['escolaridad_conyugue']
+            parametros['familia.composicion']['sexo'] = form.cleaned_data['familia_beneficiario']
+            #desicion gasto mayor!
+            #parametros['genero.tomadecicion']['aspectos'] = 1
+            parametros['genero.tomadecicion']['respuesta'] =  form.cleaned_data['desicion_gasto_mayor']
+            #ingresos
+            parametros['ingresos.principalesfuentes']['fuente'] = form.cleaned_data['ingresos_fuente']#TODO: cambiarlo a fuente__in
+            parametros['ingresos.totalingreso']['total__gte'] = form.cleaned_data['ingresos_total_min']
+            parametros['ingresos.totalingreso']['total__lte'] = form.cleaned_data['ingresos_total_max']
+            #dependientes
+            parametros['familia.composicion']['dependientes__gte'] = form.cleaned_data['dependientes_min']
+            parametros['familia.composicion']['dependientes__lte'] = form.cleaned_data['dependientes_max']
+            #parametros['formas_propiedad.finca']['area'] = forms.cleaned_data['finca_area_total']
+            #parametros['produccion.ganadomayor']['num_vacas'] = forms.cleaned_data['finca_num_vacas']
+            #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
+            #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
+            request.session['parametros'] = parametros
+            if form.cleaned_data['next_url']:
+                return HttpResponseRedirect(form.cleaned_data['next_url'])
+            else:
+                muestra_indicador = 1
+                return render_to_response('encuestas/consultarsimple.html', locals(),
+                            context_instance=RequestContext(request))
+    else:
+        form = ConsultarForm()
+    return render_to_response('encuestas/consultarsimple.html', locals(),
                               context_instance=RequestContext(request))
 
 #===============================================================================
