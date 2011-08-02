@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Familias gastan más de una hora para recolectar agua{% endblock %}
+{% block extratitle %}Familias que realizan prácticas de conservación de suelo y agua{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -75,6 +75,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block contenido %}
+{% include "encuestas/navegacion.html"%}
 <div>
 	<table class="tabla-resultados">
 	<caption>% de familias</caption>
