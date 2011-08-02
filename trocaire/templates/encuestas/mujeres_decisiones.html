@@ -14,14 +14,17 @@
                 defaultSeriesType: 'column'
             },
             title: {
-                text: '% de familias donde los hombre realizan tareas domésticas'
+                text: 'Mujeres con pareja que toman decisiones'
             },
             subtitle: {
                 text: ''
             },
             xAxis: {
                 categories: [
-                    'Opciones'
+                    'Varón',
+                    'Mujer',
+                    'Ambos',
+                    'No aplica'
                 ]
             },
             yAxis: {
@@ -34,7 +37,7 @@
             tooltip: {
                 formatter: function() {
                     return ''+
-                        this.series.name +': '+ this.y +'%';
+                        this.series.name +': '+ this.y +'';
                 }
             },
             plotOptions: {
@@ -48,11 +51,11 @@
                     minPointLength : 1
                 }
             },
-            series: [{% for value in tabla_resp %}
+            series: [{%for a in tabla_mu%}
                 {
-                    name: '{{value.0}}',
-                    data: [{{value.1}}],
-                    dataLabels: {
+                        name: '{{a.0}}',
+                        data: [{%for b in a.1%}{{b}},{%endfor%}],
+                        dataLabels: {
                         enabled: true,
                         rotation: 0,
                         color: '#632D00',
@@ -65,33 +68,36 @@
                         style: {
                             font: 'normal 13px Verdana, sans-serif'
                                 }
-                                }
+                                }   
                 },
-                {% endfor %}]
+                {%endfor%}]
         });
     });
 </script>
 {% endblock %}
 
 {% block contenido %}
-{% include "encuestas/navegacion.html"%}
 total_filtrado-->{{numero}}<br>
 <div>
 	<table class="tabla-resultados">
 	<caption>% de familias donde los hombre realizan tareas domésticas</caption>
 	<thead>
 		<tr>		
-			<th>Tareas</th>
-			<th>Total</th>
-			<th>%</th>
+			<th>Tipos</th>
+			<th>Varón</th>
+			<th>Mujer</th>
+			<th>Ambos</th>
+			<th>No aplica</th>
 		</tr>
 	</thead>
 	<tbody>
-    	{%for value in tabla_resp %}
+    	{%for value in tabla_mu %}
     	<tr>
                 <td>{{value.0}}</td>
-                <td>{{value.1}}</td>
-                <td>{{value.1|get_frec:tabla_responsable}}</td>
+                {%for a in value.1%}
+                <td>{{a}}</td>
+                {%endfor%}
+                
         {%endfor%}
 	</tbody>
 	</table>

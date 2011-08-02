@@ -345,9 +345,15 @@ def mujeres_decisiones(request):
     numero = encuestas.count()
     tabla_mujeres = {}
     for a in CHOICE_ASPECTO:
-        con_hombre = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=1, aspecto=a[0]).count()
-        con_mujer = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=2, aspecto=a[0]).count()
+        con_hombre = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=1, aspectos=a[0]).count()
+        con_mujer = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=2, aspectos=a[0]).count()
+        con_ambos = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=3, aspectos=a[0]).count()
+        no_aplica = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=4, aspectos=a[0]).count()
+        tabla_mujeres[a[1]] = (con_hombre,con_mujer,con_ambos,no_aplica)
+
+    tabla_mu = _order_dicc(copy.deepcopy(tabla_mujeres))    
             
+    return render_to_response('encuestas/mujeres_decisiones.html', RequestContext(request,locals()))
     
 def sexo_beneficiario(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)

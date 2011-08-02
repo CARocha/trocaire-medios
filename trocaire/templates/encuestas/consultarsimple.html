@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block extratitle %}Consultas Simples{% endblock %}
 
 {%block extrahead%}
 <script type="text/javascript">
@@ -11,7 +12,7 @@
         $("#id_departamento").change(function () {
             var index = departamento.options.selectedIndex;
             var id = departamento.options[index].value;
-            $.getJSON("ajax/municipio/" + id +"/",
+            $.getJSON("/consultar/ajax/municipio/" + id +"/",
             function(data){
                 municipio.options.length = 0;
                 municipio.options[0] = new Option("--------");
@@ -25,7 +26,7 @@
         $("#id_municipio").change(function () {
             var index = municipio.options.selectedIndex;
             var id = municipio.options[index].value;
-            $.getJSON("ajax/comarca/" + id +"/",
+            $.getJSON("/consultar/ajax/comarca/" + id +"/",
             function(data){
                 comarca.options.length = 0;
                 comarca.options[0] = new Option("---------");
@@ -37,6 +38,11 @@
         
     });
 </script>
+<style type="text/css">
+.hidden{
+	visibility: hidden;
+}
+</style>
 {% endblock %}
 
 
@@ -63,11 +69,11 @@
                 <div class="label">{{form.escolaridad_beneficiario.label}}</div>
                 <div class="filtros">{{form.escolaridad_beneficiario}}<br>{{form.escolaridad_beneficiario.errors}}</div>
                 <div class="clean"></div>
-            <div class="label">{{form.escolaridad_conyugue.label}}</div>
-            <div class="filtros">{{form.escolaridad_conyugue}}<br>{{form.escolaridad_conyugue.errors}}</div>
+            <div class="label hidden">{{form.escolaridad_conyugue.label}}</div>
+            <div class="filtros hidden">{{form.escolaridad_conyugue}}<br>{{form.escolaridad_conyugue.errors}}</div>
             <div class="clean"></div>
         </div>
-        <div class="columnaform"><br>
+        <div class="columnaform hidden"><br>
             <div class="label">{{form.dependientes_max.label}}</div>
             <div class="filtros">{{form.dependientes_max}}<br>{{form.dependientes_max.errors}}</div>
             <div class="filtros">{{form.dependientes_min}}<br>{{form.dependientes_min.errors}}</div>
@@ -136,6 +142,8 @@
         <a href="/encuestas/familias-practicas/">Conservación Suelo y Agua</a>
         <a href="/encuestas/acceso-tierra/">Acceso a Tierra</a>
         <a href="/encuestas/acceso-agua/">Acceso a Agua</a>
+        <a href="{% url hombre_responsable %}">hombres hacen tareas domésticas</a><br>
+        <a href="{% url mujeres_decisiones %}">Mujeres toman decisiones</a><br>
         <div class="clean"></div>
 </div>
 {%endif%}
