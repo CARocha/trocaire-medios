@@ -209,7 +209,7 @@ def datos_sexo(request):
             tabla_sexo_jefe[3] += 1
     tabla_sexo_beneficiario['masculino'] = composicion_familia.filter(sexo=1).count()
     tabla_sexo_beneficiario['femenino'] = composicion_familia.filter(sexo=2).count()                
-        
+    dondetoy = "sexojefe"
     return render_to_response('encuestas/datos_sexo.html', RequestContext(request, locals()))
 
 def agua_clorada(request):
@@ -240,7 +240,7 @@ def agua_clorada(request):
     
     tabla_aguas['total'] =  tabla_aguas['masculino'] + tabla_aguas['femenino']
     tabla_aguas['porcentaje_total'] = round(saca_porcentajes(tabla_aguas['total'],numero),1)
-    
+    dondetoy = "cloran"
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
 def gastan_horas(request):
@@ -259,7 +259,7 @@ def gastan_horas(request):
     
     tablas_gastan['total'] =  tablas_gastan['masculino'] + tablas_gastan['femenino']
     tablas_gastan['porcentaje_total'] = round(saca_porcentajes(tablas_gastan['total'],numero),1)
-    
+    dondetoy = "recolectar"
     return render_to_response('encuestas/gastan_horas.html', RequestContext(request,locals()))
 
 def familias_practicas(request):
@@ -272,7 +272,7 @@ def familias_practicas(request):
     dicc['familias'] = query.count()
     dicc_h_m['familias'] = _hombre_mujer_dicc(query.values_list('encuesta__id', flat=True), jefe=True)
     tabla_csa= _order_dicc(copy.deepcopy(dicc))
-        
+    dondetoy = "conservacion"
     return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))    
 
 def promedio_suelo(request):
@@ -285,7 +285,7 @@ def promedio_suelo(request):
         hombre = encuestas.filter(areaprotegida__respuesta=a[0], composicion__sexo=1, composicion__sexo_jefe=1).aggregate(Avg('areaprotegida__cantidad'))
         #suma +=hombre
         dicc[a[1]] = hombre
-               
+    #dondetoy = "conservacion"
     return render_to_response('encuestas/promedio_suelo.html', RequestContext(request,locals()))
 
 def acceso_tierra(request):
@@ -299,7 +299,7 @@ def acceso_tierra(request):
         dicc1[a[1]] = total.count()
         dicc1_h_m[a[1]] = _hombre_mujer_dicc(total.values_list('encuesta__id', flat=True))
     tabla_dicc1 = _order_dicc(copy.deepcopy(dicc1))
-     
+    dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
     
 def acceso_agua(request):
@@ -325,7 +325,7 @@ def acceso_agua(request):
     tabla_acceso['t_no_aplica'] = tabla_acceso['h_no_aplica'] + tabla_acceso['m_no_aplica']
     tabla_acceso['t_otros'] = tabla_acceso['h_otros'] + tabla_acceso['m_otros']
     
-    
+    dondetoy = "accesoagua"
     return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
     
 def hombre_responsable(request):
@@ -369,7 +369,7 @@ def sexo_beneficiario(request):
                 hombre_jefe[composicion.sexo] += 1
             elif composicion.sexo_jefe == 2:
                 mujer_jefe[composicion.sexo] += 1                        
-    
+    dondetoy = "sexobene"
     return render_to_response('encuestas/sexo_beneficiario.html', RequestContext(request, locals()))
 
 def escolaridad(request):    
@@ -382,7 +382,7 @@ def escolaridad(request):
         esc_benef[nivel_edu[1]] = escolaridad_query.count()
         esc_h_m[nivel_edu[1]] = _hombre_mujer_dicc(escolaridad_query.values_list('encuesta__id', flat=True))        
     tabla_esc_benef = _order_dicc(copy.deepcopy(esc_benef))
-    
+    dondetoy = "escolaridad"
     return render_to_response('encuestas/escolaridad.html', RequestContext(request, locals()))
 
 def credito(request):
@@ -396,7 +396,7 @@ def credito(request):
         credito[op.nombre] = query.count()
         credito_h_m[op.nombre] = _hombre_mujer_dicc(query.values_list('encuesta__id', flat=True), jefe=True)
     tabla_credito = _order_dicc(copy.deepcopy(credito))
-            
+    dondetoy = "creditofamilia"
     return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
 
 def participacion(request):
@@ -408,6 +408,7 @@ def participacion(request):
     
     query2 = ParticipacionCPC.objects.filter(encuesta__in=encuestas, organismo=2)
     part_asam = query2.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))
+    dondetoy = "participacion"
     return render_to_response('encuestas/participacion.html', RequestContext(request, locals()))
 
 def ingreso_agropecuario(request):
@@ -424,6 +425,7 @@ def ingreso_agropecuario(request):
             'hombre': calcular_frecuencia(query_hombre.filter(fuentes_ap__gte=1).count(), query_hombre.count()), 
             'mujer': calcular_frecuencia(query_mujer.filter(fuentes_ap__gte=1).count(), query_mujer.count()),
             'compartido': calcular_frecuencia(query_compartido.filter(fuentes_ap__gte=1).count(), query_compartido.count()),}
+    dondetoy = "actividadesagro"
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
 def ingreso_familiar(request):
@@ -447,7 +449,7 @@ def ingreso_familiar(request):
                 'mujer_jefe': calcular_mediana(query_mujer_jefe),
                 'compartido': calcular_mediana(query_compartido_jefe)
                 }
-    
+    dondetoy = "ingresosfam"
     return render_to_response('encuestas/ingreso_familiar.html', RequestContext(request, locals()))
 
 def abastecimiento(request):
@@ -497,7 +499,7 @@ def abastecimiento(request):
     
     totales = {1: len(jefes_ids[1]), 2: len(jefes_ids[2]), 3: len(jefes_ids[3])}
     totales['total'] = sum(totales.values())
-            
+    dondetoy = "autoabastecimiento"
     return render_to_response('encuestas/abastecimiento.html', RequestContext(request, locals()))
 
 def reducir_lista(lista):
