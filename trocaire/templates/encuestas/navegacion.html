@@ -1,0 +1,53 @@
+{% block extrahead %}
+<script src="{{MEDIA_URL}}js/2leveltab.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet"  href="{{MEDIA_URL}}css/2leveltab.css" >
+{%endblock%}
+{% block navegacion %}
+<ul id="maintab" class="basictab">
+    {%if dondetoy = 'sexojefe' or dondetoy = 'sexobene' or dondetoy = 'escolaridad' or dondetoy = 'participacion'%}
+    <li class="selected" rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
+    {%else%}
+    <li  rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
+    {%endif%}
+    
+    {%if dondetoy = 'creditofamilia' or dondetoy = 'actividadesagro' or dondetoy = 'ingresosfam'%}
+    <li class="selected" rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
+    {%else%}
+    <li  rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
+    {%endif%}
+    
+    {%if dondetoy = 'cloran' or dondetoy = 'autoabastecimiento' or dondetoy = 'recolectar' or dondetoy = 'accesoagua' or dondetoy = 'accesotierra' or dondetoy = "conservacion"%}
+    <li class="selected" rel="conservación"><a href="#">CONSERVACIÓN &#9660;</a></li>
+    {%else%}
+    <li  rel="conservación"><a href="#">CONSERVACIÓN &#9660;</a></li>
+    {%endif%}
+</ul>
+
+
+<div id="familias" class="submenustyle">
+    <a {%ifequal dondetoy 'sexojefe'%}class="activa"{%endifequal%} href="/encuestas/datos-x-sexo/">Sexo Jefe familia</a>
+    <a {%ifequal dondetoy 'sexobene'%}class="activa"{%endifequal%}href="/encuestas/sexo-beneficiario/">Sexo beneficiario</a>
+    <a {%ifequal dondetoy 'escolaridad'%}class="activa"{%endifequal%}href="/encuestas/escolaridad/">Escolaridad</a>
+    <a {%ifequal dondetoy 'participacion'%}class="activa"{%endifequal%}href="/encuestas/participacion/">Participación ciudadana</a>
+</div>
+
+<div id="ingresos" class="submenustyle">
+    <a {%ifequal dondetoy 'creditofamilia'%}class="activa"{%endifequal%}  href="/encuestas/credito/">Crédito Familia</a>
+    <a {%ifequal dondetoy 'actividadesagro'%}class="activa"{%endifequal%}  href="/encuestas/ingreso-agropecuario/">Actividad Agropecuaria</a>
+    <a {%ifequal dondetoy 'ingresosfam'%}class="activa"{%endifequal%} href="/encuestas/ingreso-familiar/">Ingresos Familiares</a>
+</div>
+
+<div id="conservación" class="submenustyle">
+    <a {%ifequal dondetoy 'autoabastecimiento'%}class="activa"{%endifequal%} href="/encuestas/abastecimiento/">Autoabastecimiento</a>
+    <a {%ifequal dondetoy 'cloran'%}class="activa"{%endifequal%} href="/encuestas/agua-clorada/">Cloran el agua</a>
+    <a {%ifequal dondetoy 'recolectar'%}class="activa"{%endifequal%} href="/encuestas/gastan-horas/">Recolectar Agua</a>
+    <a {%ifequal dondetoy 'conservacion'%}class="activa"{%endifequal%} href="/encuestas/familias-practicas/">Conservación Suelo y Agua</a>
+    <a {%ifequal dondetoy 'accesotierra'%}class="activa"{%endifequal%} href="/encuestas/acceso-tierra/">Acceso a Tierra</a>
+    <a {%ifequal dondetoy 'accesoagua'%}class="activa"{%endifequal%} href="/encuestas/acceso-agua/">Acceso a Agua</a>
+</div>
+
+<script type="text/javascript">
+//initialize tab menu, by passing in ID of UL
+initalizetab("maintab")
+</script>
+{%endblock%}
