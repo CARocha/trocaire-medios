@@ -108,6 +108,10 @@ def consultar(request):
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
             request.session['parametros'] = parametros
+            
+            encuestas = _query_set_filtrado(request)
+            
+            
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
             else:
