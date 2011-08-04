@@ -29,14 +29,14 @@ def _query_set_filtrado(request):
     if 'contraparte' in request.session:
         params['contraparte'] =  request.session['contraparte'] 
 
-        if 'departamento' in request.session:
-            if 'municipio' in request.session:
-                if 'comarca' in request.session:
+        if 'departamento' in request.session:                     
+            if request.session['municipio']:                
+                if request.session['comarca']:
                     params['comarca'] = request.session['comarca']
-                else:
-                    params['comarca__municipio'] = request.session['municipio']
-            else:
-                params['comarca__municipio__departamento'] = request.session['departamento']
+                else:                    
+                    params['municipio'] = request.session['municipio']
+            else:                
+                params['municipio__departamento'] = request.session['departamento']
             
         unvalid_keys = []
         for key in params:
@@ -48,23 +48,32 @@ def _query_set_filtrado(request):
         #despelote
         encuestas_id = []
         reducir = False
-        last_key = (None, None)
+        last_key = (None, None)        
         for i, key in enumerate(request.session['parametros']):
             #TODO: REVISAR ESTO
             for k, v in request.session['parametros'][key].items():
                 if v is None or str(v) == 'None':
                     del request.session['parametros'][key][k]
-            model = get_model(*key.split('.'))
+            model = get_model(*key.split('.'))            
             if len(request.session['parametros'][key]):
                 reducir = True if (last_key[1] != key > 1 and last_key[0] == None) or reducir==True else False
                 last_key = (i, key)
-                ids = model.objects.filter(**request.session['parametros'][key]).values_list('id', flat=True)
+                ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)                
                 encuestas_id += ids
         if not encuestas_id:
             return Encuesta.objects.filter(**params)
         else:
-            ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id
+            ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id            
             return Encuesta.objects.filter(id__in = ids_definitivos, **params)
+
+def reducir_lista(lista):
+    '''reduce la lista dejando solo los elementos que son repetidos
+       osea lo contraron a unique'''    
+    nueva_lista = []
+    for foo in lista:        
+        if lista.count(foo) >= 1 and foo not in nueva_lista:
+            nueva_lista.append(foo)         
+    return nueva_lista
 
 #===============================================================================
 def consultar(request):
@@ -511,15 +520,6 @@ def abastecimiento(request):
     totales['total'] = sum(totales.values())
     dondetoy = "autoabastecimiento"
     return render_to_response('encuestas/abastecimiento.html', RequestContext(request, locals()))
-
-def reducir_lista(lista):
-    '''reduce la lista dejando solo los elementos que son repetidos
-       osea lo contraron a unique'''
-    nueva_lista = []
-    for foo in lista:
-        if lista.count(foo) > 1 and foo not in nueva_lista:
-            nueva_lista.append(foo)
-    return nueva_lista
 
 def _hombre_mujer_dicc(ids, jefe=False):
     '''Funcion que por defecto retorna la cantidad de beneficiarios
