@@ -81,8 +81,14 @@
 
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Autoabastecimiento de granos básicos</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+<div class="contraparts">
+{% include "encuestas/filtros_seleccionados.html" %}
+</div>
 <div>
-	<div class="title">Granos básicos</div>
 	<table class="tabla-resultados">
 	<caption>Autoabastecimiento de granos básicos</caption>
 	<thead>
@@ -112,10 +118,7 @@
 		</tbody>
 	</table>
 	<div>
-		Encuestas sin registro de consumo: {{encuestas_sin_consumo|length}}<br>
-		Encuestas sin registro de maiz: {{encuestas_sin_maiz|length}}<br>
-		Encuestas sin registro de frijol: {{encuestas_sin_frijol|length}}<br>
-		Total encuestas: {{encuestas.count}}
+		 
 	</div>
 	<div id="grafo" class="grafo"></div>
 </div>
