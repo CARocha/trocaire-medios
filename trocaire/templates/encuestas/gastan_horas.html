@@ -74,10 +74,14 @@ $(document).ready(function() {
 
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
-{{numero}}
+<div class="title_bar">
+    <div class="titulo">Familas que gastan más de una hora para recolectar agua</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+{% include "encuestas/filtros_seleccionados.html" %}
 <div>
 	<table class="tabla-resultados">
-	<caption>% de familas que gastan más de una hora para recolectar agua</caption>
+	<caption>Porcentaje % de familas que gastan más de una hora para recolectar agua</caption>
 	<thead>
 		<tr>		
 			<th>Total</th>

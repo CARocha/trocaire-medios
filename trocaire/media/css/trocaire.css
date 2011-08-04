@@ -262,7 +262,7 @@ a{
     padding:4px 10px 4px 10px;
     float:left;
     background:#fff;
-    color:#a91051;
+    color:#914100;
     font-weight:bold;
     font-size:17px;
     margin:5px;
@@ -526,4 +526,13 @@ label #id_year{
 #formulariomax #txt_maximo, #formulariomax #txt_minimo,{
     float:left;
 }
-
+.filtros-seleccionados{
+    border: #cae4f2 1px solid;
+    background:#eef7f7;
+}
+.filtro{
+    font-size:12px;
+    color:#4e4e4e;
+    float:left;
+    margin:4px 10px 4px 10px;
+}

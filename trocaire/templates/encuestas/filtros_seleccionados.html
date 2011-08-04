@@ -1,0 +1,23 @@
+<div class="filtros-seleccionados">
+	<center><div style="background:#add9d9; width:100%;">FILTROS SELECCIONADOS</div></center>
+    <div class="filtro"><b>Num. Encuestas</b><br><div style ="font-size:19px;">{{encuestas.count}}</div></div>
+    {% if request.session.contraparte %}
+    <div class="filtro"><b>Contraparte</b><br>{{request.session.contraparte}}</div>
+    {% endif %}
+    {% if request.session.departamento %}
+    <div class="filtro"><b>Departamento</b><br>{{request.session.departamento}}</div>
+    {% endif %}
+    {% if request.session.municipio %}
+    <div class="filtro"><b>Municipio</b><br>{{request.session.municipio}}</div>
+    {% endif %}
+<!--
+    {% if request.session.parametros %}
+    {%for algo in request.session.parametros%}
+    <div class="filtro"><b>Escolaridad</b><br>{{algo}}</div>
+    {%endfor%}
+    {% endif %}
+-->
+    
+
+    <div class="clean"></div>
+</div>
