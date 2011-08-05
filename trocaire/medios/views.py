@@ -29,14 +29,14 @@ def _query_set_filtrado(request):
     if 'contraparte' in request.session:
         params['contraparte'] =  request.session['contraparte'] 
 
-        if 'departamento' in request.session:
-            if 'municipio' in request.session:
-                if 'comarca' in request.session:
+        if 'departamento' in request.session:                     
+            if request.session['municipio']:                
+                if request.session['comarca']:
                     params['comarca'] = request.session['comarca']
-                else:
-                    params['comarca__municipio'] = request.session['municipio']
-            else:
-                params['comarca__municipio__departamento'] = request.session['departamento']
+                else:                    
+                    params['municipio'] = request.session['municipio']
+            else:                
+                params['municipio__departamento'] = request.session['departamento']
             
         unvalid_keys = []
         for key in params:
@@ -48,23 +48,34 @@ def _query_set_filtrado(request):
         #despelote
         encuestas_id = []
         reducir = False
-        last_key = (None, None)
+        last_key = (None, None)        
         for i, key in enumerate(request.session['parametros']):
             #TODO: REVISAR ESTO
             for k, v in request.session['parametros'][key].items():
                 if v is None or str(v) == 'None':
                     del request.session['parametros'][key][k]
-            model = get_model(*key.split('.'))
+            model = get_model(*key.split('.'))            
             if len(request.session['parametros'][key]):
                 reducir = True if (last_key[1] != key > 1 and last_key[0] == None) or reducir==True else False
                 last_key = (i, key)
-                ids = model.objects.filter(**request.session['parametros'][key]).values_list('id', flat=True)
+                ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)
+                print '---------------------------------------------'
+                print len(ids)                
                 encuestas_id += ids
         if not encuestas_id:
             return Encuesta.objects.filter(**params)
         else:
-            ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id
+            ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id            
             return Encuesta.objects.filter(id__in = ids_definitivos, **params)
+
+def reducir_lista(lista):
+    '''reduce la lista dejando solo los elementos que son repetidos
+       osea lo contraron a unique'''    
+    nueva_lista = []
+    for foo in lista:        
+        if lista.count(foo) >= 1 and foo not in nueva_lista:
+            nueva_lista.append(foo)         
+    return nueva_lista
 
 #===============================================================================
 def consultar(request):
@@ -108,6 +119,10 @@ def consultar(request):
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
             request.session['parametros'] = parametros
+            
+            encuestas = _query_set_filtrado(request)
+            
+            
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
             else:
@@ -395,7 +410,7 @@ def credito(request):
     encuestas = _query_set_filtrado(request)
     opciones = Credito.objects.all()
     credito = {}
-    credito_h_m = {}
+    credito_h_m = {}    
     for op in opciones:
         query = AccesoCredito.objects.filter(Q(hombre=op) | Q(mujer=op) | Q(otro_hombre=op) | Q(otra_mujer=op),
                                                                 encuesta__in=encuestas)
@@ -508,15 +523,6 @@ def abastecimiento(request):
     dondetoy = "autoabastecimiento"
     return render_to_response('encuestas/abastecimiento.html', RequestContext(request, locals()))
 
-def reducir_lista(lista):
-    '''reduce la lista dejando solo los elementos que son repetidos
-       osea lo contraron a unique'''
-    nueva_lista = []
-    for foo in lista:
-        if lista.count(foo) > 1 and foo not in nueva_lista:
-            nueva_lista.append(foo)
-    return nueva_lista
-
 def _hombre_mujer_dicc(ids, jefe=False):
     '''Funcion que por defecto retorna la cantidad de beneficiarios
     hombres y mujeres de una lista de ids. Si jefe=True, retorna los
@@ -524,15 +530,16 @@ def _hombre_mujer_dicc(ids, jefe=False):
     composicion_familia = Composicion.objects.filter(encuesta__id__in=ids)
     if jefe:
         '''1: Hombre, 2: Mujer, 3: Compartido'''    
-        dicc = {1: 0, 2: 0, 3: 0}    
+        dicc = {1: 0, 2: 0}    
         for composicion in composicion_familia:
             #validar si el beneficiario es el jefe de familia
-            if composicion.beneficio == 1:
+            if composicion.beneficio in [1, 3]:
                 dicc[composicion.sexo] += 1
             elif composicion.beneficio == 2:
-                dicc[composicion.sexo_jefe] += 1     
-            else:
-                dicc[3] += 1
+                if composicion.sexo_jefe in [1, 2]:
+                    dicc[composicion.sexo_jefe] += 1
+                else:
+                    dicc[composicion.sexo] += 1
             
         return dicc
                        
@@ -550,21 +557,17 @@ def _queryid_hombre_mujer(ids, flag=False):
     dicc = {1: [], 2: [], 3: []}
     for composicion in composicion_familia:
         #validar si el beneficiario es el jefe de familia
-        if composicion.beneficio == 1:
+        if composicion.beneficio in [1, 3]:
             if not flag:
                 dicc[composicion.sexo].append(composicion.encuesta.id)
             else:
                 dicc[composicion.sexo].append(composicion.encuesta)
-        elif composicion.beneficio == 2:
+        else:
             if not flag:
                 dicc[composicion.sexo_jefe].append(composicion.encuesta.id)
             else:
-                dicc[composicion.sexo_jefe].append(composicion.encuesta)                          
-        else:
-            if not flag:
-                dicc[3].append(composicion.encuesta.id)
-            else:
-                dicc[3].append(composicion.encuesta)
+                dicc[composicion.sexo_jefe].append(composicion.encuesta)                         
+        
             
     return dicc                    
      
