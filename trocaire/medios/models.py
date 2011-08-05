@@ -30,7 +30,7 @@ class Encuesta(models.Model):
     #campos ocultos para efectos de querys
     sexo_jefe = models.IntegerField(default=0, editable=False)
     #credito si: 1, credito no: 2
-    credito = models.IntegerField(default=2, editable=False)
+    credito = models.IntegerField(default=2)
 
     def __unicode__(self):
         return self.beneficiario
