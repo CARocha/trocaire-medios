@@ -66,7 +66,7 @@ padding: 2px 1px;
 border-top-width: 0;
 font-size:14px;
 width: auto;
-height:41px;
+height:34px;
 background:url(../img/fondomenusub.png) repeat-x;
 display: none;
 filter:alpha(opacity=0);
@@ -79,9 +79,10 @@ width: 100%;
 
 .submenustyle a{
 border-right: 1px solid #e5ca84;
-padding: 13px 20px;
+padding: 10px 7px;
 text-decoration: none;
 display:block;
+font-size:12px;
 float:left;
 color:#535353;
 }

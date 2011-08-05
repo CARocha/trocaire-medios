@@ -44,7 +44,7 @@ menuitems[i].setAttribute("rev", tabid) //associate this submenu with main tab
 mastertabvar[tabid][mastertabvar[tabid].length]=menuitems[i].getAttribute("rel") //store ids of submenus of tab menu
 if (menuitems[i].className=="selected")
 showsubmenu(tabid, menuitems[i].getAttribute("rel"))
-menuitems[i].getElementsByTagName("a")[0].onmouseover=function(){
+menuitems[i].getElementsByTagName("a")[0].onclick=function(){
 showsubmenu(this.parentNode.getAttribute("rev"), this.parentNode.getAttribute("rel"))
 }
 }

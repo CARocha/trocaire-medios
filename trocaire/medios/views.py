@@ -352,7 +352,7 @@ def hombre_responsable(request):
         tabla_responsable[hombre[1]] = conteo
 
     tabla_resp = _order_dicc(copy.deepcopy(tabla_responsable))
-                
+    dondetoy = "hombreresp"
     return render_to_response('encuestas/hombre_responsable.html', RequestContext(request,locals()))    
 
 def mujeres_decisiones(request):
@@ -367,7 +367,7 @@ def mujeres_decisiones(request):
         tabla_mujeres[a[1]] = (con_hombre,con_mujer,con_ambos,no_aplica)
 
     tabla_mu = _order_dicc(copy.deepcopy(tabla_mujeres))    
-            
+    dondetoy = "mujeresdecision"
     return render_to_response('encuestas/mujeres_decisiones.html', RequestContext(request,locals()))
     
 def sexo_beneficiario(request):
