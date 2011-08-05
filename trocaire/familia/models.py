@@ -21,6 +21,18 @@ class Composicion(models.Model):
     #ocultos
     dependientes = models.FloatField(editable=False, default=0)
 
+    def _get_sexo_jefe(self):
+        #validar si el beneficiario es el jefe de familia o es compartido
+        if self.beneficio in [1, 3]:
+            return self.sexo        
+        #si el beneficiario no es el jefe
+        elif self.beneficio == 2:
+            if self.sexo_jefe in [1, 2]:
+                return self.sexo_jefe                    
+            else:
+                #si no aplica, tomar el sexo del beneficiario como sexo del jefe
+                return self.sexo  
+
     def save(self, *args, **kwargs):
         #debe de haber una mejor manera de hacer esto pero me vale gaver! :-D
         viejos = sum(map(sum, Descripcion.objects.filter(descripcion = 4, encuesta = self.encuesta).values_list('femenino','masculino')))
@@ -31,6 +43,12 @@ class Composicion(models.Model):
             self.dependientes = (viejos + chateles + discapacitados) / (float(adultos) - discapacitados)
         except:
             self.dependientes = 0
+        
+        '''antes de guardar los dependientes, guardar el sexo del jefe en la encuesta'''
+        self.encuesta.sexo_jefe = self._get_sexo_jefe()
+        self.encuesta.save()
+        
+        #ahora guardar los dependientes        
         super(Composicion, self).save(*args, **kwargs)
 
     class Meta:
