@@ -1,8 +1,14 @@
-#Fri Jul 29 14:10:53 CST 2011
+#Fri Aug 05 11:38:11 CST 2011
 eclipse.preferences.version=1
+encoding//calidad_vida/models.py=utf-8
 encoding//crisis_alimentaria/models.py=utf-8
+encoding//diversidad_alimentaria/models.py=utf-8
 encoding//familia/models.py=utf-8
+encoding//genero/models.py=utf-8
+encoding//ingresos/migrations/0009_actualizar_fuentes.py=utf-8
 encoding//ingresos/models.py=utf-8
+encoding//medios/migrations/0005_update_sexo_jefe.py=utf-8
 encoding//medios/models.py=utf-8
 encoding//medios/views.py=utf-8
+encoding//produccion/migrations/0006_calcular_productividad.py=utf-8
 encoding//produccion/models.py=utf-8
