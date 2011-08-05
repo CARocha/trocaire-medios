@@ -26,6 +26,9 @@ class Encuesta(models.Model):
     encuestador = models.ForeignKey(Recolector, verbose_name="Nombre del encuestador")
     contraparte = models.ForeignKey(Contraparte, null=True, blank=True)
     usuario = models.ForeignKey(User)
+    
+    #campos ocultos para efectos de querys
+    sexo_jefe = models.IntegerField(default=0, editable=False)
 
     def __unicode__(self):
         return self.beneficiario

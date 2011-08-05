@@ -58,7 +58,9 @@ def _query_set_filtrado(request):
             if len(request.session['parametros'][key]):
                 reducir = True if (last_key[1] != key > 1 and last_key[0] == None) or reducir==True else False
                 last_key = (i, key)
-                ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)                
+                ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)
+                print '---------------------------------------------'
+                print len(ids)                
                 encuestas_id += ids
         if not encuestas_id:
             return Encuesta.objects.filter(**params)
@@ -408,7 +410,7 @@ def credito(request):
     encuestas = _query_set_filtrado(request)
     opciones = Credito.objects.all()
     credito = {}
-    credito_h_m = {}
+    credito_h_m = {}    
     for op in opciones:
         query = AccesoCredito.objects.filter(Q(hombre=op) | Q(mujer=op) | Q(otro_hombre=op) | Q(otra_mujer=op),
                                                                 encuesta__in=encuestas)
@@ -528,15 +530,16 @@ def _hombre_mujer_dicc(ids, jefe=False):
     composicion_familia = Composicion.objects.filter(encuesta__id__in=ids)
     if jefe:
         '''1: Hombre, 2: Mujer, 3: Compartido'''    
-        dicc = {1: 0, 2: 0, 3: 0}    
+        dicc = {1: 0, 2: 0}    
         for composicion in composicion_familia:
             #validar si el beneficiario es el jefe de familia
-            if composicion.beneficio == 1:
+            if composicion.beneficio in [1, 3]:
                 dicc[composicion.sexo] += 1
             elif composicion.beneficio == 2:
-                dicc[composicion.sexo_jefe] += 1     
-            else:
-                dicc[3] += 1
+                if composicion.sexo_jefe in [1, 2]:
+                    dicc[composicion.sexo_jefe] += 1
+                else:
+                    dicc[composicion.sexo] += 1
             
         return dicc
                        
@@ -554,21 +557,17 @@ def _queryid_hombre_mujer(ids, flag=False):
     dicc = {1: [], 2: [], 3: []}
     for composicion in composicion_familia:
         #validar si el beneficiario es el jefe de familia
-        if composicion.beneficio == 1:
+        if composicion.beneficio in [1, 3]:
             if not flag:
                 dicc[composicion.sexo].append(composicion.encuesta.id)
             else:
                 dicc[composicion.sexo].append(composicion.encuesta)
-        elif composicion.beneficio == 2:
+        else:
             if not flag:
                 dicc[composicion.sexo_jefe].append(composicion.encuesta.id)
             else:
-                dicc[composicion.sexo_jefe].append(composicion.encuesta)                          
-        else:
-            if not flag:
-                dicc[3].append(composicion.encuesta.id)
-            else:
-                dicc[3].append(composicion.encuesta)
+                dicc[composicion.sexo_jefe].append(composicion.encuesta)                         
+        
             
     return dicc                    
      
