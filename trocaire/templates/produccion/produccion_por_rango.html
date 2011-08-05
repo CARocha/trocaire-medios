@@ -291,4 +291,15 @@ initalizetab("maintab")
   <div id="container2"></div>
   <div id="acumulado_container2"></div>
   {% include "encuestas/form_facebox.html"%}
+<script type="text/javascript">
+$(window).load(function () {
+    $('.basictab li').click(function(){
+        $('.basictab li').each(function(){
+            $(this).removeClass('selected');
+        });
+        $(this).addClass('selected');
+    });
+});
+</script>
 {% endblock %}
+
