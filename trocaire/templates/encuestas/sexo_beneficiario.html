@@ -75,8 +75,12 @@
 
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Datos de sexo de beneficiario según jefe de familia</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+{% include "encuestas/filtros_seleccionados.html" %}
 <div>
-	<p>Datos de sexo de beneficiario según jefe de familia</p>	
 	<table class="tabla-resultados">
 		<caption>Sexo del beneficiario cuando la mujer es Jefa de Familia</caption>
 		<thead>

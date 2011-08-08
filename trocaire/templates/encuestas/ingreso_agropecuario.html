@@ -79,8 +79,12 @@
 
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Ingresos familiares por actividades agropecuarias</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+{% include "encuestas/filtros_seleccionados.html" %}
 <div>
-	<div class="title">Datos de ingresos de la familia</div>
 	<table class="tabla-resultados">
 	<caption>Ingresos familiares por actividades agropecuarias</caption>
 	<thead>
