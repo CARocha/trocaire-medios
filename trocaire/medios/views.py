@@ -264,7 +264,7 @@ def agua_clorada(request):
     tabla_aguas['porcentaje_tratan'] = round(saca_porcentajes(tabla_aguas['combinado_tratan'],numero),1)
     tabla_aguas['porcentaje_no_saben'] = round(saca_porcentajes(tabla_aguas['combinado_no_sabe'],numero),1)
     tabla_aguas['porcentaje_no'] = round(saca_porcentajes(tabla_aguas['combinado_no'],numero),1)
-    
+    dondetoy = "cloran"
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
 def gastan_horas(request):
@@ -281,7 +281,7 @@ def gastan_horas(request):
     
     tablas_gastan['total'] =  tablas_gastan['masculino'] + tablas_gastan['femenino']
     tablas_gastan['porcentaje_total'] = round(saca_porcentajes(tablas_gastan['total'],numero),1)
-
+    dondetoy = "recolectar"
     return render_to_response('encuestas/gastan_horas.html', RequestContext(request,locals()))
 
 def manzana(request,sexo):
@@ -317,7 +317,7 @@ def familias_practicas(request):
     por_no_hombre = round(saca_porcentajes(no_hombre,total),1)
     no_mujer = total - mujer
     por_no_mujer = round(saca_porcentajes(no_mujer,total),1)     
-
+    dondetoy = "conservacion"
     return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))
 
 def rango_mz(request,sexo):
@@ -434,7 +434,7 @@ def acceso_agua(request):
     total_manzadas_goteo = total_lista_g_h + total_lista_g_m
     total_manzanas_gravedad = total_lista_gra_h + total_lista_gra_m
     total_manzanas_otros = total_o_h + total_o_m
-    
+    dondetoy = "accesoagua"
     return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
     
 def hombre_responsable(request):
