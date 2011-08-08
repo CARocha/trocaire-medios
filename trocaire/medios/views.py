@@ -229,33 +229,42 @@ def datos_sexo(request):
 
 def agua_clorada(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True) 
-    numero = encuestas.count()
-    #aguas_cloradas = Encuesta.objects.filter(encuesta__id__in=encuestas)  
+    numero = encuestas.count()  
     tabla_aguas = {}
     
-    jefe_varon = encuestas.filter(composicion__sexo_jefe=1).count()
-    jefe_mujer = encuestas.filter(composicion__sexo_jefe=2).count()
-    jefe_no_aplica = encuestas.filter(composicion__sexo_jefe=3).count()
+    tabla_aguas['m_clora'] = encuestas.filter(sexo_jefe=1,agua__calidad=1).count()
+    tabla_aguas['m_trata'] = encuestas.filter(sexo_jefe=1,agua__clorada=1).count()
+    tabla_aguas['m_no'] = encuestas.filter(sexo_jefe=1,agua__clorada=2, agua__calidad=2).count()
+    tabla_aguas['m_no_sabe'] = encuestas.filter(sexo_jefe=1,agua__calidad=3).count()
     
-    tabla_aguas['m_clora'] = encuestas.filter(composicion__sexo=1,composicion__sexo_jefe=1,
-                                              agua__calidad=1).count()
-    tabla_aguas['m_trata'] = encuestas.filter(composicion__sexo=1,composicion__sexo_jefe=1,
-                                              agua__calidad=2).count()
+    #tabla_aguas['masculino'] = tabla_aguas['m_clora'] + tabla_aguas['m_trata']
+    tabla_aguas['porcentaje_m_clora'] = round(saca_porcentajes(tabla_aguas['m_clora'],numero),1)
+    tabla_aguas['porcentaje_m_trata'] = round(saca_porcentajes(tabla_aguas['m_trata'],numero),1)
+    tabla_aguas['porcentaje_m_no'] = round(saca_porcentajes(tabla_aguas['m_no'],numero),1)
+    tabla_aguas['porcentaje_m_no_sabe'] = round(saca_porcentajes(tabla_aguas['m_no_sabe'],numero),1)
     
-    tabla_aguas['masculino'] = tabla_aguas['m_clora'] + tabla_aguas['m_trata']
-    tabla_aguas['porcentaje_masculino'] = round(saca_porcentajes(tabla_aguas['masculino'],jefe_varon),1)
+    tabla_aguas['f_clora'] = encuestas.filter(sexo_jefe=2,agua__calidad=1).count()
+    tabla_aguas['f_trata'] = encuestas.filter(sexo_jefe=2,agua__clorada=1).count()
+    tabla_aguas['f_no'] = encuestas.filter(sexo_jefe=2,agua__clorada=2, agua__calidad=2).count()
+    tabla_aguas['f_no_sabe'] = encuestas.filter(sexo_jefe=2,agua__calidad=3).count()
     
-    tabla_aguas['f_clora'] = encuestas.filter(composicion__sexo=2,composicion__sexo_jefe=2,
-                                              agua__calidad=1).count()
-    tabla_aguas['f_trata'] = encuestas.filter(composicion__sexo=1,composicion__sexo_jefe=2,
-                                              agua__calidad=2).count()
+    #tabla_aguas['femenino'] = tabla_aguas['f_clora'] + tabla_aguas['f_trata']
+    tabla_aguas['porcentaje_f_clora'] = round(saca_porcentajes(tabla_aguas['f_clora'],numero),1)
+    tabla_aguas['porcentaje_f_trata'] = round(saca_porcentajes(tabla_aguas['f_trata'],numero),1)
+    tabla_aguas['porcentaje_f_no'] = round(saca_porcentajes(tabla_aguas['f_no'],numero),1)
+    tabla_aguas['porcentaje_f_no_sabe'] = round(saca_porcentajes(tabla_aguas['f_no_sabe'],numero),1)
     
-    tabla_aguas['femenino'] = tabla_aguas['f_clora'] + tabla_aguas['f_trata']
-    tabla_aguas['porcentaje_femenino'] = round(saca_porcentajes(tabla_aguas['femenino'],jefe_mujer),1)
+    tabla_aguas['combinado_cloran'] = tabla_aguas['m_clora'] + tabla_aguas['f_clora']
+    tabla_aguas['combinado_tratan'] = tabla_aguas['m_trata'] + tabla_aguas['f_trata']
+    tabla_aguas['combinado_no_sabe'] = tabla_aguas['m_no_sabe'] + tabla_aguas['f_no_sabe']
+    tabla_aguas['combinado_no'] = tabla_aguas['m_no'] + tabla_aguas['f_no']
     
-    tabla_aguas['total'] =  tabla_aguas['masculino'] + tabla_aguas['femenino']
-    tabla_aguas['porcentaje_total'] = round(saca_porcentajes(tabla_aguas['total'],numero),1)
-    dondetoy = "cloran"
+    #tabla_aguas['total'] =  tabla_aguas['masculino'] + tabla_aguas['femenino']
+    tabla_aguas['porcentaje_cloran'] = round(saca_porcentajes(tabla_aguas['combinado_cloran'],numero),1)
+    tabla_aguas['porcentaje_tratan'] = round(saca_porcentajes(tabla_aguas['combinado_tratan'],numero),1)
+    tabla_aguas['porcentaje_no_saben'] = round(saca_porcentajes(tabla_aguas['combinado_no_sabe'],numero),1)
+    tabla_aguas['porcentaje_no'] = round(saca_porcentajes(tabla_aguas['combinado_no'],numero),1)
+    
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
 def gastan_horas(request):
@@ -264,44 +273,52 @@ def gastan_horas(request):
     #salidas cuantas horas gastan 
     tablas_gastan = {}
     
-    tablas_gastan['masculino'] = encuestas.filter(composicion__sexo=1,
-                                 composicion__sexo_jefe=1, agua__tiempo=3).count()
+    tablas_gastan['masculino'] = encuestas.filter(sexo_jefe=1, agua__tiempo=3).count()
     tablas_gastan['porcentaje_masculino'] = round(saca_porcentajes(tablas_gastan['masculino'],numero),1)
     
-    tablas_gastan['femenino'] = encuestas.filter(composicion__sexo=2,
-                                composicion__sexo_jefe=2, agua__tiempo=3).count()
+    tablas_gastan['femenino'] = encuestas.filter(sexo_jefe=2, agua__tiempo=3).count()
     tablas_gastan['porcentaje_femenino'] = round(saca_porcentajes(tablas_gastan['femenino'],numero),1)
     
     tablas_gastan['total'] =  tablas_gastan['masculino'] + tablas_gastan['femenino']
     tablas_gastan['porcentaje_total'] = round(saca_porcentajes(tablas_gastan['total'],numero),1)
-    dondetoy = "recolectar"
+
     return render_to_response('encuestas/gastan_horas.html', RequestContext(request,locals()))
+
+def manzana(request,sexo):
+    encuestas = _query_set_filtrado(request)
+    
+    lista = []
+    for x in encuestas.filter(sexo_jefe=sexo):
+        query = AreaProtegida.objects.filter(encuesta=x, respuesta__in=[2,3,4,5]).aggregate(query=Sum('cantidad'))['query']
+        if query > 0:
+            lista.append(x.id)
+    
+    return lista
+    
 
 def familias_practicas(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
-    #salida 124
-    dicc = {}
-    dicc_h_m = {}
-    #for a in CHOICE_CSA:
-    query = AreaProtegida.objects.filter(respuesta__in=[2,3,4,5,6], encuesta__in=encuestas)
-    dicc['familias'] = query.count()
-    dicc_h_m['familias'] = _hombre_mujer_dicc(query.values_list('encuesta__id', flat=True), jefe=True)
-    tabla_csa= _order_dicc(copy.deepcopy(dicc))
-    dondetoy = "conservacion"
-    return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))    
+     
+    conservacion_h = manzana(request,1)
+    conservacion_m = manzana(request,2)
+    total = len(encuestas)
+     
+    hombre = len(conservacion_h)
+    por_hombre = round(saca_porcentajes(hombre,total),1)
+    mujer = len(conservacion_m)
+    por_mujer = round(saca_porcentajes(mujer,total),1)
+    
+    total_h_m = hombre + mujer
+    por_total_h_m = round(saca_porcentajes(total_h_m,total),1)
+    
+    no_total = total - total_h_m
+    por_no_total = round(saca_porcentajes(no_total,total),1)
+    no_hombre = total - hombre
+    por_no_hombre = round(saca_porcentajes(no_hombre,total),1)
+    no_mujer = total - mujer
+    por_no_mujer = round(saca_porcentajes(no_mujer,total),1)     
 
-def promedio_suelo(request):
-    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
-    numero = encuestas.count()
-    #salida 124
-    dicc = {}
-    suma = 0
-    for a in CHOICE_CSA:
-        hombre = encuestas.filter(areaprotegida__respuesta=a[0], composicion__sexo=1, composicion__sexo_jefe=1).aggregate(Avg('areaprotegida__cantidad'))
-        #suma +=hombre
-        dicc[a[1]] = hombre
-    #dondetoy = "conservacion"
-    return render_to_response('encuestas/promedio_suelo.html', RequestContext(request,locals()))
+    return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))
 
 def acceso_tierra(request):
     encuestas = _query_set_filtrado(request)
@@ -316,31 +333,95 @@ def acceso_tierra(request):
     tabla_dicc1 = _order_dicc(copy.deepcopy(dicc1))
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
+
+def riego(request,sexo,tipo):
+    encuestas = _query_set_filtrado(request)
     
+    lista = []
+    suma = 0
+    for x in encuestas.filter(sexo_jefe=sexo):
+        query = Riego.objects.filter(encuesta=x, respuesta__in=[tipo]).aggregate(query=Sum('area'))['query']
+        if query > 0:
+            suma += query
+            lista.append([x.id,suma])
+    print lista
+    return lista
+        
 def acceso_agua(request):
     encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
-    tabla_acceso = {}
-    #hombre_jefe
-    tabla_acceso['h_aspersion'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=2).count()
-    tabla_acceso['h_goteo'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=3).count()
-    tabla_acceso['h_gravedad'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=4).count()
-    tabla_acceso['h_no_aplica'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=1).count()
-    tabla_acceso['h_otros'] = encuestas.filter(composicion__sexo_jefe=1, riego__respuesta=5).count()
-    #mujer_jefe
-    tabla_acceso['m_aspersion'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=2).count()
-    tabla_acceso['m_goteo'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=3).count()
-    tabla_acceso['m_gravedad'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=4).count()
-    tabla_acceso['m_no_aplica'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=1).count()
-    tabla_acceso['m_otros'] = encuestas.filter(composicion__sexo_jefe=2, riego__respuesta=5).count()
-    #total
-    tabla_acceso['t_aspersion'] = tabla_acceso['h_aspersion'] + tabla_acceso['m_aspersion']
-    tabla_acceso['t_goteo'] = tabla_acceso['h_goteo'] + tabla_acceso['m_goteo']
-    tabla_acceso['t_gravedad'] = tabla_acceso['h_gravedad'] + tabla_acceso['m_gravedad']
-    tabla_acceso['t_no_aplica'] = tabla_acceso['h_no_aplica'] + tabla_acceso['m_no_aplica']
-    tabla_acceso['t_otros'] = tabla_acceso['h_otros'] + tabla_acceso['m_otros']
+    #hombre acceso a agua para riego
+    lista_a_h = riego(request,1,2)
+    aspersion_h = len(lista_a_h)
+    try:
+        total_lista_a_h = lista_a_h[(len(lista_a_h))-1][1]
+    except:
+        total_lista_a_h = 0
+    #-----------------------------
+    lista_g_h = riego(request,1,3)
+    goteo_h = len(lista_g_h)
+    try:
+        total_lista_g_h = lista_g_h[(len(lista_g_h))-1][1]
+    except:
+        total_lista_g_h = 0
+    #-----------------------------
+    lista_gra_h = riego(request,1,4)
+    gravedad_h = len(lista_gra_h)
+    try:
+        total_lista_gra_h = lista_gra_h[(len(lista_gra_h))-1][1]
+    except:
+        total_lista_gra_h = 0
+    #-------------------------------
+    lista_o_h = riego(request,1,5)
+    otro_h = len(lista_o_h)
+    try:
+        total_o_h = lista_o_h[(len(lista_o_h))-1][1]
+    except:
+        total_o_h = 0
     
-    dondetoy = "accesoagua"
+    #mujer acceso a agua para riego
+    lista_a_m = riego(request,2,2)
+    aspersion_m = len(lista_a_m)
+    try:
+        total_lista_a_m = lista_a_m[(len(lista_a_m))-1][1]
+    except:
+        total_lista_a_m = 0
+    #----------------------------
+    lista_g_m = riego(request,2,3)
+    goteo_m = len(lista_g_m)
+    try:
+        total_lista_g_m = lista_g_m[(len(lista_g_m))-1][1]
+    except:
+        total_lista_g_m = 0
+    #-----------------------------
+    lista_gra_m = riego(request,2,4)
+    gravedad_m = len(lista_gra_m)
+    try:
+        total_lista_gra_m = lista_gra_m[(len(lista_gra_m))-1][1]
+    except:
+        total_lista_gra_m = 0
+    #-------------------------------
+    lista_o_m = riego(request,1,5)
+    otro_m = len(lista_o_m)
+    try:
+        total_o_m = lista_o_m[(len(lista_o_m))-1][1]
+    except:
+        total_o_m = 0
+    #total de conteo    
+    total_aspersion = aspersion_h + aspersion_m
+    total_goteo = goteo_h + goteo_m
+    total_gravedad = gravedad_h + gravedad_m
+    total_otros = otro_h + otro_m
+    
+    #calculo de los que no tienen riego
+    no_tiene_riego = numero - (total_aspersion + total_goteo + total_gravedad + total_otros)
+    
+    #total de manzanas
+    total_manzadas_aspersion = total_lista_a_h + total_lista_a_m
+    total_manzadas_goteo = total_lista_g_h + total_lista_g_m
+    total_manzanas_gravedad = total_lista_gra_h + total_lista_gra_m
+    total_manzanas_otros = total_o_h + total_o_m
+    
     return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
     
 def hombre_responsable(request):
