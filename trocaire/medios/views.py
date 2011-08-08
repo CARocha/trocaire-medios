@@ -326,7 +326,7 @@ def acceso_tierra(request):
     #salidas cuantas horas gastan
     dicc1 = {}
     dicc1_h_m = {}
-    for a in CHOICE_AREA[1:6]:
+    for a in CHOICE_AREA[1:5]:
         total = Tierra.objects.filter(area=a[0], encuesta__in=encuestas)
         dicc1[a[1]] = total.count()
         dicc1_h_m[a[1]] = _hombre_mujer_dicc(total.values_list('encuesta__id', flat=True))
