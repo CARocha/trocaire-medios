@@ -46,11 +46,11 @@
                 text: 'Sexo del jefe de familia'
             },
             subtitle: {
-                text: 'Varón - Mujer - Compartido'
+                text: 'Hombre - Mujer'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [['Masculino', {{tabla_sexo_jefe.1}}], ['Femenino', {{tabla_sexo_jefe.2}}], ['Compartida', {{tabla_sexo_jefe.3}}] ]}]
+            series: [{data: [['Masculino', {{tabla_sexo_jefe.1}}], ['Femenino', {{tabla_sexo_jefe.2}}]] }]
         }); 
     	var chart2 = new Highcharts.Chart({
         	chart: {
@@ -76,7 +76,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Sexo del jefe de familia</div>
+    <div class="titulo">Jefe de familia</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
@@ -85,16 +85,20 @@
 	<caption>Sexo del jefe de familia</caption>
 	<thead>
 		<tr>		
-			<th>Varón</th>
+			<th>&nbsp;</th>
+			<th>Hombre</th>
+			<th>%</th>
 			<th>Mujer</th>
-			<th>Compartida</th>
+			<th>%</th>			
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
+			<td>Sexo del jefe de familia</td>
+			<td>{{tabla_sexo_jefe.1}}</td>
 			<td>{{tabla_sexo_jefe.1|get_frec:tabla_sexo_jefe}}</td>
-			<td>{{tabla_sexo_jefe.2|get_frec:tabla_sexo_jefe}}</td>
-			<td>{{tabla_sexo_jefe.3|get_frec:tabla_sexo_jefe}}</td>
+			<td>{{tabla_sexo_jefe.2}}</td>
+			<td>{{tabla_sexo_jefe.2|get_frec:tabla_sexo_jefe}}</td>			
 		</tr>
 	</tbody>
 	</table>
@@ -103,16 +107,22 @@
 <br>
 <div>
 		<table class="tabla-resultados">
-	<caption>Sexo del beneficiario</caption>
+	<caption>Beneficiario</caption>
 	<thead>
 		<tr>		
-			<th>Varón</th>
-			<th>Mujer</th>			
+			<th>&nbsp;</th>
+			<th>Hombre</th>
+			<th>%</th>
+			<th>Mujer</th>
+			<th>%</th>		
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
+			<td>Sexo del beneficiario</td>
+			<td>{{tabla_sexo_beneficiario.masculino}}</td>
 			<td>{{tabla_sexo_beneficiario.masculino|get_frec:tabla_sexo_beneficiario}}</td>
+			<td>{{tabla_sexo_beneficiario.femenino}}</td>
 			<td>{{tabla_sexo_beneficiario.femenino|get_frec:tabla_sexo_beneficiario}}</td>			
 		</tr>
 	</tbody>
