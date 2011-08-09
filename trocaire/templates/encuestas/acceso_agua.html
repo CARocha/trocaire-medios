@@ -35,9 +35,9 @@ $(document).ready(function() {
       legend: {
          layout: 'vertical',
          //backgroundColor: Highcharts.theme.legendBackgroundColor || '#FFFFFF',
-         align: 'left',
+         align: 'right',
          verticalAlign: 'top',
-         x: 100,
+         x: 0,
          y: 70,
          floating: true,
          shadow: true
@@ -49,34 +49,23 @@ $(document).ready(function() {
          }
       },
       plotOptions: {
-                column: {
-                    groupPadding: 0,
-                    pointPadding: 0.9,
-                    borderWidth: 0
-                },
-                series: {
-                    pointWidth: 35,
-                    minPointLength : 1
-                }
-            },
+         column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+         }
+      },
            series: [{
          name: 'Aspersión',
-         data: [{{tabla_acceso.t_aspersion}},{{tabla_acceso.m_aspersion}},{{tabla_acceso.h_aspersion}}]
+         data: [{{total_aspersion}},{{aspersion_m}},{{aspersion_h}}]
    
       }, {
          name: 'Goteo',
-         data: [{{tabla_acceso.t_goteo}},{{tabla_acceso.m_goteo}},{{tabla_acceso.h_goteo}}]
+         data: [{{total_goteo}},{{goteo_m}},{{goteo_h}}]
    
       }, {
          name: 'Gravedad',
-         data: [{{tabla_acceso.t_gravedad}},{{tabla_acceso.m_gravedad}},{{tabla_acceso.h_gravedad}}]
+         data: [{{total_gravedad}},{{gravedad_m}},{{gravedad_h}}]
    
-      },{
-        name: 'No aplica',
-         data: [{{tabla_acceso.t_no_aplica}},{{tabla_acceso.m_no_aplica}},{{tabla_acceso.h_no_aplica}}]
-      },{
-        name: 'Otros',
-         data: [{{tabla_acceso.t_otros}},{{tabla_acceso.m_otros}},{{tabla_acceso.h_otros}}]
       }]
    });
    
@@ -97,7 +86,7 @@ $(document).ready(function() {
 	<thead>
 		<tr>		
 			<th>Tipo</th>
-			<th>Total</th>
+			<th>Total - (&#8721; mz)</th>
 			<th>Mujer jefa</th>
 			<th>Varón jefe</th>
 		</tr>
@@ -105,33 +94,31 @@ $(document).ready(function() {
 	<tbody>
 		<tr>
 		    <td>Aspersión</td>
-			<td>{{tabla_acceso.t_aspersion}}</td>
-			<td>{{tabla_acceso.m_aspersion}}</td>
-			<td>{{tabla_acceso.h_aspersion}}</td>
+			<td>{{total_aspersion}} - ({{total_manzadas_aspersion}})</td>
+			<td>{{aspersion_m}}</td>
+			<td>{{aspersion_h}}</td>
 		</tr>
 		<tr>
 		    <td>Goteo</td>
-			<td>{{tabla_acceso.t_goteo}}</td>
-			<td>{{tabla_acceso.m_goteo}}</td>
-			<td>{{tabla_acceso.h_goteo}}</td>
+			<td>{{total_goteo}} - ({{total_manzadas_goteo}})</td>
+			<td>{{goteo_m}}</td>
+			<td>{{goteo_h}}</td>
 		</tr>
 		<tr>
 		    <td>Gravedad</td>
-			<td>{{tabla_acceso.t_gravedad}}</td>
-			<td>{{tabla_acceso.m_gravedad}}</td>
-			<td>{{tabla_acceso.h_gravedad}}</td>
-		</tr>
-		<tr>
-		    <td>No aplica</td>
-			<td>{{tabla_acceso.t_no_aplica}}</td>
-			<td>{{tabla_acceso.m_no_aplica}}</td>
-			<td>{{tabla_acceso.h_no_aplica}}</td>
+			<td>{{total_gravedad}} - ({{total_manzanas_gravedad}})</td>
+			<td>{{gravedad_m}}</td>
+			<td>{{gravedad_h}}</td>
 		</tr>
 		<tr>
 		    <td>Otros</td>
-			<td>{{tabla_acceso.t_otros}}</td>
-			<td>{{tabla_acceso.m_otros}}</td>
-			<td>{{tabla_acceso.h_otros}}</td>
+			<td>{{total_otros}} - ({{total_manzanas_otros}})</td>
+			<td>{{otro_m}}</td>
+			<td>{{otro_h}}</td>
+		</tr>
+		<tr>
+		    <td>No tiene riego</td>
+			<td>{{no_tiene_riego}}</td>
 		</tr>
 	</tbody>
 	</table>

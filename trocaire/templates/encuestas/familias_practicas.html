@@ -62,10 +62,8 @@ $(document).ready(function() {
                 }
             },
       series: [{
-         name: '% de familias',
-         {%for a in dicc_h_m.items%}
-         data: [{%for caca in a.1.items%}{{caca.1}},{%endfor%}]
-         {%endfor%}
+         name: '% de familias que hace CSA',
+         data: [{{por_total_h_m}},{{por_mujer}},{{por_hombre}}]
       }]
    });
    
@@ -85,22 +83,35 @@ $(document).ready(function() {
 	<table class="tabla-resultados">
 	<caption>porcentaje % de familias que conservan el suelo y el agua</caption>
 	<thead>
-		<tr>		
+		<tr>	
+		    <th>Tipo</th>	
 			<th>Total</th>
+			<th>%</th>
 			<th>Mujer jefa</th>
+			<th>%</th>
 			<th>Varón jefe</th>
+			<th>%</th>
 		</tr>
 	</thead>
 	<tbody>
-	    {% for value in tabla_csa %}
-		<tr>
-			{% with tabla=dicc_h_m|get_value:value.0 %}
-				<td>{{tabla.1}}</td>
-				<td>{{tabla.2}}</td>
-				<td>{{tabla.3}}</td>
-		    {% endwith %}	
+	    <tr>
+		    <td>Si CSA</td>
+			<td>{{total_h_m}}</td>
+			<td>{{por_total_h_m}}</td>
+			<td>{{mujer}}</td>
+			<td>{{por_mujer}}</td>
+			<td>{{hombre}}</td>
+			<td>{{por_hombre}}</td>
 		</tr>
-		{%endfor%}
+		<tr>
+		    <td>No CSA</td>
+			<td>{{no_total}}</td>
+			<td>{{por_no_total}}</td>
+			<td>{{no_mujer}}</td>
+			<td>{{por_no_mujer}}</td>
+			<td>{{no_hombre}}</td>
+			<td>{{por_no_hombre}}</td>
+		</tr>
 	</tbody>
 	</table>
 	<div id="sexo-jefe" class="grafo"></div>

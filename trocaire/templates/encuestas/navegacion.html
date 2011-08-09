@@ -1,22 +1,23 @@
 {% block extrahead %}
 <script src="{{MEDIA_URL}}js/2leveltab.js" type="text/javascript"></script>
 <link type="text/css" rel="stylesheet"  href="{{MEDIA_URL}}css/2leveltab.css" >
+
 {%endblock%}
 {% block navegacion %}
 <ul id="maintab" class="basictab">
     {%if dondetoy = 'sexojefe' or dondetoy = 'sexobene' or dondetoy = 'escolaridad' or dondetoy = 'participacion'%}
     <li class="selected" rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
     {%else%}
-    <li  rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
+    <li rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
     {%endif%}
     
     {%if dondetoy = 'creditofamilia' or dondetoy = 'actividadesagro' or dondetoy = 'ingresosfam'%}
     <li class="selected" rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
     {%else%}
-    <li  rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
+    <li   rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
     {%endif%}
     
-    {%if dondetoy = 'cloran' or dondetoy = 'autoabastecimiento' or dondetoy = 'recolectar' or dondetoy = 'accesoagua' or dondetoy = 'accesotierra' or dondetoy = "conservacion"%}
+    {%if dondetoy = 'cloran' or dondetoy = 'autoabastecimiento' or dondetoy = 'recolectar' or dondetoy = 'accesoagua' or dondetoy = 'accesotierra' or dondetoy = "conservacion" or dondetoy = "hombreresp" or dondetoy = "mujeresdecision"%}
     <li class="selected" rel="conservación"><a href="#">CONSERVACIÓN &#9660;</a></li>
     {%else%}
     <li  rel="conservación"><a href="#">CONSERVACIÓN &#9660;</a></li>
@@ -41,13 +42,25 @@
     <a {%ifequal dondetoy 'autoabastecimiento'%}class="activa"{%endifequal%} href="/encuestas/abastecimiento/">Autoabastecimiento</a>
     <a {%ifequal dondetoy 'cloran'%}class="activa"{%endifequal%} href="/encuestas/agua-clorada/">Cloran el agua</a>
     <a {%ifequal dondetoy 'recolectar'%}class="activa"{%endifequal%} href="/encuestas/gastan-horas/">Recolectar Agua</a>
-    <a {%ifequal dondetoy 'conservacion'%}class="activa"{%endifequal%} href="/encuestas/familias-practicas/">Conservación Suelo y Agua</a>
+    <a {%ifequal dondetoy 'conservacion'%}class="activa"{%endifequal%} href="/encuestas/familias-practicas/">Conservación Suelo</a>
     <a {%ifequal dondetoy 'accesotierra'%}class="activa"{%endifequal%} href="/encuestas/acceso-tierra/">Acceso a Tierra</a>
     <a {%ifequal dondetoy 'accesoagua'%}class="activa"{%endifequal%} href="/encuestas/acceso-agua/">Tipo de Riego</a>
+    <a {%ifequal dondetoy 'hombreresp'%}class="activa"{%endifequal%} href="/encuestas/hombre-responsable/">hom. tareas domésticas</a>
+    <a {%ifequal dondetoy 'mujeresdecision'%}class="activa"{%endifequal%} href="/encuestas/mujer-decicion/">Mujeres toman decisiones</a>
 </div>
 
 <script type="text/javascript">
 //initialize tab menu, by passing in ID of UL
 initalizetab("maintab")
+</script>
+<script type="text/javascript">
+$(window).load(function () {
+    $('.basictab li').click(function(){
+        $('.basictab li').each(function(){
+            $(this).removeClass('selected');
+        });
+        $(this).addClass('selected');
+    });
+});
 </script>
 {%endblock%}

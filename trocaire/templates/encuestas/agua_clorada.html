@@ -24,7 +24,7 @@ $(document).ready(function() {
          x: -20
       },
       xAxis: {
-         categories: ['Total', 'Mujer', 'Varón']
+         categories: ['Cloran', 'Tratan el agua', 'No clora/trata', 'No sabe']
       },
       yAxis: {
          title: {
@@ -63,8 +63,8 @@ $(document).ready(function() {
       },
       series: [{
          name: '% de familias consumiendo agua clorada o tratada',
-         data: [{{tabla_aguas.porcentaje_total}}, {{tabla_aguas.porcentaje_femenino}},
-                {{tabla_aguas.porcentaje_masculino}}]
+         data: [{{tabla_aguas.porcentaje_cloran}}, {{tabla_aguas.porcentaje_tratan}},
+                {{tabla_aguas.porcentaje_no}}, {{tabla_aguas.porcentaje_no_saben}}]
       }]
    });
    
@@ -84,17 +84,52 @@ $(document).ready(function() {
 	<table class="tabla-resultados">
 	<caption>Porcentaje % de Familas consumiendo agua clorada o tratada</caption>
 	<thead>
-		<tr>		
-			<th>Total</th>
+		<tr>
+		    <th>Tipo</th>		
 			<th>Mujer jefa</th>
+			<th>%</th>
 			<th>Varón jefe</th>
+			<th>%</th>
+			<th>Total</th>
+			<th>%</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<td>{{tabla_aguas.porcentaje_total}}</td>
-			<td>{{tabla_aguas.porcentaje_femenino}}</td>
-			<td>{{tabla_aguas.porcentaje_masculino}}</td>
+		    <td>Cloran el agua</td>
+			<td>{{tabla_aguas.f_clora}}</td>
+			<td>{{tabla_aguas.porcentaje_f_clora}}</td>
+			<td>{{tabla_aguas.m_clora}}</td>
+			<td>{{tabla_aguas.porcentaje_f_clora}}</td>
+			<td>{{tabla_aguas.combinado_cloran}}</td>
+			<td>{{tabla_aguas.porcentaje_cloran}}</td>
+		</tr>
+		<tr>
+		    <td>Tratan el agua</td>
+			<td>{{tabla_aguas.f_trata}}</td>
+			<td>{{tabla_aguas.porcentaje_f_trata}}</td>
+			<td>{{tabla_aguas.m_trata}}</td>
+			<td>{{tabla_aguas.porcentaje_m_trata}}</td>
+			<td>{{tabla_aguas.combinado_tratan}}</td>
+			<td>{{tabla_aguas.porcentaje_tratan}}</td>
+		</tr>
+		<tr>
+		    <td>No clora/trata</td>
+			<td>{{tabla_aguas.f_no}}</td>
+			<td>{{tabla_aguas.porcentaje_f_no}}</td>
+			<td>{{tabla_aguas.m_no}}</td>
+			<td>{{tabla_aguas.porcentaje_m_no}}</td>
+			<td>{{tabla_aguas.combinado_no}}</td>
+			<td>{{tabla_aguas.porcentaje_no}}</td>
+		</tr>
+		<tr>
+		    <td>No sabe</td>
+			<td>{{tabla_aguas.f_no_sabe}}</td>
+			<td>{{tabla_aguas.porcentaje_f_no_sabe}}</td>
+			<td>{{tabla_aguas.m_no_sabe}}</td>
+			<td>{{tabla_aguas.porcentaje_m_no_sabe}}</td>
+			<td>{{tabla_aguas.combinado_no_sabe}}</td>
+			<td>{{tabla_aguas.porcentaje_no_saben}}</td>
 		</tr>
 	</tbody>
 	</table>

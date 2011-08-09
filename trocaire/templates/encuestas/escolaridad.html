@@ -58,8 +58,12 @@
 
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Datos de Escolaridad de los beneficiarios</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+{% include "encuestas/filtros_seleccionados.html" %}
 <div>
-	<div class="title">Datos de Escolaridad de los beneficiarios</div>
 	<table class="tabla-resultados">
 	<caption>Escolaridad del beneficiario</caption>
 	<thead>
