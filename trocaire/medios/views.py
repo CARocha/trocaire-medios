@@ -497,18 +497,15 @@ def participacion(request):
 
 def ingreso_agropecuario(request):
     encuestas = _query_set_filtrado(request)
-    query = PrincipalesFuentes.objects.filter(encuesta__in=encuestas)
-    jefe_ids = _queryid_hombre_mujer(encuestas.values_list('id', flat=True))
+    query = PrincipalesFuentes.objects.filter(encuesta__in=encuestas)    
     
     #obtener queries segun jefe de familia
-    query_hombre = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[1])
-    query_mujer = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[2])    
-    query_compartido = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[3])
+    query_hombre = PrincipalesFuentes.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1))
+    query_mujer = PrincipalesFuentes.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2))
             
-    ingreso_agropecuario = {'total': calcular_frecuencia(query.filter(fuentes_ap__gte=1).count(), query.count()),
-            'hombre': calcular_frecuencia(query_hombre.filter(fuentes_ap__gte=1).count(), query_hombre.count()), 
-            'mujer': calcular_frecuencia(query_mujer.filter(fuentes_ap__gte=1).count(), query_mujer.count()),
-            'compartido': calcular_frecuencia(query_compartido.filter(fuentes_ap__gte=1).count(), query_compartido.count()),}
+    ingreso_agropecuario = {'total': query.filter(fuentes_ap__gte=1).count(),
+            'hombre': query_hombre.filter(fuentes_ap__gte=1).count(), 
+            'mujer': query_mujer.filter(fuentes_ap__gte=1).count()}
     dondetoy = "actividadesagro"
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
