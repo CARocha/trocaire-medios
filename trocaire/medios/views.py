@@ -320,6 +320,18 @@ def familias_practicas(request):
     dondetoy = "conservacion"
     return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))
 
+def rango_mz(request,sexo):
+    encuestas = _query_set_filtrado(request)
+    
+    lista = []
+    for x in encuestas.filter(sexo_jefe=sexo):
+        query = Tierra.objects.filter(encuesta=x).aggregate(mujer=Sum('mujer'),
+                                                            hombre=Sum('hombre'),
+                                                            ambos=Sum('ambos'))
+        lista.append([x.id,query])
+
+    return lista
+        
 def acceso_tierra(request):
     encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
@@ -331,6 +343,8 @@ def acceso_tierra(request):
         dicc1[a[1]] = total.count()
         dicc1_h_m[a[1]] = _hombre_mujer_dicc(total.values_list('encuesta__id', flat=True))
     tabla_dicc1 = _order_dicc(copy.deepcopy(dicc1))
+    tierra = rango_mz(request,1)
+    print tierra
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
 
@@ -344,7 +358,6 @@ def riego(request,sexo,tipo):
         if query > 0:
             suma += query
             lista.append([x.id,suma])
-    print lista
     return lista
         
 def acceso_agua(request):
