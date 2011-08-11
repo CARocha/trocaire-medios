@@ -86,19 +86,27 @@
 	<thead>	
 		<tr>
 			<th>Quien participa</th>
-			<th>Total</th>
+			<th>Todos: {{part_cpc.total}}</th>
 			<th>%</th>
+			<th>Hombre Jefe: {{part_cpc_hombre.total}}</th>
+			<th>%</th>
+			<th>Mujer Jefe: {{part_cpc_mujer.total}}</th>
+			<th>%</th>			
 		</tr>
 	</thead>
 	<tbody>
-		{% for key, value in part_cpc.items %}
+	{% for key in part_cpc.keys|exclude:'total' %}
 		<tr>
-			<td>{{key|title}}</td>
-			<td>{{value}}</td>
-			<td>{{value|get_frec:part_cpc}}</td>	
-		</tr>
-		{% endfor %}
+			<td>Participación de {{key}}</td>
+			<td>{{part_cpc|get_value:key}}</td>				
+			<td>{{part_cpc|get_value:key|calcular_frecuencia:part_cpc.total}}</td>
+			<td>{{part_cpc_hombre|get_value:key}}</td>
+			<td>{{part_cpc_hombre|get_value:key|calcular_frecuencia:part_cpc_hombre.total}}</td>
+			<td>{{part_cpc_mujer.hombre}}</td>			
+			<td>{{part_cpc_mujer.hombre|calcular_frecuencia:part_cpc_mujer.total}}</td>
+		</tr>		
 	</tbody>
+	{% endfor %}
 </table>
 <div id="grafo-cpc" class="grafo"></div>
 </div>

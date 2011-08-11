@@ -484,16 +484,31 @@ def credito(request):
     return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
 
 def participacion(request):
-    encuestas = _query_set_filtrado(request)
-    part_cpc = {}
-    part_asam = {}    
-    query1 = ParticipacionCPC.objects.filter(encuesta__in=encuestas, organismo=1)
-    part_cpc = query1.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))    
+    encuestas = _query_set_filtrado(request)    
+    query_all = ParticipacionCPC.objects.filter(encuesta__in=encuestas)
+    part_cpc = get_participacion(query_all, 1)
+    part_asam = get_participacion(query_all, 2)
     
-    query2 = ParticipacionCPC.objects.filter(encuesta__in=encuestas, organismo=2)
-    part_asam = query2.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))
+    #-- obtener cuando el jefe de familia es hombre
+    query_hombre = ParticipacionCPC.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1))
+    part_cpc_hombre = get_participacion(query_hombre, 1)
+    part_asam_hombre = get_participacion(query_hombre, 2)
+        
+    #-- obtener cuando el jefe de familia es mujer
+    query_mujer = ParticipacionCPC.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2))
+    part_cpc_mujer = get_participacion(query_mujer, 1)
+    part_asam_mujer = get_participacion(query_mujer, 2)    
+    
     dondetoy = "participacion"
     return render_to_response('encuestas/participacion.html', RequestContext(request, locals()))
+
+def get_participacion(query_param, organismo):    
+    query = query_param.filter(organismo=organismo)
+    dicc = {'hombre': query.filter(hombre__gt=0).count(), 
+            'mujer': query.filter(mujer__gt=0).count(),
+            'ambos': query.filter(ambos__gt=0).count(),
+            'total': query.count()}     
+    return dicc
 
 def ingreso_agropecuario(request):
     encuestas = _query_set_filtrado(request)
