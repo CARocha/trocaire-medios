@@ -424,6 +424,23 @@ label #id_year{
     width:395px;
 }
 
+#consultar-sidebar{
+ width:135px;
+ float:left;
+}
+#consultar-sidebar #consultar-form{
+    background:url(../img/fondoformgrande.jpg) no-repeat;
+    width:125px;
+}
+#consultar-sidebar  .label{
+    font-size:12px;
+    color:#000;
+    width:80px;
+}
+
+#consultar-sidebar .filtros{
+    width:80px;
+}
 .general{
     padding:35px 10px 0px 10px;
 }
@@ -431,6 +448,12 @@ label #id_year{
 .label{
     font-size:12px;
     color:#000;
+}
+
+#consultar-sidebar #id_escolaridad_beneficiario,#consultar-sidebar #id_contraparte, #consultar-sidebar #id_departamento, #consultar-sidebar  #id_municipio,#consultar-sidebar  #id_comarca,
+#consultar-sidebar #id_escolaridad_conyugue, #consultar-sidebar #id_familia_dependientes, #consultar-sidebar #id_familia_beneficiario, #consultar-sidebar #id_credito_acceso,
+#consultar-sidebar #id_desicion_gasto_mayor, #consultar-sidebar #id_desicion_inversion{
+    width:125px;
 }
 
 #id_escolaridad_beneficiario, #id_contraparte, #id_departamento, #id_municipio, #id_comarca,
