@@ -37,7 +37,7 @@
 </script>
 <div id="consultar-sidebar">
     <form method="POST" action="." id="consultar-form">{% csrf_token %}
-        <div class="general">
+        <div class="general" style="135px;">
             <div class="label">{{form.fecha.label}}</div>
             <div class="filtros">{{form.fecha}}<br>{{form.fecha.errors}}</div>
             <div class="clean"></div>
@@ -108,5 +108,3 @@
 
     </form>
 </div>
-
-<br>

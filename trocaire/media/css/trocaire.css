@@ -414,9 +414,12 @@ label #id_year{
 }
 #container{
     padding-left: 1px;
+        padding-right: 1px;
+        width:950px;
 }
 .grafo{
 	padding-left: 1px;
+    padding-right: 1px;
 }
 
 #consultar-form{
@@ -425,21 +428,21 @@ label #id_year{
 }
 
 #consultar-sidebar{
- width:135px;
+ width:160px;
  float:left;
 }
 #consultar-sidebar #consultar-form{
-    background:url(../img/fondoformgrande.jpg) no-repeat;
-    width:125px;
+    background:url(../img/fondoformsidebar.jpg) no-repeat;
+    width:160px;
 }
-#consultar-sidebar  .label{
+#consultar-sidebar .label{
     font-size:12px;
     color:#000;
-    width:80px;
+    width:130px;
 }
 
 #consultar-sidebar .filtros{
-    width:80px;
+    width:90px;
 }
 .general{
     padding:35px 10px 0px 10px;
@@ -459,7 +462,7 @@ label #id_year{
 #id_escolaridad_beneficiario, #id_contraparte, #id_departamento, #id_municipio, #id_comarca,
 #id_escolaridad_conyugue, #id_familia_dependientes, #id_familia_beneficiario,#id_credito_acceso,
 #id_desicion_gasto_mayor, #id_desicion_inversion{
-    width:165px;
+    width:160px;
 }
 
 .columnaform{
@@ -478,6 +481,19 @@ label #id_year{
 
 #consultar-form button:hover{
     background:url(../img/consultarform2.jpg) no-repeat;
+}
+
+#consultar-sidebar #consultar-form button{
+    background:url(../img/consultarformsidebar.jpg) no-repeat;
+    width:140px;
+    height:54px;
+    border:0;
+    float:right;
+    cursor:pointer;
+}
+
+#consultar-sidebar #consultar-form button:hover{
+    background:url(../img/consultarformsidebar2.jpg) no-repeat;
 }
 
 #bloqueindicadores{
