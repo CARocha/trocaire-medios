@@ -72,8 +72,9 @@
 				<th>Total</th>
 				<th>%</th>
 				<th>Hombre Jefe</th>
+				<th>%</th>
 				<th>Mujer Jefe</th>
-				<th>Compartido</th>
+				<th>%</th>				
 			</tr>
 		</thead>
 		<tbody>
@@ -84,8 +85,9 @@
 				<td>{{value.1|get_frec:credito}}</td>
 				{% with tabla=credito_h_m|get_value:value.0 %}
 				<td>{{tabla.1}}</td>
+				<th></th>
 				<td>{{tabla.2}}</td>
-				<td>{{tabla.3}}</td>
+				<th></th>				
 				{% endwith %}				
 			</tr>
 			{% endfor %}

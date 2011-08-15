@@ -511,14 +511,15 @@ def escolaridad(request):
 
 def credito(request):
     encuestas = _query_set_filtrado(request)
-    opciones = Credito.objects.all()
+    opciones = Credito.objects.all().exclude(id=7)
     credito = {}
     credito_h_m = {}    
     for op in opciones:
-        query = AccesoCredito.objects.filter(Q(hombre=op) | Q(mujer=op) | Q(otro_hombre=op) | Q(otra_mujer=op),
-                                                                encuesta__in=encuestas)
+        query = AccesoCredito.objects.filter(Q(hombre=op) | Q(mujer=op), encuesta__in=encuestas)        
         credito[op.nombre] = query.count()
-        credito_h_m[op.nombre] = _hombre_mujer_dicc(query.values_list('encuesta__id', flat=True), jefe=True)
+        print query.exclude(encuesta__sexo_jefe__in=[1,2]).values_list('encuesta__id', flat=True)
+        credito_h_m[op.nombre] = {1: query.filter(encuesta__sexo_jefe=1).count(), 
+                                  2: query.filter(encuesta__sexo_jefe=2).count()}
     tabla_credito = _order_dicc(copy.deepcopy(credito))
     dondetoy = "creditofamilia"
     return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
