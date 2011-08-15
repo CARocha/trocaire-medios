@@ -3,8 +3,7 @@ import locale
 register = template.Library()
 
 @register.filter
-def restar(value, arg):
-    print arg
+def restar(value, arg):    
     return int(value)-int(arg)
 
 @register.filter
