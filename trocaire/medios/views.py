@@ -480,6 +480,9 @@ def credito(request):
         credito_h_m[op.nombre] = {1: query.filter(encuesta__sexo_jefe=1).count(), 
                                   2: query.filter(encuesta__sexo_jefe=2).count()}
     tabla_credito = _order_dicc(copy.deepcopy(credito))
+    
+    hombre_jefe = encuestas.filter(sexo_jefe=1).count()
+    mujer_jefe = encuestas.filter(sexo_jefe=2).count()
     dondetoy = "creditofamilia"
     return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
 
