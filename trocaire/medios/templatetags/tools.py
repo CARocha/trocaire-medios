@@ -49,7 +49,9 @@ def calcular_frecuencia(cantidad, total):
 def currency(value):    
     return '{:20,.2f}'.format(value)
 
-
+@register.filter()
+def exclude(list, key):
+    return [foo for foo in list if foo != key]
 
 
 
