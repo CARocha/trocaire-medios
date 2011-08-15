@@ -69,11 +69,11 @@
 		<thead>
 			<tr>
 				<th>Tipo de crédito</th>
-				<th>Total</th>
+				<th>Total: {{encuestas.count}}</th>
 				<th>%</th>
-				<th>Hombre Jefe</th>
+				<th>Hombre Jefe: {{hombre_jefe}}</th>
 				<th>%</th>
-				<th>Mujer Jefe</th>
+				<th>Mujer Jefe: {{mujer_jefe}}</th>
 				<th>%</th>				
 			</tr>
 		</thead>
@@ -82,13 +82,13 @@
 			<tr>
 				<td>{{value.0}}</td>
 				<td>{{value.1}}</td>
-				<td>{{value.1|get_frec:credito}}</td>
+				<td>{{value.1|calcular_frecuencia:encuestas.count}}</td>
 				{% with tabla=credito_h_m|get_value:value.0 %}
 				<td>{{tabla.1}}</td>
-				<th></th>
+				<td>{{tabla.1|calcular_frecuencia:hombre_jefe}}</td>
 				<td>{{tabla.2}}</td>
-				<th></th>				
-				{% endwith %}				
+				<td>{{tabla.2|calcular_frecuencia:mujer_jefe}}</td>
+				{% endwith %}
 			</tr>
 			{% endfor %}
 		</tbody>

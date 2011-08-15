@@ -51,7 +51,7 @@
                 ]
             },
             subtitle: {
-                text: 'Hombre, Mujer, Ambos'
+                text: 'Hombre, Mujer, Ambos, No Participa'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
@@ -63,7 +63,11 @@
                                                          {{part_cpc_mujer.mujer|calcular_frecuencia:part_cpc_mujer.total}}]},
                      {name: 'Participan ambos', data: [{{part_cpc.ambos|calcular_frecuencia:part_cpc.total}}, 
                                                          {{part_cpc_hombre.ambos|calcular_frecuencia:part_cpc_hombre.total}},
-                                                         {{part_cpc_mujer.ambos|calcular_frecuencia:part_cpc_mujer.total}}]}]
+                                                         {{part_cpc_mujer.ambos|calcular_frecuencia:part_cpc_mujer.total}}]},
+                     {name: 'No participan', data: [{% with nopart=encuestas.count|restar:part_cpc.total %}{{nopart|calcular_frecuencia:encuestas.count}}{% endwith %},
+                                                    {% with nopart=hombre_jefe|restar:part_cpc_hombre.total %}{{nopart|calcular_frecuencia:hombre_jefe}}{% endwith %},
+                                                    {% with nopart=mujer_jefe|restar:part_cpc_mujer.total %}{{nopart|calcular_frecuencia:mujer_jefe}}{% endwith %}
+                                                    ]}]
                                                        
         }); 
     	var chart2 = new Highcharts.Chart({
@@ -94,7 +98,11 @@
                                                            {{part_asam_mujer.mujer|calcular_frecuencia:part_asam_mujer.total}}]},
                        {name: 'Participan ambos', data: [{{part_asam.ambos|calcular_frecuencia:part_asam.total}}, 
                                                            {{part_asam_hombre.ambos|calcular_frecuencia:part_asam_hombre.total}},
-                                                           {{part_asam_mujer.ambos|calcular_frecuencia:part_asam_mujer.total}}]}]
+                                                           {{part_asam_mujer.ambos|calcular_frecuencia:part_asam_mujer.total}}]},
+                       {name: 'No participan', data: [{% with nopart=encuestas.count|restar:part_asam.total %}{{nopart|calcular_frecuencia:encuestas.count}}{% endwith %},
+                                                      {% with nopart=hombre_jefe|restar:part_asam_hombre.total %}{{nopart|calcular_frecuencia:hombre_jefe}}{% endwith %},
+                                                      {% with nopart=mujer_jefe|restar:part_asam_mujer.total %}{{nopart|calcular_frecuencia:mujer_jefe}}{% endwith %}
+                                                      ]}]
         });
     });
 </script>
@@ -113,11 +121,11 @@
 	<thead>	
 		<tr>
 			<th>Quien participa</th>
-			<th>Todos: {{part_cpc.total}}</th>
+			<th>Todos: {{encuestas.count}}</th>
 			<th>%</th>
-			<th>Hombre Jefe: {{part_cpc_hombre.total}}</th>
+			<th>Hombre Jefe: {{hombre_jefe}}</th>
 			<th>%</th>
-			<th>Mujer Jefe: {{part_cpc_mujer.total}}</th>
+			<th>Mujer Jefe: {{mujer_jefe}}</th>
 			<th>%</th>			
 		</tr>
 	</thead>
@@ -126,13 +134,28 @@
 		<tr>
 			<td>Participación de {{key}}</td>
 			<td>{{part_cpc|get_value:key}}</td>				
-			<td>{{part_cpc|get_value:key|calcular_frecuencia:part_cpc.total}}</td>
+			<td>{{part_cpc|get_value:key|calcular_frecuencia:encuestas.count}}</td>
 			<td>{{part_cpc_hombre|get_value:key}}</td>
-			<td>{{part_cpc_hombre|get_value:key|calcular_frecuencia:part_cpc_hombre.total}}</td>
+			<td>{{part_cpc_hombre|get_value:key|calcular_frecuencia:hombre_jefe}}</td>
 			<td>{{part_cpc_mujer|get_value:key}}</td>			
-			<td>{{part_cpc_mujer|get_value:key|calcular_frecuencia:part_cpc_mujer.total}}</td>
+			<td>{{part_cpc_mujer|get_value:key|calcular_frecuencia:mujer_jefe}}</td>
 		</tr>
-	{% endfor %}		
+	{% endfor %}
+		<tr>
+			<td>No participa</td>
+			{% with nopart=encuestas.count|restar:part_cpc.total %}
+			<td>{{nopart}}</td>
+			<td>{{nopart|calcular_frecuencia:encuestas.count}}</td>
+			{% endwith %}
+			{% with nopart=hombre_jefe|restar:part_cpc_hombre.total %}
+			<td>{{nopart}}</td>			
+			<td>{{nopart|calcular_frecuencia:hombre_jefe}}</td>
+			{% endwith %}
+			{% with nopart=mujer_jefe|restar:part_cpc_mujer.total %}
+			<td>{{nopart}}</td>			
+			<td>{{nopart|calcular_frecuencia:mujer_jefe}}</td>
+			{% endwith %}
+		</tr>		
 	</tbody>	
 </table>
 <div id="grafo-cpc" class="grafo"></div>
@@ -144,11 +167,11 @@
 	<thead>	
 		<tr>
 			<th>Quien participa</th>
-			<th>Todos: {{part_asam.total}}</th>
+			<th>Todos: {{encuestas.count}}</th>
 			<th>%</th>
-			<th>Hombre Jefe: {{part_asam_hombre.total}}</th>
+			<th>Hombre Jefe: {{hombre_jefe}}</th>
 			<th>%</th>
-			<th>Mujer Jefe: {{part_asam_mujer.total}}</th>
+			<th>Mujer Jefe: {{mujer_jefe}}</th>
 			<th>%</th>	
 		</tr>
 	</thead>
@@ -156,13 +179,28 @@
 		<tr>
 			<td>Participación de {{key}}</td>
 			<td>{{part_asam|get_value:key}}</td>				
-			<td>{{part_asam|get_value:key|calcular_frecuencia:part_asam.total}}</td>
+			<td>{{part_asam|get_value:key|calcular_frecuencia:encuestas.count}}</td>
 			<td>{{part_asam_hombre|get_value:key}}</td>
-			<td>{{part_asam_hombre|get_value:key|calcular_frecuencia:part_asam_hombre.total}}</td>
+			<td>{{part_asam_hombre|get_value:key|calcular_frecuencia:hombre_jefe}}</td>
 			<td>{{part_asam_mujer|get_value:key}}</td>			
-			<td>{{part_asam_mujer|get_value:key|calcular_frecuencia:part_asam_mujer.total}}</td>
+			<td>{{part_asam_mujer|get_value:key|calcular_frecuencia:mujer_jefe}}</td>
 		</tr>
-	{% endfor %}		
+	{% endfor %}
+		<tr>
+			<td>No participa</td>
+			{% with nopart=encuestas.count|restar:part_asam.total %}
+			<td>{{nopart}}</td>
+			<td>{{nopart|calcular_frecuencia:encuestas.count}}</td>
+			{% endwith %}
+			{% with nopart=hombre_jefe|restar:part_asam_hombre.total %}
+			<td>{{nopart}}</td>			
+			<td>{{nopart|calcular_frecuencia:hombre_jefe}}</td>
+			{% endwith %}
+			{% with nopart=mujer_jefe|restar:part_asam_mujer.total %}
+			<td>{{nopart}}</td>			
+			<td>{{nopart|calcular_frecuencia:mujer_jefe}}</td>
+			{% endwith %}
+		</tr>		
 	</tbody>	
 </table>
 <div id="grafo-asam" class="grafo"></div>
