@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Escolaridad del beneficiario{% endblock %}
+{% block extratitle %}Ingresos por actividades agropecuarias{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -49,10 +49,10 @@
                     width: 960
                 },
                 title: {
-                    text: 'Aumentados los ingresos familiares por actividades'
+                    text: 'Ingresos familiares por actividades agropecuarias'
                 },
                 subtitle: {
-                    text: 'Hombre Jefe - Mujer Jefa - Compartido'
+                    text: 'Total - Hombre Jefe - Mujer Jefa'
                 },
                 xAxis: {
                     categories: [
@@ -68,10 +68,9 @@
                 legend: leyenda,
                 tooltip: tooltip,
                 plotOptions: plotOptions,
-                series: [{name: 'Total', data: [{{ingreso_agropecuario.total}}]},
-                         {name: 'Hombre Jefe', data: [{{ingreso_agropecuario.hombre}}]},
-                         {name: 'Mujer Jefe', data: [{{ingreso_agropecuario.mujer}}]},
-                         {name: 'Compartido', data: [{{ingreso_agropecuario.compartido}}]}]
+                series: [{name: 'Total', data: [{{ingreso_agropecuario.total|calcular_frecuencia:query.count}}]},
+                         {name: 'Hombre Jefe', data: [{{ingreso_agropecuario.hombre|calcular_frecuencia:query_hombre.count}}]},
+                         {name: 'Mujer Jefe', data: [{{ingreso_agropecuario.mujer|calcular_frecuencia:query_mujer.count}}]}]
             });
     });
 </script>
@@ -90,19 +89,23 @@
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
-			<th>Total</th>			
+			<th>Total</th>
+			<th>%</th>
 			<th>Hombre Jefe</th>
-			<th>Mujere Jefe</th>
-			<th>Compartido</th>
+			<th>%</th>
+			<th>Mujere Jefe</th>			
+			<th>%</th>
 		</tr>
 	</thead>
 		<tbody>			
 			<tr>
 				<td>Porcentaje de familias con ingresos</td>
-				<td>{{ingreso_agropecuario.total}} %</td>
-				<td>{{ingreso_agropecuario.hombre}} %</td>
-				<td>{{ingreso_agropecuario.mujer}} %</td>
-				<td>{{ingreso_agropecuario.compartido}} %</td>				
+				<td>{{ingreso_agropecuario.total}}</td>
+				<td>{{ingreso_agropecuario.total|calcular_frecuencia:query.count}}</td>
+				<td>{{ingreso_agropecuario.hombre}}</td>
+				<td>{{ingreso_agropecuario.hombre|calcular_frecuencia:query_hombre.count}} %</td>
+				<td>{{ingreso_agropecuario.mujer}}</td>
+				<td>{{ingreso_agropecuario.mujer|calcular_frecuencia:query_mujer.count}} %</td>											
 			</tr>			
 		</tbody>
 	</table>

@@ -82,17 +82,25 @@
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>
 	<table class="tabla-resultados">
-		<caption>Sexo del beneficiario cuando la mujer es Jefa de Familia</caption>
+		<caption>Cuando la Jefa de Familia es Mujer</caption>
 		<thead>
 			<tr>
-			<th>Hombre</th>
-			<th>Mujer</th>
+				<th>&nbsp;</th>
+				<th>Hombre</th>
+				<th>%</th>
+				<th>Mujer</th>
+				<th>%</th>
+				<th>Total</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-			<td>{{mujer_jefe.1|get_frec:mujer_jefe}}</td>
-			<td>{{mujer_jefe.2|get_frec:mujer_jefe}}</td>
+				<td>Sexo del beneficiario</td>
+				<td>{{mujer_jefe.1}}</td>
+				<td>{{mujer_jefe.1|get_frec:mujer_jefe}}</td>
+				<td>{{mujer_jefe.2}}</td>
+				<td>{{mujer_jefe.2|get_frec:mujer_jefe}}</td>
+				<td>{{query_mujer.count}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -101,17 +109,25 @@
 <br>
 <div>
 	<table class="tabla-resultados">
-		<caption>Sexo del beneficiario cuando el hombre es Jefe de Familia</caption>
+		<caption>Cuando el Jefe de Familia es Hombre</caption>
 		<thead>
 			<tr>
-			<th>Hombre</th>
-			<th>Mujer</th>
+				<th>&nbsp;</th>
+				<th>Hombre</th>
+				<th>%</th>
+				<th>Mujer</th>
+				<th>%</th>
+				<th>Total</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-			<td>{{hombre_jefe.1|get_frec:hombre_jefe}}</td>
-			<td>{{hombre_jefe.2|get_frec:hombre_jefe}}</td>
+				<td>Sexo del beneficiario</td>
+				<td>{{hombre_jefe.1}}</td>
+				<td>{{hombre_jefe.1|get_frec:hombre_jefe}}</td>
+				<td>{{hombre_jefe.2}}</td>
+				<td>{{hombre_jefe.2|get_frec:hombre_jefe}}</td>
+				<td>{{query_hombre.count}}</td>
 			</tr>
 		</tbody>
 	</table>

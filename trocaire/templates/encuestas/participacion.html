@@ -20,7 +20,7 @@
                 enabled: true,
                 align: "center",
                 formatter: function() {
-                    return ''+ this.percentage.toFixed(1) + ' %';
+                    return ''+ this.y + ' %';
                 },
                 color: '#000',
                 style: {
@@ -31,31 +31,45 @@
     }
     var tooltip = {
         formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.y;
+            return '<b>'+ this.series.name +'</b>: '+ this.y + '%';
         }
     }
     $(document).ready(function(){
     	var chart = new Highcharts.Chart({
-        	chart: {
-            	renderTo: 'grafo-cpc',
-                defaultSeriesType: 'pie',
+    		chart: {
+                renderTo: 'grafo-cpc',
+                defaultSeriesType: 'column',
                 height: 480,
                 width: 960
             },
             title: {
                 text: 'Participación de los miembros de la familia en los CPC'
             },
+            xAxis: {
+                categories: [
+                    'Total', 'Hombre Jefe', 'Mujer Jefa'
+                ]
+            },
             subtitle: {
                 text: 'Hombre, Mujer, Ambos'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for key, value in part_cpc.items %}['{{key|title}}', {{value}}]{% if not forloop.last %}, {% endif %}{% endfor %} ]}]
+            series: [{name: 'Participan los hombres', data: [{{part_cpc.hombre|calcular_frecuencia:part_cpc.total}}, 
+                                                           {{part_cpc_hombre.hombre|calcular_frecuencia:part_cpc_hombre.total}},
+                                                           {{part_cpc_mujer.hombre|calcular_frecuencia:part_cpc_mujer.total}}]},
+                     {name: 'Participan las mujeres', data: [{{part_cpc.mujer|calcular_frecuencia:part_cpc.total}}, 
+                                                         {{part_cpc_hombre.mujer|calcular_frecuencia:part_cpc_hombre.total}},
+                                                         {{part_cpc_mujer.mujer|calcular_frecuencia:part_cpc_mujer.total}}]},
+                     {name: 'Participan ambos', data: [{{part_cpc.ambos|calcular_frecuencia:part_cpc.total}}, 
+                                                         {{part_cpc_hombre.ambos|calcular_frecuencia:part_cpc_hombre.total}},
+                                                         {{part_cpc_mujer.ambos|calcular_frecuencia:part_cpc_mujer.total}}]}]
+                                                       
         }); 
     	var chart2 = new Highcharts.Chart({
         	chart: {
             	renderTo: 'grafo-asam',
-                defaultSeriesType: 'pie',
+                defaultSeriesType: 'column',
                 height: 480,
                 width: 960
             },
@@ -64,10 +78,23 @@
             },
             subtitle: {
             	text: 'Hombre, Mujer, Ambos'
-            },                                
+            },
+            xAxis: {
+                categories: [
+                    'Total', 'Hombre Jefe', 'Mujer Jefa'
+                ]
+            },
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for key, value in part_asam.items %}['{{key|title}}', {{value}}]{% if not forloop.last %}, {% endif %}{% endfor %} ]}]
+            series: [{name: 'Participan los hombres', data: [{{part_asam.hombre|calcular_frecuencia:part_asam.total}}, 
+                                                             {{part_asam_hombre.hombre|calcular_frecuencia:part_asam_hombre.total}},
+                                                             {{part_asam_mujer.hombre|calcular_frecuencia:part_asam_mujer.total}}]},
+                       {name: 'Participan las mujeres', data: [{{part_asam.mujer|calcular_frecuencia:part_asam.total}}, 
+                                                           {{part_asam_hombre.mujer|calcular_frecuencia:part_asam_hombre.total}},
+                                                           {{part_asam_mujer.mujer|calcular_frecuencia:part_asam_mujer.total}}]},
+                       {name: 'Participan ambos', data: [{{part_asam.ambos|calcular_frecuencia:part_asam.total}}, 
+                                                           {{part_asam_hombre.ambos|calcular_frecuencia:part_asam_hombre.total}},
+                                                           {{part_asam_mujer.ambos|calcular_frecuencia:part_asam_mujer.total}}]}]
         });
     });
 </script>
@@ -86,19 +113,27 @@
 	<thead>	
 		<tr>
 			<th>Quien participa</th>
-			<th>Total</th>
+			<th>Todos: {{part_cpc.total}}</th>
 			<th>%</th>
+			<th>Hombre Jefe: {{part_cpc_hombre.total}}</th>
+			<th>%</th>
+			<th>Mujer Jefe: {{part_cpc_mujer.total}}</th>
+			<th>%</th>			
 		</tr>
 	</thead>
 	<tbody>
-		{% for key, value in part_cpc.items %}
+	{% for key in part_cpc.keys|exclude:'total' reversed %}
 		<tr>
-			<td>{{key|title}}</td>
-			<td>{{value}}</td>
-			<td>{{value|get_frec:part_cpc}}</td>	
+			<td>Participación de {{key}}</td>
+			<td>{{part_cpc|get_value:key}}</td>				
+			<td>{{part_cpc|get_value:key|calcular_frecuencia:part_cpc.total}}</td>
+			<td>{{part_cpc_hombre|get_value:key}}</td>
+			<td>{{part_cpc_hombre|get_value:key|calcular_frecuencia:part_cpc_hombre.total}}</td>
+			<td>{{part_cpc_mujer|get_value:key}}</td>			
+			<td>{{part_cpc_mujer|get_value:key|calcular_frecuencia:part_cpc_mujer.total}}</td>
 		</tr>
-		{% endfor %}
-	</tbody>
+	{% endfor %}		
+	</tbody>	
 </table>
 <div id="grafo-cpc" class="grafo"></div>
 </div>
@@ -109,19 +144,26 @@
 	<thead>	
 		<tr>
 			<th>Quien participa</th>
-			<th>Total</th>
+			<th>Todos: {{part_asam.total}}</th>
 			<th>%</th>
+			<th>Hombre Jefe: {{part_asam_hombre.total}}</th>
+			<th>%</th>
+			<th>Mujer Jefe: {{part_asam_mujer.total}}</th>
+			<th>%</th>	
 		</tr>
 	</thead>
-	<tbody>
-		{% for key, value in part_asam.items %}
+	{% for key in part_asam.keys|exclude:'total' reversed %}
 		<tr>
-			<td>{{key|title}}</td>
-			<td>{{value}}</td>
-			<td>{{value|get_frec:part_asam}}</td>	
+			<td>Participación de {{key}}</td>
+			<td>{{part_asam|get_value:key}}</td>				
+			<td>{{part_asam|get_value:key|calcular_frecuencia:part_asam.total}}</td>
+			<td>{{part_asam_hombre|get_value:key}}</td>
+			<td>{{part_asam_hombre|get_value:key|calcular_frecuencia:part_asam_hombre.total}}</td>
+			<td>{{part_asam_mujer|get_value:key}}</td>			
+			<td>{{part_asam_mujer|get_value:key|calcular_frecuencia:part_asam_mujer.total}}</td>
 		</tr>
-		{% endfor %}
-	</tbody>
+	{% endfor %}		
+	</tbody>	
 </table>
 <div id="grafo-asam" class="grafo"></div>
 </div>

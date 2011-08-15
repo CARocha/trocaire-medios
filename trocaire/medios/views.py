@@ -58,9 +58,7 @@ def _query_set_filtrado(request):
             if len(request.session['parametros'][key]):
                 reducir = True if (last_key[1] != key > 1 and last_key[0] == None) or reducir==True else False
                 last_key = (i, key)
-                ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)
-                print '---------------------------------------------'
-                print len(ids)                
+                ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)                              
                 encuestas_id += ids
         if not encuestas_id:
             return Encuesta.objects.filter(**params)
@@ -211,17 +209,11 @@ def indicadores(request):
 def datos_sexo(request):    
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)    
     composicion_familia = Composicion.objects.filter(encuesta__id__in=encuestas)
-    '''1: Hombre, 2: Mujer, 3: Compartido'''    
-    tabla_sexo_jefe = {1: 0, 2: 0, 3: 0}
+    '''1: Hombre, 2: Mujer'''    
+    tabla_sexo_jefe = {1: 0, 2: 0}
     tabla_sexo_beneficiario = {}
-    for composicion in composicion_familia:
-        #validar si el beneficiario es el jefe de familia
-        if composicion.beneficio == 1:
-            tabla_sexo_jefe[composicion.sexo] += 1
-        elif composicion.beneficio == 2:
-            tabla_sexo_jefe[composicion.sexo_jefe] += 1            
-        else:
-            tabla_sexo_jefe[3] += 1
+    tabla_sexo_jefe[1] = encuestas.filter(sexo_jefe=1).count()
+    tabla_sexo_jefe[2] = encuestas.filter(sexo_jefe=2).count()
     tabla_sexo_beneficiario['masculino'] = composicion_familia.filter(sexo=1).count()
     tabla_sexo_beneficiario['femenino'] = composicion_familia.filter(sexo=2).count()                
     dondetoy = "sexojefe"
@@ -492,25 +484,15 @@ def mujeres_decisiones(request):
     return render_to_response('encuestas/mujeres_decisiones.html', RequestContext(request,locals()))
     
 def sexo_beneficiario(request):
-    encuestas = _query_set_filtrado(request).values_list('id', flat=True)
-    composicion_familia = Composicion.objects.filter(encuesta__id__in=encuestas)
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True)    
     '''1: hombre, 2: mujer'''
-    mujer_jefe = {1:0, 2:0}
-    hombre_jefe = {1:0, 2:0}
+       
+    query_hombre = Composicion.objects.filter(encuesta__id__in=encuestas.filter(sexo_jefe=1))
+    query_mujer = Composicion.objects.filter(encuesta__id__in=encuestas.filter(sexo_jefe=2))
     
-    for composicion in composicion_familia:
-        #validando si el beneficiario es el jefe y es hombre
-        if composicion.beneficio == 1 and composicion.sexo == 1:            
-            hombre_jefe[1] += 1
-        #si el beneficiario es jefe y es mujer
-        elif composicion.beneficio == 1 and composicion.sexo == 2:
-            mujer_jefe[2] += 1
-        #si el beneficiario no es el jefe, buscar su sexo
-        elif composicion.beneficio == 2:
-            if composicion.sexo_jefe == 1:
-                hombre_jefe[composicion.sexo] += 1
-            elif composicion.sexo_jefe == 2:
-                mujer_jefe[composicion.sexo] += 1                        
+    mujer_jefe = {1:query_mujer.filter(sexo=1).count(), 2:query_mujer.filter(sexo=2).count()}
+    hombre_jefe = {1:query_hombre.filter(sexo=1).count(), 2:query_hombre.filter(sexo=2).count()}
+                            
     dondetoy = "sexobene"
     return render_to_response('encuestas/sexo_beneficiario.html', RequestContext(request, locals()))
 
@@ -542,54 +524,63 @@ def credito(request):
     return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
 
 def participacion(request):
-    encuestas = _query_set_filtrado(request)
-    part_cpc = {}
-    part_asam = {}    
-    query1 = ParticipacionCPC.objects.filter(encuesta__in=encuestas, organismo=1)
-    part_cpc = query1.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))    
+    encuestas = _query_set_filtrado(request)    
+    query_all = ParticipacionCPC.objects.filter(encuesta__in=encuestas)
+    part_cpc = get_participacion(query_all, 1)
+    part_asam = get_participacion(query_all, 2)
     
-    query2 = ParticipacionCPC.objects.filter(encuesta__in=encuestas, organismo=2)
-    part_asam = query2.aggregate(hombres=Sum('hombre'), mujer=Sum('mujer'), ambos=Sum('ambos'))
+    #-- obtener cuando el jefe de familia es hombre
+    query_hombre = ParticipacionCPC.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1))
+    part_cpc_hombre = get_participacion(query_hombre, 1)
+    part_asam_hombre = get_participacion(query_hombre, 2)
+        
+    #-- obtener cuando el jefe de familia es mujer
+    query_mujer = ParticipacionCPC.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2))
+    part_cpc_mujer = get_participacion(query_mujer, 1)
+    part_asam_mujer = get_participacion(query_mujer, 2)    
+    
     dondetoy = "participacion"
     return render_to_response('encuestas/participacion.html', RequestContext(request, locals()))
 
+def get_participacion(query_param, organismo):    
+    query = query_param.filter(organismo=organismo)
+    dicc = {'hombre': query.filter(hombre__gt=0).count(), 
+            'mujer': query.filter(mujer__gt=0).count(),
+            'ambos': query.filter(ambos__gt=0).count(),
+            'total': query.count()}     
+    return dicc
+
 def ingreso_agropecuario(request):
     encuestas = _query_set_filtrado(request)
-    query = PrincipalesFuentes.objects.filter(encuesta__in=encuestas)
-    jefe_ids = _queryid_hombre_mujer(encuestas.values_list('id', flat=True))
+    query = PrincipalesFuentes.objects.filter(encuesta__in=encuestas)    
     
     #obtener queries segun jefe de familia
-    query_hombre = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[1])
-    query_mujer = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[2])    
-    query_compartido = PrincipalesFuentes.objects.filter(encuesta__id__in=jefe_ids[3])
+    query_hombre = PrincipalesFuentes.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1))
+    query_mujer = PrincipalesFuentes.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2))
             
-    ingreso_agropecuario = {'total': calcular_frecuencia(query.filter(fuentes_ap__gte=1).count(), query.count()),
-            'hombre': calcular_frecuencia(query_hombre.filter(fuentes_ap__gte=1).count(), query_hombre.count()), 
-            'mujer': calcular_frecuencia(query_mujer.filter(fuentes_ap__gte=1).count(), query_mujer.count()),
-            'compartido': calcular_frecuencia(query_compartido.filter(fuentes_ap__gte=1).count(), query_compartido.count()),}
+    ingreso_agropecuario = {'total': query.filter(fuentes_ap__gte=1).count(),
+            'hombre': query_hombre.filter(fuentes_ap__gte=1).count(), 
+            'mujer': query_mujer.filter(fuentes_ap__gte=1).count()}
     dondetoy = "actividadesagro"
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
 def ingreso_familiar(request):
     encuestas = _query_set_filtrado(request)
     ingresos = TotalIngreso.objects.filter(encuesta__in=encuestas).values_list('total', flat=True)
-    jefe_ids = _queryid_hombre_mujer(encuestas.values_list('id', flat=True))
     
     #obtener queries segun jefe de familia
-    query_hombre_jefe = TotalIngreso.objects.filter(encuesta__id__in=jefe_ids[1]).values_list('total', flat=True)
-    query_mujer_jefe = TotalIngreso.objects.filter(encuesta__id__in=jefe_ids[2]).values_list('total', flat=True)    
-    query_compartido_jefe = TotalIngreso.objects.filter(encuesta__id__in=jefe_ids[3]).values_list('total', flat=True)
+    query_hombre_jefe = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1)).values_list('total', flat=True)
+    query_mujer_jefe = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2)).values_list('total', flat=True)    
+    
     
     promedio = {'total': calcular_promedio(ingresos),
                 'hombre_jefe': calcular_promedio(query_hombre_jefe),
-                'mujer_jefe': calcular_promedio(query_mujer_jefe),
-                'compartido': calcular_promedio(query_compartido_jefe)
+                'mujer_jefe': calcular_promedio(query_mujer_jefe)    
                 }
     
     mediana = {'total': calcular_mediana(ingresos),
                 'hombre_jefe': calcular_mediana(query_hombre_jefe),
-                'mujer_jefe': calcular_mediana(query_mujer_jefe),
-                'compartido': calcular_mediana(query_compartido_jefe)
+                'mujer_jefe': calcular_mediana(query_mujer_jefe)                
                 }
     dondetoy = "ingresosfam"
     return render_to_response('encuestas/ingreso_familiar.html', RequestContext(request, locals()))

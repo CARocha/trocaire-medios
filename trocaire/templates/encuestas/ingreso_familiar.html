@@ -28,7 +28,7 @@
     var tooltip = {
         formatter: function() {
             return ''+
-                this.series.name + ' '+ this.x +': C$ '+ this.y;
+                this.series.name + ' <b>'+ this.x +':</b> C$ '+ this.y;
         }
     }
     var leyenda = {
@@ -53,7 +53,7 @@
                 },
                 xAxis: {
                     categories: [
-                        'Total', 'Hombre Jefe', 'Mujer Jefa', 'Compartido'
+                        'Total', 'Hombre Jefe', 'Mujer Jefa'
                     ]
                 },
                 yAxis: {
@@ -65,8 +65,8 @@
                 legend: leyenda,
                 tooltip: tooltip,
                 plotOptions: plotOptions,
-                series: [{name: 'Promedio', data: [{{promedio.total}}, {{promedio.hombre_jefe}}, {{promedio.mujer_jefe}}, {{promedio.compartido}}]},
-                         {name: 'Mediana', data: [{{mediana.total}}, {{mediana.hombre_jefe}}, {{mediana.mujer_jefe}}, {{mediana.compartido}}]}
+                series: [{name: 'Promedio', data: [{{promedio.total}}, {{promedio.hombre_jefe}}, {{promedio.mujer_jefe}}]},
+                         {name: 'Mediana', data: [{{mediana.total}}, {{mediana.hombre_jefe}}, {{mediana.mujer_jefe}}]}
                          ]
             });
     });
@@ -88,8 +88,7 @@
 			<th>&nbsp;</th>
 			<th>Total</th>			
 			<th>Hombre Jefe</th>
-			<th>Mujere Jefe</th>
-			<th>Compartido</th>
+			<th>Mujere Jefe</th>			
 		</tr>
 	</thead>
 		<tbody>			
@@ -97,15 +96,13 @@
 				<td>Promedio de ingresos familiares <b>C$</b></td>
 				<td>{{promedio.total|currency}}</td>
 				<td>{{promedio.hombre_jefe|currency}}</td>
-				<td>{{promedio.mujer_jefe|currency}}</td>
-				<td>{{promedio.compartido|currency}}</td>				
+				<td>{{promedio.mujer_jefe|currency}}</td>								
 			</tr>
 			<tr>
 				<td>Mediana ingresos familiares <b>C$</b></td>
 				<td>{{mediana.total|currency}}</td>
 				<td>{{mediana.hombre_jefe|currency}}</td>
-				<td>{{mediana.mujer_jefe|currency}}</td>
-				<td>{{mediana.compartido|currency}}</td>				
+				<td>{{mediana.mujer_jefe|currency}}</td>								
 			</tr>			
 		</tbody>
 	</table>
