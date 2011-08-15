@@ -325,7 +325,7 @@ def rango_mz(request,sexo):
     
     lista = []
     for x in encuestas.filter(sexo_jefe=sexo):
-        query = Tierra.objects.filter(encuesta=x).aggregate(mujer=Sum('mujer'),
+        query = Tierra.objects.filter(encuesta=x, area=1).aggregate(mujer=Sum('mujer'),
                                                             hombre=Sum('hombre'),
                                                             ambos=Sum('ambos'))
         lista.append([x.id,query])
@@ -343,8 +343,35 @@ def acceso_tierra(request):
         dicc1[a[1]] = total.count()
         dicc1_h_m[a[1]] = _hombre_mujer_dicc(total.values_list('encuesta__id', flat=True))
     tabla_dicc1 = _order_dicc(copy.deepcopy(dicc1))
-    tierra = rango_mz(request,1)
-    print tierra
+    tierra_h = rango_mz(request,1)
+    tierra_m = rango_mz(request,2)
+    m_ambos = 0
+    m_mujer = 0
+    m_hombre = 0
+    m_rango1 = 0
+    for nada in tierra_m:
+        print nada
+        if nada[1]['ambos'] == 0 and nada[1]['mujer'] == 0 and nada[1]['hombre'] == 0:
+            rango1 += 1
+        if nada[1]['ambos'] > 0.1 and nada[1]['ambos'] < 1:
+            m_ambos += 1
+        if nada[1]['mujer'] > 0:
+            m_mujer += 1
+        if nada[1]['hombre'] > 0:
+            m_hombre += 1
+    print '----------------'
+    print m_ambos
+    print 'mujer'
+    print m_mujer
+    print 'hombre'
+    print m_hombre
+    print 'rango cero'
+    print m_rango1
+    
+        
+            
+    
+    
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
 
