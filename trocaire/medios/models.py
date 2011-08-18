@@ -28,9 +28,9 @@ class Encuesta(models.Model):
     usuario = models.ForeignKey(User)
     
     #campos ocultos para efectos de querys
-    sexo_jefe = models.IntegerField(default=0)
+    sexo_jefe = models.IntegerField(default=0, editable=False)
     #credito si: 1, credito no: 2
-    credito = models.IntegerField(default=2)
+    credito = models.IntegerField(default=2, editable=False)
 
     def __unicode__(self):
         return self.beneficiario
