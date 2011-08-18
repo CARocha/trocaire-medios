@@ -53,7 +53,9 @@ def currency(value):
 def exclude(list, key):
     return [foo for foo in list if foo != key]
 
-
+@register.filter()
+def otra_frec(valor,divisor):
+    return calcular_frecuencia(valor, divisor)
 
 
 
