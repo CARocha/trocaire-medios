@@ -401,6 +401,13 @@ def acceso_tierra(request):
     t_rango3 = h_rango3 + m_rango3
     t_rango4 = h_rango4 + m_rango4
     t_rango5 = h_rango5 + m_rango5
+    
+    hombres_rangos = h_rango2 + h_rango3 + h_rango4 + h_rango5
+    mujer_rangos = m_rango2 + m_rango3 + m_rango4 + m_rango5
+    hombre_no_tiene = hombre_jefes - hombres_rangos
+    mujer_no_tiene = mujer_jefes - mujer_rangos
+    total_rango_cero = hombre_no_tiene + mujer_no_tiene
+    
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
 
