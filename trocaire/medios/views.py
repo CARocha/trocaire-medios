@@ -26,45 +26,64 @@ def _query_set_filtrado(request):
     #if 'fecha' in request.session:
     #    params['fecha__year'] = anio
         
-    if 'contraparte' in request.session:
+    if request.session['contraparte']:
         params['contraparte'] =  request.session['contraparte'] 
 
-        if 'departamento' in request.session:                     
-            if request.session['municipio']:                
-                if request.session['comarca']:
-                    params['comarca'] = request.session['comarca']
-                else:                    
-                    params['municipio'] = request.session['municipio']
-            else:                
-                params['municipio__departamento'] = request.session['departamento']
+    if request.session['departamento']:                     
+        if request.session['municipio']:                
+            if request.session['comarca']:
+                params['comarca'] = request.session['comarca']
+            else:                    
+                params['municipio'] = request.session['municipio']
+        else:                
+            params['municipio__departamento'] = request.session['departamento']
             
-        unvalid_keys = []
-        for key in params:
-            if not params[key]:
-                unvalid_keys.append(key)
+    #validando filtro de dependencia familiar
+    if request.session['indice_dep']:
+        indice = request.session['indice_dep']
+                          
+        if indice == u'1':            
+            params['composicion__dependientes__lte'] = -0.1
+        elif indice == u'2':
+            params['composicion__dependientes__range'] = (0.0, 2.9)
+        elif indice == u'3':
+            params['composicion__dependientes__range'] = (3.0, 5.9)
+        elif indice == u'4':
+            params['composicion__dependientes__gte'] = 6.0
+    
+    #validando acceso a credito    
+    if request.session['credito_acceso'] != 'None':
+        params['credito'] = request.session['credito_acceso']
+    
+    unvalid_keys = []
+    for key in params:
+        if not params[key]:            
+            print params[key]
+            unvalid_keys.append(key)
+    
+    for key in unvalid_keys:        
+        del params[key]        
         
-        for key in unvalid_keys:
-            del params[key]
-        #despelote
-        encuestas_id = []
-        reducir = False
-        last_key = (None, None)        
-        for i, key in enumerate(request.session['parametros']):
-            #TODO: REVISAR ESTO
-            for k, v in request.session['parametros'][key].items():
-                if v is None or str(v) == 'None':
-                    del request.session['parametros'][key][k]
-            model = get_model(*key.split('.'))            
-            if len(request.session['parametros'][key]):
-                reducir = True if (last_key[1] != key > 1 and last_key[0] == None) or reducir==True else False
-                last_key = (i, key)
-                ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)                              
-                encuestas_id += ids
-        if not encuestas_id:
-            return Encuesta.objects.filter(**params)
-        else:
-            ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id            
-            return Encuesta.objects.filter(id__in = ids_definitivos, **params)
+    #despelote
+    encuestas_id = []
+    reducir = False
+    last_key = (None, None)        
+    for i, key in enumerate(request.session['parametros']):
+        #TODO: REVISAR ESTO
+        for k, v in request.session['parametros'][key].items():
+            if v is None or str(v) == 'None':
+                del request.session['parametros'][key][k]
+        model = get_model(*key.split('.'))            
+        if len(request.session['parametros'][key]):
+            reducir = True if (last_key[1] != key > 1 and last_key[0] == None) or reducir==True else False
+            last_key = (i, key)
+            ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)                              
+            encuestas_id += ids
+    if not encuestas_id:
+        return Encuesta.objects.filter(**params)
+    else:
+        ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id            
+        return Encuesta.objects.filter(id__in = ids_definitivos, **params)
 
 def reducir_lista(lista):
     '''reduce la lista dejando solo los elementos que son repetidos
@@ -94,7 +113,13 @@ def consultar(request):
 
             request.session['municipio'] = municipio
             request.session['comarca'] = comarca
-
+            
+            #indice de dependencia
+            request.session['indice_dep'] = form.cleaned_data['indice_dep']
+            
+            #acceso a credito
+            request.session['credito_acceso'] = form.cleaned_data['credito_acceso']
+            
             #cosas de otros modelos!
             parametros = {'familia.escolaridad': {}, 'familia.composicion': {}, 
                           'genero.tomadecicion': {}, 'ingresos.principalesfuentes': {},
@@ -102,6 +127,7 @@ def consultar(request):
             parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']
             parametros['familia.escolaridad']['conyugue'] = form.cleaned_data['escolaridad_conyugue']
             parametros['familia.composicion']['sexo'] = form.cleaned_data['familia_beneficiario']
+            
             #desicion gasto mayor!
             #parametros['genero.tomadecicion']['aspectos'] = 1
             parametros['genero.tomadecicion']['respuesta'] =  form.cleaned_data['desicion_gasto_mayor']
@@ -109,17 +135,12 @@ def consultar(request):
             parametros['ingresos.principalesfuentes']['fuente'] = form.cleaned_data['ingresos_fuente']#TODO: cambiarlo a fuente__in
             parametros['ingresos.totalingreso']['total__gte'] = form.cleaned_data['ingresos_total_min']
             parametros['ingresos.totalingreso']['total__lte'] = form.cleaned_data['ingresos_total_max']
-            #dependientes
-            parametros['familia.composicion']['dependientes__gte'] = form.cleaned_data['dependientes_min']
-            parametros['familia.composicion']['dependientes__lte'] = form.cleaned_data['dependientes_max']
+            
             #parametros['formas_propiedad.finca']['area'] = forms.cleaned_data['finca_area_total']
             #parametros['produccion.ganadomayor']['num_vacas'] = forms.cleaned_data['finca_num_vacas']
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
             request.session['parametros'] = parametros
-            
-            encuestas = _query_set_filtrado(request)
-            
             
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
@@ -165,9 +186,7 @@ def consultarsimple(request):
             parametros['ingresos.principalesfuentes']['fuente'] = form.cleaned_data['ingresos_fuente']#TODO: cambiarlo a fuente__in
             parametros['ingresos.totalingreso']['total__gte'] = form.cleaned_data['ingresos_total_min']
             parametros['ingresos.totalingreso']['total__lte'] = form.cleaned_data['ingresos_total_max']
-            #dependientes
-            parametros['familia.composicion']['dependientes__gte'] = form.cleaned_data['dependientes_min']
-            parametros['familia.composicion']['dependientes__lte'] = form.cleaned_data['dependientes_max']
+                        
             #parametros['formas_propiedad.finca']['area'] = forms.cleaned_data['finca_area_total']
             #parametros['produccion.ganadomayor']['num_vacas'] = forms.cleaned_data['finca_num_vacas']
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']

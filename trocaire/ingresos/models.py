@@ -313,7 +313,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 @receiver(post_save, sender=Encuesta)
-def create_encuesta_callback(sender, **kwargs):
+def create_encuesta_callback(sender, **kwargs):    
     encuesta = kwargs['instance']
     try:
         total_ingreso = TotalIngreso.objects.get(encuesta=encuesta)

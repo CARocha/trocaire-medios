@@ -33,13 +33,19 @@
         </div>
         {% block banner %}
 		{% endblock %}
-        <div class="content">
-            <div class="wrapper">
+
+        <div class="content" {%if dondetoy %}style="width:1130px !important; "{%endif%}>
+                {% block consultar_sidebar %}
+                {% endblock %}
+            <div class="wrapper" {%if dondetoy %}style="float:left !important;"{%endif%}>
+
                 {% block contenido %}
                 {% endblock %}
                 <div class="clean"></div>
             </div>
+        <div class="clean"></div>
         </div>
+        <div class="clean"></div>
         <div class="footer">
             <div class="wrapper">
                 Desarrollado por <a href="http://simas.org.ni">SIMAS</a> con <a href="http://djangoproject.com">Django</a> Framework
