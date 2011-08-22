@@ -131,9 +131,19 @@ def consultar(request):
             parametros = {'familia.escolaridad': {}, 'familia.composicion': {}, 
                           'genero.tomadecicion': {}, 'ingresos.principalesfuentes': {},
                           'ingresos.totalingreso': {}}
-            parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']
+            parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']            
             parametros['familia.escolaridad']['conyugue'] = form.cleaned_data['escolaridad_conyugue']
             parametros['familia.composicion']['sexo'] = form.cleaned_data['familia_beneficiario']
+            
+            #algunos fixes para filtros multipresente
+            if form.cleaned_data['familia_beneficiario']:
+                request.session['familia_beneficiario'] = form.cleaned_data['familia_beneficiario']
+            
+            if form.cleaned_data['escolaridad_beneficiario']:
+                request.session['escolaridad_beneficiario'] = form.cleaned_data['escolaridad_beneficiario']
+            
+            if form.cleaned_data['escolaridad_conyugue']:
+                request.session['escolaridad_conyugue'] = form.cleaned_data['escolaridad_conyugue']
             
             #desicion gasto mayor!
             #parametros['genero.tomadecicion']['aspectos'] = 1
