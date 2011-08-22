@@ -218,7 +218,9 @@ $(document).ready(function() {
 {% endblock %}
 
 {% load humanize %}
-
+{% block consultar_sidebar %}
+    {% include "encuestas/consultar-sidebar.html"%}
+{% endblock %}
 {% block contenido %}
 
 <ul id="maintab" class="basictab">

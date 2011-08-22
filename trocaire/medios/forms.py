@@ -8,6 +8,8 @@ from trocaire.lugar.models import *
 from trocaire.ingresos.models import Fuentes
 
 ANOS_CHOICES = ((2011,'2011'),(2012,'2012'),(2013,'2013'),(2014,'2014'),(2015,'2015'))
+DEPENDIENTES_CHOICE = ((1, u'Menos de 0'), (2, u'De 0 a menos de 3'), (3, u'De 3 a menos de 6'), (4, u'Más de 6'))
+CREDITO_CHOICE = ((1, 'Si'), (2, 'No'))
 
 class CustomChoiceField(forms.ChoiceField):
 
@@ -26,15 +28,14 @@ class ConsultarForm(forms.Form):
     escolaridad_beneficiario = CustomChoiceField(choices=CHOICE_ESCOLARIDAD, required=False)
     escolaridad_conyugue = CustomChoiceField(choices=CHOICE_ESCOLARIDAD, required=False)
     #familia
-    familia_beneficiario = CustomChoiceField(CHOICE_SEXO, required=False)
-    dependientes_max = forms.IntegerField('dependientes', min_value=0, required=False)
-    dependientes_min = forms.IntegerField(min_value=0, required=False)
+    familia_beneficiario = CustomChoiceField(CHOICE_SEXO, required=False)     
+    indice_dep = CustomChoiceField(choices=DEPENDIENTES_CHOICE, required=False)    
     #ingresos(ambos son rangos)
     ingresos_fuente = forms.ModelChoiceField(queryset=Fuentes.objects.all(), required=False)
     ingresos_total_max = forms.FloatField(required=False)
     ingresos_total_min = forms.FloatField(required=False)
     #credito
-    credito_acceso = CustomChoiceField(choices=CHOICE_SINO, required=False)
+    credito_acceso = CustomChoiceField(choices=CREDITO_CHOICE, required=False, label=u'Acceso a crédito')
     #toma de desicion
     desicion_gasto_mayor = CustomChoiceField(choices=CHOICE_ASPECTO_RESPUESTA, required=False)
     desicion_inversion = CustomChoiceField(choices=CHOICE_ASPECTO_RESPUESTA, required=False)
