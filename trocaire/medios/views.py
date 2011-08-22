@@ -39,21 +39,27 @@ def _query_set_filtrado(request):
             params['municipio__departamento'] = request.session['departamento']
             
     #validando filtro de dependencia familiar
-    if request.session['indice_dep']:
-        indice = request.session['indice_dep']
-                          
-        if indice == u'1':            
-            params['composicion__dependientes__lte'] = -0.1
-        elif indice == u'2':
-            params['composicion__dependientes__range'] = (0.0, 2.9)
-        elif indice == u'3':
-            params['composicion__dependientes__range'] = (3.0, 5.9)
-        elif indice == u'4':
-            params['composicion__dependientes__gte'] = 6.0
+    try:
+        if request.session['indice_dep']:
+            indice = request.session['indice_dep']
+                              
+            if indice == u'1':            
+                params['composicion__dependientes__lte'] = -0.1
+            elif indice == u'2':
+                params['composicion__dependientes__range'] = (0.0, 2.9)
+            elif indice == u'3':
+                params['composicion__dependientes__range'] = (3.0, 5.9)
+            elif indice == u'4':
+                params['composicion__dependientes__gte'] = 6.0
+    except:
+        pass
     
-    #validando acceso a credito    
-    if request.session['credito_acceso'] != 'None':
-        params['credito'] = request.session['credito_acceso']
+    #validando acceso a credito
+    try:    
+        if request.session['credito_acceso'] != 'None':
+            params['credito'] = request.session['credito_acceso']
+    except:
+        pass
     
     unvalid_keys = []
     for key in params:

@@ -1,4 +1,6 @@
 {% extends "base.html"%}
+{% block extratitle %}{{title}}{% endblock %}
+
 {% block extrahead%}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
@@ -195,7 +197,7 @@ initalizetab("maintab")
           <option value='13'>13</option>
           <option value='14'>14</option>
         </select>
-        <input id="botonmax"type='button' onClick="redirigir(this.form)" value=''/>
+        <input id="botonmax" type='button' onClick="redirigir(this.form)" value=''/>
       </form>
 </div>
   </div>

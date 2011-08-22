@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     $(document).ready(function() {
         var departamento = document.getElementById("id_departamento");
@@ -9,7 +8,7 @@
         $("#id_departamento").change(function () {
             var index = departamento.options.selectedIndex;
             var id = departamento.options[index].value;
-            $.getJSON("ajax/municipio/" + id +"/",
+            $.getJSON("/consultar/ajax/municipio/" + id +"/",
             function(data){
                 municipio.options.length = 0;
                 municipio.options[0] = new Option("--------");
@@ -23,7 +22,7 @@
         $("#id_municipio").change(function () {
             var index = municipio.options.selectedIndex;
             var id = municipio.options[index].value;
-            $.getJSON("ajax/comarca/" + id +"/",
+            $.getJSON("/consultar/ajax/comarca/" + id +"/",
             function(data){
                 comarca.options.length = 0;
                 comarca.options[0] = new Option("---------");
@@ -36,8 +35,8 @@
     });
 </script>
 <div id="consultar-sidebar">
-    <form method="POST" action="." id="consultar-form">{% csrf_token %}
-        <div class="general" style="135px;">
+    <form method="POST" action="/consultar/" id="consultar-form">{% csrf_token %}
+        <div class="general">
             <div class="label">{{form.fecha.label}}</div>
             <div class="filtros">{{form.fecha}}<br>{{form.fecha.errors}}</div>
             <div class="clean"></div>
@@ -59,10 +58,9 @@
             <div class="label">{{form.escolaridad_conyugue.label}}</div>
             <div class="filtros">{{form.escolaridad_conyugue}}<br>{{form.escolaridad_conyugue.errors}}</div>
             <div class="clean"></div>
-
-            <div class="label">{{form.dependientes_max.label}}</div>
-            <div class="filtros">{{form.dependientes_max}}<br>{{form.dependientes_max.errors}}</div>
-            <div class="filtros">{{form.dependientes_min}}<br>{{form.dependientes_min.errors}}</div>
+			<br>
+            <div class="label">Indice de dependencia</div>
+            <div class="filtros">{{form.indice_dep}}<br>{{form.indice_dep.errors}}</div>
             <div class="clean"></div>
             <div class="label">{{form.familia_beneficiario.label}}</div>
             <div class="filtros">{{form.familia_beneficiario}}<br>{{form.familia_beneficiario.errors}}</div>
@@ -80,31 +78,23 @@
             <div class="clean"></div>
             <div class="label">{{form.desicion_inversion.label}}</div>
             <div class="filtros">{{form.desicion_inversion}}<br>{{form.desicion_inversion.errors}}</div>
-            <div class="clean"></div>
-            <!--
-                        <div class="label">{{form.finca_area_total.label}}</div>
-                        <div class="filtros">{{form.finca_area_total}}<br>{{form.finca_area_total.errors}}</div>
-                        <div class="clean"></div>
-                        <div class="label">{{form.finca_num_productos.label}}</div>
-                        <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-                        <div class="clean"></div>
-                        <div class="label">{{form.finca_num_vacas.label}}</div>
-                        <div class="filtros">{{form.finca_num_vacas}}<br>{{form.finca_num_vacas.errors}}</div>
-                        <div class="clean"></div>
-                        <div class="label">{{form.finca_riego.label}}</div>
-                        <div class="filtros">{{form.finca_riego}}<br>{{form.finca_riego.errors}}</div>
-                        <div class="clean"></div>
-                        <div class="label">{{form.finca_conssa.label}}</div>
-                        <div class="filtros">{{form.finca_conssa}}<br>{{form.finca_conssa.errors}}</div>
-                        <div class="clean"></div>
-                        <div class="label">{{form.finca_num_productos.label}}</div>
-                        <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-                        <div class="clean"></div>
-            -->
-            <div class="clean"></div>
+            <div class="clean"></div> 
+            {{form.next_url}}          
+            
             <button class="consultar"></button>
             <div class="clean"></div>
         </div>
-
-    </form>
+    </form>    
 </div>
+
+<script type='text/javascript'>
+	$(document).ready(function(){
+		$('#id_nexturl').val(window.location.href);
+		{% if request.session.contraparte %}
+		$('#id_contraparte').val({{request.session.contraparte.id}});
+		{% endif %}
+		{% if request.session.departamento %}
+		$('#id_departamento').val({{request.session.departamento.id}});
+		{% endif %}		
+	});
+</script>

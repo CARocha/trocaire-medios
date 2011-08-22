@@ -193,7 +193,8 @@ def generic_range(request, model, field, title, serie, dondetoy, subtitle, eje, 
                                'subtitle': subtitle,
                                'eje': eje,
                                'serie': serie,
-                               'valores_acumulados': valores_acumulados},
+                               'valores_acumulados': valores_acumulados,
+                               'request': request},
                               context_instance=RequestContext(request))
 
 
