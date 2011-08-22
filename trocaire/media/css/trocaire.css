@@ -455,7 +455,7 @@ label #id_year{
 
 #consultar-sidebar #id_escolaridad_beneficiario,#consultar-sidebar #id_contraparte, #consultar-sidebar #id_departamento, #consultar-sidebar  #id_municipio,#consultar-sidebar  #id_comarca,
 #consultar-sidebar #id_escolaridad_conyugue, #consultar-sidebar #id_familia_dependientes, #consultar-sidebar #id_familia_beneficiario, #consultar-sidebar #id_credito_acceso,
-#consultar-sidebar #id_desicion_gasto_mayor, #consultar-sidebar #id_desicion_inversion{
+#consultar-sidebar #id_desicion_gasto_mayor, #consultar-sidebar #id_desicion_inversion, #consultar-sidebar #id_indice_dep{
     width:125px;
 }
 
