@@ -73,7 +73,8 @@ def _query_set_filtrado(request):
     #despelote
     encuestas_id = []
     reducir = False
-    last_key = (None, None)        
+    last_key = (None, None)    
+            
     for i, key in enumerate(request.session['parametros']):
         #TODO: REVISAR ESTO
         for k, v in request.session['parametros'][key].items():
@@ -592,14 +593,14 @@ def ingreso_familiar(request):
 def abastecimiento(request):
     encuestas = _query_set_filtrado(request)
     jefes_ids = _queryid_hombre_mujer(encuestas.values_list('id', flat=True), flag=True)     
-    frijol = {1: 0, 2: 0, 3: 0}
-    maiz = {1: 0, 2: 0, 3: 0}
+    frijol = {1: 0, 2: 0}
+    maiz = {1: 0, 2: 0}
     
     encuestas_sin_consumo = []
     encuestas_sin_maiz = []
     encuestas_sin_frijol = []
     
-    for key, lista in jefes_ids.items():
+    for key, lista in {1: encuestas.filter(sexo_jefe=1), 2: encuestas.filter(sexo_jefe=2)}.items():
         for encuesta in lista:
             #total_personas = sum([desc.femenino+desc.masculino for desc in Descripcion.objects.filter(encuesta=encuesta)])
             try:
