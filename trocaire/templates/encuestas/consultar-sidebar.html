@@ -30,8 +30,7 @@
                     comarca.options[i+1] = new Option(data[i][1], data[i][0]);
                 }
             });
-        });
-        
+        });        
     });
 </script>
 <div id="consultar-sidebar">
@@ -90,6 +89,24 @@
 		{% endif %}
 		{% if request.session.departamento %}
 		$('#id_departamento').val({{request.session.departamento.id}});
-		{% endif %}		
+		{% endif %}
+		
+		{% if request.session.indice_dep != 'None' %}
+		$('#id_indice_dep').val({{request.session.indice_dep}});
+		{% endif %}
+		{% if request.session.credito_acceso != 'None' %}
+		$('#id_credito_acceso').val({{request.session.credito_acceso}});
+		{% endif %}
+		{% if request.session.familia_beneficiario != 'None' %}
+		$('#id_familia_beneficiario').val({{request.session.familia_beneficiario}});
+		{% endif %}
+		
+		
+		{% if request.session.escolaridad_beneficiario != 'None' %}
+		$('#id_escolaridad_beneficiario').val({{request.session.escolaridad_beneficiario}});
+		{% endif %}
+		{% if request.session.escolaridad_conyugue != 'None' %}
+		$('#id_escolaridad_conyugue').val({{request.session.escolaridad_conyugue}});
+		{% endif %}
 	});
 </script>
