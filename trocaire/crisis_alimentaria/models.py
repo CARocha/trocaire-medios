@@ -30,23 +30,26 @@ class Credito(models.Model):
     class Meta:
         verbose_name_plural = "Tipos de creditos"
 
-def _set_encuesta_credito(id):
-        #lazy function to check if any elements of list is in list2
-        _list_in_list = lambda foo, meh: any(x in meh for x in foo)
-        foo = [1, 7]
-        obj = AccesoCredito.objects.get(id=id)
-        hombre_l = obj.hombre.all().values_list('id', flat=True)               
-        mujer_l = obj.mujer.all().values_list('id', flat=True)  
-        print hombre_l, mujer_l      
-        #chequear si algun valor de foo (no tiene y no aplica) esta en en hombre o mujer             
-        if _list_in_list(foo, hombre_l) and _list_in_list(foo, mujer_l):
-            obj.encuesta.credito = 2            
-        else:
-            obj.encuesta.credito = 1
-        
-        #guardar encuesta con dato de credito 
-        print 'porque no guarda la mierda'      
-        obj.encuesta.save(force_update=True)
+def _set_encuesta_credito(id):    
+    #lazy function to check if any elements of list is in list2
+    _list_in_list = lambda foo, meh: any(x in meh for x in foo)
+    foo = [1, 7]
+    obj = AccesoCredito.objects.get(id=id)
+    hombre_l = obj.hombre.all().values_list('id', flat=True)
+    print '--------Hombre credito'
+    print hombre_l               
+    mujer_l = obj.mujer.all().values_list('id', flat=True)  
+    print '--------Mujer credito'
+    print mujer_l
+         
+    #chequear si algun valor de foo (no tiene y no aplica) esta en en hombre o mujer             
+    if _list_in_list(foo, hombre_l) and _list_in_list(foo, mujer_l):
+        obj.encuesta.credito = 2            
+    else:
+        obj.encuesta.credito = 1
+    
+    #guardar encuesta con dato de credito
+    obj.encuesta.save()
           
 class AccesoCredito(models.Model):
     hombre = models.ManyToManyField(Credito, related_name="Hombre")
@@ -56,12 +59,15 @@ class AccesoCredito(models.Model):
     otra_mujer = models.ManyToManyField(Credito, 
             verbose_name='Otra mujer que vive en el hogar', related_name="Mujer vive")
     encuesta = models.ForeignKey(Encuesta)
-    
-    def save(self, *args, **kwargs):
-        print args, kwargs
-        super(AccesoCredito, self).save(*args, **kwargs)                            
-        print '------------------siempre entra aca'                
-        _set_encuesta_credito(self.id)
 
     class Meta:
-        verbose_name_plural = "142. Podria decirnos cuál es su principal fuente de crédito (matrimonio)"         
+        verbose_name_plural = "142. Podria decirnos cuál es su principal fuente de crédito (matrimonio)"        
+        
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
+
+@receiver(m2m_changed, sender=AccesoCredito.mujer.through)
+def create_credito_callback(sender, **kwargs):    
+    instance = kwargs['instance']
+    if kwargs['action'] == 'post_add':
+        _set_encuesta_credito(instance.id)

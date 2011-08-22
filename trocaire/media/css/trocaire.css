@@ -435,7 +435,7 @@ label #id_year{
 
 #id_escolaridad_beneficiario, #id_contraparte, #id_departamento, #id_municipio, #id_comarca,
 #id_escolaridad_conyugue, #id_familia_dependientes, #id_familia_beneficiario,#id_credito_acceso,
-#id_desicion_gasto_mayor, #id_desicion_inversion{
+#id_desicion_gasto_mayor, #id_desicion_inversion, #id_indice_dep{
     width:165px;
 }
 
