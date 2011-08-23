@@ -42,7 +42,8 @@ def produccion_por_rango(request, modelo, dondetoy2, cultivos, maximo=None, mini
                               {'form': form, 'calculos':calculos, 
                                'model': model._meta.verbose_name,
                                'dondetoy2': dondetoy2,
-                               'model_name': model._meta.module_name},
+                               'model_name': model._meta.module_name, 
+                               'request': request},
                               context_instance=RequestContext(request))
 
 def __calculate_values(modelo, maximo, minimo, puntas, separaciones, campo, cultivos, encuestas=None):
@@ -137,5 +138,6 @@ def generic_range(request, model, field, title, dondetoy2, serie, subtitle, eje,
                                'eje': eje,
                                'serie': serie,
                                'dondetoy2': dondetoy2,
-                               'valores_acumulados': valores_acumulados},
+                               'valores_acumulados': valores_acumulados,
+                               'request': request},
                               context_instance=RequestContext(request))

@@ -542,23 +542,19 @@ label #id_year{
     height:25px;
     padding:10px;
 }
-
 #formulariomax label{
     font-weight:bold;
     font-size:12px;
     margin-right:5px;
 }
-
-
 #botonmax{
     width:105px;
     height:32px;
     background:url(../img/actualizarmax.png) no-repeat;
     border:0;
     float:right;
-    margin-right:260px;
+    margin-right:220px;
 }
-
 #botonmax:hover{
     background:url(../img/actualizarmax2.png) no-repeat;
 }
