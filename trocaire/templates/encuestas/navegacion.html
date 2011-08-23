@@ -5,7 +5,7 @@
 {%endblock%}
 {% block navegacion %}
 <ul id="maintab" class="basictab">
-    {%if dondetoy = 'sexojefe' or dondetoy = 'sexobene' or dondetoy = 'escolaridad' or dondetoy = 'participacion'%}
+    {%if dondetoy = 'sexojefe' or dondetoy = 'sexobene' or dondetoy = 'escolaridad' or dondetoy = 'participacion' or 'dependencia'%}
     <li class="selected" rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
     {%else%}
     <li rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
@@ -14,7 +14,7 @@
     {%if dondetoy = 'creditofamilia' or dondetoy = 'actividadesagro' or dondetoy = 'ingresosfam'%}
     <li class="selected" rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
     {%else%}
-    <li   rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
+    <li rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
     {%endif%}
     
     {%if dondetoy = 'cloran' or dondetoy = 'autoabastecimiento' or dondetoy = 'recolectar' or dondetoy = 'accesoagua' or dondetoy = 'accesotierra' or dondetoy = "conservacion" or dondetoy = "hombreresp" or dondetoy = "mujeresdecision"%}
@@ -27,9 +27,10 @@
 
 <div id="familias" class="submenustyle">
     <a {%ifequal dondetoy 'sexojefe'%}class="activa"{%endifequal%} href="/encuestas/datos-x-sexo/">Sexo Jefe familia</a>
-    <a {%ifequal dondetoy 'sexobene'%}class="activa"{%endifequal%}href="/encuestas/sexo-beneficiario/">Relación beneficiario por jefatura</a>
-    <a {%ifequal dondetoy 'escolaridad'%}class="activa"{%endifequal%}href="/encuestas/escolaridad/">Escolaridad del beneficiario</a>
-    <a {%ifequal dondetoy 'participacion'%}class="activa"{%endifequal%}href="/encuestas/participacion/">Participación ciudadana</a>
+    <a {%ifequal dondetoy 'sexobene'%}class="activa"{%endifequal%} href="/encuestas/sexo-beneficiario/">Relación beneficiario por jefatura</a>
+    <a {%ifequal dondetoy 'escolaridad'%}class="activa"{%endifequal%} href="/encuestas/escolaridad/">Escolaridad del beneficiario</a>
+    <a {%ifequal dondetoy 'dependencia'%}class="activa"{%endifequal%} href="/encuestas/dependencia/">Dependencia familiar</a>
+    <a {%ifequal dondetoy 'participacion'%}class="activa"{%endifequal%} href="/encuestas/participacion/">Participación ciudadana</a>
 </div>
 
 <div id="ingresos" class="submenustyle">

@@ -473,7 +473,24 @@ def acceso_agua(request):
     total_manzanas_otros = total_o_h + total_o_m
     dondetoy = "accesoagua"
     return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
+
+def dependencia(request):
+    encuestas = _query_set_filtrado(request)
+    query = Composicion.objects.filter(encuesta__in=encuestas)
     
+    tabla = vale_gaver(query)
+    tabla_hombre = vale_gaver(query.filter(encuesta__sexo_jefe=1))
+    tabla_mujer = vale_gaver(query.filter(encuesta__sexo_jefe=2))
+    
+    dondetoy = "dependencia"
+    return render_to_response('encuestas/dependencia.html', RequestContext(request, locals()))
+
+def vale_gaver(query):
+    return {'Igual a 0': query.filter(dependientes__lte=0).count(), 
+             'De 0.1 a 2.9': query.filter(dependientes__range=(0.1, 2.9)).count(),
+             'De 3.0 a 5.9': query.filter(dependientes__range=(3.0, 5.9)).count(),
+             'Más de 6.0': query.filter(dependientes__gte=6.0).count()}
+
 def hombre_responsable(request):
     encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
