@@ -545,7 +545,8 @@ def credito(request):
     return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
 
 def participacion(request):
-    encuestas = _query_set_filtrado(request)    
+    encuestas = _query_set_filtrado(request)
+    total_general = encuestas.count()    
     query_all = ParticipacionCPC.objects.filter(encuesta__in=encuestas)
     part_cpc = get_participacion(query_all, 1)
     part_asam = get_participacion(query_all, 2)

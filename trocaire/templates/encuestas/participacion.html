@@ -50,20 +50,26 @@
                     'Total', 'Hombre Jefe', 'Mujer Jefa'
                 ]
             },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Porcentaje'
+                }
+            },
             subtitle: {
                 text: 'Hombre, Mujer, Ambos, No Participa'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{name: 'Participan los hombres', data: [{{part_cpc.hombre|calcular_frecuencia:part_cpc.total}}, 
-                                                           {{part_cpc_hombre.hombre|calcular_frecuencia:part_cpc_hombre.total}},
-                                                           {{part_cpc_mujer.hombre|calcular_frecuencia:part_cpc_mujer.total}}]},
-                     {name: 'Participan las mujeres', data: [{{part_cpc.mujer|calcular_frecuencia:part_cpc.total}}, 
-                                                         {{part_cpc_hombre.mujer|calcular_frecuencia:part_cpc_hombre.total}},
-                                                         {{part_cpc_mujer.mujer|calcular_frecuencia:part_cpc_mujer.total}}]},
-                     {name: 'Participan ambos', data: [{{part_cpc.ambos|calcular_frecuencia:part_cpc.total}}, 
-                                                         {{part_cpc_hombre.ambos|calcular_frecuencia:part_cpc_hombre.total}},
-                                                         {{part_cpc_mujer.ambos|calcular_frecuencia:part_cpc_mujer.total}}]},
+            series: [{name: 'Participan los hombres', data: [{{part_cpc.hombre|calcular_frecuencia:total_general}}, 
+                                                           {{part_cpc_hombre.hombre|calcular_frecuencia:hombre_jefe}},
+                                                           {{part_cpc_mujer.hombre|calcular_frecuencia:mujer_jefe}}]},
+                     {name: 'Participan las mujeres', data: [{{part_cpc.mujer|calcular_frecuencia:total_general}}, 
+                                                         {{part_cpc_hombre.mujer|calcular_frecuencia:hombre_jefe}},
+                                                         {{part_cpc_mujer.mujer|calcular_frecuencia:mujer_jefe}}]},
+                     {name: 'Participan ambos', data: [{{part_cpc.ambos|calcular_frecuencia:total_general}}, 
+                                                         {{part_cpc_hombre.ambos|calcular_frecuencia:hombre_jefe}},
+                                                         {{part_cpc_mujer.ambos|calcular_frecuencia:mujer_jefe}}]},
                      {name: 'No participan', data: [{% with nopart=encuestas.count|restar:part_cpc.total %}{{nopart|calcular_frecuencia:encuestas.count}}{% endwith %},
                                                     {% with nopart=hombre_jefe|restar:part_cpc_hombre.total %}{{nopart|calcular_frecuencia:hombre_jefe}}{% endwith %},
                                                     {% with nopart=mujer_jefe|restar:part_cpc_mujer.total %}{{nopart|calcular_frecuencia:mujer_jefe}}{% endwith %}
@@ -81,24 +87,30 @@
                 text: 'Participación de los miembros de la familia en Asambleas Comunitarias'
             },
             subtitle: {
-            	text: 'Hombre, Mujer, Ambos'
+            	text: 'Hombre, Mujer, Ambos, No Participa'
             },
             xAxis: {
                 categories: [
                     'Total', 'Hombre Jefe', 'Mujer Jefa'
                 ]
             },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Porcentaje'
+                }
+            },
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{name: 'Participan los hombres', data: [{{part_asam.hombre|calcular_frecuencia:part_asam.total}}, 
-                                                             {{part_asam_hombre.hombre|calcular_frecuencia:part_asam_hombre.total}},
-                                                             {{part_asam_mujer.hombre|calcular_frecuencia:part_asam_mujer.total}}]},
-                       {name: 'Participan las mujeres', data: [{{part_asam.mujer|calcular_frecuencia:part_asam.total}}, 
-                                                           {{part_asam_hombre.mujer|calcular_frecuencia:part_asam_hombre.total}},
-                                                           {{part_asam_mujer.mujer|calcular_frecuencia:part_asam_mujer.total}}]},
-                       {name: 'Participan ambos', data: [{{part_asam.ambos|calcular_frecuencia:part_asam.total}}, 
-                                                           {{part_asam_hombre.ambos|calcular_frecuencia:part_asam_hombre.total}},
-                                                           {{part_asam_mujer.ambos|calcular_frecuencia:part_asam_mujer.total}}]},
+            series: [{name: 'Participan los hombres', data: [{{part_asam.hombre|calcular_frecuencia:encuestas.count}}, 
+                                                             {{part_asam_hombre.hombre|calcular_frecuencia:hombre_jefe}},
+                                                             {{part_asam_mujer.hombre|calcular_frecuencia:mujer_jefe}}]},
+                       {name: 'Participan las mujeres', data: [{{part_asam.mujer|calcular_frecuencia:total_general}}, 
+                                                           {{part_asam_hombre.mujer|calcular_frecuencia:hombre_jefe}},
+                                                           {{part_asam_mujer.mujer|calcular_frecuencia:mujer_jefe}}]},
+                       {name: 'Participan ambos', data: [{{part_asam.ambos|calcular_frecuencia:total_general}}, 
+                                                           {{part_asam_hombre.ambos|calcular_frecuencia:hombre_jefe}},
+                                                           {{part_asam_mujer.ambos|calcular_frecuencia:mujer_jefe}}]},
                        {name: 'No participan', data: [{% with nopart=encuestas.count|restar:part_asam.total %}{{nopart|calcular_frecuencia:encuestas.count}}{% endwith %},
                                                       {% with nopart=hombre_jefe|restar:part_asam_hombre.total %}{{nopart|calcular_frecuencia:hombre_jefe}}{% endwith %},
                                                       {% with nopart=mujer_jefe|restar:part_asam_mujer.total %}{{nopart|calcular_frecuencia:mujer_jefe}}{% endwith %}

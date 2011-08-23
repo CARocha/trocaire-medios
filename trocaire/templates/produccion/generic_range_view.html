@@ -1,4 +1,6 @@
 {% extends "base.html"%}
+{% block extratitle %}{{title}}{% endblock %}
+
 {% block extrahead%}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
@@ -194,7 +196,7 @@ initalizetab("maintab")
           <option value='7'>7</option>
           <option value='8'>8</option>
           <option value='9'>9</option>
-          <option value='10' selected='true'>10</option>
+          <option value='10' selected="selected">10</option>
           <option value='11'>11</option>
           <option value='12'>12</option>
           <option value='13'>13</option>
@@ -204,7 +206,7 @@ initalizetab("maintab")
       </form>
 </div>
   </div>
-  <a href="#form-facebox" rel="facebox"><br><img src="{{MEDIA_URL}}img/cambiarfiltros.png"></a>
+<!--   <a href="#form-facebox" rel="facebox"><br><img src="{{MEDIA_URL}}img/cambiarfiltros.png"></a> -->
   <div id="container"></div>
   <div id="acumulado_container"></div>
   {% include "encuestas/form_facebox.html"%}
