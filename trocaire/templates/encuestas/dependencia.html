@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block extratitle %}Indice de dependencia{% endblock %}
+
+{% block contenido %}
+{% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Crédito en la Familia</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+{% include "encuestas/filtros_seleccionados.html" %}
+<div>
+	<table class="tabla-resultados">
+	<caption>Cantidad de familias según indice de dependencia familiar</caption>
+		<thead>
+			<tr>
+				<th>Familias segun indice de dependecia familiar</th>
+				<th>Todos: {{total_general}}</th>
+				<th>%</th>
+				<th>Hombre Jefe: {{hombre_jefe}}</th>
+				<th>%</th>
+				<th>Mujer Jefa: {{mujer_jefe}}</th>
+				<th>%</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			</tr>
+		</tbody>
+	</table>
+	{{tabla}}<br>
+</div>
+{% endblock %}

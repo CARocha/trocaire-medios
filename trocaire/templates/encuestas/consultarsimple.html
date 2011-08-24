@@ -66,9 +66,8 @@
                 <div class="label">{{form.comarca.label}}</div>
                 <div class="filtros">{{form.comarca}}<br>{{form.comarca.errors}}</div> 
                 <div class="clean"></div>    
-                <div class="label">{{form.escolaridad_beneficiario.label}}</div>
-                <div class="filtros">{{form.escolaridad_beneficiario}}<br>{{form.escolaridad_beneficiario.errors}}</div>
-                <div class="clean"></div>
+            <div class="label hidden">{{form.escolaridad_beneficiario.label}}</div>
+            <div class="filtros hidden">{{form.escolaridad_beneficiario}}<br>{{form.escolaridad_beneficiario.errors}}</div>                
             <div class="label hidden">{{form.escolaridad_conyugue.label}}</div>
             <div class="filtros hidden">{{form.escolaridad_conyugue}}<br>{{form.escolaridad_conyugue.errors}}</div>
             <div class="clean"></div>
@@ -81,11 +80,6 @@
             <div class="label">{{form.familia_beneficiario.label}}</div>
             <div class="filtros">{{form.familia_beneficiario}}<br>{{form.familia_beneficiario.errors}}</div>
             <div class="clean"></div>
-<!--
-            <div class="label">{{form.ingresos_fuente.label}}</div>
-            <div class="filtros">{{form.ingresos_total}}<br>{{form.ingresos_total.errors}}</div>
-            <div class="clean"></div>
--->
             <div class="label">{{form.credito_acceso.label}}</div>
             <div class="filtros">{{form.credito_acceso}}<br>{{form.credito_acceso.errors}}</div>
             <div class="clean"></div>
@@ -95,26 +89,6 @@
             <div class="label">{{form.desicion_inversion.label}}</div>
             <div class="filtros">{{form.desicion_inversion}}<br>{{form.desicion_inversion.errors}}</div>
             <div class="clean"></div>
-<!--
-            <div class="label">{{form.finca_area_total.label}}</div>
-            <div class="filtros">{{form.finca_area_total}}<br>{{form.finca_area_total.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_num_productos.label}}</div>
-            <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_num_vacas.label}}</div>
-            <div class="filtros">{{form.finca_num_vacas}}<br>{{form.finca_num_vacas.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_riego.label}}</div>
-            <div class="filtros">{{form.finca_riego}}<br>{{form.finca_riego.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_conssa.label}}</div>
-            <div class="filtros">{{form.finca_conssa}}<br>{{form.finca_conssa.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_num_productos.label}}</div>
-            <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-            <div class="clean"></div>
--->
             </div>
             <div class="clean"></div>
         <button class="consultar"></button>
@@ -128,6 +102,7 @@
         <a href="/encuestas/datos-x-sexo/">Sexo jefe familia</a>
         <a href="/encuestas/sexo-beneficiario/">Relación beneficiario por jefatura</a>
         <a href="/encuestas/escolaridad/">Escolaridad del beneficiario</a>
+        <a href="/encuestas/dependencia/">Dependencia familiar</a>
         <a href="/encuestas/participacion/">Participación Ciudadana</a>
         <div class="clean"></div>
     <div class="indicadorcategoria">INGRESOS</div>
@@ -146,8 +121,7 @@
         <a href="{% url mujeres_decisiones %}">Mujeres toman decisiones</a><br>
         <div class="clean"></div>
 </div>
-{%endif%}
+{% endif %}
 <div class="clean"></div>
-
 <br>
 {% endblock %}

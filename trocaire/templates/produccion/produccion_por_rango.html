@@ -1,4 +1,5 @@
 {% extends "base.html"%}
+{% block extratitle %}Produccion{% endblock %}
 {% block extrahead%}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
@@ -287,7 +288,7 @@ initalizetab("maintab")
       </form>
 </div>
   </div>
-  <a href="#form-facebox" rel="facebox"><br><img src="{{MEDIA_URL}}img/cambiarfiltros.png"></a>
+<!--   <a href="#form-facebox" rel="facebox"><br><img src="{{MEDIA_URL}}img/cambiarfiltros.png"></a> -->
   <div id="container"></div>
   <div id="acumulado_container"></div>
   <div id="container2"></div>

@@ -131,9 +131,19 @@ def consultar(request):
             parametros = {'familia.escolaridad': {}, 'familia.composicion': {}, 
                           'genero.tomadecicion': {}, 'ingresos.principalesfuentes': {},
                           'ingresos.totalingreso': {}}
-            parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']
+            parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']            
             parametros['familia.escolaridad']['conyugue'] = form.cleaned_data['escolaridad_conyugue']
             parametros['familia.composicion']['sexo'] = form.cleaned_data['familia_beneficiario']
+            
+            #algunos fixes para filtros multipresente
+            if form.cleaned_data['familia_beneficiario']:
+                request.session['familia_beneficiario'] = form.cleaned_data['familia_beneficiario']
+            
+            if form.cleaned_data['escolaridad_beneficiario']:
+                request.session['escolaridad_beneficiario'] = form.cleaned_data['escolaridad_beneficiario']
+            
+            if form.cleaned_data['escolaridad_conyugue']:
+                request.session['escolaridad_conyugue'] = form.cleaned_data['escolaridad_conyugue']
             
             #desicion gasto mayor!
             #parametros['genero.tomadecicion']['aspectos'] = 1
@@ -147,7 +157,7 @@ def consultar(request):
             #parametros['produccion.ganadomayor']['num_vacas'] = forms.cleaned_data['finca_num_vacas']
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
-            request.session['parametros'] = parametros
+            request.session['parametros'] = parametros           
             
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
@@ -156,6 +166,8 @@ def consultar(request):
                 return render_to_response('encuestas/consultar.html', locals(),
                             context_instance=RequestContext(request))
     else:
+        #reset session parameters
+        reset_parameters(request)
         form = ConsultarForm()
     return render_to_response('encuestas/consultar.html', locals(),
                               context_instance=RequestContext(request))
@@ -163,8 +175,7 @@ def consultar(request):
 def consultarsimple(request):
     if request.method == 'POST':
         form = ConsultarForm(request.POST)
-        if form.is_valid():
-            #request.session['fecha'] = form.cleaned_data['fecha']
+        if form.is_valid():            
             request.session['departamento'] = form.cleaned_data['departamento']
             request.session['contraparte'] = form.cleaned_data['contraparte']
             try:
@@ -186,8 +197,8 @@ def consultarsimple(request):
             parametros['familia.escolaridad']['beneficia'] = form.cleaned_data['escolaridad_beneficiario']
             parametros['familia.escolaridad']['conyugue'] = form.cleaned_data['escolaridad_conyugue']
             parametros['familia.composicion']['sexo'] = form.cleaned_data['familia_beneficiario']
-            #desicion gasto mayor!
-            #parametros['genero.tomadecicion']['aspectos'] = 1
+            
+            #desicion gasto mayor!                        
             parametros['genero.tomadecicion']['respuesta'] =  form.cleaned_data['desicion_gasto_mayor']
             #ingresos
             parametros['ingresos.principalesfuentes']['fuente'] = form.cleaned_data['ingresos_fuente']#TODO: cambiarlo a fuente__in
@@ -199,6 +210,7 @@ def consultarsimple(request):
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
             request.session['parametros'] = parametros
+            
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
             else:
@@ -206,9 +218,16 @@ def consultarsimple(request):
                 return render_to_response('encuestas/consultarsimple.html', locals(),
                             context_instance=RequestContext(request))
     else:
+        reset_parameters(request)
         form = ConsultarForm()
     return render_to_response('encuestas/consultarsimple.html', locals(),
                               context_instance=RequestContext(request))
+
+def reset_parameters(request):
+    request.session['departamento'] = request.session['municipio'] = request.session['contraparte'] = \
+    request.session['comarca'] = request.session['indice_dep'] = request.session['credito_acceso'] = None
+    
+    print 'filters cleaned! :D'   
 
 #===============================================================================
 
@@ -528,7 +547,6 @@ def acceso_agua(request):
     dondetoy = "accesoagua"
     return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
 
-
 def reponsable(request,sexo):
     encuestas = _query_set_filtrado(request)
     
@@ -539,7 +557,24 @@ def reponsable(request,sexo):
         lista[hombre[1]] = conteo   
     lista2 = _order_dicc(copy.deepcopy(lista))
     return lista2
+
+def dependencia(request):
+    encuestas = _query_set_filtrado(request)
+    query = Composicion.objects.filter(encuesta__in=encuestas)
     
+    tabla = vale_gaver(query)
+    tabla_hombre = vale_gaver(query.filter(encuesta__sexo_jefe=1))
+    tabla_mujer = vale_gaver(query.filter(encuesta__sexo_jefe=2))
+    
+    dondetoy = "dependencia"
+    return render_to_response('encuestas/dependencia.html', RequestContext(request, locals()))
+
+def vale_gaver(query):
+    return {'Igual a 0': query.filter(dependientes__lte=0).count(), 
+             'De 0.1 a 2.9': query.filter(dependientes__range=(0.1, 2.9)).count(),
+             'De 3.0 a 5.9': query.filter(dependientes__range=(3.0, 5.9)).count(),
+             'Más de 6.0': query.filter(dependientes__gte=6.0).count()}
+
 def hombre_responsable(request):
     encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
@@ -632,7 +667,8 @@ def credito(request):
     return render_to_response('encuestas/credito.html', RequestContext(request, locals()))
 
 def participacion(request):
-    encuestas = _query_set_filtrado(request)    
+    encuestas = _query_set_filtrado(request)
+    total_general = encuestas.count()    
     query_all = ParticipacionCPC.objects.filter(encuesta__in=encuestas)
     part_cpc = get_participacion(query_all, 1)
     part_asam = get_participacion(query_all, 2)

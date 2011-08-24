@@ -20,7 +20,7 @@
                 enabled: true,
                 align: "center",
                 formatter: function() {
-                    return ''+ this.percentage.toFixed(1) + ' %';
+                    return ''+ this.y + ' %';
                 },
                 color: '#000',
                 style: {
@@ -31,14 +31,14 @@
     }
     var tooltip = {
         formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.y;
+            return '<b>'+ this.series.name +'</b>: '+ this.y + ' %';
         }
     }
     $(document).ready(function(){
     	var chart = new Highcharts.Chart({
-        	chart: {
-            	renderTo: 'grafo',
-                defaultSeriesType: 'pie',
+    		chart: {
+                renderTo: 'grafo',
+                defaultSeriesType: 'column',
                 height: 480,
                 width: 960
             },
@@ -46,11 +46,29 @@
                 text: 'Información sobre crédito'
             },
             subtitle: {
-                text: ''
-            },                                
+                text: 'Todas las encuestas, Hombre Jefe, Mujer Jefa'
+            },
+            xAxis: {
+                categories: [
+                    'Todas las encuestas', 'Hombre Jefe', 'Mujer Jefa'
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Porcentaje'
+                }
+            },
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for value in tabla_credito %}['{{value.0}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+            series: [{% for value in tabla_credito %}
+                     {name: '{{value.0}}', data: [{{value.1|calcular_frecuencia:encuestas.count}}, 
+                                                  {% with tabla=credito_h_m|get_value:value.0 %}
+                     								{{tabla.1|calcular_frecuencia:hombre_jefe}}, {{tabla.2|calcular_frecuencia:mujer_jefe}}
+                     							  {% endwith %}
+                     ]}{% if not forloop.last %}, {% endif %}
+                     {% endfor %}                             
+            ]             	
         });    	
     });
 </script>

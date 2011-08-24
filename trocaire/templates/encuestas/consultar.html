@@ -116,7 +116,7 @@
         </div>        
     </form>
 </div>
-{%if muestra_indicador = 1%}
+{% if muestra_indicador = 1 %}
 <div id="bloqueindicadores">
     <div class="indicadorcategoria">INGRESOS</div>
         <a href="{%url ingresos_generic_range%}">Ingresos Totales</a>
@@ -139,8 +139,8 @@
         <a href="{%url productividad_cacao%}">Cacao</a>
         <div class="clean"></div>
 </div>
-{%endif%}
+{% endif %}
+{{encuestas.count}}
 <div class="clean"></div>
-
 <br>
 {% endblock %}
