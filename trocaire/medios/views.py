@@ -46,13 +46,15 @@ def _query_set_filtrado(request):
             if indice == u'1':            
                 params['composicion__dependientes__lt'] = 0.1
             elif indice == u'2':
-                params['composicion__dependientes__range'] = (0.1, 3.0)
+                params['composicion__dependientes__range'] = (0.1, 1.0)
             elif indice == u'3':
-                params['composicion__dependientes__range'] = (3.1, 6.0)
+                params['composicion__dependientes__range'] = (1.1, 2.0)
             elif indice == u'4':
-                params['composicion__dependientes__gt'] = 6.0
+                params['composicion__dependientes__range'] = (2.1, 3.0)
+            elif indice == u'5':
+                params['composicion__dependientes__gt'] = 3.0
     except:
-        pass
+        pass    
     
     #validando acceso a credito
     try:    
@@ -159,7 +161,7 @@ def consultar(request):
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
             request.session['parametros'] = parametros           
             
-            encuestas = _query_set_filtrado(request)
+            #encuestas = _query_set_filtrado(request)
             
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])

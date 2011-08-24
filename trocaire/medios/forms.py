@@ -8,7 +8,7 @@ from trocaire.lugar.models import *
 from trocaire.ingresos.models import Fuentes
 
 ANOS_CHOICES = ((2011,'2011'),(2012,'2012'),(2013,'2013'),(2014,'2014'),(2015,'2015'))
-DEPENDIENTES_CHOICE = ((1, u'Igual a 0'), (2, u'Más de 0 a 3'), (3, u'Más de 3 a 6'), (4, u'Más de 6'))
+DEPENDIENTES_CHOICE = ((1, u'Igual a 0'), (2, u'De 0.1 a 1.0'), (3, u'De 1.1 a 2.0'), (4, u'De 2.1 a 3.0'), (5, u'Más de 3.0'))
 CREDITO_CHOICE = ((1, 'Si'), (2, 'No'))
 
 class CustomChoiceField(forms.ChoiceField):
