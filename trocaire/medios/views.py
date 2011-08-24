@@ -355,10 +355,10 @@ def familias_practicas(request):
     
     no_total = total - total_h_m
     por_no_total = round(saca_porcentajes(no_total,total),1)
-    no_hombre = total - hombre
-    por_no_hombre = round(saca_porcentajes(no_hombre,total),1)
-    no_mujer = total - mujer
-    por_no_mujer = round(saca_porcentajes(no_mujer,total),1)     
+    no_hombre = hombre_jefes - hombre
+    por_no_hombre = round(saca_porcentajes(no_hombre,hombre_jefes),1)
+    no_mujer = mujer_jefes - mujer
+    por_no_mujer = round(saca_porcentajes(no_mujer,mujer_jefes),1)     
     dondetoy = "conservacion"
     return render_to_response('encuestas/familias_practicas.html', RequestContext(request,locals()))
 
