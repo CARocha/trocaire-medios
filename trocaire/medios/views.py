@@ -571,18 +571,20 @@ def dependencia(request):
     tabla_mujer = vale_gaver(query_mujer_jefe)
     
     keys = {1: u'Igual a 0'
-            , 2: u'De 0.1 a 3.0'
-            , 3: u'De 3.1 a 6.0'
-            , 4: u'Más de 6.0'}
+            , 2: u'De 0.1 a 1.0'
+            , 3: u'De 1.1 a 2.0'
+            , 4: u'De 2.1 a 3.0'
+            , 5: u'Más de 3.0'}
     
     dondetoy = "dependencia"    
     return render_to_response('encuestas/dependencia.html', RequestContext(request, locals()))
 
 def vale_gaver(query):
     return {u'Igual a 0': query.filter(dependientes__lte=0).count(), 
-             u'De 0.1 a 3.0': query.filter(dependientes__range=(0.1, 3.0)).count(),
-             u'De 3.1 a 6.0': query.filter(dependientes__range=(3.1, 6.0)).count(),
-             u'Más de 6.0': query.filter(dependientes__gt=6.0).count()}
+             u'De 0.1 a 1.0': query.filter(dependientes__range=(0.1, 1.0)).count(),
+             u'De 1.1 a 2.0': query.filter(dependientes__range=(1.1, 2.0)).count(),
+             u'De 2.1 a 3.0': query.filter(dependientes__range=(2.1, 3.0)).count(),             
+             u'Más de 3.0': query.filter(dependientes__gt=3.0).count()}
 
 def hombre_responsable(request):
     encuestas = _query_set_filtrado(request)
