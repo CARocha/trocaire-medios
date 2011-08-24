@@ -561,7 +561,7 @@ def reponsable(request,sexo):
 def dependencia(request):
     encuestas = _query_set_filtrado(request)
     query = Composicion.objects.filter(encuesta__in=encuestas)
-        
+
     tabla = vale_gaver(query)
     tabla_hombre = vale_gaver(query.filter(encuesta__sexo_jefe=1))
     tabla_mujer = vale_gaver(query.filter(encuesta__sexo_jefe=2))
