@@ -86,11 +86,11 @@ $(document).ready(function() {
 	<thead>
 		<tr>
 		    <th>Tipo</th>		
-			<th>Mujer jefa</th>
+			<th>Mujer jefa ({{mujer_jefes}})</th>
 			<th>%</th>
-			<th>Varón jefe</th>
+			<th>Varón jefe ({{hombre_jefes}})</th>
 			<th>%</th>
-			<th>Total</th>
+			<th>Total ({{numero}})</th>
 			<th>%</th>
 		</tr>
 	</thead>
@@ -100,7 +100,7 @@ $(document).ready(function() {
 			<td>{{tabla_aguas.f_clora}}</td>
 			<td>{{tabla_aguas.porcentaje_f_clora}}</td>
 			<td>{{tabla_aguas.m_clora}}</td>
-			<td>{{tabla_aguas.porcentaje_f_clora}}</td>
+			<td>{{tabla_aguas.porcentaje_m_clora}}</td>
 			<td>{{tabla_aguas.combinado_cloran}}</td>
 			<td>{{tabla_aguas.porcentaje_cloran}}</td>
 		</tr>

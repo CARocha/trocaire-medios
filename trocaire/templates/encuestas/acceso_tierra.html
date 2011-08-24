@@ -104,22 +104,107 @@
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
+
+<div>
+	<table class="tabla-resultados">
+		<caption>Acceso a tierra por rangos de manzanas</caption>
+		<thead>
+			<tr>
+				<th>Rangos</th>
+				<th>Totales({{numero}})</th>
+				<th>%</th>
+				<th>Varón jefe({{hombre_jefes}})</th>
+				<th>%</th>
+				<th>Mujer jefa({{mujer_jefes}})</th>
+				<th>%</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			    <td>0 mz</td>
+			    <td>{{total_rango_cero}}</td>
+			    <td>{{total_rango_cero|calcular_frecuencia:numero}}</td>
+			    <td>{{hombre_no_tiene}}</td>
+			    <td>{{hombre_no_tiene|calcular_frecuencia:hombre_jefes}}</td>
+			    <td>{{mujer_no_tiene}}</td>
+			    <td>{{mujer_no_tiene|calcular_frecuencia:mujer_jefes}}</td>
+			    
+		    </tr>
+		    <tr>
+			    <td>0.1 - 1 mz</td>
+			    <td>{{t_rango2}}</td>
+			    <td>{{t_rango2|calcular_frecuencia:numero}}</td>
+			    <td>{{h_rango2}}</td>
+			    <td>{{h_rango2|calcular_frecuencia:hombre_jefes}}</td>
+			    <td>{{m_rango2}}</td>
+			    <td>{{m_rango2|calcular_frecuencia:mujer_jefes}}</td>
+			    
+		    </tr>
+		    <tr>
+			    <td>1.1 - 5 mz</td>
+			    <td>{{t_rango3}}</td>
+			    <td>{{t_rango3|calcular_frecuencia:numero}}</td>
+			    <td>{{h_rango3}}</td>
+			    <td>{{h_rango3|calcular_frecuencia:hombre_jefes}}</td>
+			    <td>{{m_rango3}}</td>
+			    <td>{{m_rango3|calcular_frecuencia:mujer_jefes}}</td>
+			    
+		    </tr>
+		    <tr>
+			    <td>5.1 - 10 mz</td>
+			    <td>{{t_rango4}}</td>
+			    <td>{{t_rango4|calcular_frecuencia:numero}}</td>
+			    <td>{{h_rango4}}</td>
+			    <td>{{h_rango4|calcular_frecuencia:hombre_jefes}}</td>
+			    <td>{{m_rango4}}</td>
+			    <td>{{m_rango4|calcular_frecuencia:mujer_jefes}}</td>
+			    
+		    </tr>
+		    <tr>
+			    <td>más de 10 mz</td>
+			    <td>{{t_rango5}}</td>
+			    <td>{{t_rango5|calcular_frecuencia:numero}}</td>
+			    <td>{{h_rango5}}</td>
+			    <td>{{h_rango5|calcular_frecuencia:hombre_jefes}}</td>
+			    <td>{{m_rango5}}</td>
+			    <td>{{m_rango5|calcular_frecuencia:mujer_jefes}}</td>
+			    
+		    </tr>
+		</tbody>
+	</table>
+	
+</div>
+<br></br>
+	<table class="tabla-resultados">
+		<caption>Promedio de Manzanas</caption>
+		<thead>
+			<tr>
+				<th>Promedio</th>
+				<th>{{promedio_mz}} Mz</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+			    
+		    </tr>
+		</tbody>
+	</table>
+<br></br>
 <div>
 	<table class="tabla-resultados">
 		<caption>Totales</caption>
 		<thead>
 			<tr>
 				<th>Tipo</th>
-				<th>Frecuencia</th>
-				<th>%</th>
+				<th>Frecuencia({{numero}})</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for value in tabla_dicc1 %}
 			<tr>
 			    <td>{{value.0}}</td>
-			    <td>{{value.1}}</td>
-			    <td>{{value.1|get_frec:dicc1}}</td>		
+			    <td>{{value.1}}</td>	
 			{% endfor %}
 		</tbody>
 	</table>
@@ -131,7 +216,7 @@
 		<thead>
 			<tr>
 				<th>Tipo</th>
-				<th>Frecuencia</th>
+				<th>Frecuencia ({{hombre_jefes}})</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -154,7 +239,7 @@
 		<thead>
 			<tr>
 				<th>Tipo</th>
-				<th>Frecuencia</th>
+				<th>Frecuencia ({{mujer_jefes}})</th>
 			</tr>
 		</thead>
 		<tbody>

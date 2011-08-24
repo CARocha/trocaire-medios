@@ -67,6 +67,7 @@ $(document).ready(function() {
          data: [{{total_gravedad}},{{gravedad_m}},{{gravedad_h}}]
    
       }]
+      
    });
    
  });
@@ -86,9 +87,9 @@ $(document).ready(function() {
 	<thead>
 		<tr>		
 			<th>Tipo</th>
-			<th>Total - (&#8721; mz)</th>
-			<th>Mujer jefa</th>
-			<th>Varón jefe</th>
+			<th>Total - (&#8721; mz)[{{numero}}]</th>
+			<th>Mujer jefa ({{mujer_jefes}})</th>
+			<th>Varón jefe ({{hombre_jefes}})</th>
 		</tr>
 	</thead>
 	<tbody>

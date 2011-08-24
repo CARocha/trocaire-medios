@@ -6,73 +6,62 @@
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
 <script type="text/javascript">
-  var chart;
-    $(document).ready(function() {
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container',
-                defaultSeriesType: 'column'
+    var plotOptions = {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            series: {
+                    pointWidth: 35,
+                    minPointLength : 1
+                },
+            showInLegend: true
+         },
+         series: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.percentage.toFixed(1) + ' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y;
+        }
+    }
+    
+   {%for value in tabla_mu%}
+       
+    $(document).ready(function(){
+    	var chart{{forloop.counter}} = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo{{forloop.counter}}',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
             },
             title: {
-                text: 'Mujeres con pareja que toman decisiones'
+                text: '{{value.0}}'
             },
             subtitle: {
                 text: ''
-            },
-            xAxis: {
-                categories: [
-                    'Varón',
-                    'Mujer',
-                    'Ambos',
-                    'No aplica'
-                ]
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Frecuencia'
-                }
-            },
-            
-            tooltip: {
-                formatter: function() {
-                    return ''+
-                        this.series.name +': '+ this.y +'';
-                }
-            },
-            plotOptions: {
-                column: {
-                    groupPadding: 0,
-                    pointPadding: 0.9,
-                    borderWidth: 0
-                },
-                series: {
-                    pointWidth: 35,
-                    minPointLength : 1
-                }
-            },
-            series: [{%for a in tabla_mu%}
-                {
-                        name: '{{a.0}}',
-                        data: [{%for b in a.1%}{{b}},{%endfor%}],
-                        dataLabels: {
-                        enabled: true,
-                        rotation: 0,
-                        color: '#632D00',
-                        align: 'center',
-                        x: -3,
-                        y: 0,
-                            formatter: function() {
-                                return this.y+'';
-                                                  },
-                        style: {
-                            font: 'normal 13px Verdana, sans-serif'
-                                }
-                                }   
-                },
-                {%endfor%}]
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for a,x in value.1.items %}['{{a}}',{{x}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
         });
     });
+    {%endfor%}
+  
 </script>
 {% endblock %}
 
@@ -89,24 +78,29 @@
 	<thead>
 		<tr>		
 			<th>Tipos</th>
-			<th>Varón</th>
-			<th>Mujer</th>
-			<th>Ambos</th>
 			<th>No aplica</th>
+			<th>Ambos</th>
+			<th>Mujer</th>
+			<th>Varón</th>
 		</tr>
 	</thead>
 	<tbody>
     	{%for value in tabla_mu %}
     	<tr>
                 <td>{{value.0}}</td>
-                {%for a in value.1%}
-                <td>{{a}}</td>
+                {%for a,x in value.1.items%}
+                <td>{{x}}</td>
                 {%endfor%}
                 
         {%endfor%}
 	</tbody>
 	</table>
-	<div id="container" class="grafo"></div>
+	<div id="grafo1" class="grafo"></div>
+	<div id="grafo2" class="grafo"></div>
+	<div id="grafo3" class="grafo"></div>
+	<div id="grafo4" class="grafo"></div>
+	<div id="grafo5" class="grafo"></div>
+	<div id="grafo6" class="grafo"></div>
 </div>
 <br>
 {% endblock %}
