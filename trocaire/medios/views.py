@@ -336,8 +336,7 @@ def manzana(request,sexo):
         if query > 0:
             lista.append(x.id)
     
-    return lista
-    
+    return lista    
 
 def familias_practicas(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True)
@@ -664,7 +663,8 @@ def escolaridad(request):
 
 def credito(request):
     encuestas = _query_set_filtrado(request)
-    opciones = Credito.objects.all().exclude(id=7)
+    opciones = Credito.objects.all().exclude(id__in=[1, 7])
+    no_tiene = Credito.objects.get(id=1)
     credito = {}
     credito_h_m = {}    
     for op in opciones:
@@ -672,6 +672,12 @@ def credito(request):
         credito[op.nombre] = query.count()        
         credito_h_m[op.nombre] = {1: query.filter(encuesta__sexo_jefe=1).count(), 
                                   2: query.filter(encuesta__sexo_jefe=2).count()}
+        
+    query_no_tiene = AccesoCredito.objects.filter(hombre=no_tiene, mujer=no_tiene, encuesta__in=encuestas)
+    credito[no_tiene.nombre] = query_no_tiene.count()
+    credito_h_m[no_tiene.nombre] = {1: query_no_tiene.filter(encuesta__sexo_jefe=1).count(), 
+                                  2: query_no_tiene.filter(encuesta__sexo_jefe=2).count()}
+    
     tabla_credito = _order_dicc(copy.deepcopy(credito))
     
     hombre_jefe = encuestas.filter(sexo_jefe=1).count()
