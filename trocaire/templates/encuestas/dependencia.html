@@ -1,6 +1,60 @@
 {% extends "base.html" %}
-
+{% load tools %}
 {% block extratitle %}Indice de dependencia{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            showInLegend: true
+         },
+         series: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.percentage.toFixed(1) + ' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y;
+        }
+    }
+    $(document).ready(function(){
+    	var chart = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: '% de Familias por indice de dependencia'
+            },
+            subtitle: {
+                text: 'Total encuestas'
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for key, value in tabla.items %}['{{key}}', {{value}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });    	
+    });
+</script>
+{% endblock %}
 
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
@@ -11,23 +65,32 @@
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>
 	<table class="tabla-resultados">
-	<caption>Cantidad de familias según indice de dependencia familiar</caption>
+	<caption>Cantidad de familias según índice de dependencia familiar</caption>
 		<thead>
 			<tr>
-				<th>Familias segun indice de dependecia familiar</th>
-				<th>Todos: {{total_general}}</th>
+				<th>Familias según índice de dependecia familiar</th>
+				<th>Todos: {{query.count}}</th>
 				<th>%</th>
-				<th>Hombre Jefe: {{hombre_jefe}}</th>
+				<th>Hombre Jefe: {{query_hombre_jefe.count}}</th>
 				<th>%</th>
-				<th>Mujer Jefa: {{mujer_jefe}}</th>
+				<th>Mujer Jefa: {{query_mujer_jefe.count}}</th>
 				<th>%</th>
 			</tr>
 		</thead>
 		<tbody>
+			{% for k in keys.values %}
 			<tr>
+				<td>{{k}}</td>
+				<td>{{tabla|get_value:k}}</td>
+				<td>{{tabla|get_value:k|get_frec:tabla}}</td>
+				<td>{{tabla_hombre|get_value:k}}</td>
+				<td>{{tabla_hombre|get_value:k|get_frec:tabla_hombre}}</td>
+				<td>{{tabla_mujer|get_value:k}}</td>
+				<td>{{tabla_mujer|get_value:k|get_frec:tabla_mujer}}</td>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
-	{{tabla}}<br>
+	<div id="grafo"></div>	
 </div>
 {% endblock %}

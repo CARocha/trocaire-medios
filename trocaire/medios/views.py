@@ -27,7 +27,7 @@ def _query_set_filtrado(request):
     #    params['fecha__year'] = anio
         
     if request.session['contraparte']:
-        params['contraparte'] =  request.session['contraparte'] 
+        params['contraparte'] = request.session['contraparte'] 
 
     if request.session['departamento']:                     
         if request.session['municipio']:                
@@ -44,13 +44,13 @@ def _query_set_filtrado(request):
             indice = request.session['indice_dep']
                               
             if indice == u'1':            
-                params['composicion__dependientes__lte'] = -0.1
+                params['composicion__dependientes__lt'] = 0.1
             elif indice == u'2':
-                params['composicion__dependientes__range'] = (0.0, 2.9)
+                params['composicion__dependientes__range'] = (0.1, 3.0)
             elif indice == u'3':
-                params['composicion__dependientes__range'] = (3.0, 5.9)
+                params['composicion__dependientes__range'] = (3.1, 6.0)
             elif indice == u'4':
-                params['composicion__dependientes__gte'] = 6.0
+                params['composicion__dependientes__gt'] = 6.0
     except:
         pass
     
@@ -158,6 +158,8 @@ def consultar(request):
             #parametros['finca']['conssa'] = forms.cleaned_data['finca_conssa']
             #parametros['finca']['num_productos'] = forms.cleaned_data['finca_num']
             request.session['parametros'] = parametros           
+            
+            encuestas = _query_set_filtrado(request)
             
             if form.cleaned_data['next_url']:
                 return HttpResponseRedirect(form.cleaned_data['next_url'])
@@ -561,19 +563,26 @@ def reponsable(request,sexo):
 def dependencia(request):
     encuestas = _query_set_filtrado(request)
     query = Composicion.objects.filter(encuesta__in=encuestas)
-
-    tabla = vale_gaver(query)
-    tabla_hombre = vale_gaver(query.filter(encuesta__sexo_jefe=1))
-    tabla_mujer = vale_gaver(query.filter(encuesta__sexo_jefe=2))
+    query_hombre_jefe = query.filter(encuesta__sexo_jefe=1)
+    query_mujer_jefe = query.filter(encuesta__sexo_jefe=2)
     
-    dondetoy = "dependencia"
+    tabla = vale_gaver(query)
+    tabla_hombre = vale_gaver(query_hombre_jefe)
+    tabla_mujer = vale_gaver(query_mujer_jefe)
+    
+    keys = {1: u'Igual a 0'
+            , 2: u'De 0.1 a 3.0'
+            , 3: u'De 3.1 a 6.0'
+            , 4: u'Más de 6.0'}
+    
+    dondetoy = "dependencia"    
     return render_to_response('encuestas/dependencia.html', RequestContext(request, locals()))
 
 def vale_gaver(query):
-    return {'Igual a 0': query.filter(dependientes__lte=0).count(), 
-             'De 0.1 a 2.9': query.filter(dependientes__range=(0.1, 2.9)).count(),
-             'De 3.0 a 5.9': query.filter(dependientes__range=(3.0, 5.9)).count(),
-             'Más de 6.0': query.filter(dependientes__gte=6.0).count()}
+    return {u'Igual a 0': query.filter(dependientes__lte=0).count(), 
+             u'De 0.1 a 3.0': query.filter(dependientes__range=(0.1, 3.0)).count(),
+             u'De 3.1 a 6.0': query.filter(dependientes__range=(3.1, 6.0)).count(),
+             u'Más de 6.0': query.filter(dependientes__gt=6.0).count()}
 
 def hombre_responsable(request):
     encuestas = _query_set_filtrado(request)
