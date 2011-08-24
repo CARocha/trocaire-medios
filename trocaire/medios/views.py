@@ -561,7 +561,7 @@ def reponsable(request,sexo):
 def dependencia(request):
     encuestas = _query_set_filtrado(request)
     query = Composicion.objects.filter(encuesta__in=encuestas)
-    
+
     tabla = vale_gaver(query)
     tabla_hombre = vale_gaver(query.filter(encuesta__sexo_jefe=1))
     tabla_mujer = vale_gaver(query.filter(encuesta__sexo_jefe=2))
@@ -749,12 +749,10 @@ def abastecimiento(request):
                 consumo_query = ConsumoDiario.objects.get(encuesta=encuesta)
                 maiz_query = CultivosPeriodos.objects.get(encuesta=encuesta, cultivos__id=1)                
             except ConsumoDiario.DoesNotExist:
-                encuestas_sin_consumo.append(encuesta.id)
-                jefes_ids[key].remove(encuesta)              
+                encuestas_sin_consumo.append(encuesta.id)                        
                 continue
             except CultivosPeriodos.DoesNotExist:
-                encuestas_sin_maiz.append(encuesta.id)   
-                jefes_ids[key].remove(encuesta)             
+                encuestas_sin_maiz.append(encuesta.id)                     
                 continue
             except:                
                 continue
@@ -762,8 +760,7 @@ def abastecimiento(request):
             try:
                 frijol_query = CultivosPeriodos.objects.get(encuesta=encuesta, cultivos__id=3)                
             except CultivosPeriodos.DoesNotExist:
-                encuestas_sin_frijol.append(encuesta.id)
-                jefes_ids[key].remove(encuesta)
+                encuestas_sin_frijol.append(encuesta.id)                
                 continue
             
             produccion_diaria_maiz = round((maiz_query.produccion*float(100))/float(365), 2)
