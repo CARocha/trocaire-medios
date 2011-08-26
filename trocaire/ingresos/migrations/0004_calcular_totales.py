@@ -11,7 +11,7 @@ class Migration(DataMigration):
         #haciendo los calculos pertinentes
         print 'migrando Ingreso Patio'
         for algo in orm.IngresoPatio.objects.all():
-            algo.total = algo.invierno * algo.verano
+            algo.total = algo.invierno + algo.verano
             algo.save()
 
         print 'migrando Ingreso Ganado'
