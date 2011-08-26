@@ -74,11 +74,11 @@ class CultivosIPeriodos(models.Model):
     precio_apante = models.FloatField('Precio de venta de ciclo de apante', help_text="En C$")
     encuesta = models.ForeignKey(Encuesta)
     #campos hipsters
-    total_primera = models.FloatField(editable=False)
-    total_postrera = models.FloatField(editable=False)
-    total_apante = models.FloatField(editable=False)
-    total_primera = models.FloatField(editable=False)
-    total = models.FloatField(editable=False)
+    total_primera = models.FloatField()
+    total_postrera = models.FloatField()
+    total_apante = models.FloatField()
+    total_primera = models.FloatField()
+    total = models.FloatField()
 
     class Meta:
         verbose_name_plural = "Ventas agricolas"
