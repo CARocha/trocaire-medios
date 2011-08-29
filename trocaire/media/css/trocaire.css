@@ -131,6 +131,7 @@ a{
     width: 600px;
     margin-top: 15px;
     padding-left: 40px;
+    *padding-left: 5px;
 }
 .salidas a{
     display: inline-block;
@@ -470,7 +471,7 @@ label #id_year{
     width:180px;
 }
 
-#consultar-form button{
+#consultar-form .consultar{
     background:url(../img/consultarform.jpg) no-repeat;
     width:178px;
     height:68px;
@@ -479,11 +480,11 @@ label #id_year{
     cursor:pointer;
 }
 
-#consultar-form button:hover{
+#consultar-form .consultar:hover{
     background:url(../img/consultarform2.jpg) no-repeat;
 }
 
-#consultar-sidebar #consultar-form button{
+#consultar-sidebar #consultar-form .consultar{
     background:url(../img/consultarformsidebar.jpg) no-repeat;
     width:140px;
     height:54px;
@@ -492,13 +493,14 @@ label #id_year{
     cursor:pointer;
 }
 
-#consultar-sidebar #consultar-form button:hover{
+#consultar-sidebar #consultar-form .consultar:hover{
     background:url(../img/consultarformsidebar2.jpg) no-repeat;
 }
 
 #bloqueindicadores{
     float:right;
     width:565px;
+    *width:540px;
 }
 
 .indicadorcategoria{
