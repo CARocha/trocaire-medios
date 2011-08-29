@@ -1,9 +1,9 @@
-<script type="text/javascript">
+<script type="text/javascript">	
     $(document).ready(function() {
-        var departamento = document.getElementById("id_departamento");
-        var municipio = document.getElementById("id_municipio");
-        var comarca = document.getElementById("id_comarca");
-        
+    	var departamento = document.getElementById("id_departamento");
+    	var municipio = document.getElementById("id_municipio");
+    	var comarca = document.getElementById("id_comarca");
+    	
         //municipios
         $("#id_departamento").change(function () {
             var index = departamento.options.selectedIndex;
@@ -88,7 +88,27 @@
 		$('#id_contraparte').val({{request.session.contraparte.id}});
 		{% endif %}
 		{% if request.session.departamento %}
-		$('#id_departamento').val({{request.session.departamento.id}});
+		$('#id_departamento').val({{request.session.departamento.id}});		
+		$.getJSON("/consultar/ajax/municipio/{{request.session.departamento.id}}/",				
+			function(data){
+				$('#id_municipio').append($('<option></option>').html('--------'));	            
+               	for(i=0; i< data.length; i++){
+               		$('#id_municipio').append($('<option></option>').val(data[i][0]).html(data[i][1]));                	
+               	}
+            {% if request.session.municipio %}
+            $('#id_municipio').val({{request.session.municipio.id}});
+            $.getJSON("/consultar/ajax/comarca/{{request.session.municipio.id}}/",
+            function(data){
+            	$('#id_comarca').append($('<option></option>').html('--------'));	            
+               	for(i=0; i< data.length; i++){
+               		$('#id_comarca').append($('<option></option>').val(data[i][0]).html(data[i][1]));                	
+               	}
+               	{% if request.session.comarca %}
+                $('#id_comarca').val({{request.session.comarca.id}});
+                {% endif %}
+            });            
+            {% endif %}
+       	});
 		{% endif %}
 		
 		{% if request.session.indice_dep != 'None' %}
