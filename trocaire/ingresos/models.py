@@ -148,7 +148,7 @@ class IngresoPatio(models.Model):
         verbose_name_plural = "Ingreso por la producción agrícola del patio"
 
     def save(self, *args, **kwargs):
-        self.total = self.invierno * self.verano
+        self.total = self.invierno + self.verano
         super(IngresoPatio, self).save(*args, **kwargs)
         
 class Ganados(models.Model):
