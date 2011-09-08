@@ -461,28 +461,21 @@ def acceso_tierra(request):
     total_hombre = query.filter(encuesta__sexo_jefe=1).count()
     total_mujer = query.filter(encuesta__sexo_jefe=2).count()
                    
-    dicc = {1: query.filter(area_total=0.0).count(),
-            2: query.filter(area_total__range=(0.1, 1.0)).count(),
-            3: query.filter(area_total__range=(1.1, 5.0)).count(),
-            4: query.filter(area_total__range=(5.1, 10.0)).count(),
-            5: query.filter(area_total__gt=10.0).count()}
-    
-    dicc_hombre = {1: query.filter(area_total=0.0, encuesta__sexo_jefe=1).count(),
-                   2: query.filter(area_total__range=(0.1, 1.0), encuesta__sexo_jefe=1).count(),
-                   3: query.filter(area_total__range=(1.1, 5.0), encuesta__sexo_jefe=1).count(),
-                   4: query.filter(area_total__range=(5.1, 10.0), encuesta__sexo_jefe=1).count(),
-                   5: query.filter(area_total__gt=10.0, encuesta__sexo_jefe=1).count()}    
-    
-    dicc_mujer = {1: query.filter(area_total=0.0, encuesta__sexo_jefe=2).count(),
-                   2: query.filter(area_total__range=(0.1, 1.0), encuesta__sexo_jefe=2).count(),
-                   3: query.filter(area_total__range=(1.1, 5.0), encuesta__sexo_jefe=2).count(),
-                   4: query.filter(area_total__range=(5.1, 10.0), encuesta__sexo_jefe=2).count(),
-                   5: query.filter(area_total__gt=10.0, encuesta__sexo_jefe=2).count()}
+    dicc = area_total_rangos(query)    
+    dicc_hombre = area_total_rangos(query.filter(encuesta__sexo_jefe=1))    
+    dicc_mujer = area_total_rangos(query.filter(encuesta__sexo_jefe=2))
     
     promedio_mz = round(query.aggregate(promedio=Avg('area_total'))['promedio'], 2)       
     
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
+
+def area_total_rangos(query):
+    return {1: query.filter(area_total=0.0).count(),
+            2: query.filter(area_total__range=(0.1, 1.0)).count(),
+            3: query.filter(area_total__range=(1.1, 5.0)).count(),
+            4: query.filter(area_total__range=(5.1, 10.0)).count(),
+            5: query.filter(area_total__gt=10.0).count()}
 
 def riego(request,sexo,tipo):
     encuestas = _query_set_filtrado(request)
