@@ -8,11 +8,8 @@ class Migration(DataMigration):
 
     def forwards(self, orm):
         "Write your forwards methods here."
-        for tierra in  orm.Tierra.objects.all():
-            if tierra.ambos == 0:
-                tierra.area_total = tierra.mujer + tierra.hombre
-            else:
-                tierra.area_total = tierra.ambos
+        for tierra in  orm.Tierra.objects.all():            
+            tierra.area_total = tierra.mujer + tierra.hombre + tierra.ambos
             tierra.save()
 
     def backwards(self, orm):

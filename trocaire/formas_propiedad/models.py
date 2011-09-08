@@ -9,13 +9,10 @@ class Tierra(models.Model):
     ambos = models.FloatField('De ambos')
     encuesta = models.ForeignKey(Encuesta)
     #campos hipsters
-    area_total = models.FloatField(editable=False, default=0)
+    area_total = models.FloatField(default=0)
 
-    def save(self, *args, **kwargs):
-        if self.ambos == 0:
-            self.area_total = self.mujer + self.hombre
-        else:
-            self.area_total = self.ambos
+    def save(self, *args, **kwargs):        
+        self.area_total = self.mujer + self.hombre + self.ambos        
         super(Tierra, self).save(*args, **kwargs)
 
     class Meta:

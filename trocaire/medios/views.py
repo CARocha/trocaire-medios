@@ -380,11 +380,7 @@ def acceso_tierra(request):
     numero = encuestas.count()
     hombre_jefes = encuestas.filter(sexo_jefe=1).count()
     mujer_jefes = encuestas.filter(sexo_jefe=2).count()
-    suma_mz = encuestas.aggregate(suma_mz=Sum('tierra__area'))['suma_mz']
-    try:    
-        promedio_mz = suma_mz / numero
-    except:
-        pass
+    
     #salidas cuantas horas gastan
     dicc1 = {}
     dicc1_h_m = {}
@@ -394,67 +390,96 @@ def acceso_tierra(request):
         dicc1_h_m[a[1]] = _hombre_mujer_dicc(total.values_list('encuesta__id', flat=True))
     tabla_dicc1 = _order_dicc(copy.deepcopy(dicc1))
     
-    tierra_h = rango_mz(request,1)
-    tierra_m = rango_mz(request,2)
-#mujer rango cero
-    m_rango1 = 0
-    #mujer rango 0.1 - 1
-    m_rango2 = 0
-    #mujer rango 1.1 - 5
-    m_rango3 = 0
-    #mujer rango 5.1 - 10
-    m_rango4 = 0
-    #mujer rango > 11
-    m_rango5 = 0
-#hombre rango cero
-    h_rango1 = 0
-    #mujer rango 0.1 - 1
-    h_rango2 = 0
-    #mujer rango 1.1 - 5
-    h_rango3 = 0
-    #mujer rango 5.1 - 10
-    h_rango4 = 0
-    #mujer rango > 11
-    h_rango5 = 0
+#    tierra_h = rango_mz(request,1)
+#    tierra_m = rango_mz(request,2)
+##mujer rango cero
+#    m_rango1 = 0
+#    #mujer rango 0.1 - 1
+#    m_rango2 = 0
+#    #mujer rango 1.1 - 5
+#    m_rango3 = 0
+#    #mujer rango 5.1 - 10
+#    m_rango4 = 0
+#    #mujer rango > 11
+#    m_rango5 = 0
+##hombre rango cero
+#    h_rango1 = 0
+#    #mujer rango 0.1 - 1
+#    h_rango2 = 0
+#    #mujer rango 1.1 - 5
+#    h_rango3 = 0
+#    #mujer rango 5.1 - 10
+#    h_rango4 = 0
+#    #mujer rango > 11
+#    h_rango5 = 0
+#    
+#    for nada in tierra_m:
+#        if nada[1]['ambos'] == 0 and nada[1]['mujer'] == 0 and nada[1]['hombre'] == 0:
+#            m_rango1 += 1
+#        if nada[1]['mujer'] >= 0.1 and nada[1]['mujer'] <= 1:
+#            m_rango2 += 1
+#        if nada[1]['mujer'] >= 1.1 and nada[1]['mujer'] <= 5:
+#            m_rango3 += 1
+#        if nada[1]['mujer'] >= 5.1 and nada[1]['mujer'] <= 10:
+#            m_rango4 += 1
+#        if nada[1]['mujer'] >= 11:
+#            m_rango5 += 1
+#    #----------------------*********************-----------------------------------
+#   
+#    for nada in tierra_h:
+#        if nada[1]['ambos'] == 0 and nada[1]['mujer'] == 0 and nada[1]['hombre'] == 0:
+#            h_rango1 += 1
+#        if nada[1]['hombre'] >= 0.1 and nada[1]['hombre'] <= 1:
+#            h_rango2 += 1
+#        if nada[1]['hombre'] >= 1.1 and nada[1]['hombre'] <= 5:
+#            h_rango3 += 1
+#        if nada[1]['hombre'] >= 5.1 and nada[1]['hombre'] <= 10:
+#            h_rango4 += 1
+#        if nada[1]['hombre'] >= 11:
+#            h_rango5 += 1
+#    #------------------------******************************
+#
+#    #totales por rangos
+#    t_rango1 = h_rango1 + m_rango1
+#    t_rango2 = h_rango2 + m_rango2
+#    t_rango3 = h_rango3 + m_rango3
+#    t_rango4 = h_rango4 + m_rango4
+#    t_rango5 = h_rango5 + m_rango5
+#    
+#    hombres_rangos = h_rango2 + h_rango3 + h_rango4 + h_rango5
+#    mujer_rangos = m_rango2 + m_rango3 + m_rango4 + m_rango5
+#    hombre_no_tiene = hombre_jefes - hombres_rangos
+#    mujer_no_tiene = mujer_jefes - mujer_rangos
+#    total_rango_cero = hombre_no_tiene + mujer_no_tiene
     
-    for nada in tierra_m:
-        if nada[1]['ambos'] == 0 and nada[1]['mujer'] == 0 and nada[1]['hombre'] == 0:
-            m_rango1 += 1
-        if nada[1]['mujer'] >= 0.1 and nada[1]['mujer'] <= 1:
-            m_rango2 += 1
-        if nada[1]['mujer'] >= 1.1 and nada[1]['mujer'] <= 5:
-            m_rango3 += 1
-        if nada[1]['mujer'] >= 5.1 and nada[1]['mujer'] <= 10:
-            m_rango4 += 1
-        if nada[1]['mujer'] >= 11:
-            m_rango5 += 1
-    #----------------------*********************-----------------------------------
-   
-    for nada in tierra_h:
-        if nada[1]['ambos'] == 0 and nada[1]['mujer'] == 0 and nada[1]['hombre'] == 0:
-            h_rango1 += 1
-        if nada[1]['hombre'] >= 0.1 and nada[1]['hombre'] <= 1:
-            h_rango2 += 1
-        if nada[1]['hombre'] >= 1.1 and nada[1]['hombre'] <= 5:
-            h_rango3 += 1
-        if nada[1]['hombre'] >= 5.1 and nada[1]['hombre'] <= 10:
-            h_rango4 += 1
-        if nada[1]['hombre'] >= 11:
-            h_rango5 += 1
-    #------------------------******************************
-
-    #totales por rangos
-    t_rango1 = h_rango1 + m_rango1
-    t_rango2 = h_rango2 + m_rango2
-    t_rango3 = h_rango3 + m_rango3
-    t_rango4 = h_rango4 + m_rango4
-    t_rango5 = h_rango5 + m_rango5
+    #-------------- start clean code XD ---------------------
+    '''rangos: 1 => 0, 2 => 0.1 a 1 mz, 3 => 1.1 a 5 mz, 4 => 5.1 a 10 mz, 5 => mas de 10 mz'''
+     
+    labels = {1: '0 mz', 2: '0.1 - 1 mz', 3: '1.1 - 5 mz', 4: '5.1 - 10 mz', 5: 'más de 10 mz'}
+    query = Tierra.objects.filter(encuesta__in=encuestas, area=1)
+    total_all = query.count()
+    total_hombre = query.filter(encuesta__sexo_jefe=1).count()
+    total_mujer = query.filter(encuesta__sexo_jefe=2).count()
+                   
+    dicc = {1: query.filter(area_total=0.0).count(),
+            2: query.filter(area_total__range=(0.1, 1.0)).count(),
+            3: query.filter(area_total__range=(1.1, 5.0)).count(),
+            4: query.filter(area_total__range=(5.1, 10.0)).count(),
+            5: query.filter(area_total__gt=10.0).count()}
     
-    hombres_rangos = h_rango2 + h_rango3 + h_rango4 + h_rango5
-    mujer_rangos = m_rango2 + m_rango3 + m_rango4 + m_rango5
-    hombre_no_tiene = hombre_jefes - hombres_rangos
-    mujer_no_tiene = mujer_jefes - mujer_rangos
-    total_rango_cero = hombre_no_tiene + mujer_no_tiene
+    dicc_hombre = {1: query.filter(area_total=0.0, encuesta__sexo_jefe=1).count(),
+                   2: query.filter(area_total__range=(0.1, 1.0), encuesta__sexo_jefe=1).count(),
+                   3: query.filter(area_total__range=(1.1, 5.0), encuesta__sexo_jefe=1).count(),
+                   4: query.filter(area_total__range=(5.1, 10.0), encuesta__sexo_jefe=1).count(),
+                   5: query.filter(area_total__gt=10.0, encuesta__sexo_jefe=1).count()}    
+    
+    dicc_mujer = {1: query.filter(area_total=0.0, encuesta__sexo_jefe=2).count(),
+                   2: query.filter(area_total__range=(0.1, 1.0), encuesta__sexo_jefe=2).count(),
+                   3: query.filter(area_total__range=(1.1, 5.0), encuesta__sexo_jefe=2).count(),
+                   4: query.filter(area_total__range=(5.1, 10.0), encuesta__sexo_jefe=2).count(),
+                   5: query.filter(area_total__gt=10.0, encuesta__sexo_jefe=2).count()}
+    
+    promedio_mz = round(query.aggregate(promedio=Avg('area_total'))['promedio'], 2)       
     
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
