@@ -16,7 +16,7 @@
 				<th class="centrado">{{k}}</th>
 				{% endfor %}
 				{% endfor %}	
-				{% if percent == 1 %}<th>%</th>{% endif %}
+<!--				{% if percent == 1 %}<th>%</th>{% endif %}-->
 			</tr>
 		</thead>
 		<tbody>
@@ -27,11 +27,11 @@
 				<td>{{v}}</td>
 				{% endfor %}				
 				<td>{{value|total_dict}}</td>
-				{% if percent == 1 %}
-					{% with total=value|total_dict %}
-					<td>{{total|frecuencia:tabla}}</td>
-					{% endwith %}
-				{% endif %}								
+<!--				{% if percent == 1 %}-->
+<!--					{% with total=value|total_dict %}-->
+<!--					<td>{{total|frecuencia:tabla}}</td>-->
+<!--					{% endwith %}-->
+<!--				{% endif %}								-->
 			</tr>
 			{% endfor %}
 <!--			<tr>-->
