@@ -605,11 +605,27 @@ def vale_gaver(query):
              u'De 2.1 a 3.0': query.filter(dependientes__range=(2.1, 3.0)).count(),             
              u'Más de 3.0': query.filter(dependientes__gt=3.0).count()}
 
+def sueno_tengo(request, numero):
+    encuestas = _query_set_filtrado(request)
+    dicc2 = {}
+    for filas in CHOICE_GENERO:
+        dicc2[filas[1]] = {}
+        for resp in CHOICE_GENERO_RESPUESTA:
+            dicc2[filas[1]][resp[1]] = conteo = encuestas.filter(sexo_jefe=numero,genero__responsabilidades=filas[0],genero__respuesta=resp[0]).count()
+    
+    return dicc2
+    
+    
 def hombre_responsable(request):
     encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
     hombre_jefes = encuestas.filter(sexo_jefe=1).count()
     mujer_jefes = encuestas.filter(sexo_jefe=2).count()
+    
+    carlos= sueno_tengo(request,1)
+    rocha = sueno_tengo(request,2)
+    
+    print carlos
     
     tabla_responsable = {}
     for hombre in CHOICE_GENERO:
