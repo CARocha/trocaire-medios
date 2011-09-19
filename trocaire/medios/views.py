@@ -605,11 +605,27 @@ def vale_gaver(query):
              u'De 2.1 a 3.0': query.filter(dependientes__range=(2.1, 3.0)).count(),             
              u'Más de 3.0': query.filter(dependientes__gt=3.0).count()}
 
+def sueno_tengo(request, numero):
+    encuestas = _query_set_filtrado(request)
+    dicc2 = {}
+    for filas in CHOICE_GENERO:
+        dicc2[filas[1]] = {}
+        for resp in CHOICE_GENERO_RESPUESTA:
+            dicc2[filas[1]][resp[1]] = conteo = encuestas.filter(sexo_jefe=numero,genero__responsabilidades=filas[0],genero__respuesta=resp[0]).count()
+    
+    return dicc2
+    
+    
 def hombre_responsable(request):
     encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
     hombre_jefes = encuestas.filter(sexo_jefe=1).count()
     mujer_jefes = encuestas.filter(sexo_jefe=2).count()
+    
+    carlos= sueno_tengo(request,1)
+    rocha = sueno_tengo(request,2)
+    
+    print carlos
     
     tabla_responsable = {}
     for hombre in CHOICE_GENERO:
@@ -815,6 +831,38 @@ def abastecimiento(request):
     totales['total'] = sum(totales.values())
     dondetoy = "autoabastecimiento"
     return render_to_response('encuestas/abastecimiento.html', RequestContext(request, locals()))
+
+def diversidad_alimentaria(request):
+    encuestas = _query_set_filtrado(request)
+    query_hombre = encuestas.filter(sexo_jefe=1)
+    query_mujer = encuestas.filter(sexo_jefe=2)
+    
+    dicc = get_diversidad_dicc(encuestas)
+    dicc_hombre = get_diversidad_dicc(query_hombre)
+    dicc_mujer = get_diversidad_dicc(query_mujer)    
+    
+    total = total_dict(dicc)
+    total_hombre = total_dict(dicc_hombre)
+    total_mujer = total_dict(dicc_mujer)
+    
+    labels = {1: 'Uno', 2: 'Al menos 2',
+              3: 'Al menos 3', 4: 'Al menos 4',
+              5: 'Al menos 5', 6: 'Al menos 6',
+              7: 'Al menos 7', 8: 'Al menos 8',
+              9: u'Más de 8'}
+        
+    return render_to_response('encuestas/diversidad_alimentaria.html', RequestContext(request, locals()))
+
+def get_diversidad_dicc(query):
+    dicc = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}
+    for obj in query:
+        n = obj.diversidad_set.filter(respuesta=1).count()
+        if not n > 8 and not n == 0:
+            dicc[n] += 1
+        elif n > 8 and not n == 0:
+            dicc[9] += 1
+            
+    return dicc
 
 def _hombre_mujer_dicc(ids, jefe=False):
     '''Funcion que por defecto retorna la cantidad de beneficiarios
