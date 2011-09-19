@@ -573,3 +573,16 @@ label #id_year{
     float:left;
     margin:4px 10px 4px 10px;
 }
+
+.contrapartedetalle{
+    width:850px;
+    margin:0 auto;
+    font-size:13px;
+    margin-bottom:15px;
+    border-bottom:#E7C09D 1px solid;
+}
+
+.contraparteinfo{
+    width:650px;
+    float:right;
+}
