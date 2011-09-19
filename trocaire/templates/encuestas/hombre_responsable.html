@@ -81,31 +81,38 @@
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>
-	<table class="tabla-resultados">
-	<caption>Porcentaje % de familias donde los hombre realizan tareas domésticas</caption>
-	<thead>
-		<tr>		
-			<th>Tareas</th>
-			<th>Total ({{numero}})</th>
-			<th>%</th>
-			<th>Varón jefe ({{hombre_jefes}})</th>
-			<th>%</th>
-			<th>Mujer jefa ({{mujer_jefes}})</th>
-			<th>%</th>
-			
-		</tr>
-	</thead>
-	<tbody>
-    	{%for value in tabla_resp %}
-    	<tr>
-                <td>{{value.0}}</td>
-                {%for x in value.1%}
-                    <td>{{x}}</td>
-                {%endfor%}
-        {%endfor%}
-	</tbody>
-	</table>
-	<div id="container" class="grafo"></div>
+<!--	<table class="tabla-resultados">-->
+<!--	<caption>Porcentaje % de familias donde los hombre realizan tareas domésticas</caption>-->
+<!--	<thead>-->
+<!--		<tr>		-->
+<!--			<th>Tareas</th>-->
+<!--			<th>Total ({{numero}})</th>-->
+<!--			<th>%</th>-->
+<!--			<th>Varón jefe ({{hombre_jefes}})</th>-->
+<!--			<th>%</th>-->
+<!--			<th>Mujer jefa ({{mujer_jefes}})</th>-->
+<!--			<th>%</th>-->
+<!--			-->
+<!--		</tr>-->
+<!--	</thead>-->
+<!--	<tbody>-->
+<!--    	{%for value in tabla_resp %}-->
+<!--    	<tr>-->
+<!--                <td>{{value.0}}</td>-->
+<!--                {%for x in value.1%}-->
+<!--                    <td>{{x}}</td>-->
+<!--                {%endfor%}-->
+<!--        {%endfor%}-->
+<!--	</tbody>-->
+<!--	</table>-->
+<!--	<div id="container" class="grafo"></div>-->
+	{% with tabla=carlos titulo='' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando el hombre es jefe' percent=1 %}
+    {% include "encuestas/tabla_generica.html" %}
+    {% endwith %}
+    <br></br>
+    {% with tabla=rocha titulo='' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando la mujer es jefa' percent=1 %}
+    {% include "encuestas/tabla_generica.html" %}
+    {% endwith %}
 </div>
 <br>
 {% endblock %}
