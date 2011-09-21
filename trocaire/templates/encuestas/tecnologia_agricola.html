@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}Uso de tecnología orgánica{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {    		
+        column: {            
+            borderWidth: 0,
+            pointPadding: 0.2            
+        },
+        series: {
+            pointWidth: 30,            
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.y +' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return ''+
+                this.series.name + ' <b>'+ this.x +':</b> '+ this.y;
+        }
+    }
+    var leyenda = {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        shadow: true        
+    }    
+    $(document).ready(function() {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'grafo',
+                    defaultSeriesType: 'column',
+                    height: 480,
+                    width: 960
+                },
+                title: {
+                    text: 'Uso de tecnología orgánica',                    
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        {% for value in labels.values %}'{{value}}'{% if not forloop.last %}, {% endif %}{% endfor %}
+                    ]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Porcentajes'
+                    }
+                },
+                legend: leyenda,
+                tooltip: tooltip,
+                plotOptions: plotOptions,
+                series: [{name: 'Total', data: [{% for key, value in dicc.items %}{{value|calcular_frecuencia:total}}, {% endfor %}]},
+                		{name: 'Hombre Jefe', data: [{% for key, value in dicc_hombre.items %}{{value|calcular_frecuencia:total_hombre}}, {% endfor %}]},
+                		{name: 'Mujer Jefa', data: [{% for key, value in dicc_mujer.items %}{{value|calcular_frecuencia:total_mujer}}, {% endfor %}]}
+                ]
+            });
+    });
+</script>
+{% endblock %}
+
+{% block contenido %}
+{% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Uso de tecnología orgánica</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+<div class="contraparts">
+{% include "encuestas/filtros_seleccionados.html" %}
+</div>
+<div>
+	<table class="tabla-resultados">
+	<caption>Uso de tecnología orgánica</caption>
+	<thead>
+		<tr>
+			<th>&nbsp;</th>
+			<th>Total: {{total}}</th>			
+			<th>%</th>
+			<th>Hombre Jefe: {{total_hombre}}</th>
+			<th>%</th>
+			<th>Mujere Jefe: {{total_mujer}}</th>
+			<th>%</th>			
+		</tr>
+	</thead>
+		<tbody>
+			{% for key, value in dicc.items %}
+			<tr>
+				<td>{{labels|get_value:key}}</td>
+				<td>{{value}}</td>
+				<td>{{value|calcular_frecuencia:total}}</td>				
+				<td>{{dicc_hombre|get_value:key}}</td>
+				<td>{{dicc_hombre|get_value:key|calcular_frecuencia:total_hombre}}</td>
+				<td>{{dicc_mujer|get_value:key}}</td>		
+				<td>{{dicc_mujer|get_value:key|calcular_frecuencia:total_mujer}}</td>					
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>	
+	<div id="grafo" class="grafo"></div>
+</div>
+{% endblock %}

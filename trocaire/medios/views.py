@@ -864,6 +864,95 @@ def get_diversidad_dicc(query):
             
     return dicc
 
+def venta_organizada(request):
+    encuestas = _query_set_filtrado(request)
+    labels = {1: '% de familias que venden', 2: '% de familias que no venden'}
+    
+    venta = get_vende_num(encuestas)
+    venta_hombre = get_vende_num(encuestas.filter(sexo_jefe=1))
+    venta_mujer = get_vende_num(encuestas.filter(sexo_jefe=2))
+    
+    total = sum(venta)
+    total_hombre = sum(venta_hombre)
+    total_mujer = sum(venta_mujer)
+            
+    dicc = {1: venta[0], 2: venta[1]}
+    dicc_hombre = {1: venta_hombre[0], 2: venta_hombre[1]}
+    dicc_mujer = {1: venta_mujer[0], 2: venta_mujer[1]}  
+    
+    return render_to_response('encuestas/venta_organizada.html', RequestContext(request, locals()))
+
+def get_vende_num(query):
+    venden = novenden = 0    
+    for obj in query:
+        n = obj.vendeproducto_set.all().exclude(forma=5).count()
+        if n != 0:
+            venden += 1
+        n1 = obj.vendeproducto_set.filter(forma=5).count()
+        if n1 != 0:
+            novenden += 1
+    return venden, novenden
+
+def procesando_productos(request):
+    encuestas = _query_set_filtrado(request)
+    labels = {1: '% de familias procesando', 2: '% de familias que no procesan'}
+    
+    venta = get_proces_num(encuestas)
+    venta_hombre = get_proces_num(encuestas.filter(sexo_jefe=1))
+    venta_mujer = get_proces_num(encuestas.filter(sexo_jefe=2))
+    
+    total = sum(venta)
+    total_hombre = sum(venta_hombre)
+    total_mujer = sum(venta_mujer)
+            
+    dicc = {1: venta[0], 2: venta[1]}
+    dicc_hombre = {1: venta_hombre[0], 2: venta_hombre[1]}
+    dicc_mujer = {1: venta_mujer[0], 2: venta_mujer[1]}  
+    
+    return render_to_response('encuestas/procesando_productos.html', RequestContext(request, locals()))
+
+def get_proces_num(query):
+    procesan = noprocesan = 0    
+    for obj in query:
+        n = obj.principalforma_set.all().exclude(principal=5).count()
+        if n != 0:
+            procesan += 1
+        n1 = obj.principalforma_set.filter(principal=5).count()
+        if n1 != 0:
+            noprocesan += 1
+    return procesan, noprocesan
+
+def tecnologia_agricola(request):
+    encuestas = _query_set_filtrado(request)        
+    labels = {1: u'% de familias que usan tecnología agricola para fertilizar'}
+    
+    venta = get_fam_organica(encuestas)
+    venta_hombre = get_fam_organica(encuestas.filter(sexo_jefe=1))
+    venta_mujer = get_fam_organica(encuestas.filter(sexo_jefe=2))
+    
+    total = sum(venta)
+    total_hombre = sum(venta_hombre)
+    total_mujer = sum(venta_mujer)
+            
+    dicc = {1: venta[0]}
+    dicc_hombre = {1: venta_hombre[0]}
+    dicc_mujer = {1: venta_mujer[0]}
+        
+    return render_to_response('encuestas/tecnologia_agricola.html', RequestContext(request, locals()))
+
+def get_fam_organica(query):
+    counter = falso = 0
+    for obj in query:
+        subquery = obj.usotecnologia_set.all()
+        n = subquery.filter(Q(granos=1) | Q(anuales=1) | Q(permanentes=1) | Q(pastos=1), tecnologia=1).count()
+        n1 = subquery.filter(Q(granos=1) | Q(anuales=1) | Q(permanentes=1) | Q(pastos=1), tecnologia=2).count()
+        if (n != 0 and n1 != 0) or n != 0 or n1 != 0:
+            counter += 1
+        else:
+            falso += 1
+            
+    return counter, falso
+
 def _hombre_mujer_dicc(ids, jefe=False):
     '''Funcion que por defecto retorna la cantidad de beneficiarios
     hombres y mujeres de una lista de ids. Si jefe=True, retorna los
