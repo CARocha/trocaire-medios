@@ -99,27 +99,44 @@
 {%if muestra_indicador = 1%}
 <div id="bloqueindicadores">
     <div class="indicadorcategoria">FAMILIAS</div>
-        <a href="/encuestas/datos-x-sexo/">Sexo jefe familia</a>
-        <a href="/encuestas/sexo-beneficiario/">Relación beneficiario por jefatura</a>
-        <a href="/encuestas/escolaridad/">Escolaridad del beneficiario</a>
+        <a href="/encuestas/datos-x-sexo/">Sexo jefe de familia</a>
+        <a href="/encuestas/sexo-beneficiario/">Sexo de beneficiario/a y jefatura de familia</a>
+        <a href="/encuestas/escolaridad/">Escolaridad de beneficiario/a</a>
         <a href="/encuestas/dependencia/">Dependencia familiar</a>
-        <a href="/encuestas/participacion/">Participación Ciudadana</a>
+
         <div class="clean"></div>
-    <div class="indicadorcategoria">INGRESOS</div>
-        <a href="/encuestas/credito/">Crédito familia</a>
-        <a href="/encuestas/ingreso-agropecuario/">Fuente agropecuarias</a>
+    <div class="indicadorcategoria">INGRESOS FAMILIARES</div>
+        <a href="/encuestas/credito/">Acceso a crédito </a>
+        <a href="/encuestas/ingreso-agropecuario/">Ingreso agropecuarios</a>
         <a href="/encuestas/ingreso-familiar/">Ingresos Familiares</a>
         <div class="clean"></div>
-    <div class="indicadorcategoria">CONSERVACIÓN</div>
+        
+    <div class="indicadorcategoria">SEGURIDAD ALIMENTARIA</div>
         <a href="/encuestas/abastecimiento/">Autoabastecimiento de granos básicos</a>
-        <a href="/encuestas/agua-clorada/">Cloran el agua</a>
-        <a href="/encuestas/gastan-horas/">Recolectar Agua</a>
-        <a href="/encuestas/familias-practicas/">Conservación Suelo y Agua</a>
-        <a href="/encuestas/acceso-tierra/">Acceso a Tierra</a>
-        <a href="/encuestas/acceso-agua/">Tipo de riego</a>
-        <a href="{% url hombre_responsable %}">hombres hacen tareas domésticas</a><br>
+        <div class="clean"></div>
+        
+    <div class="indicadorcategoria">PROCESAMIENTO Y MERCADOS</div>
+        <div class="clean"></div>
+        
+    <div class="indicadorcategoria">PRODUCCIÓN SOSTENIBLE</div>
+        <a href="/encuestas/familias-practicas/">Conservación de suelo y agua</a>
+        <div class="clean"></div>
+        
+    <div class="indicadorcategoria">ACCESO A TIERRA Y AGUA</div>
+        <a href="/encuestas/agua-clorada/">Agua segura</a>
+        <a href="/encuestas/gastan-horas/">Tiempo de recolección de agua</a>
+        <a href="/encuestas/acceso-agua/">Acceso a riego</a>
+        <a href="/encuestas/acceso-tierra/">Acceso a tierra</a>
+        <div class="clean"></div>
+        
+    <div class="indicadorcategoria">PRODUCCIÓN SOSTENIBLE</div>
+    
+    <div class="indicadorcategoria">GENERO Y PARTICIPACIÓN</div>
+        <a href="/encuestas/participacion/">Participación Ciudadana</a>
+        <a href="{% url hombre_responsable %}">hombres hacen tareas domésticas</a>
         <a href="{% url mujeres_decisiones %}">Mujeres toman decisiones</a><br>
         <div class="clean"></div>
+    
 </div>
 {% endif %}
 <div class="clean"></div>
