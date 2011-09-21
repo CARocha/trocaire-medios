@@ -504,13 +504,14 @@ label #id_year{
 }
 
 .indicadorcategoria{
-    text-align:center;
-    font-size:18px;
+    text-align:left;
+    font-size:16px;
     font-weight:bold;
     color:#1e6d9a;
     border-bottom:#f6a217 1px solid;
     margin-bottom:5px;
     margin-top:10px;
+    padding-left:10px;
 }
 
 #bloqueindicadores a{
@@ -522,7 +523,7 @@ label #id_year{
     padding:4px 8px;
     margin:5px 5px;
     text-decoration:none;
-    font-size:14px;
+    font-size:12px;
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;

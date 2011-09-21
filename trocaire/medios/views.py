@@ -850,7 +850,7 @@ def diversidad_alimentaria(request):
               5: 'Al menos 5', 6: 'Al menos 6',
               7: 'Al menos 7', 8: 'Al menos 8',
               9: u'Más de 8'}
-        
+    dondetoy = "diversidad_ali"
     return render_to_response('encuestas/diversidad_alimentaria.html', RequestContext(request, locals()))
 
 def get_diversidad_dicc(query):
@@ -879,7 +879,7 @@ def venta_organizada(request):
     dicc = {1: venta[0], 2: venta[1]}
     dicc_hombre = {1: venta_hombre[0], 2: venta_hombre[1]}
     dicc_mujer = {1: venta_mujer[0], 2: venta_mujer[1]}  
-    
+    dondetoy = "venta_org"
     return render_to_response('encuestas/venta_organizada.html', RequestContext(request, locals()))
 
 def get_vende_num(query):
@@ -908,7 +908,7 @@ def procesando_productos(request):
     dicc = {1: venta[0], 2: venta[1]}
     dicc_hombre = {1: venta_hombre[0], 2: venta_hombre[1]}
     dicc_mujer = {1: venta_mujer[0], 2: venta_mujer[1]}  
-    
+    dondetoy = "procesando_prod"
     return render_to_response('encuestas/procesando_productos.html', RequestContext(request, locals()))
 
 def get_proces_num(query):
@@ -937,7 +937,7 @@ def tecnologia_agricola(request):
     dicc = {1: venta[0]}
     dicc_hombre = {1: venta_hombre[0]}
     dicc_mujer = {1: venta_mujer[0]}
-        
+    dondetoy = "tecnologia"
     return render_to_response('encuestas/tecnologia_agricola.html', RequestContext(request, locals()))
 
 def get_fam_organica(query):
