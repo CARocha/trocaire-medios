@@ -106,11 +106,11 @@
 <!--	</tbody>-->
 <!--	</table>-->
 <!--	<div id="container" class="grafo"></div>-->
-	{% with tabla=carlos titulo='' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando el hombre es jefe' percent=1 %}
+	{% with tabla=carlos titulo='Varon jefe' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando el hombre es jefe' percent=1 %}
     {% include "encuestas/tabla_generica.html" %}
     {% endwith %}
     <br></br>
-    {% with tabla=rocha titulo='' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando la mujer es jefa' percent=1 %}
+    {% with tabla=rocha titulo='Mujer jefa' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando la mujer es jefa' percent=1 %}
     {% include "encuestas/tabla_generica.html" %}
     {% endwith %}
 </div>
