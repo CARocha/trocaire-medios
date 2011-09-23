@@ -396,72 +396,10 @@ def acceso_tierra(request):
         dicc1_h_m[a[1]] = _hombre_mujer_dicc(total.values_list('encuesta__id', flat=True))
     tabla_dicc1 = _order_dicc(copy.deepcopy(dicc1))
     
-#    tierra_h = rango_mz(request,1)
-#    tierra_m = rango_mz(request,2)
-##mujer rango cero
-#    m_rango1 = 0
-#    #mujer rango 0.1 - 1
-#    m_rango2 = 0
-#    #mujer rango 1.1 - 5
-#    m_rango3 = 0
-#    #mujer rango 5.1 - 10
-#    m_rango4 = 0
-#    #mujer rango > 11
-#    m_rango5 = 0
-##hombre rango cero
-#    h_rango1 = 0
-#    #mujer rango 0.1 - 1
-#    h_rango2 = 0
-#    #mujer rango 1.1 - 5
-#    h_rango3 = 0
-#    #mujer rango 5.1 - 10
-#    h_rango4 = 0
-#    #mujer rango > 11
-#    h_rango5 = 0
-#    
-#    for nada in tierra_m:
-#        if nada[1]['ambos'] == 0 and nada[1]['mujer'] == 0 and nada[1]['hombre'] == 0:
-#            m_rango1 += 1
-#        if nada[1]['mujer'] >= 0.1 and nada[1]['mujer'] <= 1:
-#            m_rango2 += 1
-#        if nada[1]['mujer'] >= 1.1 and nada[1]['mujer'] <= 5:
-#            m_rango3 += 1
-#        if nada[1]['mujer'] >= 5.1 and nada[1]['mujer'] <= 10:
-#            m_rango4 += 1
-#        if nada[1]['mujer'] >= 11:
-#            m_rango5 += 1
-#    #----------------------*********************-----------------------------------
-#   
-#    for nada in tierra_h:
-#        if nada[1]['ambos'] == 0 and nada[1]['mujer'] == 0 and nada[1]['hombre'] == 0:
-#            h_rango1 += 1
-#        if nada[1]['hombre'] >= 0.1 and nada[1]['hombre'] <= 1:
-#            h_rango2 += 1
-#        if nada[1]['hombre'] >= 1.1 and nada[1]['hombre'] <= 5:
-#            h_rango3 += 1
-#        if nada[1]['hombre'] >= 5.1 and nada[1]['hombre'] <= 10:
-#            h_rango4 += 1
-#        if nada[1]['hombre'] >= 11:
-#            h_rango5 += 1
-#    #------------------------******************************
-#
-#    #totales por rangos
-#    t_rango1 = h_rango1 + m_rango1
-#    t_rango2 = h_rango2 + m_rango2
-#    t_rango3 = h_rango3 + m_rango3
-#    t_rango4 = h_rango4 + m_rango4
-#    t_rango5 = h_rango5 + m_rango5
-#    
-#    hombres_rangos = h_rango2 + h_rango3 + h_rango4 + h_rango5
-#    mujer_rangos = m_rango2 + m_rango3 + m_rango4 + m_rango5
-#    hombre_no_tiene = hombre_jefes - hombres_rangos
-#    mujer_no_tiene = mujer_jefes - mujer_rangos
-#    total_rango_cero = hombre_no_tiene + mujer_no_tiene
-    
     #-------------- start clean code XD ---------------------
     '''rangos: 1 => 0, 2 => 0.1 a 1 mz, 3 => 1.1 a 5 mz, 4 => 5.1 a 10 mz, 5 => mas de 10 mz'''
      
-    labels = {1: '0 mz', 2: '0.1 - 1 mz', 3: '1.1 - 5 mz', 4: '5.1 - 10 mz', 5: 'más de 10 mz'}
+    labels = {1: '0 mz', 2: '0.1 - 0.3 mz', 3: '0.31 - 1 mz', 4: '1.1 - 5 mz', 5: '5.1 - 10 mz', 6: 'más de 10 mz'}
     query = Tierra.objects.filter(encuesta__in=encuestas, area=1)
     total_all = query.count()
     total_hombre = query.filter(encuesta__sexo_jefe=1).count()
@@ -478,10 +416,11 @@ def acceso_tierra(request):
 
 def area_total_rangos(query):
     return {1: query.filter(area_total=0.0).count(),
-            2: query.filter(area_total__range=(0.1, 1.0)).count(),
-            3: query.filter(area_total__range=(1.1, 5.0)).count(),
-            4: query.filter(area_total__range=(5.1, 10.0)).count(),
-            5: query.filter(area_total__gt=10.0).count()}
+            2: query.filter(area_total__range=(0.1, 0.3)).count(),
+            3: query.filter(area_total__range=(0.31, 1.0)).count(),
+            4: query.filter(area_total__range=(1.1, 5.0)).count(),
+            5: query.filter(area_total__range=(5.1, 10.0)).count(),
+            6: query.filter(area_total__gt=10.0).count()}
 
 def riego(request,sexo,tipo):
     encuestas = _query_set_filtrado(request)
@@ -853,30 +792,43 @@ def diversidad_alimentaria(request):
     
     labels = {1: 'Uno', 2: 'Al menos 2',
               3: 'Al menos 3', 4: 'Al menos 4',
-              5: 'Al menos 5', 6: 'Al menos 6',
-              7: 'Al menos 7', 8: 'Al menos 8',
-              9: u'Más de 8'}
+              5: 'Cinco', 6: 'Seis',
+              7: 'Siete'}
     dondetoy = "diversidad_ali"
     return render_to_response('encuestas/diversidad_alimentaria.html', RequestContext(request, locals()))
 
 def get_diversidad_dicc(query):
-    dicc = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}
+    dicc = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0}
+    
+    #grupos de alimentos
+    granos = [1, 2, 3, 4, 5] #maiz, frijol, sorgo y arroz
+    feculas = [6, 7, 8, 9] #papas, camote, yuca, malanga
+    frutas_verduras = [10, 11, 12, 13] #verduras, hostalizas, frutas 
+    lacteos = [14, 15] #lacteo y huevos
+    carne = [16] #carne
+    grasas = [17] #grasas y aceite
+    otros = [18, 19, 20]
+    
     for obj in query:
-        n = obj.diversidad_set.filter(respuesta=1).count()
-        if not n > 8 and not n == 0:
-            dicc[n] += 1
-        elif n > 8 and not n == 0:
-            dicc[9] += 1
-            
+        grupo = 0
+        for group in granos, feculas, frutas_verduras, lacteos, carne, grasas, otros:
+            if obj.diversidad_set.filter(alimento__id__in=group, respuesta=1).count() != 0:
+                grupo += 1
+        
+        if grupo != 0:
+            dicc[grupo] += 1
+                    
     return dicc
 
 def venta_organizada(request):
     encuestas = _query_set_filtrado(request)
     labels = {1: '% de familias que venden', 2: '% de familias que no venden'}
+    titulo = u'Acceso de las familias para vender sus productos de forma organizada'
     
-    venta = get_vende_num(encuestas)
-    venta_hombre = get_vende_num(encuestas.filter(sexo_jefe=1))
-    venta_mujer = get_vende_num(encuestas.filter(sexo_jefe=2))
+    filtro = [2, 3, 4]
+    venta = get_vende_num(encuestas, filtro)
+    venta_hombre = get_vende_num(encuestas.filter(sexo_jefe=1), filtro)
+    venta_mujer = get_vende_num(encuestas.filter(sexo_jefe=2), filtro)
     
     total = sum(venta)
     total_hombre = sum(venta_hombre)
@@ -888,10 +840,30 @@ def venta_organizada(request):
     dondetoy = "venta_org"
     return render_to_response('encuestas/venta_organizada.html', RequestContext(request, locals()))
 
-def get_vende_num(query):
+def familias_venden(request):
+    encuestas = _query_set_filtrado(request)    
+    labels = {1: '% de familias que venden', 2: '% de familias que no venden'}
+    titulo = 'Familias que venden sus productos'
+    
+    filtro = [1, 2, 3, 4]
+    venta = get_vende_num(encuestas, filtro)
+    venta_hombre = get_vende_num(encuestas.filter(sexo_jefe=1), filtro)
+    venta_mujer = get_vende_num(encuestas.filter(sexo_jefe=2), filtro)
+    
+    total = sum(venta)
+    total_hombre = sum(venta_hombre)
+    total_mujer = sum(venta_mujer)
+            
+    dicc = {1: venta[0], 2: venta[1]}
+    dicc_hombre = {1: venta_hombre[0], 2: venta_hombre[1]}
+    dicc_mujer = {1: venta_mujer[0], 2: venta_mujer[1]}  
+    dondetoy = "familias_venden"
+    return render_to_response('encuestas/venta_organizada.html', RequestContext(request, locals()))
+
+def get_vende_num(query, filtro):
     venden = novenden = 0    
     for obj in query:
-        n = obj.vendeproducto_set.all().exclude(forma=5).count()
+        n = obj.vendeproducto_set.filter(forma__in=filtro).count()
         if n != 0:
             venden += 1
         n1 = obj.vendeproducto_set.filter(forma=5).count()
@@ -920,12 +892,10 @@ def procesando_productos(request):
 def get_proces_num(query):
     procesan = noprocesan = 0    
     for obj in query:
-        n = obj.principalforma_set.all().exclude(principal=5).count()
+        n = obj.productosprocesado_set.all().count()
         if n != 0:
             procesan += 1
-        n1 = obj.principalforma_set.filter(principal=5).count()
-        if n1 != 0:
-            noprocesan += 1
+    noprocesan = query.count() - procesan        
     return procesan, noprocesan
 
 def tecnologia_agricola(request):
@@ -950,14 +920,19 @@ def get_fam_organica(query):
     counter = falso = 0
     for obj in query:
         subquery = obj.usotecnologia_set.all()
-        n = subquery.filter(Q(granos=1) | Q(anuales=1) | Q(permanentes=1) | Q(pastos=1), tecnologia=1).count()
-        n1 = subquery.filter(Q(granos=1) | Q(anuales=1) | Q(permanentes=1) | Q(pastos=1), tecnologia=2).count()
+        n = subquery.filter(Q(granos=1) | Q(anuales=1) | Q(permanentes=1) | Q(pastos=1), tecnologia=3).count()
+        n1 = subquery.filter(Q(granos=1) | Q(anuales=1) | Q(permanentes=1) | Q(pastos=1), tecnologia=4).count()
         if (n != 0 and n1 != 0) or n != 0 or n1 != 0:
             counter += 1
         else:
             falso += 1
             
     return counter, falso
+
+def diversificacion_productiva(request):
+    import inspect
+    print "My name is: %s" % inspect.stack()[0][3]
+    return render_to_response('encuestas/diversificacion_productiva.html', RequestContext(request, locals()))
 
 def _hombre_mujer_dicc(ids, jefe=False):
     '''Funcion que por defecto retorna la cantidad de beneficiarios

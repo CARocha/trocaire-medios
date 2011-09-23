@@ -23,13 +23,13 @@
     <li rel="seguridad"><a href="#">SEGURIDAD ALIMENTARIA &#9660;</a></li>
     {%endif%}
 
-    {%if  dondetoy = 'venta_org' or dondetoy = 'procesando_prod'%}
+    {%if  dondetoy = 'venta_org' or dondetoy = 'procesando_prod' or dondetoy = 'familias_venden'%}
     <li class="selected" rel="procesamiento"><a href="#">PROCESAMIENTO Y MERCADOS &#9660;</a></li>
     {%else%}
     <li rel="procesamiento"><a href="#">PROCESAMIENTO Y MERCADOS &#9660;</a></li>
     {%endif%}
 
-    {%if  dondetoy = 'conservacion' or dondetoy = 'tecnologia'%}
+    {%if  dondetoy = 'conservacion' or dondetoy = 'tecnologia' or dondetoy = 'div_produc'%}
     <li class="selected" rel="produccion"><a href="#">PRODUCCIÓN SOSTENIBLE &#9660;</a></li>
     {%else%}
     <li rel="produccion"><a href="#">PRODUCCIÓN SOSTENIBLE &#9660;</a></li>
@@ -68,11 +68,13 @@
 
 <div id="procesamiento" class="submenustyle">
     <a {%ifequal dondetoy 'venta_org'%}class="activa"{%endifequal%} href="/encuestas/venta-organizada/">Venta organizada</a>
+    <a {%ifequal dondetoy 'familias_venden'%}class="activa"{%endifequal%} href="/encuestas/familias-venden/">Familias que venden</a>
     <a {%ifequal dondetoy 'procesando_prod'%}class="activa"{%endifequal%} href="/encuestas/procesando-productos/">Familias que venden procesados</a>
 </div>
 
 <div id="produccion" class="submenustyle">
     <a {%ifequal dondetoy 'conservacion'%}class="activa"{%endifequal%} href="/encuestas/familias-practicas/">Conservación de suelo y agua</a>
+    <a {%ifequal dondetoy 'div_produc'%}class="activa"{%endifequal%} href="/encuestas/diversificacion-productiva/">Diversificación productiva</a>    
     <a {%ifequal dondetoy 'tecnologia'%}class="activa"{%endifequal%} href="/encuestas/tecnologia-agricola/">Uso de tecnología orgánica</a>
 </div>
 

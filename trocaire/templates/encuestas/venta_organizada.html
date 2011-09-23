@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Acceso de las familias para vender sus productos{% endblock %}
+{% block extratitle %}{{titulo}}{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -47,7 +47,7 @@
                     width: 960
                 },
                 title: {
-                    text: 'Acceso de las familias para vender sus productos',                    
+                    text: '{{titulo}}',                    
                 },
                 subtitle: {
                     text: ''
@@ -78,7 +78,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Acceso de las familias para vender sus productos</div>
+    <div class="titulo">{{titulo}}</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 <div class="contraparts">
@@ -86,7 +86,7 @@
 </div>
 <div>
 	<table class="tabla-resultados">
-	<caption>Acceso de las familias para vender sus productos</caption>
+	<caption>{{titulo}}</caption>
 	<thead>
 		<tr>
 			<th>&nbsp;</th>
