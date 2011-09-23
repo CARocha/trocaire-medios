@@ -46,7 +46,7 @@
                     width: 960
                 },
                 title: {
-                    text: 'Aumentados los ingresos familiares'
+                    text: 'Ingresos familiares anuales totales'
                 },
                 subtitle: {
                     text: 'Cantidades en Córdobas Nicaragüenses'
@@ -59,7 +59,7 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Miles'
+                        text: 'Miles de Córdobas (o US Dólares)'
                     }
                 },
                 legend: leyenda,
@@ -76,7 +76,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Datos de ingresos de la familia</div>
+    <div class="titulo">% de familias con ingresos agropecuarios según sexo del jefe de familia</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}

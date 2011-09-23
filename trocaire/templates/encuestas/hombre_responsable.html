@@ -37,52 +37,40 @@ $(document).ready(function() {
                   return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
                }
             },
-            showInLegend: true
-         }
-      },
-       series: [{
-         data: [
-            ['Lava y plancha',  {{carlos.152_lava_y_plancha.lo_hace_con_frecuencia|calcular_frecuencia:lava}}],
-            ['Cocina',   {{carlos.151_cocina.lo_hace_con_frecuencia|calcular_frecuencia:cocina}}],
-            ['Lleva a sus hijos al centro de salud',   {{carlos.150_lleva_sus_hijos_e_hijas_al_centro_de_salud.lo_hace_con_frecuencia|calcular_frecuencia:lleva}}],
-            ['Asiste a las reuniones de la escuela',   {{carlos.149_asiste_a_las_reuniones_de_la_escuela.lo_hace_con_frecuencia|calcular_frecuencia:asiste}}],
-            ['Atiende a sus hijas e hijos',   {{carlos.154_atiende_a_sus_hijas_e_hijos.lo_hace_con_frecuencia|calcular_frecuencia:atiende}}],
-            ['Barre limpia la casa',   {{carlos.153_barre_limpia_la_casa.lo_hace_con_frecuencia|calcular_frecuencia:barre}}],
-         ]
-      }]
-   });
-});
-
-var chart;
-$(document).ready(function() {
-   chart = new Highcharts.Chart({
-      chart: {
-         renderTo: 'container1',
-         defaultSeriesType: 'pie',
-         plotBackgroundColor: null,
-         plotBorderWidth: null,
-         plotShadow: false
-      },
-      title: {
-         text: 'Hombres que hacen tareas domestica cuando la mujer es jefa'
-      },
-      subtitle: {
-         text: 'Lo hace con frecuencia'
-      },
-      tooltip: {
-         formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
-         }
-      },
-      plotOptions: {
-         pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-               enabled: true,
-               formatter: function() {
-                  return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
-               }
+            title: {
+                text: 'Hombres realizan tareas domésticas y cuidado de sus hijos/as'
+            },
+            subtitle: {
+                text: '% de familias con hombres realizando estas tareas con frecuencia'
+            },
+            xAxis: {
+                categories: [
+                    'Opciones'
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'porcentajes'
+                }
+            },
+            
+            tooltip: {
+                formatter: function() {
+                    return ''+
+                        this.series.name +': '+ this.y +'';
+                }
+            },
+            plotOptions: {
+                column: {
+                    groupPadding: 0,
+                    pointPadding: 0.9,
+                    borderWidth: 0
+                },
+                series: {
+                    pointWidth: 35,
+                    minPointLength : 1
+                }
             },
             showInLegend: true
          }
@@ -105,12 +93,38 @@ $(document).ready(function() {
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Familias donde los hombre realizan tareas domésticas</div>
+    <div class="titulo">Hombres realizando tareas domésticas</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>
 	{% with tabla=carlos titulo='Varon jefe' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando el hombre es jefe' percent=1 %}
+<!--	<table class="tabla-resultados">-->
+<!--	<caption>Porcentaje % de familias donde los hombre realizan tareas domésticas</caption>-->
+<!--	<thead>-->
+<!--		<tr>		-->
+<!--			<th>Tareas</th>-->
+<!--			<th>Total ({{numero}})</th>-->
+<!--			<th>%</th>-->
+<!--			<th>Varón jefe ({{hombre_jefes}})</th>-->
+<!--			<th>%</th>-->
+<!--			<th>Mujer jefa ({{mujer_jefes}})</th>-->
+<!--			<th>%</th>-->
+<!--			-->
+<!--		</tr>-->
+<!--	</thead>-->
+<!--	<tbody>-->
+<!--    	{%for value in tabla_resp %}-->
+<!--    	<tr>-->
+<!--                <td>{{value.0}}</td>-->
+<!--                {%for x in value.1%}-->
+<!--                    <td>{{x}}</td>-->
+<!--                {%endfor%}-->
+<!--        {%endfor%}-->
+<!--	</tbody>-->
+<!--	</table>-->
+<!--	<div id="container" class="grafo"></div>-->
+	{% with tabla=carlos titulo='Varon jefe' primer_td='Tareas' colspan=4 titulo_combinado='Hombres realizan tareas domésticas y cuidado de sus hijos/as' percent=1 %}
     {% include "encuestas/tabla_generica.html" %}
     {% endwith %}
     <div id="container"></div>

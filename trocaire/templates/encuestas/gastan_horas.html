@@ -18,7 +18,8 @@ $(document).ready(function() {
          text: '% familas que gastan más de una hora para recolectar agua',
       },
       subtitle: {
-         text: '',
+         text: '% de familias según sexo del jefe de familia',
+         x: -20
       },
       xAxis: {
          categories: ['Total', 'Mujer', 'Varón']
@@ -46,6 +47,14 @@ $(document).ready(function() {
                     minPointLength : 1
                 }
             },
+      legend: {
+         layout: 'vertical',
+         align: 'right',
+         verticalAlign: 'top',
+         x: 0,
+         y: 30,
+         borderWidth: 0
+      },
       series: [{
          name: '% de familas que gastan más de una hora para recolectar agua',
          data: [{{tablas_gastan.porcentaje_total}}, {{tablas_gastan.porcentaje_femenino}}, {{tablas_gastan.porcentaje_masculino}}],
@@ -74,7 +83,7 @@ $(document).ready(function() {
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Familas que gastan más de una hora para recolectar agua</div>
+    <div class="titulo">Tiempo para recolección de agua</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}

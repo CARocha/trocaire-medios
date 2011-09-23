@@ -47,10 +47,10 @@
                 width: 960
             },
             title: {
-                text: 'Acceso a tierra'
+                text: 'Seguridad legal de la tenencia de la tierra'
             },
             subtitle: {
-                text: ''
+                text: '% de total de familias'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
@@ -65,10 +65,10 @@
                 width: 960
             },
             title: {
-                text: 'Hombre jefe'
+                text: 'Seguridad legal de la tenencia'
             },
             subtitle: {
-                text: ''
+                text: '% de familias con hombres jefe'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
@@ -83,10 +83,10 @@
                 width: 960
             },
             title: {
-                text: 'Mujer jefe'
+                text: 'Seguridad legal de la tenencia'
             },
             subtitle: {
-                text: ''
+                text: '% de familias con mujeres jefe'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
@@ -100,14 +100,14 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Acceso Tierra</div>
+    <div class="titulo">Acceso a tierra</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 
 <div>
 	<table class="tabla-resultados">
-		<caption>Acceso a tierra por rangos de manzanas</caption>
+		<caption>Acceso a tierra por rangos de área en manzanas (1mz = 0.70 ha)</caption>
 		<thead>
 			<tr>
 				<th>Rangos</th>
@@ -137,7 +137,7 @@
 </div>
 <br></br>
 	<table class="tabla-resultados">
-		<caption>Promedio de Manzanas</caption>
+		<caption>Promedio de área en manzanas</caption>
 		<thead>
 			<tr>
 				<th>Promedio</th>
@@ -153,7 +153,7 @@
 <br></br>
 <div>
 	<table class="tabla-resultados">
-		<caption>Totales</caption>
+		<caption>Seguridad legal de la tenencia de la tierra – totales</caption>
 		<thead>
 			<tr>
 				<th>Tipo</th>

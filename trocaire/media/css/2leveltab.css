@@ -17,7 +17,7 @@ font-family: "Arial", sans-serif;
 .basictab li a{
 font-family: "Arial", sans-serif;
 text-decoration: none;
-padding: 8px 7px 3px 10px;
+padding: 8px 5px 3px 10px;
 margin-right: 2px;
 border-bottom: none;
 font-weight:normal;
@@ -82,7 +82,7 @@ border-right: 1px solid #e5ca84;
 padding: 10px 7px;
 text-decoration: none;
 display:block;
-font-size:12px;
+font-size:14px;
 float:left;
 color:#535353;
 }

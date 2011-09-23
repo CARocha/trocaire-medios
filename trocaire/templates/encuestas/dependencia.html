@@ -43,10 +43,10 @@
                 width: 960
             },
             title: {
-                text: '% de Familias por indice de dependencia'
+                text: 'Índice de dependencia familiar'
             },
             subtitle: {
-                text: 'Total encuestas'
+                text: '% de familias según índice de dependencia'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
@@ -59,7 +59,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Crédito en la Familia</div>
+    <div class="titulo">Índice de dependencia familiar</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
@@ -68,7 +68,7 @@
 	<caption>Cantidad de familias según índice de dependencia familiar</caption>
 		<thead>
 			<tr>
-				<th>Familias según índice de dependecia familiar</th>
+				<th>Indices de dependencia familiar</th>
 				<th>Todos: {{query.count}}</th>
 				<th>%</th>
 				<th>Hombre Jefe: {{query_hombre_jefe.count}}</th>

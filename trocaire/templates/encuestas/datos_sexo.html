@@ -46,7 +46,7 @@
                 text: 'Sexo del jefe de familia'
             },
             subtitle: {
-                text: 'Hombre - Mujer'
+                text: '% de familias con hombres y mujeres jefe/a'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
@@ -60,10 +60,10 @@
                 width: 960
             },
             title: {
-                text: 'Sexo del beneficiario'
+                text: 'Sexo del beneficiario/a'
             },
             subtitle: {
-                text: 'Varón - Mujer'
+                text: '% de familias con hombres y mujeres beneficiarios/as'
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
@@ -76,7 +76,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Jefe de familia</div>
+    <div class="titulo">Sexo de jefe de familia y beneficiario/a</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
