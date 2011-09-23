@@ -778,6 +778,7 @@ def abastecimiento(request):
     return render_to_response('encuestas/abastecimiento.html', RequestContext(request, locals()))
 
 def diversidad_alimentaria(request):
+    titulo = u'Diversidad de la dieta familiar'
     encuestas = _query_set_filtrado(request)
     query_hombre = encuestas.filter(sexo_jefe=1)
     query_mujer = encuestas.filter(sexo_jefe=2)
@@ -818,6 +819,49 @@ def get_diversidad_dicc(query):
         if grupo != 0:
             dicc[grupo] += 1
                     
+    return dicc
+
+def diversificacion_productiva(request):
+#    import inspect
+#    print "My name is: %s" % inspect.stack()[0][3]
+    titulo = u'Diversificación productiva'
+    encuestas = _query_set_filtrado(request)
+    query_hombre = encuestas.filter(sexo_jefe=1)
+    query_mujer = encuestas.filter(sexo_jefe=2)
+    
+    dicc = get_div_produc(encuestas)
+    dicc_hombre = get_div_produc(query_hombre)
+    dicc_mujer = get_div_produc(query_mujer)    
+    
+    total = total_dict(dicc)
+    total_hombre = total_dict(dicc_hombre)
+    total_mujer = total_dict(dicc_mujer)
+    
+    labels = {0: 'Ninguno', 1: 'Al menos 1', 2: 'Al menos 2',
+              3: 'Al menos 3', 4: 'Al menos 4',
+              5: 'Al menos 5', 6: 'Al menos 6',
+              7: 'Al menos 7', 8: '8 o más'}
+    dondetoy = "div_produc"
+    
+    return render_to_response('encuestas/diversidad_alimentaria.html', RequestContext(request, locals()))
+
+def get_div_produc(query):
+    dicc = {0: 0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
+    for obj in query:
+        c_periodos = obj.cultivosperiodos_set.filter(p_primera__gt=0.0, 
+                                                     p_postrera__gt=0.0, 
+                                                     p_apante__gt=0.0).count()
+        c_permanentes = obj.cultivospermanentes_set.filter(produccion__gt=0.0).count()
+        c_anuales = obj.cultivosanuales_set.filter(produccion__gt=0.0).count()
+        c_hortalizas = obj.hortalizas_set.filter(produccion__gt=0.0).count()
+        cultivos = c_periodos + c_permanentes + c_anuales + c_hortalizas
+        if cultivos > 0 and cultivos < 8:
+            dicc[cultivos] += 1
+        elif cultivos >= 8:
+            dicc[8] += 1
+        else:
+            dicc[cultivos] += 1
+    
     return dicc
 
 def venta_organizada(request):
@@ -928,11 +972,6 @@ def get_fam_organica(query):
             falso += 1
             
     return counter, falso
-
-def diversificacion_productiva(request):
-    import inspect
-    print "My name is: %s" % inspect.stack()[0][3]
-    return render_to_response('encuestas/diversificacion_productiva.html', RequestContext(request, locals()))
 
 def _hombre_mujer_dicc(ids, jefe=False):
     '''Funcion que por defecto retorna la cantidad de beneficiarios

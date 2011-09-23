@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load tools %}
-{% block extratitle %}Diversidad alimentaria{% endblock %}
+{% block extratitle %}{{titulo}}{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
@@ -17,7 +17,7 @@
                 enabled: true,
                 align: "center",
                 formatter: function() {
-                    return ''+ this.y +' %';
+                    return ''+ this.y.toFixed(0) +' %';
                 },
                 color: '#000',
                 style: {
@@ -47,7 +47,7 @@
                     width: 960
                 },
                 title: {
-                    text: 'Diversificación de la dieta familiar'
+                    text: '{{titulo}}'
                 },
                 subtitle: {
                     text: ''
@@ -78,7 +78,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Diversidad Alimentaria</div>
+    <div class="titulo">{{titulo}}</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 <div class="contraparts">
@@ -86,7 +86,7 @@
 </div>
 <div>
 	<table class="tabla-resultados">
-	<caption>Diversidad Alimentaria</caption>
+	<caption>{{titulo}}</caption>
 	<thead>
 		<tr>
 			<th>Grupos</th>
