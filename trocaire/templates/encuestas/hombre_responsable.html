@@ -6,70 +6,99 @@
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
 <script type="text/javascript">
-  var chart;
-    $(document).ready(function() {
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container',
-                defaultSeriesType: 'column'
+var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container',
+         defaultSeriesType: 'pie',
+         plotBackgroundColor: null,
+         plotBorderWidth: null,
+         plotShadow: false
+      },
+      title: {
+         text: 'Hombres que hacen tareas domestica cuando el hombre es jefe'
+      },
+      subtitle: {
+         text: 'Lo hace con frecuencia'
+      },
+      tooltip: {
+         formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
+         }
+      },
+      plotOptions: {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: true,
+               formatter: function() {
+                  return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
+               }
             },
-            title: {
-                text: '% de familias donde los hombre realizan tareas domésticas'
+            showInLegend: true
+         }
+      },
+       series: [{
+         data: [
+            ['Lava y plancha',  {{carlos.152_lava_y_plancha.lo_hace_con_frecuencia|calcular_frecuencia:lava}}],
+            ['Cocina',   {{carlos.151_cocina.lo_hace_con_frecuencia|calcular_frecuencia:cocina}}],
+            ['Lleva a sus hijos al centro de salud',   {{carlos.150_lleva_sus_hijos_e_hijas_al_centro_de_salud.lo_hace_con_frecuencia|calcular_frecuencia:lleva}}],
+            ['Asiste a las reuniones de la escuela',   {{carlos.149_asiste_a_las_reuniones_de_la_escuela.lo_hace_con_frecuencia|calcular_frecuencia:asiste}}],
+            ['Atiende a sus hijas e hijos',   {{carlos.154_atiende_a_sus_hijas_e_hijos.lo_hace_con_frecuencia|calcular_frecuencia:atiende}}],
+            ['Barre limpia la casa',   {{carlos.153_barre_limpia_la_casa.lo_hace_con_frecuencia|calcular_frecuencia:barre}}],
+         ]
+      }]
+   });
+});
+
+var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container1',
+         defaultSeriesType: 'pie',
+         plotBackgroundColor: null,
+         plotBorderWidth: null,
+         plotShadow: false
+      },
+      title: {
+         text: 'Hombres que hacen tareas domestica cuando la mujer es jefa'
+      },
+      subtitle: {
+         text: 'Lo hace con frecuencia'
+      },
+      tooltip: {
+         formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
+         }
+      },
+      plotOptions: {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: true,
+               formatter: function() {
+                  return '<b>'+ this.point.name +'</b>: '+ this.y +'%';
+               }
             },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                categories: [
-                    'Opciones'
-                ]
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Frecuencia'
-                }
-            },
-            
-            tooltip: {
-                formatter: function() {
-                    return ''+
-                        this.series.name +': '+ this.y +'';
-                }
-            },
-            plotOptions: {
-                column: {
-                    groupPadding: 0,
-                    pointPadding: 0.9,
-                    borderWidth: 0
-                },
-                series: {
-                    pointWidth: 35,
-                    minPointLength : 1
-                }
-            },
-            series: [{% for value in tabla2 %}
-                {
-                    name: '{{value.0}}',
-                    data: [{{value.1}}],
-                    dataLabels: {
-                        enabled: true,
-                        rotation: 0,
-                        color: '#632D00',
-                        align: 'center',
-                        x: -3,
-                        y: 0,
-                            formatter: function() {
-                                return this.y+'%';
-                                                  },
-                        style: {
-                            font: 'normal 13px Verdana, sans-serif'
-                                }
-                                }
-                },
-                {% endfor %}]
-        });
-    });
+            showInLegend: true
+         }
+      },
+       series: [{
+         data: [
+            ['Lava y plancha',  {{rocha.152_lava_y_plancha.lo_hace_con_frecuencia|calcular_frecuencia:lava1}}],
+            ['Cocina',   {{rocha.151_cocina.lo_hace_con_frecuencia|calcular_frecuencia:cocina1}}],
+            ['Lleva a sus hijos al centro de salud',   {{rocha.150_lleva_sus_hijos_e_hijas_al_centro_de_salud.lo_hace_con_frecuencia|calcular_frecuencia:lleva1}}],
+            ['Asiste a las reuniones de la escuela',   {{rocha.149_asiste_a_las_reuniones_de_la_escuela.lo_hace_con_frecuencia|calcular_frecuencia:asiste1}}],
+            ['Atiende a sus hijas e hijos',   {{rocha.154_atiende_a_sus_hijas_e_hijos.lo_hace_con_frecuencia|calcular_frecuencia:atiende1}}],
+            ['Barre limpia la casa',   {{rocha.153_barre_limpia_la_casa.lo_hace_con_frecuencia|calcular_frecuencia:barre1}}],
+         ]
+      }]
+   });
+});
 </script>
 {% endblock %}
 
@@ -81,38 +110,15 @@
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>
-<!--	<table class="tabla-resultados">-->
-<!--	<caption>Porcentaje % de familias donde los hombre realizan tareas domésticas</caption>-->
-<!--	<thead>-->
-<!--		<tr>		-->
-<!--			<th>Tareas</th>-->
-<!--			<th>Total ({{numero}})</th>-->
-<!--			<th>%</th>-->
-<!--			<th>Varón jefe ({{hombre_jefes}})</th>-->
-<!--			<th>%</th>-->
-<!--			<th>Mujer jefa ({{mujer_jefes}})</th>-->
-<!--			<th>%</th>-->
-<!--			-->
-<!--		</tr>-->
-<!--	</thead>-->
-<!--	<tbody>-->
-<!--    	{%for value in tabla_resp %}-->
-<!--    	<tr>-->
-<!--                <td>{{value.0}}</td>-->
-<!--                {%for x in value.1%}-->
-<!--                    <td>{{x}}</td>-->
-<!--                {%endfor%}-->
-<!--        {%endfor%}-->
-<!--	</tbody>-->
-<!--	</table>-->
-<!--	<div id="container" class="grafo"></div>-->
 	{% with tabla=carlos titulo='Varon jefe' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando el hombre es jefe' percent=1 %}
     {% include "encuestas/tabla_generica.html" %}
     {% endwith %}
+    <div id="container"></div>
     <br></br>
     {% with tabla=rocha titulo='Mujer jefa' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando la mujer es jefa' percent=1 %}
     {% include "encuestas/tabla_generica.html" %}
     {% endwith %}
+    <div id="container1"></div>
 </div>
 <br>
 {% endblock %}
