@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import get_model, Sum, Q, Max, Min, Avg, Count
 from django.utils import simplejson
+from django.template.defaultfilters import slugify
 
 #importaciones de los models
 from forms import ConsultarForm
@@ -615,9 +616,11 @@ def sueno_tengo(request, numero):
     encuestas = _query_set_filtrado(request)
     dicc2 = {}
     for filas in CHOICE_GENERO:
-        dicc2[filas[1]] = {}
+        key = slugify(filas[1]).replace('-', '_')
+        dicc2[key] = {}
         for resp in CHOICE_GENERO_RESPUESTA:
-            dicc2[filas[1]][resp[1]] = conteo = encuestas.filter(sexo_jefe=numero,genero__responsabilidades=filas[0],genero__respuesta=resp[0]).count()
+            key2 = slugify(resp[1]).replace('-', '_')
+            dicc2[key][key2] = conteo = encuestas.filter(sexo_jefe=numero,genero__responsabilidades=filas[0],genero__respuesta=resp[0]).count()
     
     return dicc2
     
@@ -629,33 +632,22 @@ def hombre_responsable(request):
     mujer_jefes = encuestas.filter(sexo_jefe=2).count()
     
     carlos = sueno_tengo(request,1)
-    rocha = sueno_tengo(request,2)
+    lava = total_dict(carlos[u'152_lava_y_plancha'])
+    cocina = total_dict(carlos[u'151_cocina'])
+    lleva  = total_dict(carlos[u'150_lleva_sus_hijos_e_hijas_al_centro_de_salud'])
+    asiste = total_dict(carlos[u'149_asiste_a_las_reuniones_de_la_escuela'])
+    atiende = total_dict(carlos[u'154_atiende_a_sus_hijas_e_hijos'])
+    barre = total_dict(carlos[u'153_barre_limpia_la_casa'])
     
-#    print carlos
-#    
-#    tabla_responsable = {}
-#    for hombre in CHOICE_GENERO:
-#        varon = Genero.objects.filter(encuesta__in=encuestas, encuesta__sexo_jefe=1,
-#                                       responsabilidades=hombre[0]).count()
-#        por_varon = round(saca_porcentajes(varon,hombre_jefes),1)
-#                                       
-#        mujer = Genero.objects.filter(encuesta__in=encuestas, encuesta__sexo_jefe=2,
-#                                      responsabilidades=hombre[0]).count()
-#        por_mujer = round(saca_porcentajes(mujer,mujer_jefes),1)
-#        
-#        total = varon + mujer
-#        por_total = round(saca_porcentajes(total,numero),1)
-#        tabla_responsable[hombre[1]] = (total,por_total,varon,por_varon,mujer,por_mujer)
-
-#    tabla_resp = _order_dicc(copy.deepcopy(tabla_responsable))
-#    #para el grafo
-#    tabla = {}
-#    for hombre in CHOICE_GENERO:
-#        varon = Genero.objects.filter(encuesta__in=encuestas, encuesta__sexo_jefe=1,
-#                                       responsabilidades=hombre[0]).count()
-#        por_varon = round(saca_porcentajes(varon,hombre_jefes),1)
-#        tabla[hombre[1]] = por_varon
-#    tabla2 = _order_dicc(copy.deepcopy(tabla))    
+    rocha = sueno_tengo(request,2)
+    lava1 = total_dict(rocha[u'152_lava_y_plancha'])
+    cocina1 = total_dict(rocha[u'151_cocina'])
+    lleva1  = total_dict(rocha[u'150_lleva_sus_hijos_e_hijas_al_centro_de_salud'])
+    asiste1 = total_dict(rocha[u'149_asiste_a_las_reuniones_de_la_escuela'])
+    atiende1 = total_dict(rocha[u'154_atiende_a_sus_hijas_e_hijos'])
+    barre1 = total_dict(rocha[u'153_barre_limpia_la_casa'])
+    
+  
     dondetoy = "hombreresp"
     return render_to_response('encuestas/hombre_responsable.html', RequestContext(request,locals()))    
 

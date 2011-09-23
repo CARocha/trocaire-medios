@@ -1,4 +1,5 @@
 {% load tools %}
+{%load unslugify %}
 
 <div id="{{titulo|slugify}}">
 	<table class="tabla-resultados" width="100%">
@@ -13,7 +14,7 @@
 			<tr>				
 				{% for key, value in tabla.items|slice:":1" %}
 				{% for k in value.keys %}
-				<th class="centrado">{{k}}</th>
+				<th class="centrado">{{k|unslugify}}</th>
 				{% endfor %}
 				{% endfor %}	
 <!--				{% if percent == 1 %}<th>%</th>{% endif %}-->
@@ -22,7 +23,7 @@
 		<tbody>
 			{% for key, value in tabla.items %}
 			<tr>
-				<td>{{key}}</td>
+				<td>{{key|unslugify}}</td>
 				{% for k, v in value.items %}
 				<td>{{v}}</td>
 				{% endfor %}				

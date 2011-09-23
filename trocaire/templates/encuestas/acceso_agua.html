@@ -29,7 +29,7 @@ $(document).ready(function() {
       yAxis: {
          min: 0,
          title: {
-            text: 'conteo'
+            text: 'Porcentajes (%)'
          }
       },
       legend: {
@@ -45,7 +45,7 @@ $(document).ready(function() {
       tooltip: {
          formatter: function() {
             return ''+
-               this.x +': '+ this.y +'';
+               this.x +': '+ this.y +'%';
          }
       },
       plotOptions: {
@@ -56,15 +56,57 @@ $(document).ready(function() {
       },
            series: [{
          name: 'Aspersión',
-         data: [{{total_aspersion}},{{aspersion_m}},{{aspersion_h}}]
+         data: [{{total_aspersion|calcular_frecuencia:numero}},{{aspersion_m|calcular_frecuencia:numero}},{{aspersion_h|calcular_frecuencia:numero}}],
+         dataLabels: {
+                        enabled: true,
+                        rotation: 0,
+                        color: '#632D00',
+                        align: 'center',
+                        x: -3,
+                        y: 0,
+                            formatter: function() {
+                                return this.y + '%';
+                                                  },
+                        style: {
+                            font: 'normal 14px Verdana, sans-serif'
+                                }
+                                } 
    
       }, {
          name: 'Goteo',
-         data: [{{total_goteo}},{{goteo_m}},{{goteo_h}}]
+         data: [{{total_goteo|calcular_frecuencia:numero}},{{goteo_m|calcular_frecuencia:numero}},{{goteo_h|calcular_frecuencia:numero}}],
+         dataLabels: {
+                        enabled: true,
+                        rotation: 0,
+                        color: '#632D00',
+                        align: 'center',
+                        x: -3,
+                        y: 0,
+                            formatter: function() {
+                                return this.y + '%';
+                                                  },
+                        style: {
+                            font: 'normal 14px Verdana, sans-serif'
+                                }
+                                } 
    
       }, {
          name: 'Gravedad',
-         data: [{{total_gravedad}},{{gravedad_m}},{{gravedad_h}}]
+         data: [{{total_gravedad|calcular_frecuencia:numero}},{{gravedad_m|calcular_frecuencia:numero}},{{gravedad_h|calcular_frecuencia:numero}}],
+         dataLabels: {
+                        enabled: true,
+                        rotation: 0,
+                        color: '#632D00',
+                        align: 'center',
+                        x: -3,
+                        y: 0,
+                            formatter: function() {
+                                return this.y + '%';
+                                                  },
+                        style: {
+                            font: 'normal 14px Verdana, sans-serif'
+                                }
+                                } 
    
       }]
       
@@ -88,35 +130,47 @@ $(document).ready(function() {
 		<tr>		
 			<th>Tipo</th>
 			<th>Total - (&#8721; mz)[{{numero}}]</th>
+			<th>%</th>
 			<th>Mujer jefa ({{mujer_jefes}})</th>
+			<th>%</th>
 			<th>Varón jefe ({{hombre_jefes}})</th>
+			<th>%</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
 		    <td>Aspersión</td>
 			<td>{{total_aspersion}} - ({{total_manzadas_aspersion}})</td>
+			<td>{{total_aspersion|calcular_frecuencia:numero}}</td>
 			<td>{{aspersion_m}}</td>
+			<td>{{aspersion_m|calcular_frecuencia:numero}}</td>
 			<td>{{aspersion_h}}</td>
+			<td>{{aspersion_h|calcular_frecuencia:numero}}
 		</tr>
 		<tr>
 		    <td>Goteo</td>
 			<td>{{total_goteo}} - ({{total_manzadas_goteo}})</td>
+			<td>{{total_goteo|calcular_frecuencia:numero}}</td>
 			<td>{{goteo_m}}</td>
+			<td>{{goteo_m|calcular_frecuencia:numero}}</td>
 			<td>{{goteo_h}}</td>
+			<td>{{goteo_h|calcular_frecuencia:numero}}</td>
 		</tr>
 		<tr>
 		    <td>Gravedad</td>
 			<td>{{total_gravedad}} - ({{total_manzanas_gravedad}})</td>
+			<td>{{total_gravedad|calcular_frecuencia:numero}}</td>
 			<td>{{gravedad_m}}</td>
+			<td>{{gravedad_m|calcular_frecuencia:numero}}
 			<td>{{gravedad_h}}</td>
+			<td>{{gravedad_h|calcular_frecuencia:numero}}</td>
 		</tr>
-		<tr>
-		    <td>Otros</td>
-			<td>{{total_otros}} - ({{total_manzanas_otros}})</td>
-			<td>{{otro_m}}</td>
-			<td>{{otro_h}}</td>
-		</tr>
+<!--		<tr>-->
+<!--		    <td>Otros</td>-->
+<!--			<td>{{total_otros}} - ({{total_manzanas_otros}})</td>-->
+<!--			<td>{{otro_m}}</td>-->
+<!--			<td>{{otro_h}}</td>-->
+<!--		</tr>-->
 		<tr>
 		    <td>No tiene riego</td>
 			<td>{{no_tiene_riego}}</td>
