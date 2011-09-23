@@ -67,7 +67,7 @@ def _query_set_filtrado(request):
     unvalid_keys = []
     for key in params:
         if not params[key]:            
-            print params[key]
+            #print params[key]
             unvalid_keys.append(key)
     
     for key in unvalid_keys:        
@@ -232,7 +232,7 @@ def reset_parameters(request):
     request.session['departamento'] = request.session['municipio'] = request.session['contraparte'] = \
     request.session['comarca'] = request.session['indice_dep'] = request.session['credito_acceso'] = None
     
-    print 'filters cleaned! :D'   
+    #print 'filters cleaned! :D'   
 
 #===============================================================================
 
@@ -311,7 +311,7 @@ def agua_clorada(request):
     
     helmy = comelon(request,2,1)
     giacoman = mano_quebrada(request,2,1)
-    print giacoman
+    #print giacoman
     dondetoy = "cloran"
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
