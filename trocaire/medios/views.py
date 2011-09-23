@@ -267,44 +267,50 @@ def datos_sexo(request):
     tabla_sexo_beneficiario['femenino'] = composicion_familia.filter(sexo=2).count()                
     dondetoy = "sexojefe"
     return render_to_response('encuestas/datos_sexo.html', RequestContext(request, locals()))
-
+    
+def comelon(request,hembra,macho):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True) 
+    hombre_jefes = encuestas.filter(sexo_jefe=1).count()
+    mujer_jefes = encuestas.filter(sexo_jefe=2).count() 
+    
+    clorada = []
+    total = 0
+    for cloro in CHOICE_CALIDAD:
+        count_men = encuestas.filter(sexo_jefe=macho,agua__calidad=cloro[0]).count()
+        per_men = round(saca_porcentajes(count_men,hombre_jefes),0)
+        count_woman = encuestas.filter(sexo_jefe=hembra,agua__calidad=cloro[0]).count()
+        per_woman = round(saca_porcentajes(count_woman,mujer_jefes),0)
+        total = count_men + count_woman
+        clorada.append([cloro[1],count_men,per_men,count_woman,per_woman,total])
+        
+    return clorada
+    
+def mano_quebrada(request,hembra,macho):
+    encuestas = _query_set_filtrado(request).values_list('id', flat=True) 
+    hombre_jefes = encuestas.filter(sexo_jefe=1).count()
+    mujer_jefes = encuestas.filter(sexo_jefe=2).count() 
+    
+    tratamiento = []
+    total1 = 0
+    for trata in CHOICE_CLORADA:
+        count_men = encuestas.filter(sexo_jefe=macho,agua__clorada=trata[0]).count()
+        per_men = round(saca_porcentajes(count_men,hombre_jefes),0)
+        count_woman = encuestas.filter(sexo_jefe=hembra,agua__clorada=trata[0]).count()
+        per_woman = round(saca_porcentajes(count_woman,mujer_jefes),0)
+        total1 = count_men + count_woman
+        tratamiento.append([trata[1],count_men,per_men,count_woman,per_woman,total1])
+        
+    return tratamiento
 def agua_clorada(request):
     encuestas = _query_set_filtrado(request).values_list('id', flat=True) 
     numero = encuestas.count()  
-    tabla_aguas = {}
     
     hombre_jefes = encuestas.filter(sexo_jefe=1).count()
     mujer_jefes = encuestas.filter(sexo_jefe=2).count()
     
-    tabla_aguas['m_clora'] = encuestas.filter(sexo_jefe=1,agua__calidad=1).count()
-    tabla_aguas['m_trata'] = encuestas.filter(sexo_jefe=1,agua__clorada=1).count()
-    tabla_aguas['m_no'] = encuestas.filter(sexo_jefe=1, agua__clorada=2, agua__calidad=2).count()
-    tabla_aguas['m_no_sabe'] = encuestas.filter(sexo_jefe=1,agua__calidad=3).count()
-        
-    tabla_aguas['porcentaje_m_clora'] = round(saca_porcentajes(tabla_aguas['m_clora'],hombre_jefes),1)
-    tabla_aguas['porcentaje_m_trata'] = round(saca_porcentajes(tabla_aguas['m_trata'],hombre_jefes),1)
-    tabla_aguas['porcentaje_m_no'] = round(saca_porcentajes(tabla_aguas['m_no'],hombre_jefes),1)
-    tabla_aguas['porcentaje_m_no_sabe'] = round(saca_porcentajes(tabla_aguas['m_no_sabe'],hombre_jefes),1)
-    
-    tabla_aguas['f_clora'] = encuestas.filter(sexo_jefe=2,agua__calidad=1).count()
-    tabla_aguas['f_trata'] = encuestas.filter(sexo_jefe=2,agua__clorada=1).count()
-    tabla_aguas['f_no'] = encuestas.filter(sexo_jefe=2,agua__clorada=2, agua__calidad=2).count()
-    tabla_aguas['f_no_sabe'] = encuestas.filter(sexo_jefe=2,agua__calidad=3).count()
-    
-    tabla_aguas['porcentaje_f_clora'] = round(saca_porcentajes(tabla_aguas['f_clora'],mujer_jefes),1)
-    tabla_aguas['porcentaje_f_trata'] = round(saca_porcentajes(tabla_aguas['f_trata'],mujer_jefes),1)
-    tabla_aguas['porcentaje_f_no'] = round(saca_porcentajes(tabla_aguas['f_no'],mujer_jefes),1)
-    tabla_aguas['porcentaje_f_no_sabe'] = round(saca_porcentajes(tabla_aguas['f_no_sabe'],mujer_jefes),1)
-    
-    tabla_aguas['combinado_cloran'] = tabla_aguas['m_clora'] + tabla_aguas['f_clora']
-    tabla_aguas['combinado_tratan'] = tabla_aguas['m_trata'] + tabla_aguas['f_trata']
-    tabla_aguas['combinado_no_sabe'] = tabla_aguas['m_no_sabe'] + tabla_aguas['f_no_sabe']
-    tabla_aguas['combinado_no'] = tabla_aguas['m_no'] + tabla_aguas['f_no']
-    
-    tabla_aguas['porcentaje_cloran'] = round(saca_porcentajes(tabla_aguas['combinado_cloran'],numero),1)
-    tabla_aguas['porcentaje_tratan'] = round(saca_porcentajes(tabla_aguas['combinado_tratan'],numero),1)
-    tabla_aguas['porcentaje_no_saben'] = round(saca_porcentajes(tabla_aguas['combinado_no_sabe'],numero),1)
-    tabla_aguas['porcentaje_no'] = round(saca_porcentajes(tabla_aguas['combinado_no'],numero),1)
+    helmy = comelon(request,2,1)
+    giacoman = mano_quebrada(request,2,1)
+    print giacoman
     dondetoy = "cloran"
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
