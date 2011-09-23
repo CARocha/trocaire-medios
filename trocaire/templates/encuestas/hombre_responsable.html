@@ -14,10 +14,10 @@
                 defaultSeriesType: 'column'
             },
             title: {
-                text: '% de familias donde los hombre realizan tareas domésticas'
+                text: 'Hombres realizan tareas domésticas y cuidado de sus hijos/as'
             },
             subtitle: {
-                text: ''
+                text: '% de familias con hombres realizando estas tareas con frecuencia'
             },
             xAxis: {
                 categories: [
@@ -27,7 +27,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Frecuencia'
+                    text: 'porcentajes'
                 }
             },
             
@@ -76,7 +76,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Familias donde los hombre realizan tareas domésticas</div>
+    <div class="titulo">Hombres realizando tareas domésticas</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
@@ -106,7 +106,7 @@
 <!--	</tbody>-->
 <!--	</table>-->
 <!--	<div id="container" class="grafo"></div>-->
-	{% with tabla=carlos titulo='Varon jefe' primer_td='Tareas' colspan=4 titulo_combinado='Hombres que hacen tareas domestica cuando el hombre es jefe' percent=1 %}
+	{% with tabla=carlos titulo='Varon jefe' primer_td='Tareas' colspan=4 titulo_combinado='Hombres realizan tareas domésticas y cuidado de sus hijos/as' percent=1 %}
     {% include "encuestas/tabla_generica.html" %}
     {% endwith %}
     <br></br>

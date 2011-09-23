@@ -16,11 +16,11 @@ $(document).ready(function() {
          marginBottom: 25
       },
       title: {
-         text: '% familas que gastan más de una hora para recolectar agua',
+         text: 'Más de una hora diaria para recolectar agua para consumo',
          x: -20 //center
       },
       subtitle: {
-         text: '',
+         text: '% de familias según sexo del jefe de familia',
          x: -20
       },
       xAxis: {
@@ -58,7 +58,7 @@ $(document).ready(function() {
          align: 'right',
          verticalAlign: 'top',
          x: 0,
-         y: 100,
+         y: 30,
          borderWidth: 0
       },
       series: [{
@@ -75,7 +75,7 @@ $(document).ready(function() {
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">Familas que gastan más de una hora para recolectar agua</div>
+    <div class="titulo">Tiempo para recolección de agua</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}

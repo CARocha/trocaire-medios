@@ -52,7 +52,7 @@
                     text: 'Ingresos familiares por actividades agropecuarias'
                 },
                 subtitle: {
-                    text: 'Total - Hombre Jefe - Mujer Jefa'
+                    text: '% de familias con ingresos agropecuarios según sexo del jefe de familia'
                 },
                 xAxis: {
                     categories: [
@@ -99,7 +99,7 @@
 	</thead>
 		<tbody>			
 			<tr>
-				<td>Porcentaje de familias con ingresos</td>
+				<td>Porcentaje de familias con ingresos agropecuarios</td>
 				<td>{{ingreso_agropecuario.total}}</td>
 				<td>{{ingreso_agropecuario.total|calcular_frecuencia:query.count}}</td>
 				<td>{{ingreso_agropecuario.hombre}}</td>
