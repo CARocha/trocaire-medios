@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('trocaire.ingresos.views',
     #url(r'rangos/$', 'ingreso_por_rango', name="ingreso_por_rango"),
     #url(r'rangos/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'ingreso_por_rango', name="ingreso_por_rango"),
     #url(r'rangos/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'ingreso_por_rango', name="ingreso_por_rango"),
-    url(r'rangos/$', 'generic_range', {'title': 'Ingresos Totales', 'subtitle': 'algo', 'eje': 'Cordoba', 'serie': 'Ingreso','model': 'totalingreso', 'field': 'total','dondetoy2':'totalingreso'}, name="ingresos_generic_range"),
+    url(r'rangos/$', 'generic_range', {'title': 'Ingresos familiares anuales totales', 'subtitle': 'Según rangos en Córdobas (C$) (o US Dólares, según lo que se decida)', 'eje': 'Cordoba', 'serie': 'Ingreso','model': 'totalingreso', 'field': 'total','dondetoy2':'totalingreso'}, name="ingresos_generic_range"),
     url(r'rangos/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', {'title': 'Ingresos Totales', 'subtitle': 'algo', 'eje': 'Cordoba', 'serie': 'Ingreso','model':'totalingreso', 'field': 'total','dondetoy2':'totalingreso'}, name="ingresos_generic_range"),
     #url(r'rangos/(?P<maximo>\d+)/(?P<minimo>\d+)/(?P<separaciones>\d+)/$', 'generic_range', {'title': 'Ingresos Totales', 'subtitle': 'algo', 'eje': 'Cordoba', 'serie': 'Ingreso','model':'totalingreso', 'field': 'total','dondetoy':'totalingreso'}, name="ingresos_generic_range"),
     #ingreso ganado
