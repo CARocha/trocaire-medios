@@ -53,5 +53,5 @@ def exclude(list, key):
     return [foo for foo in list if foo != key]
 
 @register.filter
-def trucate_init(value, arg):
+def truncate_init(value, arg):
     return value[int(arg):]

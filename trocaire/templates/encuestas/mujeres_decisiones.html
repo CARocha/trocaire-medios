@@ -50,7 +50,7 @@
                 width: 960
             },
             title: {
-                text: '{{value.0}}'
+                text: '{{value.0|truncate_init:5}}'
             },
             subtitle: {
                 text: ''
@@ -87,7 +87,7 @@
 	<tbody>
     	{%for value in tabla_mu %}
     	<tr>
-                <td>{{value.0}}</td>
+                <td>{{value.0|truncate_init:5}}</td>
                 {%for a,x in value.1.items%}
                 <td>{{x}}</td>
                 {%endfor%}
