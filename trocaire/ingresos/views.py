@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import date
 from django.http import Http404, HttpResponse
 from django.template.defaultfilters import slugify
