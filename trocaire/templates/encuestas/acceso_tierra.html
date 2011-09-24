@@ -54,7 +54,7 @@
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0|truncate_init:4}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
         });
         
         var chart2 = new Highcharts.Chart({
@@ -72,7 +72,7 @@
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.hombre}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0|truncate_init:4}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.hombre}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
         });
         
         var chart3 = new Highcharts.Chart({
@@ -90,7 +90,7 @@
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.mujer}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+            series: [{data: [{% for value in tabla_dicc1 %}['{{value.0|truncate_init:4}}', {% with tabla=dicc1_h_m|get_value:value.0 %}{{tabla.mujer}}{% endwith %}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
         });
            	
     });
@@ -163,7 +163,7 @@
 		<tbody>
 			{% for value in tabla_dicc1 %}
 			<tr>
-			    <td>{{value.0}}</td>
+			    <td>{{value.0|truncate_init:4}}</td>
 			    <td>{{value.1}}</td>	
 			{% endfor %}
 		</tbody>
@@ -182,7 +182,7 @@
 		<tbody>
 			{% for value in tabla_dicc1 %}
 			<tr>
-			    <td>{{value.0}}</td>
+			    <td>{{value.0|truncate_init:4}}</td>
 			    {% with tabla=dicc1_h_m|get_value:value.0 %}
 				<td>{{tabla.hombre}}</td>
 				
@@ -205,7 +205,7 @@
 		<tbody>
 			{% for value in tabla_dicc1 %}
 			<tr>
-			    <td>{{value.0}}</td>
+			    <td>{{value.0|truncate_init:4}}</td>
 			    {% with tabla=dicc1_h_m|get_value:value.0 %}
 				<td>{{tabla.mujer}}</td>
 				{% endwith %}

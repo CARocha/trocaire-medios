@@ -594,6 +594,7 @@ def mujeres_decisiones(request):
     encuestas = _query_set_filtrado(request)
     numero = encuestas.count()
     tabla_mujeres = {}
+    key = '% de familias según quien toma las decisiones'
     for a in CHOICE_ASPECTO:
         con_hombre = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=1, aspectos=a[0]).count()
         con_mujer = TomaDecicion.objects.filter(encuesta__in=encuestas, respuesta=2, aspectos=a[0]).count()

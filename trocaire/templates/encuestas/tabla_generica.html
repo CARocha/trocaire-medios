@@ -23,7 +23,7 @@
 		<tbody>
 			{% for key, value in tabla.items %}
 			<tr>
-				<td>{{key|unslugify}}</td>
+				<td>{{key|unslugify|truncate_init:4}}</td>
 				{% for k, v in value.items %}
 				<td>{{v}}</td>
 				{% endfor %}				
