@@ -55,3 +55,12 @@ def exclude(list, key):
 @register.filter
 def truncate_init(value, arg):
     return value[int(arg):]
+
+@register.filter
+def frec_acumul(lista, index):    
+    return sum(lista[index:])
+
+@register.filter
+def dolarizar(cantidad, tasa):
+    return int(cantidad/tasa) 
+
