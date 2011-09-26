@@ -784,7 +784,7 @@ def diversidad_alimentaria(request):
     total_hombre = total_dict(dicc_hombre)
     total_mujer = total_dict(dicc_mujer)
     
-    labels = {1: 'Uno', 2: 'Al menos 2',
+    labels = {1: 'Al menos 1', 2: 'Al menos 2',
               3: 'Al menos 3', 4: 'Al menos 4',
               5: 'Al menos 5', 6: 'Al menos 6',
               7: 'Al menos 7'}
@@ -830,10 +830,10 @@ def diversificacion_productiva(request):
     total_hombre = total_dict(dicc_hombre)
     total_mujer = total_dict(dicc_mujer)
     
-    labels = {0: 'Ninguno', 1: 'Al menos 1', 2: 'Al menos 2',
-              3: 'Al menos 3', 4: 'Al menos 4',
-              5: 'Al menos 5', 6: 'Al menos 6',
-              7: 'Al menos 7', 8: '8 o más'}
+    labels = {0: 'Ninguno', 1: '1 cultivo', 2: '2 cultivos',
+              3: '3 cultivos', 4: '4 cultivos',
+              5: '5 cultivos', 6: '6 cultivos',
+              7: '7 cultivos', 8: '8 cultivos o más'}
     dondetoy = "div_produc"
     
     return render_to_response('encuestas/diversificacion_productiva.html', RequestContext(request, locals()))
