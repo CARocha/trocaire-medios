@@ -784,10 +784,10 @@ def diversidad_alimentaria(request):
     total_hombre = total_dict(dicc_hombre)
     total_mujer = total_dict(dicc_mujer)
     
-    labels = {1: 'Uno', 2: 'Al menos 2',
+    labels = {1: 'Al menos 1', 2: 'Al menos 2',
               3: 'Al menos 3', 4: 'Al menos 4',
-              5: 'Cinco', 6: 'Seis',
-              7: 'Siete'}
+              5: 'Al menos 5', 6: 'Al menos 6',
+              7: 'Al menos 7'}
     dondetoy = "diversidad_ali"
     return render_to_response('encuestas/diversidad_alimentaria.html', RequestContext(request, locals()))
 
@@ -830,23 +830,21 @@ def diversificacion_productiva(request):
     total_hombre = total_dict(dicc_hombre)
     total_mujer = total_dict(dicc_mujer)
     
-    labels = {0: 'Ninguno', 1: 'Al menos 1', 2: 'Al menos 2',
-              3: 'Al menos 3', 4: 'Al menos 4',
-              5: 'Al menos 5', 6: 'Al menos 6',
-              7: 'Al menos 7', 8: '8 o más'}
+    labels = {0: 'Ninguno', 1: '1 cultivo', 2: '2 cultivos',
+              3: '3 cultivos', 4: '4 cultivos',
+              5: '5 cultivos', 6: '6 cultivos',
+              7: '7 cultivos', 8: '8 cultivos o más'}
     dondetoy = "div_produc"
     
-    return render_to_response('encuestas/diversidad_alimentaria.html', RequestContext(request, locals()))
+    return render_to_response('encuestas/diversificacion_productiva.html', RequestContext(request, locals()))
 
 def get_div_produc(query):
     dicc = {0: 0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
     for obj in query:
-        c_periodos = obj.cultivosperiodos_set.filter(p_primera__gt=0.0, 
-                                                     p_postrera__gt=0.0, 
-                                                     p_apante__gt=0.0).count()
-        c_permanentes = obj.cultivospermanentes_set.filter(produccion__gt=0.0).count()
-        c_anuales = obj.cultivosanuales_set.filter(produccion__gt=0.0).count()
-        c_hortalizas = obj.hortalizas_set.filter(produccion__gt=0.0).count()
+        c_periodos = obj.cultivosperiodos_set.filter().count()
+        c_permanentes = obj.cultivospermanentes_set.filter().count()
+        c_anuales = obj.cultivosanuales_set.filter().count()
+        c_hortalizas = obj.hortalizas_set.filter().count()
         cultivos = c_periodos + c_permanentes + c_anuales + c_hortalizas
         if cultivos > 0 and cultivos < 8:
             dicc[cultivos] += 1
