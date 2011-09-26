@@ -168,7 +168,7 @@ def generic_range(request, model, field, title, serie, dondetoy2, subtitle, eje,
             valores.append(model.objects.filter(encuesta__in=encuestas, **extra_params).count())
         else:
             valores.append(model.objects.filter(**extra_params).count())
-        categorias.append('%.2f a %.2f' % parametro)
+        categorias.append('%.0f a %.0f' % parametro)
     
     maximo_a_evaluar = parametros[len(parametros)-1][1] + rango
     del extra_params["%s__lt" % field]
@@ -179,7 +179,7 @@ def generic_range(request, model, field, title, serie, dondetoy2, subtitle, eje,
         valores.append(model.objects.filter(**extra_params).count())
 
     valores_acumulados = lista_acumulada(valores)
-    categorias.append('%.2f a mas' % maximo_a_evaluar)
+    categorias.append('%.0f a mas' % maximo_a_evaluar)
 
     form = ConsultarForm()
     #WTF de django
