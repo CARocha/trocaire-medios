@@ -16,7 +16,7 @@
                 enabled: true,
                 align: "center",
                 formatter: function() {
-                    return ''+ this.y;
+                    return '<b>C$:</b>'+ this.y + '<b> | US$:</b>' + (this.y/20.60).toFixed(0);
                 },
                 color: '#000',
                 style: {
@@ -28,7 +28,7 @@
     var tooltip = {
         formatter: function() {
             return ''+
-                this.series.name + ' <b>'+ this.x +':</b> C$ '+ this.y;
+                this.series.name + ' <b>'+ this.x +': C$</b> '+ this.y + '<b>US$ </b>' + (this.y/20.60).toFixed(0);
         }
     }
     var leyenda = {
@@ -49,7 +49,7 @@
                     text: 'Ingresos familiares anuales totales'
                 },
                 subtitle: {
-                    text: 'Cantidades en Córdobas Nicaragüenses'
+                    text: 'Cantidades en Córdobas Nicaragüenses - Dolares (Tasa: 20.60 por 1)'
                 },
                 xAxis: {
                     categories: [
@@ -94,15 +94,15 @@
 		<tbody>			
 			<tr>
 				<td>Promedio de ingresos familiares <b>C$</b></td>
-				<td>{{promedio.total|currency}}</td>
-				<td>{{promedio.hombre_jefe|currency}}</td>
-				<td>{{promedio.mujer_jefe|currency}}</td>								
+				<td>{{promedio.total|currency}} (<b>US$</b> {{promedio.total|dolarizar:20.60}})</td>				
+				<td>{{promedio.hombre_jefe|currency}} (<b>US$</b> {{promedio.hombre_jefe|dolarizar:20.60}})</td>
+				<td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:20.60}})</td>								
 			</tr>
 			<tr>
 				<td>Mediana ingresos familiares <b>C$</b></td>
-				<td>{{mediana.total|currency}}</td>
-				<td>{{mediana.hombre_jefe|currency}}</td>
-				<td>{{mediana.mujer_jefe|currency}}</td>								
+				<td>{{mediana.total|currency}} (<b>US$</b> {{mediana.total|dolarizar:20.60}})</td>
+				<td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:20.60}})</td>
+				<td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:20.60}})</td>								
 			</tr>			
 		</tbody>
 	</table>
