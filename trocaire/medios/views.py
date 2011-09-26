@@ -836,7 +836,7 @@ def diversificacion_productiva(request):
               7: 'Al menos 7', 8: '8 o más'}
     dondetoy = "div_produc"
     
-    return render_to_response('encuestas/diversidad_productiva.html', RequestContext(request, locals()))
+    return render_to_response('encuestas/diversificacion_productiva.html', RequestContext(request, locals()))
 
 def get_div_produc(query):
     dicc = {0: 0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
