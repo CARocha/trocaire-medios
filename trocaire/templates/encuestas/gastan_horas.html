@@ -19,7 +19,6 @@ $(document).ready(function() {
       },
       subtitle: {
          text: '% de familias según sexo del jefe de familia',
-         x: -20
       },
       xAxis: {
          categories: ['Total', 'Mujer', 'Varón']
@@ -47,14 +46,6 @@ $(document).ready(function() {
                     minPointLength : 1
                 }
             },
-      legend: {
-         layout: 'vertical',
-         align: 'right',
-         verticalAlign: 'top',
-         x: 0,
-         y: 30,
-         borderWidth: 0
-      },
       series: [{
          name: '% de familas que gastan más de una hora para recolectar agua',
          data: [{{tablas_gastan.porcentaje_total}}, {{tablas_gastan.porcentaje_femenino}}, {{tablas_gastan.porcentaje_masculino}}],
