@@ -31,8 +31,8 @@ class PrincipalesFuentes(models.Model):
     fuente = models.ManyToManyField(Fuentes, verbose_name="Fuentes de ingreso")
     encuesta = models.ForeignKey(Encuesta)
     #campos ocultos
-    fuentes_ap = models.IntegerField(default=0, editable=True)
-    fuentes_no_ap = models.IntegerField(default=0, editable=True)
+    fuentes_ap = models.IntegerField(default=0, editable=False)
+    fuentes_no_ap = models.IntegerField(default=0, editable=False)
 
     def _save_fuentes(self, *args, **kwargs):
         self.fuentes_ap = self.fuente.filter(id__in = [1,2,3,4,5]).count()
