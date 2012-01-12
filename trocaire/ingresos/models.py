@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from trocaire.medios.models import Encuesta 
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 
 CHOICE_COMERCIALIZACION = (
                              (1,'Granos básicos'),
@@ -29,16 +31,24 @@ class PrincipalesFuentes(models.Model):
     fuente = models.ManyToManyField(Fuentes, verbose_name="Fuentes de ingreso")
     encuesta = models.ForeignKey(Encuesta)
     #campos ocultos
-    fuentes_ap = models.IntegerField(default=0, editable=False)
-    fuentes_no_ap = models.IntegerField(default=0, editable=False)
+    fuentes_ap = models.IntegerField(default=0, editable=True)
+    fuentes_no_ap = models.IntegerField(default=0, editable=True)
 
-    def save(*args, **kwargs):
-        self.fuentes_ap = fuente.filter(id__in = [1,2,3,4,5]).count()
-        self.fuentes_no_ap = fuente.exclude(id__in = [1,2,3,4,5]).count()
-        super(Principales, self).save(*args, **kwargs)
+    def _save_fuentes(self, *args, **kwargs):
+        self.fuentes_ap = self.fuente.filter(id__in = [1,2,3,4,5]).count()
+        self.fuentes_no_ap = self.fuente.exclude(id__in = [1,2,3,4,5]).count()
+        super(PrincipalesFuentes, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Cuales son las principales fuentes de ingreso de la familia"
+
+#signal de post_add en PrincipalesFuentes para campos autocalculados: fuentes_ap, fuentes_no_ap    
+@receiver(m2m_changed, sender=PrincipalesFuentes.fuente.through)
+def create_fuentes_callback(sender, **kwargs):    
+    instance = kwargs['instance']
+    if kwargs['action'] == 'post_add':
+        instance._save_fuentes()
+        
 
 class CIPeriodos(models.Model):
     nombre = models.CharField(max_length=200)
