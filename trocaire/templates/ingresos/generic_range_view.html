@@ -154,7 +154,8 @@ $(document).ready(function() {
 
 <div id="ingresos" class="submenustyle">
     <a {%ifequal dondetoy2 'totalingreso'%}class="activa"{%endifequal%} href="/ingresos/rangos/">Ingresos Totales</a>
-    <a {%ifequal dondetoy2 'ganadoingreso'%}class="activa"{%endifequal%}href="/ingresos/rangos/ganado/">Ganado</a>
+    <a {%ifequal dondetoy2 'totalagropecuario'%}class="activa"{%endifequal%} href="/ingresos/rangos/ap/">Ingresos Agropecuarios Totales</a>
+    <a {%ifequal dondetoy2 'ganadoingreso'%}class="activa"{%endifequal%} href="/ingresos/rangos/ganado/">Ganado</a>
 <!--
     
     <a {%ifequal dondetoy2 'fuentesapingreso'%}class="activa"{%endifequal%}href="/ingresos/rangos/fuentes-ap/">Fuentes Agropecuarias</a>

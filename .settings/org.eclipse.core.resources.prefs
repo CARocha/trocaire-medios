@@ -1,0 +1,13 @@
+#Fri Jan 13 11:08:37 CST 2012
+eclipse.preferences.version=1
+encoding//trocaire/calidad_vida/models.py=utf-8
+encoding//trocaire/crisis_alimentaria/models.py=utf-8
+encoding//trocaire/familia/models.py=utf-8
+encoding//trocaire/ingresos/migrations/0007_calcular_total_ingresos.py=utf-8
+encoding//trocaire/ingresos/migrations/0011_total_agropecuario.py=utf-8
+encoding//trocaire/ingresos/models.py=utf-8
+encoding//trocaire/ingresos/urls.py=utf-8
+encoding//trocaire/ingresos/views.py=utf-8
+encoding//trocaire/medios/views.py=utf-8
+encoding//trocaire/participacion_ciudadana/models.py=utf-8
+encoding//trocaire/produccion/models.py=utf-8

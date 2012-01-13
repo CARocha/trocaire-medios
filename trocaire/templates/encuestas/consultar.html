@@ -75,11 +75,6 @@
             <div class="label">{{form.familia_beneficiario.label}}</div>
             <div class="filtros">{{form.familia_beneficiario}}<br>{{form.familia_beneficiario.errors}}</div>
             <div class="clean"></div>
-<!--
-            <div class="label">{{form.ingresos_fuente.label}}</div>
-            <div class="filtros">{{form.ingresos_total}}<br>{{form.ingresos_total.errors}}</div>
-            <div class="clean"></div>
--->
             <div class="label">{{form.credito_acceso.label}}</div>
             <div class="filtros">{{form.credito_acceso}}<br>{{form.credito_acceso.errors}}</div>
             <div class="clean"></div>
@@ -89,26 +84,6 @@
             <div class="label">{{form.desicion_inversion.label}}</div>
             <div class="filtros">{{form.desicion_inversion}}<br>{{form.desicion_inversion.errors}}</div>
             <div class="clean"></div>
-<!--
-            <div class="label">{{form.finca_area_total.label}}</div>
-            <div class="filtros">{{form.finca_area_total}}<br>{{form.finca_area_total.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_num_productos.label}}</div>
-            <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_num_vacas.label}}</div>
-            <div class="filtros">{{form.finca_num_vacas}}<br>{{form.finca_num_vacas.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_riego.label}}</div>
-            <div class="filtros">{{form.finca_riego}}<br>{{form.finca_riego.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_conssa.label}}</div>
-            <div class="filtros">{{form.finca_conssa}}<br>{{form.finca_conssa.errors}}</div>
-            <div class="clean"></div>
-            <div class="label">{{form.finca_num_productos.label}}</div>
-            <div class="filtros">{{form.finca_num_productos}}<br>{{form.finca_num_productos.errors}}</div>
-            <div class="clean"></div>
- -->
             </div>
             <div class="clean"></div>
         <input type="submit" value=""  class="consultar"/>
@@ -119,8 +94,9 @@
 {% if muestra_indicador = 1 %}
 <div id="bloqueindicadores">
     <div class="indicadorcategoria">INGRESOS</div>
-        <a href="{%url ingresos_generic_range%}">Ingresos Totales</a>
-        <a href="{%url ingresos_ganado %}">Ganado</a>
+        <a href="{% url ingresos_generic_range %}">Ingresos Totales</a>
+        <a href="{% url ingresos_ganado %}">Ganado</a>
+        <a href="{% url ingresos_agropecuarios %}">Ingresos Agropecuarios Totales</a>
 <!--
 
         <a href="{%url fuentes_ap_generic_range%}">Fuentes agropecuarias</a>

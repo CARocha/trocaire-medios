@@ -294,6 +294,7 @@ class VendeProducto(models.Model):
 class TotalIngreso(models.Model):
     encuesta = models.ForeignKey(Encuesta, unique=True)
     total = models.FloatField(editable=False)
+    total_ap = models.FloatField(editable=False)
 
     class Meta:
         verbose_name_plural = 'Totales'
@@ -303,6 +304,8 @@ class TotalIngreso(models.Model):
 
     def save(self, *args, **kwargs):
         self.total = self._get_total()
+        self.total_ap = self._get_total() - (OtrosIngresos.objects.filter(encuesta=self.encuesta).aggregate(t=models.Sum('total'))['t'] or 0)
+        print self.total, self.total_ap
         super(TotalIngreso, self).save(*args, **kwargs)
     
     def _get_total(self):
