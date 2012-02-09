@@ -89,11 +89,23 @@ def _query_set_filtrado(request):
             last_key = (i, key)
             ids = model.objects.filter(**request.session['parametros'][key]).values_list('encuesta__id', flat=True)                              
             encuestas_id += ids
+
+    c_flag = params.get('contraparte', None) # flag para saber si se selecciono un contraparte con fin
+    # de exluir a ADDAC Rancho Grande de la consulta general -> el jefe manda :P
+
     if not encuestas_id:
-        return Encuesta.objects.filter(**params)
+        qs = Encuesta.objects.filter(**params)
+        # excluyendo a Rancho Grande a pedido de Boss XD
+        if c_flag == None:
+            return qs.exclude(municipio__nombre='Rancho Grande')
+        return qs
     else:
         ids_definitivos = reducir_lista(encuestas_id) if reducir else encuestas_id            
-        return Encuesta.objects.filter(id__in = ids_definitivos, **params)
+        qs = Encuesta.objects.filter(id__in = ids_definitivos, **params)
+        #excluyendo a Rancho Grande
+        if c_flag == None:
+            return qs.exclude(municipio__nombre='Rancho Grande')
+        return qs
 
 def reducir_lista(lista):
     '''reduce la lista dejando solo los elementos que son repetidos
