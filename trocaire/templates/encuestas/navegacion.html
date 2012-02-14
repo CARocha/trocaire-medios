@@ -11,7 +11,7 @@
     <li rel="familias"><a href="#">FAMILIAS &#9660;</a></li>
     {%endif%}
     
-    {%if dondetoy = 'creditofamilia' or dondetoy = 'actividadesagro' or dondetoy = 'ingresosfam'%}
+    {%if dondetoy = 'creditofamilia' or dondetoy = 'actividadesagro' or dondetoy = 'ingresosfam' or dondetoy = 'ingresofamap' %}
     <li class="selected" rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
     {%else%}
     <li rel="ingresos"><a href="#">INGRESOS &#9660;</a></li>
@@ -58,6 +58,7 @@
 <div id="ingresos" class="submenustyle">
     <a {%ifequal dondetoy 'creditofamilia'%}class="activa"{%endifequal%}  href="/encuestas/credito/">Acceso a crédito</a>
     <a {%ifequal dondetoy 'actividadesagro'%}class="activa"{%endifequal%}  href="/encuestas/ingreso-agropecuario/">% de Fam. c. Ingresos agropecuarios</a>
+    <a {%ifequal dondetoy 'ingresofamap'%}class="activa"{%endifequal%} href="/encuestas/ingreso-familiar-agropecuario/">Ingresos Familiares Agropecuarios</a>
     <a {%ifequal dondetoy 'ingresosfam'%}class="activa"{%endifequal%} href="/encuestas/ingreso-familiar/">Ingresos Familiares</a>
 </div>
 

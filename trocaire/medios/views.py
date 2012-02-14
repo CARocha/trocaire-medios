@@ -714,14 +714,13 @@ def ingreso_agropecuario(request):
     dondetoy = "actividadesagro"
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
-def ingreso_familiar(request):
+def ingreso_familiar(request, agro='total', titulo=None, dondetoy='ingresosfam'):
     encuestas = _query_set_filtrado(request)
-    ingresos = TotalIngreso.objects.filter(encuesta__in=encuestas).values_list('total', flat=True)
+    ingresos = TotalIngreso.objects.filter(encuesta__in=encuestas).values_list(agro, flat=True)
     
     #obtener queries segun jefe de familia
-    query_hombre_jefe = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1)).values_list('total', flat=True)
-    query_mujer_jefe = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2)).values_list('total', flat=True)    
-    
+    query_hombre_jefe = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1)).values_list(agro, flat=True)
+    query_mujer_jefe = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2)).values_list(agro, flat=True)     
     
     promedio = {'total': calcular_promedio(ingresos),
                 'hombre_jefe': calcular_promedio(query_hombre_jefe),
@@ -732,7 +731,6 @@ def ingreso_familiar(request):
                 'hombre_jefe': calcular_mediana(query_hombre_jefe),
                 'mujer_jefe': calcular_mediana(query_mujer_jefe)                
                 }
-    dondetoy = "ingresosfam"
     return render_to_response('encuestas/ingreso_familiar.html', RequestContext(request, locals()))
 
 def abastecimiento(request):

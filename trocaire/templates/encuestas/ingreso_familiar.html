@@ -46,7 +46,7 @@
                     width: 960
                 },
                 title: {
-                    text: 'Ingresos familiares anuales totales'
+                    text: '{{titulo}}'
                 },
                 subtitle: {
                     text: 'Cantidades en Córdobas Nicaragüenses - Dolares (Tasa: 20.60 por 1)'
@@ -76,7 +76,7 @@
 {% block contenido %}
 {% include "encuestas/navegacion.html"%}
 <div class="title_bar">
-    <div class="titulo">% de familias con ingresos agropecuarios según sexo del jefe de familia</div>
+    <div class="titulo">{{titulo}}</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
