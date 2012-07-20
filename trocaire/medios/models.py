@@ -20,7 +20,7 @@ class Contraparte(models.Model):
 class Encuesta(models.Model):
     ''' Modelo de encuesta principal
     '''
-    fecha = models.IntegerField(default=2010)
+    fecha = models.IntegerField("año de encuesta")
     municipio = models.ForeignKey(Municipio, verbose_name="Nombre del Municipio")
     comarca = models.ForeignKey(Comarca, verbose_name="Nombre de la comarca/barrio")
     beneficiario = models.CharField('Nombre del Beneficiario/a', max_length=200)

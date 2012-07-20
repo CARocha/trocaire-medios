@@ -22,10 +22,10 @@ from trocaire.genero.models import *
 import copy
 
 def _query_set_filtrado(request):
-    anio = int(request.session['fecha'])
+    #anio = int(request.session['fecha'])
     params = {}
     if 'fecha' in request.session:
-        params['fecha'] = anio
+        params['fecha'] = request.session['fecha']
         
     if request.session['contraparte']:
         params['contraparte'] = request.session['contraparte'] 
