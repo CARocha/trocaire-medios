@@ -7,7 +7,7 @@ from trocaire.genero.models import CHOICE_ASPECTO_RESPUESTA
 from trocaire.lugar.models import *
 from trocaire.ingresos.models import Fuentes
 
-ANOS_CHOICES = ((2011,'2011'),(2012,'2012'),(2013,'2013'),(2014,'2014'),(2015,'2015'))
+ANOS_CHOICES = ((2010,'2010'), (2011,'2011'),(2012,'2012'),(2013,'2013'),(2014,'2014'),(2015,'2015'))
 DEPENDIENTES_CHOICE = ((1, u'Igual a 0'), (2, u'De 0.1 a 1.0'), (3, u'De 1.1 a 2.0'), (4, u'De 2.1 a 3.0'), (5, u'Más de 3.0'))
 CREDITO_CHOICE = ((1, 'Si'), (2, 'No'))
 
@@ -18,7 +18,7 @@ class CustomChoiceField(forms.ChoiceField):
         self.choices.insert(0, (None , '--------'))
 
 class ConsultarForm(forms.Form):
-    #fecha = CustomChoiceField(choices=ANOS_CHOICES)
+    fecha = CustomChoiceField(choices=ANOS_CHOICES)
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.all().order_by('nombre'), 
                                           required=False, empty_label="Todos los Departamentos")
     municipio = forms.CharField(widget = forms.Select, required=False)
