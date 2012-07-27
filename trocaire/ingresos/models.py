@@ -135,7 +135,7 @@ class IHortalizas(models.Model):
     hortaliza = models.ForeignKey(CIHortalizas)
     cuanto = models.FloatField('Cuánto vendio', help_text="En qq")
     precio = models.FloatField('Precio de venta', help_text="En C$")
-    equivalencias = models.FloatField()
+    equivalencias = models.FloatField(null=True, blank=True)
     encuesta = models.ForeignKey(Encuesta)
     #campos hipsters
     total = models.FloatField(editable=False)
@@ -171,6 +171,7 @@ class IngresoGanado(models.Model):
     ganado = models.ForeignKey(Ganados)
     vendidos = models.IntegerField('Número de animales vendidos')
     valor = models.FloatField('Valor de venta')
+    rango = models.FloatField('Rangos de precios')
     encuesta = models.ForeignKey(Encuesta)
     #campos hipsters
     total = models.FloatField(editable=False)

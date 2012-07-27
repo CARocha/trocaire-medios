@@ -52,7 +52,7 @@ class Composicion(models.Model):
         super(Composicion, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name_plural = "COMPOSICIÓN DE LA FAMILIA" 
+        verbose_name_plural = "Beneficiario" 
 
 class Descripcion(models.Model):
     descripcion = models.IntegerField('Descripción', choices=CHOICE_DESCRIPCION)
@@ -74,8 +74,8 @@ CHOICE_ESCOLARIDAD = (
         
 class Escolaridad(models.Model):
     beneficia = models.IntegerField(choices=CHOICE_ESCOLARIDAD, verbose_name="13. Beneficiaria/o")
-    conyugue = models.IntegerField(choices=CHOICE_ESCOLARIDAD, verbose_name="14. Conyugue")
+    conyugue = models.IntegerField(choices=CHOICE_ESCOLARIDAD, verbose_name="14. Conyugue", null=True, blank=True)
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
-        verbose_name_plural = "ESCOLARIDAD"
+        verbose_name_plural = "Nivel de educación del beneficiario/a"

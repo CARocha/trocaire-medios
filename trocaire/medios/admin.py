@@ -30,6 +30,7 @@ class AdminDescripcionInline(admin.TabularInline):
     
 class AdminEscolaridadInline(admin.TabularInline):
     model = Escolaridad
+    fields = ('beneficia',)
     extra = 1
     max_num = 1
     can_delete = True
@@ -72,6 +73,7 @@ class AdminTierraInline(admin.TabularInline):
     
 class AdminPropiedadInline(admin.TabularInline):
     model = Propiedad
+    fields = ('ciclo',)
     extra = 1
     max_num = 1
     can_delete = True
@@ -183,6 +185,7 @@ class AdminCultivosIEstacionalesInline(admin.TabularInline):
     
 class AdminIHortalizasInline(admin.TabularInline):
     model = IHortalizas
+    fields = ('hortaliza','cuanto','precio',)
     extra = 1
     max_num = 12
     can_delete = True
@@ -354,7 +357,7 @@ class EncuestaAdmin(admin.ModelAdmin):
                AdminArbolesInline,AdminCalidadPatioInline,AdminGanadoMayorInline,
                AdminPrincipalesFuentesInline,AdminCultivosIPeriodosInline,AdminCultivosIPermanentesInline,
                AdminCultivosIEstacionalesInline,AdminIHortalizasInline,AdminIngresoPatioInline,
-               AdminIngresoGanadoInline,AdminLactiosInline,AdminProductosProcesadoInline,AdminOtrosIngresosInline,
+               AdminIngresoGanadoInline,AdminProductosProcesadoInline,AdminLactiosInline,AdminOtrosIngresosInline,
                AdminPrincipalFormaInline,AdminVendeProductoInline,AdminRiegoInline,AdminAreaProtegidaInline,
                AdminUsoTecnologiaInline,AdminSemillaInline,AdminDiversidadInline,AdminCrisisInline,
                AdminAccesoCreditoInline,AdminParticipacionInline,AdminParticipacionCPCInline,AdminFrecuenciaInline,
