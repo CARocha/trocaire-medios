@@ -64,12 +64,13 @@ class Descripcion(models.Model):
         verbose_name_plural = "DESCRIPCIÓN"
 
 CHOICE_ESCOLARIDAD = (
-                            (1, "1) Analfabeto o hasta 3er grado"),
+                            (1, "1) Analfabeto"),
                             (2, "2) 4 y hasta 6 grado de Primaria"),
                             (3, "3) Algo de Secundaria"),
                             (4, "4) Bachiller o Técnico Medio"),
                             (5, "5) Universidad o Profesional Universitario"),
-                            (6, "6) No aplica")
+                            (6, "6) No aplica"),
+                            (7, "7) Hasta 3er grado")
                      )
         
 class Escolaridad(models.Model):
