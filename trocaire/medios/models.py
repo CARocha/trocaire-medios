@@ -67,7 +67,8 @@ CHOICE_RELACION = (
 CHOICE_SEXO_JEFE = (
                     (1, '1) Masculino'),
                     (2, '2) Femenino'),
-                    (3, '3) Compartido')
+                    (3, '3) Compartido'),
+                    (4, '4) No aplica')
                    )
                    
 CHOICE_DESCRIPCION = (
