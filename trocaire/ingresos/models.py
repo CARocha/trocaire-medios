@@ -300,8 +300,8 @@ class TotalIngreso(models.Model):
     class Meta:
         verbose_name_plural = 'Totales'
 
-    def __unicode__(self):
-        return 'Total para la encuesta %s' % self.encuesta
+    #def __unicode__(self):
+    #    return 'Total para la encuesta %s' % self.encuesta
 
     def save(self, *args, **kwargs):
         self.total = self._get_total()
