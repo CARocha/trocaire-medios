@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Recolector(models.Model):
     nombre = models.CharField(max_length=200)
     def __unicode__(self):
-        return self.nombre
+        return u'%s' % self.nombre
         
 class Contraparte(models.Model):
     nombre = models.CharField(max_length=200)
