@@ -16,7 +16,7 @@ class Composicion(models.Model):
                                     choices=CHOICE_RELACION)
     sexo_jefe = models.IntegerField('6. Si no es jefe/a... Cuál es el sexo del jefe de familia',
                                     choices=CHOICE_SEXO_JEFE)
-    num_familia = models.IntegerField('7. Número de familas que viven en la vivienda')
+    num_familia = models.IntegerField('7. Número de personas que viven en la vivienda')
     encuesta = models.ForeignKey(Encuesta)
     #ocultos
     dependientes = models.FloatField(editable=False, default=0)

@@ -171,7 +171,7 @@ class IngresoGanado(models.Model):
     ganado = models.ForeignKey(Ganados)
     vendidos = models.IntegerField('Número de animales vendidos')
     valor = models.FloatField('Valor de venta')
-    rango = models.FloatField('Rangos de precios')
+    #rango = models.FloatField('Rangos de precios')
     encuesta = models.ForeignKey(Encuesta)
     #campos hipsters
     total = models.FloatField(editable=False)

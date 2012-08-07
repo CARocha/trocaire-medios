@@ -12,9 +12,11 @@ class Crisis(models.Model):
     escases = models.IntegerField('139. Podria decirnos si su familia ha enfrentado escases de alimentos', 
                                     choices=CHOICE_SINO)
     causa = models.CharField(max_length=200, 
-                   verbose_name="140. Podria decirnos cual fue la causa principal de la crisis de comida que vivieron")
+                   verbose_name="140. Podria decirnos cual fue la causa principal de la crisis de comida que vivieron",
+                   null=True, blank=True)
     enfrentar = models.ManyToManyField(EstrategiaCrisis, 
-                verbose_name="141. Si tuvieron crisis podria decirnos, como hicieron para enfrentarla")
+                verbose_name="141. Si tuvieron crisis podria decirnos, como hicieron para enfrentarla",
+                null=True, blank=True)
     encuesta = models.ForeignKey(Encuesta)
 
     class Meta:
