@@ -78,7 +78,7 @@ class CultivosAnuales(models.Model):
 
     def save(self, *args, **kwargs):
         self.productividad = self.produccion / self.manzana if self.manzana != 0 else 0
-        super(CultivosPermanentes, self).save(*args, **kwargs)
+        super(CultivosAnuales, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Cultivos Anuales"
