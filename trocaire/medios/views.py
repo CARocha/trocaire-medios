@@ -1053,10 +1053,8 @@ def saca_porcentajes(dato, total, formato=True):
 def calcular_promedio(lista):
     n = len(lista)
     total_suma = sum(lista)
-    try:
-        return round(total_suma/n, 2)
-    except:
-        return 0 
+    
+    return round(total_suma/n, 2) 
 
 def calcular_mediana(lista):
     n = len(lista)
