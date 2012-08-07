@@ -364,9 +364,9 @@ class EncuestaAdmin(admin.ModelAdmin):
                AdminGeneroInline,AdminTomaDecicionInline,              
                ]
     list_display = ['beneficiario', 'municipio', 'comarca', 'contraparte' ]
-    list_filter = ['contraparte']
+    list_filter = ['contraparte','fecha']
     search_fields = ['beneficiario']
-#    date_hierarchy = 'fecha'
+    #date_hierarchy = 'fecha'
     class Media:
         css = {
             'all': ('/archivos/css/admin.css',),
