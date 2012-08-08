@@ -2,11 +2,14 @@
 from django.db import models
 from trocaire.lugar.models import *
 from django.contrib.auth.models import User
+from smart_selects.db_fields import ChainedForeignKey
 
 class Recolector(models.Model):
     nombre = models.CharField(max_length=200)
     def __unicode__(self):
         return u'%s' % self.nombre
+    class Meta:
+        ordering = ['nombre']
         
 class Contraparte(models.Model):
     nombre = models.CharField(max_length=200)
@@ -22,7 +25,14 @@ class Encuesta(models.Model):
     '''
     fecha = models.IntegerField("año de encuesta")
     municipio = models.ForeignKey(Municipio, verbose_name="Nombre del Municipio")
-    comarca = models.ForeignKey(Comarca, verbose_name="Nombre de la comarca/barrio")
+    #comarca = models.ForeignKey(Comarca, verbose_name="Nombre de la comarca/barrio")
+    comarca = ChainedForeignKey(
+        Comarca, 
+        chained_field="municipio",
+        chained_model_field="municipio", 
+        show_all=False, 
+        auto_choose=True
+    )
     beneficiario = models.CharField('Nombre del Beneficiario/a', max_length=200)
     encuestador = models.ForeignKey(Recolector, verbose_name="Nombre del encuestador")
     contraparte = models.ForeignKey(Contraparte, null=True, blank=True)
