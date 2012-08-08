@@ -75,5 +75,6 @@ INSTALLED_APPS = (
     'trocaire.produccion',
     'trocaire.tecnologia',
     'south',
+    'smart_selects',
     
 )
