@@ -225,8 +225,16 @@ class AdminProductosProcesadoInline(admin.TabularInline):
 
 admin.site.register(PProcesado)
 
-class AdminOtrosIngresosInline(admin.TabularInline):
+class AdminOtrosIngresosInline(admin.StackedInline):
     model = OtrosIngresos
+    #fields = (('mayo','junio','julio','agosto'),('septiembre','octubre','noviembre','diciembre'),('enero','febrero','marzo','abril'))
+    fieldsets = (
+        (None, {
+            'fields': ('actividad',('mayo', 'junio', 'julio', 'agosto'),
+                      ('septiembre','octubre','noviembre','diciembre'),
+                      ('enero','febrero','marzo','abril'))
+        }),
+    )
     extra = 1
     max_num = 12
     can_delete = True
