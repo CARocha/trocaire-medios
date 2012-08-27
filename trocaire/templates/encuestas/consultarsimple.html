@@ -102,11 +102,14 @@
         <a href="/encuestas/datos-x-sexo/">Sexo jefe de familia</a>
         <a href="/encuestas/sexo-beneficiario/">Sexo de beneficiario/a y jefatura de familia</a>
         <a href="/encuestas/escolaridad/">Escolaridad de beneficiario/a</a>
+        {% if request.session.fecha == '2010' %}
         <a href="/encuestas/dependencia/">Dependencia familiar</a>
-
+        {%endif%}
         <div class="clean"></div>
     <div class="indicadorcategoria">INGRESOS FAMILIARES</div>
+        {% if request.session.fecha == '2010' %}
         <a href="/encuestas/credito/">Acceso a crédito </a>
+        {%endif%}
         <a href="/encuestas/ingreso-agropecuario/">% de Familias con Ingresos Agropecuarios</a>
         <a href="/encuestas/ingreso-familiar-agropecuario/">Ingresos Familiares Agropecuarios</a>
         <a href="/encuestas/ingreso-familiar/">Ingresos Familiares</a>
@@ -124,24 +127,27 @@
         <div class="clean"></div>
         
     <div class="indicadorcategoria">PRODUCCIÓN SOSTENIBLE</div>
+        {% if request.session.fecha == '2010' %}
         <a href="/encuestas/familias-practicas/">Conservación de suelo y agua</a>
+        {%endif%}
         <a href="/encuestas/diversificacion-productiva/">Diversificación productiva</a>
         <a href="/encuestas/tecnologia-agricola/">Uso de tecnología orgánica</a>
         <div class="clean"></div>
-        
+    {% if request.session.fecha == '2010' %}    
     <div class="indicadorcategoria">ACCESO A TIERRA Y AGUA</div>
         <a href="/encuestas/agua-clorada/">Agua segura</a>
         <a href="/encuestas/gastan-horas/">Tiempo de recolección de agua</a>
         <a href="/encuestas/acceso-agua/">Acceso a riego</a>
         <a href="/encuestas/acceso-tierra/">Acceso a tierra</a>
         <div class="clean"></div>
-            
+          
     <div class="indicadorcategoria">GENERO Y PARTICIPACIÓN</div>
         <a href="/encuestas/participacion/">Participación Ciudadana</a>
         <a href="{% url hombre_responsable %}">hombres hacen tareas domésticas</a>
         <a href="{% url mujeres_decisiones %}">Mujeres toman decisiones</a><br>
         <div class="clean"></div>
-    
+    {% endif %} 
+
 </div>
 {% endif %}
 <div class="clean"></div>
