@@ -1006,7 +1006,7 @@ def _queryid_hombre_mujer(ids, flag=False):
     composicion_familia = Composicion.objects.filter(encuesta__id__in=ids)
     
     '''1: Hombre, 2: Mujer, 3: Compartido'''    
-    dicc = {1: [], 2: [], 3: []}
+    dicc = {1: [], 2: [], 3: [], 4:[]}
     for composicion in composicion_familia:
         #validar si el beneficiario es el jefe de familia
         if composicion.beneficio in [1, 3]:
