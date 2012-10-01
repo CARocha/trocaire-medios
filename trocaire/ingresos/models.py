@@ -3,6 +3,7 @@ from django.db import models
 from trocaire.medios.models import Encuesta 
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
+from django.db.models import signals
 
 CHOICE_COMERCIALIZACION = (
                              (1,'Granos básicos'),
@@ -100,6 +101,9 @@ class CultivosIPeriodos(models.Model):
         self.total_apante = self.cuanto_apante * self.precio_apante
         self.total = self.total_primera + self.total_postrera + self.total_apante
         super(CultivosIPeriodos, self).save(*args, **kwargs)
+
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
         
 class CultivosIPermanentes(models.Model):
     cultivo = models.ForeignKey(CIPermanentes)
@@ -115,6 +119,9 @@ class CultivosIPermanentes(models.Model):
     def save(self, *args, **kwargs):
         self.total = self.cuanto * self.precio
         super(CultivosIPermanentes, self).save(*args, **kwargs)
+
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
         
 class CultivosIEstacionales(models.Model):
     cultivo = models.ForeignKey(CIEstacionales)
@@ -131,6 +138,9 @@ class CultivosIEstacionales(models.Model):
         self.total = self.cuanto * self.precio
         super(CultivosIEstacionales, self).save(*args, **kwargs)
 
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
+
 class IHortalizas(models.Model):
     hortaliza = models.ForeignKey(CIHortalizas)
     cuanto = models.FloatField('Cuánto vendio', help_text="En qq")
@@ -146,6 +156,9 @@ class IHortalizas(models.Model):
     def save(self, *args, **kwargs):
         self.total = self.cuanto * self.precio
         super(IHortalizas, self).save(*args, **kwargs)
+
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
         
 class IngresoPatio(models.Model):
     invierno = models.FloatField('Monto de los ingreso obtenido en invierno')
@@ -160,6 +173,9 @@ class IngresoPatio(models.Model):
     def save(self, *args, **kwargs):
         self.total = self.invierno + self.verano
         super(IngresoPatio, self).save(*args, **kwargs)
+
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
         
 class Ganados(models.Model):
     nombre = models.CharField(max_length=200)
@@ -182,6 +198,9 @@ class IngresoGanado(models.Model):
     def save(self, *args, **kwargs):
         self.total = self.vendidos * self.valor
         super(IngresoGanado, self).save(*args, **kwargs)
+
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
         
 class Productos(models.Model):
     nombre = models.CharField(max_length=200)
@@ -211,6 +230,9 @@ class Lactios(models.Model):
         self.total = self.total_invierno + self.total_verano
         super(Lactios, self).save(*args, **kwargs)
 
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
+
 class PProcesado(models.Model):
     nombre = models.CharField(max_length=200)
     def __unicode__(self):
@@ -227,6 +249,12 @@ class ProductosProcesado(models.Model):
         
     def total(self):
         return self.monto 
+
+    def save(self, *args, **kwargs):
+        super(ProductosProcesado, self).save(*args, **kwargs)
+
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
         
 class OtrasActividades(models.Model):
     nombre = models.CharField(max_length=200)
@@ -261,6 +289,9 @@ class OtrosIngresos(models.Model):
                 self.diciembre + self.enero + self.febrero + self.marzo +\
                 self.abril
         super(OtrosIngresos, self).save(*args, **kwargs)
+
+        # activar signal post_save de encuesta
+        signals.post_save.send(sender=Encuesta, instance=self.encuesta)
         
 CHOICE_VENDE = (
                  (1,'1. Vende Individual. No incluye vender en ferias'),
@@ -327,7 +358,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 @receiver(post_save, sender=Encuesta)
-def create_encuesta_callback(sender, **kwargs):    
+def create_encuesta_callback(sender, **kwargs):
     encuesta = kwargs['instance']
     try:
         total_ingreso = TotalIngreso.objects.get(encuesta=encuesta)
