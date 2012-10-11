@@ -50,7 +50,7 @@
             },                                
             tooltip: tooltip,
             plotOptions: plotOptions,
-            series: [{data: [{% for k, value in c_peridos_m.items %}['{{k}}', {{value.1}}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+            series: [{data: [{% for k, value in c_peridos_m.items %}['{{k}}', {%if value.1 == None %} 0 {%else%} {{value.1}} {%endif%}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
         });    	
     });
 
