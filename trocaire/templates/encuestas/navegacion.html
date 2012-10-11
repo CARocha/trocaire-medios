@@ -29,7 +29,7 @@
     <li rel="procesamiento"><a href="#">PROCESAMIENTO Y MERCADOS &#9660;</a></li>
     {%endif%}
 
-    {%if  dondetoy = 'conservacion' or dondetoy = 'tecnologia' or dondetoy = 'div_produc'%}
+    {%if  dondetoy = 'conservacion' or dondetoy = 'tecnologia' or dondetoy = 'div_produc' or dondetoy = 'cuatrocuatro' or dondetoy = 'cperiodos' or dondetoy = 'cpermanente' or dondetoy = 'canuales' %}
     <li class="selected" rel="produccion"><a href="#">PRODUCCIÓN SOSTENIBLE &#9660;</a></li>
     {%else%}
     <li rel="produccion"><a href="#">PRODUCCIÓN SOSTENIBLE &#9660;</a></li>
@@ -91,6 +91,10 @@
     {%endif%}
     <a {%ifequal dondetoy 'div_produc'%}class="activa"{%endifequal%} href="/encuestas/diversificacion-productiva/">Diversificación productiva</a>    
     <a {%ifequal dondetoy 'tecnologia'%}class="activa"{%endifequal%} href="/encuestas/tecnologia-agricola/">Uso de tecnología orgánica</a>
+    <a {%ifequal dondetoy 'cuatrocuatro'%}class="activa"{%endifequal%} href="/encuestas/cuatro-cuatro/">44. produccion</a>
+    <a {%ifequal dondetoy 'cperiodos'%}class="activa"{%endifequal%} href="/encuestas/cperiodos/">c.periodos</a>
+    <a {%ifequal dondetoy 'cpermanente'%}class="activa"{%endifequal%} href="/encuestas/cpermanentes/">c.permanentes</a>
+    <a {%ifequal dondetoy 'canuales'%}class="activa"{%endifequal%} href="/encuestas/canuales/">c.anuales</a>
 </div>
 {% if request.session.fecha == '2010' %}
 <div id="acceso" class="submenustyle">

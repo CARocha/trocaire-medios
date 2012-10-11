@@ -645,6 +645,249 @@ def escolaridad(request):
     tabla_esc_benef = _order_dicc(copy.deepcopy(esc_benef))
     dondetoy = "escolaridad"
     return render_to_response('encuestas/escolaridad.html', RequestContext(request, locals()))
+    
+###################################################################################
+    
+def cuatrocuatro(request):
+    encuestas = _query_set_filtrado(request)
+    alquilo = {}
+    alquilo_h_m = {}
+
+    for alquiler in Ciclo.objects.all():
+        nose = Propiedad.objects.filter(ciclo=alquiler, encuesta__in=encuestas)
+        alquilo[alquiler] = nose.count()
+        alquilo_h_m[alquiler] = _hombre_mujer_dicc(nose.values_list('encuesta__id', flat=True))
+    tabla_alquiler = _order_dicc(copy.deepcopy(alquilo))
+    dondetoy = "cuatrocuatro"
+    return render_to_response('encuestas/cuatro.html', RequestContext(request, locals()))
+
+def cultivos_periodos(request):
+    encuestas = _query_set_filtrado(request)
+    c_peridos_m = {} #macho
+    c_peridos_h = {} #hembra
+
+    for cultivo in CPeriodos.objects.all():
+        total_mz = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_mz=Sum('manzana'))['total_mz']
+        total_pr = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_pr=Sum('produccion'))['total_pr']
+        productividad = total_pr / total_mz if total_mz != 0 else 0
+
+        c_peridos_m[cultivo] = [total_mz,total_pr,productividad]
+
+    for cultivo in CPeriodos.objects.all():
+        total_mz = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_mz=Sum('manzana'))['total_mz']
+        total_pr = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_pr=Sum('produccion'))['total_pr']
+        productividad = total_pr / total_mz if total_mz != 0 else 0
+
+        c_peridos_h[cultivo] = [total_mz,total_pr,productividad]
+        
+    dondetoy = "cperiodos"
+    return render_to_response('encuestas/cperiodos.html', RequestContext(request, locals()))
+
+def cultivos_permanentes(request):
+    encuestas = _query_set_filtrado(request)
+    c_permanente_m = {} #macho
+    c_permanente_h = {} #hembra
+
+    for cultivo in CPermanentes.objects.exclude():
+        total_mz = CultivosPermanentes.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_mz=Sum('manzana'))['total_mz']
+        total_pr = CultivosPermanentes.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_pr=Sum('produccion'))['total_pr']
+        try:
+            productividad = total_pr / total_mz if total_mz != 0 else 0
+        except:
+            productividad = 0
+
+        c_permanente_m[cultivo] = [total_mz,total_pr,productividad]
+
+    for cultivo in CPermanentes.objects.exclude():
+        total_mz = CultivosPermanentes.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_mz=Sum('manzana'))['total_mz']
+        total_pr = CultivosPermanentes.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_pr=Sum('produccion'))['total_pr']
+        try:
+            productividad = total_pr / total_mz if total_mz != 0 else 0
+        except:
+            productividad = 0
+
+        c_permanente_h[cultivo] = [total_mz,total_pr,productividad]
+    dondetoy = "cpermanente"
+    return render_to_response('encuestas/cpermanentes.html', RequestContext(request, locals()))
+
+def cultivos_anuales(request):
+    encuestas = _query_set_filtrado(request)
+    c_anuales_m = {} #macho
+    c_anuales_h = {} #hembra
+
+    for cultivo in CAnuales.objects.all():
+        total_mz = CultivosAnuales.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_mz=Sum('manzana'))['total_mz']
+        total_pr = CultivosAnuales.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_pr=Sum('produccion'))['total_pr']
+        try:
+            productividad = total_pr / total_mz if total_mz != 0 else 0
+        except:
+            productividad = 0
+
+        c_anuales_m[cultivo] = [total_mz,total_pr,productividad]
+
+    for cultivo in CAnuales.objects.all():
+        total_mz = CultivosAnuales.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_mz=Sum('manzana'))['total_mz']
+        total_pr = CultivosAnuales.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_pr=Sum('produccion'))['total_pr']
+        try:
+            productividad = total_pr / total_mz if total_mz != 0 else 0
+        except:
+            productividad = 0
+
+        c_anuales_h[cultivo] = [total_mz,total_pr,productividad]
+    dondetoy = "canuales"
+    return render_to_response('encuestas/canuales.html', RequestContext(request, locals()))
+
+def desglose_periodo(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+
+    for cultivo in CIPeriodos.objects.all():
+        primera = CultivosIPeriodos.objects.filter(cultivo=cultivo, 
+                                                   encuesta__in=encuestas,
+                                                   encuesta__sexo_jefe=sexo).aggregate(primera=Sum('total_primera'))['primera']
+        postrera = CultivosIPeriodos.objects.filter(cultivo=cultivo, 
+                                                   encuesta__in=encuestas,
+                                                   encuesta__sexo_jefe=sexo).aggregate(postrera=Sum('total_postrera'))['postrera']
+        apante = CultivosIPeriodos.objects.filter(cultivo=cultivo, 
+                                                   encuesta__in=encuestas,
+                                                   encuesta__sexo_jefe=sexo).aggregate(apante=Sum('total_apante'))['apante']
+        total = CultivosIPeriodos.objects.filter(cultivo=cultivo, 
+                                                   encuesta__in=encuestas,
+                                                   encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        suma += total
+        dicc[cultivo] = [primera,postrera,apante,total]
+
+    return [dicc,suma]
+
+def desglose_permanentes(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+    for cultivo in CIPermanentes.objects.all():
+        total = CultivosIPermanentes.objects.filter(cultivo=cultivo, 
+                                                   encuesta__in=encuestas,
+                                                   encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        try:
+            suma += total
+        except:
+            suma += 0
+        dicc[cultivo] = [total]
+    return [dicc,suma]
+
+def desglose_estacionales(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+    for cultivo in CIEstacionales.objects.all():
+        total = CultivosIEstacionales.objects.filter(cultivo=cultivo, 
+                                                   encuesta__in=encuestas,
+                                                   encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        try:
+            suma += total
+        except:
+            suma += 0
+        dicc[cultivo] = [total]
+    return [dicc,suma]
+
+def desglose_hortaliza(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+    for cultivo in CIHortalizas.objects.all():
+        total = IHortalizas.objects.filter(hortaliza=cultivo, 
+                                        encuesta__in=encuestas,
+                                        encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        try:
+            suma += total
+        except:
+            suma += 0
+        dicc[cultivo] = [total]
+    return [dicc,suma]
+
+def desglose_patio(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    total = IngresoPatio.objects.filter(encuesta__in=encuestas,
+                                        encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+
+    return total
+
+def desglose_ganado(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+    for cultivo in Ganados.objects.all():
+        total = IngresoGanado.objects.filter(ganado=cultivo, 
+                                        encuesta__in=encuestas,
+                                        encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        try:
+            suma += total
+        except:
+            suma += 0
+        dicc[cultivo] = [total]
+    return [dicc,suma]
+
+def desglose_lactios(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+
+    for cultivo in Productos.objects.all():
+        verano = Lactios.objects.filter(producto=cultivo, 
+                                    encuesta__in=encuestas,
+                                    encuesta__sexo_jefe=sexo).aggregate(verano=Sum('total_verano'))['verano']
+        invierno = Lactios.objects.filter(producto=cultivo, 
+                                    encuesta__in=encuestas,
+                                    encuesta__sexo_jefe=sexo).aggregate(invierno=Sum('total_invierno'))['invierno']
+        
+        total = Lactios.objects.filter(producto=cultivo, 
+                                    encuesta__in=encuestas,
+                                    encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        try:
+            suma += total
+        except:
+            suma += 0
+        dicc[cultivo] = [verano,invierno,total]
+
+    return [dicc,suma]
+
+def ingreso_desglosado(request):
+    periodo_h = desglose_periodo(request,1) #hombres
+    #print periodo_h[1]
+    periodo_m = desglose_periodo(request, 2) #mujeres
+
+    permanente_h = desglose_permanentes(request, 1) #hombre
+    permanente_m = desglose_permanentes(request, 2) #mujer 
+
+    estacionales_h =desglose_estacionales(request, 1)  
+    estacionales_m =desglose_estacionales(request, 2)
+
+    hortaliza_h = desglose_hortaliza(request, 1)
+    hortaliza_m = desglose_hortaliza(request, 2)
+
+    patio_h = desglose_patio(request, 1)
+    patio_m = desglose_patio(request, 2)
+
+    ganado_h = desglose_ganado(request, 1)
+    ganado_m = desglose_ganado(request, 2)
+
+    lacteos_h = desglose_lactios(request, 1)
+    lacteos_m = desglose_lactios(request, 2)
+
+    ingreso_hombres = periodo_h[1] + permanente_h[1] + estacionales_h[1] + hortaliza_h[1] + patio_h + ganado_h[1] + lacteos_h[1]
+    ingreso_mujeres = periodo_m[1] + permanente_m[1] + estacionales_m[1] + hortaliza_m[1] + patio_m + ganado_m[1] + lacteos_m[1]
+    
+
+    return render_to_response('encuestas/ingreso_desglose.html', RequestContext(request, locals()))
+
+#------------------------------------------------------------------------------
 
 def credito(request):
     encuestas = _query_set_filtrado(request)

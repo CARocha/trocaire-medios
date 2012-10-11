@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load tools %}
+{% block extratitle %}CPermanentes{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript">
+    var plotOptions = {
+         pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+               enabled: false
+            },
+            showInLegend: true
+         },
+         series: {
+            dataLabels: {
+                enabled: true,
+                align: "center",
+                formatter: function() {
+                    return ''+ this.percentage.toFixed(1) + ' %';
+                },
+                color: '#000',
+                style: {
+                    font: '12px Trebuchet MS, Verdana, sans-serif'
+                }
+            }
+        }
+    }
+    var tooltip = {
+        formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.y;
+        }
+    }
+    $(document).ready(function(){
+    	var chart = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Cultivos permanentes hombres'
+            },
+            subtitle: {
+                text: '% de la produccion'
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for k, value in c_permanente_m.items %}['{{k}}', {%if value.1 == None %} 0 {%else%} {{value.1}} {%endif%}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });    	
+    });
+
+    $(document).ready(function(){
+    	var chart = new Highcharts.Chart({
+        	chart: {
+            	renderTo: 'grafo1',
+                defaultSeriesType: 'pie',
+                height: 480,
+                width: 960
+            },
+            title: {
+                text: 'Cultivos permanentes mujeres'
+            },
+            subtitle: {
+                text: '% de la produccion'
+            },                                
+            tooltip: tooltip,
+            plotOptions: plotOptions,
+            series: [{data: [{% for k, value in c_permanente_h.items %}['{{k}}', {%if value.1 == None %} 0 {%else%} {{value.1}} {%endif%}]{% if not forloop.last %}, {% endif %}{% endfor %}]}]
+        });    	
+    });
+</script>
+{% endblock %}
+
+{%block contenido%}
+
+{% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Cultivos permanentes</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+{% include "encuestas/filtros_seleccionados.html" %}
+
+<div>
+	<table class="tabla-resultados">
+	<caption>Hombres cultivos permanentes</caption>
+	<thead>
+		<tr>
+			<th>cultivos</th>
+			<th>Manzanas</th>
+			<th>Producción</th>
+			<th>Productividad</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in c_permanente_m.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+<br><br>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres cultivos permanentes</caption>
+	<thead>
+		<tr>
+			<th>cultivos</th>
+			<th>Manzanas</th>
+			<th>Producción</th>
+			<th>Productividad</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in c_permanente_h.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div id="grafo1" class="grafo"></div>
+</div>
+
+
+
+{%endblock%}
