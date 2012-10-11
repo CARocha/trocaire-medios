@@ -868,6 +868,7 @@ def desglose_lactios(request,sexo):
     return [dicc,suma]
 
 def ingreso_desglosado(request):
+    encuestas = _query_set_filtrado(request)
     periodo_h = desglose_periodo(request,1) #hombres
     #print periodo_h[1]
     periodo_m = desglose_periodo(request, 2) #mujeres

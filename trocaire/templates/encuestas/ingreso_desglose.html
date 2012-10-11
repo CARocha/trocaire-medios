@@ -2,9 +2,45 @@
 {% load tools %}
 {% block extratitle %}Ingreso desglosado{% endblock %}
 
+{% block extrahead %}
+<script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/jquery.tabify.js"></script>
+
+<script type="text/javascript">	
+	$(document).ready(function () {
+		$('#desglos').tabify();
+	});
+					
+</script>
+
+<style type="text/css" media="screen">
+#desglos { padding: 0; }
+#desglos li { display: inline; }
+#desglos li a { background: #ccf; padding: 10px; float:left; border-right: 1px solid #ccf; border-bottom: none; text-decoration: none; color: #000; font-weight: bold;}
+#desglos li.active a { background: #eef; }
+.con { float: left; clear: both; border: 1px solid #ccf; border-top: none; border-left: none; background: #eef; padding: 10px 20px 20px; width: 920px; }
+        ​
+</style>
+
+{% endblock %}
+
 {%block contenido%}
 
-<h3>Cultivos periodos</h3>
+{% include "encuestas/navegacion.html"%}
+<div class="title_bar">
+    <div class="titulo">Ingresos por categoria</div>
+    <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+</div>
+{% include "encuestas/filtros_seleccionados.html" %}
+
+<ul id="desglos" class="desglos">
+	<li class="active"><a href="#contentHome">Hombre</a></li>
+    <li><a href="#contentGuestbook">Mujer</a></li>
+</ul>
+
+<div class="con" id="contentHome">
+	<h3>Cultivos periodos</h3>
 <div>
 	<table class="tabla-resultados">
 	<caption>Hombres ingresos</caption>
@@ -34,38 +70,7 @@
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
 
-<div>
-	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
-	<thead>
-		<tr>
-			<th>cultivos</th>
-			<th>Primera</th>
-			<th>Postrera</th>
-			<th>Apante</th>
-			<th>Total</th>
-		</tr>
-	</thead>
-		<tbody>
-			{% for k,v in periodo_m.0.items %}
-			<tr>
-				<td>{{k}}</td> 
-				{% for valor in v %}
-					<td>{{valor|floatformat}}</td>
-				{% endfor %}
-			</tr>
-			{% endfor %}
-			<tr>
-				<td colspan="4" >total</td>
-        		<td><strong>C$ {{periodo_m.1}}</strong></td>
-			</tr>
-		</tbody>
-	</table>
-	<div id="grafo" class="grafo"></div>
-</div>
-<br><br>
 <h3>Cultivos permanentes</h3>
 <div>
 	<table class="tabla-resultados">
@@ -94,35 +99,7 @@
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
-<div>
-	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
-	<thead>
-		<tr>
-			<th>cultivos</th>
-			<th>Total mujeres</th>
-		</tr>
-	</thead>
-		<tbody>
-			{% for k,v in permanente_m.0.items %}
-			<tr>
-				<td>{{k}}</td> 
-				{% for valor in v %}
-					<td>{{valor|floatformat}}</td>
-				{% endfor %}
-			</tr>
-			{% endfor %}
 
-			<tr>
-				<td colspan="1" >total</td>
-        		<td><strong>C$ {{permanente_m.1}}</strong></td>
-			</tr>
-		</tbody>
-	</table>
-	<div id="grafo" class="grafo"></div>
-</div>
-<br><br>
 <h3>Cultivos estacionales</h3>
 <div>
 	<table class="tabla-resultados">
@@ -151,35 +128,7 @@
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
-<div>
-	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
-	<thead>
-		<tr>
-			<th>cultivos</th>
-			<th>Total mujeres</th>
-		</tr>
-	</thead>
-		<tbody>
-			{% for k,v in estacionales_m.0.items %}
-			<tr>
-				<td>{{k}}</td> 
-				{% for valor in v %}
-					<td>{{valor|floatformat}}</td>
-				{% endfor %}
-			</tr>
-			{% endfor %}
 
-			<tr>
-				<td colspan="1" >total</td>
-        		<td><strong>C$ {{estacionales_m.1}}</strong></td>
-			</tr>
-		</tbody>
-	</table>
-	<div id="grafo" class="grafo"></div>
-</div>
-<br><br>
 <h3>Cultivos hortalizas</h3>
 <div>
 	<table class="tabla-resultados">
@@ -208,44 +157,15 @@
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
-<div>
-	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
-	<thead>
-		<tr>
-			<th>cultivos</th>
-			<th>Total mujeres</th>
-		</tr>
-	</thead>
-		<tbody>
-			{% for k,v in hortaliza_m.0.items %}
-			<tr>
-				<td>{{k}}</td> 
-				{% for valor in v %}
-					<td>{{valor|floatformat}}</td>
-				{% endfor %}
-			</tr>
-			{% endfor %}
 
-			<tr>
-				<td colspan="1" >total</td>
-        		<td><strong>C$ {{hortaliza_m.1}}</strong></td>
-			</tr>
-		</tbody>
-	</table>
-	<div id="grafo" class="grafo"></div>
-</div>
-<br><br>
 <h3>Ingreso por la produccion agricola de patio</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre, mujer ingresos</caption>
+	<caption>Hombre ingresos</caption>
 	<thead>
 		<tr>
 			<th></th>
 			<th>Total hombre</th>
-			<th>Total mujer</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -253,13 +173,12 @@
 			<tr>
 				<td colspan="1" >total</td>
         		<td><strong>C$ {{patio_h}}</strong></td>
-        		<td><strong>C$ {{patio_m}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
+
 <h3>Ingresos por la comercialización del ganado mayor y menor</h3>
 <div>
 	<table class="tabla-resultados">
@@ -288,35 +207,7 @@
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
-<div>
-	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
-	<thead>
-		<tr>
-			<th>cultivos</th>
-			<th>Total mujeres</th>
-		</tr>
-	</thead>
-		<tbody>
-			{% for k,v in ganado_m.0.items %}
-			<tr>
-				<td>{{k}}</td> 
-				{% for valor in v %}
-					<td>{{valor|floatformat}}</td>
-				{% endfor %}
-			</tr>
-			{% endfor %}
 
-			<tr>
-				<td colspan="1" >total</td>
-        		<td><strong>C$ {{ganado_m.1}}</strong></td>
-			</tr>
-		</tbody>
-	</table>
-	<div id="grafo" class="grafo"></div>
-</div>
-<br><br>
 <h3>Producto lactios</h3>
 <div>
 	<table class="tabla-resultados">
@@ -346,8 +237,203 @@
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
 
+<h3>Ingresos totales hombres</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Hombre ingresos</caption>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Total hombre</th>
+			
+		</tr>
+	</thead>
+		<tbody>
+
+			<tr>
+				<td colspan="1" >total</td>
+        		<td><strong>C$ {{ingreso_hombres}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+
+</div>
+
+<div class="con" id="contentGuestbook">
+
+<h3>Cultivos periodos</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres ingresos</caption>
+	<thead>
+		<tr>
+			<th>cultivos</th>
+			<th>Primera</th>
+			<th>Postrera</th>
+			<th>Apante</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in periodo_m.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="4" >total</td>
+        		<td><strong>C$ {{periodo_m.1}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Cultivos permanentes</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres ingresos</caption>
+	<thead>
+		<tr>
+			<th>cultivos</th>
+			<th>Total mujeres</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in permanente_m.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+
+			<tr>
+				<td colspan="1" >total</td>
+        		<td><strong>C$ {{permanente_m.1}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Cultivos estacionales</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres ingresos</caption>
+	<thead>
+		<tr>
+			<th>cultivos</th>
+			<th>Total mujeres</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in estacionales_m.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+
+			<tr>
+				<td colspan="1" >total</td>
+        		<td><strong>C$ {{estacionales_m.1}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Cultivos hortalizas</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres ingresos</caption>
+	<thead>
+		<tr>
+			<th>cultivos</th>
+			<th>Total mujeres</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in hortaliza_m.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+
+			<tr>
+				<td colspan="1" >total</td>
+        		<td><strong>C$ {{hortaliza_m.1}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Ingreso por la produccion agricola de patio</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujer ingresos</caption>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Total mujer</th>
+		</tr>
+	</thead>
+		<tbody>
+
+			<tr>
+				<td colspan="1" >total</td>
+        		<td><strong>C$ {{patio_m}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Ingresos por la comercialización del ganado mayor y menor</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres ingresos</caption>
+	<thead>
+		<tr>
+			<th>cultivos</th>
+			<th>Total mujeres</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in ganado_m.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+
+			<tr>
+				<td colspan="1" >total</td>
+        		<td><strong>C$ {{ganado_m.1}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Producto lactios</h3>
 <div>
 	<table class="tabla-resultados">
 	<caption>Mujeres ingresos</caption>
@@ -376,15 +462,14 @@
 	</table>
 	<div id="grafo" class="grafo"></div>
 </div>
-<br><br>
-<h3>Ingresos totales hombre, mujeres</h3>
+
+<h3>Ingresos totales mujeres</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre, mujer ingresos</caption>
+	<caption>Mujer ingresos</caption>
 	<thead>
 		<tr>
 			<th></th>
-			<th>Total hombre</th>
 			<th>Total mujer</th>
 		</tr>
 	</thead>
@@ -392,7 +477,6 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{ingreso_hombres}}</strong></td>
         		<td><strong>C$ {{ingreso_mujeres}}</strong></td>
 			</tr>
 		</tbody>
@@ -400,5 +484,5 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-
+</div>
 {%endblock%}
