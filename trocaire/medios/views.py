@@ -669,14 +669,20 @@ def cultivos_periodos(request):
     for cultivo in CPeriodos.objects.all():
         total_mz = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_mz=Sum('manzana'))['total_mz']
         total_pr = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=1).aggregate(total_pr=Sum('produccion'))['total_pr']
-        productividad = total_pr / total_mz if total_mz != 0 else 0
+        try:
+            productividad = total_pr / total_mz if total_mz != 0 else 0
+        except:
+            productividad = 0
 
         c_peridos_m[cultivo] = [total_mz,total_pr,productividad]
 
     for cultivo in CPeriodos.objects.all():
         total_mz = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_mz=Sum('manzana'))['total_mz']
         total_pr = CultivosPeriodos.objects.filter(cultivos=cultivo, encuesta__in=encuestas, encuesta__sexo_jefe=2).aggregate(total_pr=Sum('produccion'))['total_pr']
-        productividad = total_pr / total_mz if total_mz != 0 else 0
+        try:
+            productividad = total_pr / total_mz if total_mz != 0 else 0
+        except:
+            productividad = 0
 
         c_peridos_h[cultivo] = [total_mz,total_pr,productividad]
         
