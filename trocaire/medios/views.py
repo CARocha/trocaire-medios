@@ -756,7 +756,10 @@ def desglose_periodo(request,sexo):
         total = CultivosIPeriodos.objects.filter(cultivo=cultivo, 
                                                    encuesta__in=encuestas,
                                                    encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
-        suma += total
+        try:
+            suma += total
+        except:
+            suma += 0
         dicc[cultivo] = [primera,postrera,apante,total]
 
     return [dicc,suma]
