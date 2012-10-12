@@ -867,6 +867,43 @@ def desglose_lactios(request,sexo):
 
     return [dicc,suma]
 
+def desglose_pproceso(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+
+    for cultivo in PProcesado.objects.all():
+        total = ProductosProcesado.objects.filter(producto=cultivo, 
+                                    encuesta__in=encuestas,
+                                    encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        try:
+            suma += total
+        except:
+            suma += 0
+        dicc[cultivo] = [total]
+
+    return [dicc,suma]
+
+def desglose_otroingreso(request,sexo):
+    encuestas = _query_set_filtrado(request)
+
+    dicc = {}
+    suma = 0
+
+    for cultivo in OtrasActividades.objects.all():
+        total = OtrosIngresos.objects.filter(actividad=cultivo, 
+                                    encuesta__in=encuestas,
+                                    encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+        try:
+            suma += total
+        except:
+            suma += 0
+        dicc[cultivo] = [total]
+
+    return [dicc,suma]
+
+
 def ingreso_desglosado(request):
     encuestas = _query_set_filtrado(request)
     periodo_h = desglose_periodo(request,1) #hombres
@@ -891,8 +928,10 @@ def ingreso_desglosado(request):
     lacteos_h = desglose_lactios(request, 1)
     lacteos_m = desglose_lactios(request, 2)
 
-    ingreso_hombres = periodo_h[1] + permanente_h[1] + estacionales_h[1] + hortaliza_h[1] + patio_h + ganado_h[1] + lacteos_h[1]
-    ingreso_mujeres = periodo_m[1] + permanente_m[1] + estacionales_m[1] + hortaliza_m[1] + patio_m + ganado_m[1] + lacteos_m[1]
+    ingreso_hombres = periodo_h[1] + permanente_h[1] + estacionales_h[1] + \
+                      hortaliza_h[1] + patio_h + ganado_h[1] + lacteos_h[1]
+    ingreso_mujeres = periodo_m[1] + permanente_m[1] + estacionales_m[1] + \
+                      hortaliza_m[1] + patio_m + ganado_m[1] + lacteos_m[1]
     
 
     return render_to_response('encuestas/ingreso_desglose.html', RequestContext(request, locals()))

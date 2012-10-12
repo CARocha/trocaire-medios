@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load tools %}
 {% block extratitle %}Ingreso desglosado{% endblock %}
-
+{% load humanize %}
 {% block extrahead %}
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
@@ -64,7 +64,7 @@
 			{% endfor %}
 			<tr>
 				<td colspan="4" >total</td>
-        		<td><strong>C$ {{periodo_h.1}}</strong></td>
+        		<td><strong>C$ {{periodo_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -93,7 +93,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{permanente_h.1}}</strong></td>
+        		<td><strong>C$ {{permanente_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -122,7 +122,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{estacionales_h.1}}</strong></td>
+        		<td><strong>C$ {{estacionales_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -151,7 +151,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{hortaliza_h.1}}</strong></td>
+        		<td><strong>C$ {{hortaliza_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -172,7 +172,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{patio_h}}</strong></td>
+        		<td><strong>C$ {{patio_h|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -201,7 +201,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{ganado_h.1}}</strong></td>
+        		<td><strong>C$ {{ganado_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -231,7 +231,7 @@
 			{% endfor %}
 			<tr>
 				<td colspan="3" >total</td>
-        		<td><strong>C$ {{lacteos_h.1}}</strong></td>
+        		<td><strong>C$ {{lacteos_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -253,7 +253,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{ingreso_hombres}}</strong></td>
+        		<td><strong>C$ {{ingreso_hombres|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -289,7 +289,7 @@
 			{% endfor %}
 			<tr>
 				<td colspan="4" >total</td>
-        		<td><strong>C$ {{periodo_m.1}}</strong></td>
+        		<td><strong>C$ {{periodo_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -318,7 +318,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{permanente_m.1}}</strong></td>
+        		<td><strong>C$ {{permanente_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -347,7 +347,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{estacionales_m.1}}</strong></td>
+        		<td><strong>C$ {{estacionales_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -376,7 +376,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{hortaliza_m.1}}</strong></td>
+        		<td><strong>C$ {{hortaliza_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -397,7 +397,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{patio_m}}</strong></td>
+        		<td><strong>C$ {{patio_m|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -426,7 +426,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{ganado_m.1}}</strong></td>
+        		<td><strong>C$ {{ganado_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -456,7 +456,7 @@
 			{% endfor %}
 			<tr>
 				<td colspan="3" >total</td>
-        		<td><strong>C$ {{lacteos_m.1}}</strong></td>
+        		<td><strong>C$ {{lacteos_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -477,7 +477,7 @@
 
 			<tr>
 				<td colspan="1" >total</td>
-        		<td><strong>C$ {{ingreso_mujeres}}</strong></td>
+        		<td><strong>C$ {{ingreso_mujeres|intcomma}}</strong></td>
 			</tr>
 		</tbody>
 	</table>

@@ -76,5 +76,6 @@ INSTALLED_APPS = (
     'trocaire.tecnologia',
     'south',
     'smart_selects',
+    'django.contrib.humanize',
     
 )
