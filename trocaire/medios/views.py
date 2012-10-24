@@ -876,7 +876,7 @@ def desglose_pproceso(request,sexo):
     for cultivo in PProcesado.objects.all():
         total = ProductosProcesado.objects.filter(producto=cultivo, 
                                     encuesta__in=encuestas,
-                                    encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
+                                    encuesta__sexo_jefe=sexo).aggregate(monto=Sum('monto'))['monto']
         try:
             suma += total
         except:
@@ -906,6 +906,9 @@ def desglose_otroingreso(request,sexo):
 
 def ingreso_desglosado(request):
     encuestas = _query_set_filtrado(request)
+    hombres = encuestas.filter(sexo_jefe=1).count()
+    mujeres = encuestas.filter(sexo_jefe=2).count()
+
     periodo_h = desglose_periodo(request,1) #hombres
     #print periodo_h[1]
     periodo_m = desglose_periodo(request, 2) #mujeres
@@ -928,12 +931,24 @@ def ingreso_desglosado(request):
     lacteos_h = desglose_lactios(request, 1)
     lacteos_m = desglose_lactios(request, 2)
 
-    ingreso_hombres = periodo_h[1] + permanente_h[1] + estacionales_h[1] + \
-                      hortaliza_h[1] + patio_h + ganado_h[1] + lacteos_h[1]
-    ingreso_mujeres = periodo_m[1] + permanente_m[1] + estacionales_m[1] + \
-                      hortaliza_m[1] + patio_m + ganado_m[1] + lacteos_m[1]
-    
+    pproceso_h = desglose_pproceso(request, 1)
+    pproceso_m = desglose_pproceso(request, 2)
 
+    otroingreso_h = desglose_otroingreso(request, 1)
+    otroingreso_m = desglose_otroingreso(request, 2)
+
+
+    ingreso_hombres = periodo_h[1] + permanente_h[1] + estacionales_h[1] + \
+                      hortaliza_h[1] + patio_h + ganado_h[1] + lacteos_h[1] + \
+                      pproceso_h[1]
+    ingreso_mujeres = periodo_m[1] + permanente_m[1] + estacionales_m[1] + \
+                      hortaliza_m[1] + patio_m + ganado_m[1] + lacteos_m[1] + \
+                      pproceso_m[1]
+
+    total_h = ingreso_hombres + otroingreso_h[1]
+    total_m = ingreso_mujeres + otroingreso_m[1] 
+    
+    dondetoy = "desglose"
     return render_to_response('encuestas/ingreso_desglose.html', RequestContext(request, locals()))
 
 #------------------------------------------------------------------------------

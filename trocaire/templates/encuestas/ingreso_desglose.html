@@ -35,15 +35,16 @@
 {% include "encuestas/filtros_seleccionados.html" %}
 
 <ul id="desglos" class="desglos">
-	<li class="active"><a href="#contentHome">Hombre</a></li>
-    <li><a href="#contentGuestbook">Mujer</a></li>
+	<li class="active"><a href="#contentHome">Familias con jefes hombres</a></li>
+    <li><a href="#contentGuestbook">Familias con jefe mujer</a></li>
 </ul>
 
 <div class="con" id="contentHome">
-	<h3>Cultivos periodos</h3>
+# de familias jefes hombres ({{hombres}})
+	<h3>Ingreso por venta de cultivos periodos</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombres ingresos</caption>
+	<caption>Hombres</caption>
 	<thead>
 		<tr>
 			<th>cultivos</th>
@@ -63,7 +64,7 @@
 			</tr>
 			{% endfor %}
 			<tr>
-				<td colspan="4" >total</td>
+				<td colspan="4" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{periodo_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -71,14 +72,14 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Cultivos permanentes</h3>
+<h3>Ingreso por venta de cultivos permanentes</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre ingresos</caption>
+	<caption>Hombre</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
-			<th>Total hombre</th>
+			<th>Cultivos</th>
+			<th>Total</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -92,7 +93,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{permanente_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -100,14 +101,14 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Cultivos estacionales</h3>
+<h3>Ingreso por venta de cultivos estacionales</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre ingresos</caption>
+	<caption>Hombres</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
-			<th>Total hombre</th>
+			<th>Cultivos</th>
+			<th>Total</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -121,7 +122,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{estacionales_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -129,14 +130,14 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Cultivos hortalizas</h3>
+<h3>Ingreso por venta de cultivos hortalizas</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre ingresos</caption>
+	<caption>Hombres</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
-			<th>Total hombre</th>
+			<th>Cultivos</th>
+			<th>Total</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -150,7 +151,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{hortaliza_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -161,17 +162,17 @@
 <h3>Ingreso por la produccion agricola de patio</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre ingresos</caption>
+	<caption>Hombres</caption>
 	<thead>
 		<tr>
 			<th></th>
-			<th>Total hombre</th>
+			<th>Total</th>
 		</tr>
 	</thead>
 		<tbody>
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{patio_h|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -182,11 +183,11 @@
 <h3>Ingresos por la comercialización del ganado mayor y menor</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre ingresos</caption>
+	<caption>Hombres</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
-			<th>Total hombre</th>
+			<th>Cultivos</th>
+			<th>Total</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -200,7 +201,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{ganado_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -208,10 +209,10 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Producto lactios</h3>
+<h3>Ingreso por venta de producto lactios</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombres ingresos</caption>
+	<caption>Hombres</caption>
 	<thead>
 		<tr>
 			<th>Producto</th>
@@ -230,7 +231,7 @@
 			</tr>
 			{% endfor %}
 			<tr>
-				<td colspan="3" >total</td>
+				<td colspan="3" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{lacteos_h.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -238,22 +239,129 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Ingresos totales hombres</h3>
+<h3>Ingreso por venta de producto procesados</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Hombre ingresos</caption>
+	<caption>Hombres</caption>
 	<thead>
 		<tr>
-			<th></th>
-			<th>Total hombre</th>
-			
+			<th>Producto</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in pproceso_h.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
+        		<td><strong>C$ {{pproceso_h.1|intcomma}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Ingreso por otros ingresos</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Hombres</caption>
+	<thead>
+		<tr>
+			<th>Producto</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in otroingreso_h.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
+        		<td><strong>C$ {{otroingreso_h.1|intcomma}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Ingresos consolidados familas jefes hombres</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Hombres</caption>
+	<thead>
+		<tr>
+			<th>Ingreso consolidado</th>
+			<th>Ingreso total</th>
+			<th>Ingreso / familia</th>
 		</tr>
 	</thead>
 		<tbody>
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" >Ingreso venta de cultivos periodos</td>
+        		<td><strong>C$ {{periodo_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{periodo_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta de cultivos permanentes</td>
+        		<td><strong>C$ {{permanente_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{permanente_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta de cultivos estacionales</td>
+        		<td><strong>C$ {{estacionales_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{estacionales_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta de cultivos hortalizas</td>
+        		<td><strong>C$ {{hortaliza_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{hortaliza_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso producción agricola de patio</td>
+        		<td><strong>C$ {{patio_h|intcomma}}</strong></td>
+        		<td><strong>C$ {{patio_h|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso comercializacioón ganado</td>
+        		<td><strong>C$ {{ganado_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{ganado_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta productos lacteos</td>
+        		<td><strong>C$ {{lacteos_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{lacteos_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta productos procesados</td>
+        		<td><strong>C$ {{pproceso_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{pproceso_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" ><strong>Ingreso total anual</strong></td>
         		<td><strong>C$ {{ingreso_hombres|intcomma}}</strong></td>
+        		<td><strong>C$ {{ingreso_hombres|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" ><strong>Ingreso total anual NO agropecuario</strong></td>
+        		<td><strong>C$ {{otroingreso_h.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{otroingreso_h.1|ingresoxfamilia:hombres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" ><strong>Total ingreso</strong></td>
+        		<td><strong>C$ {{total_h|intcomma}}</strong></td>
+        		<td><strong>C$ {{total_h|ingresoxfamilia:hombres|intcomma }}</strong></td>
 			</tr>
 		</tbody>
 	</table>
@@ -264,14 +372,14 @@
 </div>
 
 <div class="con" id="contentGuestbook">
-
-<h3>Cultivos periodos</h3>
+# de familas jefas mujeres ({{mujeres}})
+<h3>Ingreso por venta de cultivos periodos</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
+	<caption>Mujeres</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
+			<th>Cultivos</th>
 			<th>Primera</th>
 			<th>Postrera</th>
 			<th>Apante</th>
@@ -288,7 +396,7 @@
 			</tr>
 			{% endfor %}
 			<tr>
-				<td colspan="4" >total</td>
+				<td colspan="4" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{periodo_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -296,13 +404,13 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Cultivos permanentes</h3>
+<h3>Ingreso por venta de cultivos permanentes</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
+	<caption>Mujeres</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
+			<th>Cultivos</th>
 			<th>Total mujeres</th>
 		</tr>
 	</thead>
@@ -317,7 +425,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{permanente_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -325,13 +433,13 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Cultivos estacionales</h3>
+<h3>Ingreso por venta de cultivos estacionales</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
+	<caption>Mujeres</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
+			<th>Cultivos</th>
 			<th>Total mujeres</th>
 		</tr>
 	</thead>
@@ -346,7 +454,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{estacionales_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -354,13 +462,13 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Cultivos hortalizas</h3>
+<h3>Ingreso por venta de cultivos hortalizas</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
+	<caption>Mujeres</caption>
 	<thead>
 		<tr>
-			<th>cultivos</th>
+			<th>Cultivos</th>
 			<th>Total mujeres</th>
 		</tr>
 	</thead>
@@ -375,7 +483,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{hortaliza_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -386,7 +494,7 @@
 <h3>Ingreso por la produccion agricola de patio</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujer ingresos</caption>
+	<caption>Mujer</caption>
 	<thead>
 		<tr>
 			<th></th>
@@ -396,7 +504,7 @@
 		<tbody>
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{patio_m|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -407,7 +515,7 @@
 <h3>Ingresos por la comercialización del ganado mayor y menor</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
+	<caption>Mujeres</caption>
 	<thead>
 		<tr>
 			<th>cultivos</th>
@@ -425,7 +533,7 @@
 			{% endfor %}
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{ganado_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -433,10 +541,10 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Producto lactios</h3>
+<h3>Ingreso por ventas de producto lacteos</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujeres ingresos</caption>
+	<caption>Mujeres</caption>
 	<thead>
 		<tr>
 			<th>Producto</th>
@@ -455,7 +563,7 @@
 			</tr>
 			{% endfor %}
 			<tr>
-				<td colspan="3" >total</td>
+				<td colspan="3" ><strong>Ingreso anual</strong></td>
         		<td><strong>C$ {{lacteos_m.1|intcomma}}</strong></td>
 			</tr>
 		</tbody>
@@ -463,21 +571,129 @@
 	<div id="grafo" class="grafo"></div>
 </div>
 
-<h3>Ingresos totales mujeres</h3>
+<h3>Ingreso por venta de producto procesados</h3>
 <div>
 	<table class="tabla-resultados">
-	<caption>Mujer ingresos</caption>
+	<caption>Mujeres</caption>
 	<thead>
 		<tr>
-			<th></th>
-			<th>Total mujer</th>
+			<th>Producto</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in pproceso_m.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
+        		<td><strong>C$ {{pproceso_m.1|intcomma}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Ingreso por otros ingresos</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres</caption>
+	<thead>
+		<tr>
+			<th>Producto</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+		<tbody>
+			{% for k,v in otroingreso_m.0.items %}
+			<tr>
+				<td>{{k}}</td> 
+				{% for valor in v %}
+					<td>{{valor|floatformat}}</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="1" ><strong>Ingreso anual</strong></td>
+        		<td><strong>C$ {{otroingreso_m.1|intcomma}}</strong></td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="grafo" class="grafo"></div>
+</div>
+
+<h3>Ingresos consolidados familas jefes mujeres</h3>
+<div>
+	<table class="tabla-resultados">
+	<caption>Mujeres</caption>
+	<thead>
+		<tr>
+			<th>Ingreso consolidado</th>
+			<th>Ingreso total</th>
+			<th>Ingreso / familia</th>
 		</tr>
 	</thead>
 		<tbody>
 
 			<tr>
-				<td colspan="1" >total</td>
+				<td colspan="1" >Ingreso venta de cultivos periodos</td>
+        		<td><strong>C$ {{periodo_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{periodo_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta de cultivos permanentes</td>
+        		<td><strong>C$ {{permanente_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{permanente_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta de cultivos estacionales</td>
+        		<td><strong>C$ {{estacionales_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{estacionales_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta de cultivos hortalizas</td>
+        		<td><strong>C$ {{hortaliza_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{hortaliza_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso producción agricola de patio</td>
+        		<td><strong>C$ {{patio_m|intcomma}}</strong></td>
+        		<td><strong>C$ {{patio_m|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso comercializacioón ganado</td>
+        		<td><strong>C$ {{ganado_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{ganado_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta productos lacteos</td>
+        		<td><strong>C$ {{lacteos_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{lacteos_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" >Ingreso venta productos procesados</td>
+        		<td><strong>C$ {{pproceso_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{pproceso_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" ><strong>Ingreso total anual</strong></td>
         		<td><strong>C$ {{ingreso_mujeres|intcomma}}</strong></td>
+        		<td><strong>C$ {{ingreso_mujeres|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" ><strong>Ingreso total anual NO agropecuario</strong></td>
+        		<td><strong>C$ {{otroingreso_m.1|intcomma}}</strong></td>
+        		<td><strong>C$ {{otroingreso_m.1|ingresoxfamilia:mujeres|intcomma }}</strong></td>
+			</tr>
+			<tr>
+				<td colspan="1" ><strong>Total ingreso</strong></td>
+        		<td><strong>C$ {{total_m|intcomma}}</strong></td>
+        		<td><strong>C$ {{total_m|ingresoxfamilia:mujeres|intcomma }}</strong></td>
 			</tr>
 		</tbody>
 	</table>
