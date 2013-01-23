@@ -94,15 +94,38 @@
 		<tbody>			
 			<tr>
 				<td>Promedio de ingresos familiares <b>C$</b></td>
-				<td>{{promedio.total|currency}} (<b>US$</b> {{promedio.total|dolarizar:20.60}})</td>				
-				<td>{{promedio.hombre_jefe|currency}} (<b>US$</b> {{promedio.hombre_jefe|dolarizar:20.60}})</td>
-				<td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:20.60}})</td>								
+                {% if request.session.fecha == '2010' %}
+				<td>{{promedio.total|currency}} (<b>US$</b> {{promedio.total|dolarizar:20.60}})</td>{%endif%}
+                {% if request.session.fecha == '2012' %}
+                <td>{{promedio.total|currency}} (<b>US$</b> {{promedio.total|dolarizar:24.10}})</td>{%endif%}
+
+                {% if request.session.fecha == '2010' %}
+				<td>{{promedio.hombre_jefe|currency}} (<b>US$</b> {{promedio.hombre_jefe|dolarizar:20.60}})</td>{%endif%}
+                {% if request.session.fecha == '2012' %}
+                <td>{{promedio.hombre_jefe|currency}} (<b>US$</b> {{promedio.hombre_jefe|dolarizar:24.10}})</td>{%endif%}
+
+                {% if request.session.fecha == '2010' %}
+				<td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:20.60}})</td>{%endif%}
+                {% if request.session.fecha == '2012' %}
+                <td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:24.10}})</td>{%endif%}	
+
 			</tr>
 			<tr>
 				<td>Mediana ingresos familiares <b>C$</b></td>
-				<td>{{mediana.total|currency}} (<b>US$</b> {{mediana.total|dolarizar:20.60}})</td>
-				<td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:20.60}})</td>
-				<td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:20.60}})</td>								
+                {% if request.session.fecha == '2010' %}
+				<td>{{mediana.total|currency}} (<b>US$</b> {{mediana.total|dolarizar:20.60}})</td>{%endif%}
+                {% if request.session.fecha == '2012' %}
+                <td>{{mediana.total|currency}} (<b>US$</b> {{mediana.total|dolarizar:24.10}})</td>{%endif%}
+
+                {% if request.session.fecha == '2010' %}
+				<td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:20.60}})</td>{%endif%}
+                {% if request.session.fecha == '2012' %}
+                <td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:24.10}})</td>{%endif%}
+
+                {% if request.session.fecha == '2010' %}
+				<td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:20.60}})</td>{%endif%}
+                {% if request.session.fecha == '2012' %}
+                <td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:24.10}})</td>{%endif%}							
 			</tr>			
 		</tbody>
 	</table>

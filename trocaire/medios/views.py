@@ -1024,7 +1024,8 @@ def ingreso_agropecuario(request):
     dondetoy = "actividadesagro"
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
-def ingreso_familiar(request, agro='total', titulo=None, dondetoy='ingresosfam'):
+def ingreso_familiar(request, agro='total', titulo=None, dondetoy='ingresosfam{% if request.session.fecha == '2010' %}
+                <td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:20.60}})</td>{%endif%}ven'):
     encuestas = _query_set_filtrado(request)
     ingresos = TotalIngreso.objects.filter(encuesta__in=encuestas).values_list(agro, flat=True)
     
