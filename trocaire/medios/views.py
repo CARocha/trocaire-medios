@@ -823,7 +823,9 @@ def desglose_patio(request,sexo):
 
     total = IngresoPatio.objects.filter(encuesta__in=encuestas,
                                         encuesta__sexo_jefe=sexo).aggregate(total=Sum('total'))['total']
-
+    if total == None:
+        total = 0
+    
     return total
 
 def desglose_ganado(request,sexo):
@@ -937,10 +939,10 @@ def ingreso_desglosado(request):
     otroingreso_h = desglose_otroingreso(request, 1)
     otroingreso_m = desglose_otroingreso(request, 2)
 
-
     ingreso_hombres = periodo_h[1] + permanente_h[1] + estacionales_h[1] + \
                       hortaliza_h[1] + patio_h + ganado_h[1] + lacteos_h[1] + \
                       pproceso_h[1]
+    
     ingreso_mujeres = periodo_m[1] + permanente_m[1] + estacionales_m[1] + \
                       hortaliza_m[1] + patio_m + ganado_m[1] + lacteos_m[1] + \
                       pproceso_m[1]
