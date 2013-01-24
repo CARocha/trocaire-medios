@@ -1024,8 +1024,7 @@ def ingreso_agropecuario(request):
     dondetoy = "actividadesagro"
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
-def ingreso_familiar(request, agro='total', titulo=None, dondetoy='ingresosfam{% if request.session.fecha == '2010' %}
-                <td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:20.60}})</td>{%endif%}ven'):
+def ingreso_familiar(request, agro='total', titulo=None, dondetoy='ingresosfam'):
     encuestas = _query_set_filtrado(request)
     ingresos = TotalIngreso.objects.filter(encuesta__in=encuestas).values_list(agro, flat=True)
     
@@ -1180,7 +1179,11 @@ def venta_organizada(request):
     encuestas = _query_set_filtrado(request)
     labels = {1: '% de familias que venden', 2: '% de familias que no venden'}
     titulo = u'Acceso de las familias para vender sus productos de forma organizada'
-    
+    #datos nuevos pedido ronnie
+    nuevo_global = encuestas.count()
+    nuevo_hombre = encuestas.filter(sexo_jefe=1).count()
+    nuevo_mujer = encuestas.filter(sexo_jefe=2).count()
+
     filtro = [2, 3, 4]
     venta = get_vende_num(encuestas, filtro)
     venta_hombre = get_vende_num(encuestas.filter(sexo_jefe=1), filtro)

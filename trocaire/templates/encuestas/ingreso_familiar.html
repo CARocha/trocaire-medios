@@ -6,6 +6,13 @@
 <script type="text/javascript" src="{{MEDIA_URL}}js/highcharts.js"></script>
 <script type="text/javascript" src="{{MEDIA_URL}}js/exporting_patched.js"></script>
 <script type="text/javascript">
+    var cambio;
+    if ( {{request.session.fecha}} == 2010) {
+        cambio = 20.60;
+    }else if ( {{request.session.fecha}} == 2012) {
+        cambio = 24.10;
+    }
+
     var plotOptions = {
         column: {            
             borderWidth: 0
@@ -16,7 +23,7 @@
                 enabled: true,
                 align: "center",
                 formatter: function() {
-                    return '<b>C$:</b>'+ this.y + '<b> | US$:</b>' + (this.y/20.60).toFixed(0);
+                    return '<b>C$:</b>'+ this.y + '<b> | US$:</b>' + (this.y/cambio).toFixed(0);
                 },
                 color: '#000',
                 style: {
@@ -28,7 +35,7 @@
     var tooltip = {
         formatter: function() {
             return ''+
-                this.series.name + ' <b>'+ this.x +': C$</b> '+ this.y + '<b>US$ </b>' + (this.y/20.60).toFixed(0);
+                this.series.name + ' <b>'+ this.x +': C$</b> '+ this.y + '<b>US$ </b>' + (this.y/cambio).toFixed(0);
         }
     }
     var leyenda = {
@@ -49,7 +56,7 @@
                     text: '{{titulo}}'
                 },
                 subtitle: {
-                    text: 'Cantidades en Córdobas Nicaragüenses - Dolares (Tasa: 20.60 por 1)'
+                    text: 'Cantidades en Córdobas Nicaragüenses - Dolares (Tasa: '+cambio+' por 1)'
                 },
                 xAxis: {
                     categories: [

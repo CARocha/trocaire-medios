@@ -66,9 +66,9 @@
                 legend: leyenda,
                 tooltip: tooltip,
                 plotOptions: plotOptions,
-                series: [{name: 'Total', data: [{% for key, value in dicc.items %}{{value|calcular_frecuencia:total}}, {% endfor %}]},
-                		{name: 'Hombre Jefe', data: [{% for key, value in dicc_hombre.items %}{{value|calcular_frecuencia:total_hombre}}, {% endfor %}]},
-                		{name: 'Mujer Jefa', data: [{% for key, value in dicc_mujer.items %}{{value|calcular_frecuencia:total_mujer}}, {% endfor %}]}
+                series: [{name: 'Total', data: [{% for key, value in dicc.items %}{{value|calcular_frecuencia:nuevo_global}}, {% endfor %}]},
+                		{name: 'Hombre Jefe', data: [{% for key, value in dicc_hombre.items %}{{value|calcular_frecuencia:nuevo_hombre}}, {% endfor %}]},
+                		{name: 'Mujer Jefa', data: [{% for key, value in dicc_mujer.items %}{{value|calcular_frecuencia:nuevo_mujer}}, {% endfor %}]}
                 ]
             });
     });
@@ -103,11 +103,11 @@
 			<tr>
 				<td>{{labels|get_value:key}}</td>
 				<td>{{value}}</td>
-				<td>{{value|calcular_frecuencia:total}}</td>				
+				<td>{{value|calcular_frecuencia:nuevo_global}}</td>				
 				<td>{{dicc_hombre|get_value:key}}</td>
-				<td>{{dicc_hombre|get_value:key|calcular_frecuencia:total_hombre}}</td>
+				<td>{{dicc_hombre|get_value:key|calcular_frecuencia:nuevo_hombre}}</td>
 				<td>{{dicc_mujer|get_value:key}}</td>		
-				<td>{{dicc_mujer|get_value:key|calcular_frecuencia:total_mujer}}</td>					
+				<td>{{dicc_mujer|get_value:key|calcular_frecuencia:nuevo_mujer}}</td>					
 			</tr>
 			{% endfor %}
 		</tbody>
