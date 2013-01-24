@@ -1208,6 +1208,10 @@ def familias_venden(request):
     venta = get_vende_num(encuestas, filtro)
     venta_hombre = get_vende_num(encuestas.filter(sexo_jefe=1), filtro)
     venta_mujer = get_vende_num(encuestas.filter(sexo_jefe=2), filtro)
+
+    nuevo_global = encuestas.count()
+    nuevo_hombre = encuestas.filter(sexo_jefe=1).count()
+    nuevo_mujer = encuestas.filter(sexo_jefe=2).count()
     
     total = sum(venta)
     total_hombre = sum(venta_hombre)
