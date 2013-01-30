@@ -1229,9 +1229,9 @@ def get_vende_num(query, filtro):
         n = obj.vendeproducto_set.filter(forma__in=filtro).count()
         if n != 0:
             venden += 1
-        n1 = obj.vendeproducto_set.filter(forma=5).count()
-        if n1 != 0:
-            novenden += 1
+        #n1 = obj.vendeproducto_set.filter(forma=5).count()
+        #if n1 != 0:
+        novenden = query.count() - venden
     return venden, novenden
 
 def procesando_productos(request):
@@ -1370,8 +1370,10 @@ def saca_porcentajes(dato, total, formato=True):
 def calcular_promedio(lista):
     n = len(lista)
     total_suma = sum(lista)
-    
-    return round(total_suma/n, 2) 
+    try:
+        return round(total_suma/n, 2)
+    except:
+        return 0 
 
 def calcular_mediana(lista):
     n = len(lista)
@@ -1379,9 +1381,15 @@ def calcular_mediana(lista):
     
     #calcular si lista es odd or even
     if (n%2) == 1:
-        index = (n+1)/2
+        try:
+            index = (n+1)/2
+        except:
+            index = 0
         return lista[index-1]
     else:
         index_1 = (n/2)
         index_2 = index_1+1
-        return calcular_promedio([lista[index_1-1], lista[index_2-1]])
+        try:
+            return calcular_promedio([lista[index_1-1], lista[index_2-1]])
+        except:
+            return 0

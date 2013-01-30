@@ -66,4 +66,7 @@ def dolarizar(cantidad, tasa):
 
 @register.filter
 def ingresoxfamilia(value, arg):
-    return int(value/arg)
+    try:
+        return int(value/arg)
+    except:
+        return 0
