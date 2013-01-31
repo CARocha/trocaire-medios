@@ -1,4 +1,4 @@
-.ui-multiselect { padding:2px 0 2px 4px; text-align:left; font-size: 70%; width:300px !important; background:#d8e2e6;     border-top:#fff 1px solid;
+.ui-multiselect { padding:2px 0 2px 4px; text-align:left; font-size: 70%; background:#d8e2e6;     border-top:#fff 1px solid;
     border-left:#fff 1px solid;
     border-right:#90aab6 1px solid;
     border-bottom:#90aab6 1px solid;
@@ -28,3 +28,9 @@
 
 /* remove label borders in IE6 because IE6 does not support transparency */
 * html .ui-multiselect-checkboxes label { border:none }
+.ui-corner-all{
+	font-size: 11px !important;	
+}
+.ui-multiselect{
+	font-size: 12px !important;
+}

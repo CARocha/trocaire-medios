@@ -26,9 +26,12 @@ def _query_set_filtrado(request):
     params = {}
     if 'fecha' in request.session:
         params['fecha'] = request.session['fecha']
-        
+    
     if request.session['contraparte']:
-        params['contraparte'] = request.session['contraparte'] 
+        #contra = Contraparte.objects.filter(encuesta__contraparte__id__in=request.session['contraparte']).values_list('id',flat=True)
+        #print contra
+        params['contraparte__in'] = request.session['contraparte']
+        print params['contraparte__in']
 
     if request.session['departamento']:                     
         if request.session['municipio']:                

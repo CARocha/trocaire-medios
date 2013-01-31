@@ -17,6 +17,10 @@ def get_anios():
         years.append((en, en))
     return list(set(years))
 
+def contrapartes():   
+    foo = Encuesta.objects.all().order_by('contraparte__nombre').distinct().values_list('contraparte__id', flat=True)
+    return Contraparte.objects.filter(id__in=foo)
+
 class CustomChoiceField(forms.ChoiceField):
 
     def __init__(self, *args, **kwargs):
@@ -29,7 +33,7 @@ class ConsultarForm(forms.Form):
                                           required=False, empty_label="Todos los Departamentos")
     municipio = forms.CharField(widget = forms.Select, required=False)
     comarca = forms.CharField(widget = forms.Select, required=False)
-    contraparte = forms.ModelChoiceField(queryset=Contraparte.objects.all(), required=False)
+    contraparte = forms.ModelChoiceField(queryset=contrapartes(), required=False)
     #escolaridad
     escolaridad_beneficiario = CustomChoiceField(choices=CHOICE_ESCOLARIDAD, required=False)
     escolaridad_conyugue = CustomChoiceField(choices=CHOICE_ESCOLARIDAD, required=False)
