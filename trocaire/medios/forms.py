@@ -33,7 +33,8 @@ class ConsultarForm(forms.Form):
                                           required=False, empty_label="Todos los Departamentos")
     municipio = forms.CharField(widget = forms.Select, required=False)
     comarca = forms.CharField(widget = forms.Select, required=False)
-    contraparte = forms.ModelChoiceField(queryset=contrapartes(), required=False)
+    contraparte = forms.ModelMultipleChoiceField(queryset=Contraparte.objects.all().order_by('nombre')
+                                        , required=False)
     #escolaridad
     escolaridad_beneficiario = CustomChoiceField(choices=CHOICE_ESCOLARIDAD, required=False)
     escolaridad_conyugue = CustomChoiceField(choices=CHOICE_ESCOLARIDAD, required=False)

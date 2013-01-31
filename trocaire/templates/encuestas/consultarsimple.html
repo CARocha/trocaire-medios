@@ -20,6 +20,7 @@
             minWidth: 200,
             beforeclose: function(event, ui){
                 var selectos = $("#id_contraparte").multiselect("getChecked").map(function(){
+                    console.log(this.value)
                     return this.value;
                 }).get();
                 

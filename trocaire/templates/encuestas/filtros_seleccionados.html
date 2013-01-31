@@ -2,13 +2,16 @@
 	<center><div style="background:#add9d9; width:100%;">FILTROS SELECCIONADOS</div></center>
     <div class="filtro"><b>Num. Encuestas</b><br><div style ="font-size:19px;">{{encuestas.count}}</div></div>
     {% if request.session.contraparte %}
-    <div class="filtro"><b>Contraparte</b><br>{{request.session.contraparte}}</div>
+    <div class="filtro"><b>Contraparte</b><br>{%for a in request.session.contraparte%}{{a}},{%endfor%}</div>
     {% endif %}
     {% if request.session.departamento %}
     <div class="filtro"><b>Departamento</b><br>{{request.session.departamento}}</div>
     {% endif %}
     {% if request.session.municipio %}
     <div class="filtro"><b>Municipio</b><br>{{request.session.municipio}}</div>
+    {% endif %}
+    {% if request.session.fecha %}
+    <div class="filtro"><b>Fecha</b><br>{{request.session.fecha}}</div>
     {% endif %}
 <!--
     {% if request.session.parametros %}

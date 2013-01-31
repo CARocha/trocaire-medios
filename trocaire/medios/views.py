@@ -22,16 +22,12 @@ from trocaire.genero.models import *
 import copy
 
 def _query_set_filtrado(request):
-    #anio = int(request.session['fecha'])
     params = {}
     if 'fecha' in request.session:
         params['fecha'] = request.session['fecha']
     
-    if request.session['contraparte']:
-        #contra = Contraparte.objects.filter(encuesta__contraparte__id__in=request.session['contraparte']).values_list('id',flat=True)
-        #print contra
+    if request.session['contraparte']:   
         params['contraparte__in'] = request.session['contraparte']
-        print params['contraparte__in']
 
     if request.session['departamento']:                     
         if request.session['municipio']:                
@@ -98,6 +94,7 @@ def _query_set_filtrado(request):
 
     if not encuestas_id:
         qs = Encuesta.objects.filter(**params)
+        
         # excluyendo a Rancho Grande a pedido de Boss XD
         if c_flag == None:
             return qs.exclude(municipio__nombre='Rancho Grande')
