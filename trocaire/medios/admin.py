@@ -375,10 +375,10 @@ class EncuestaAdmin(admin.ModelAdmin):
     list_filter = ['contraparte','fecha']
     search_fields = ['beneficiario']
     #date_hierarchy = 'fecha'
-    class Media:
-        css = {
-            'all': ('/archivos/css/admin.css',),
-        }
+    #class Media:
+    #    css = {
+    #        'all': ('/archivos/css/admin.css',),
+    #    }
                
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Contraparte)

@@ -356,6 +356,17 @@ def manzana(request,sexo):
         if query > 0:
             lista.append(x.id)
     
+    return lista
+
+def manzana2(request,sexo):
+    encuestas = _query_set_filtrado(request)
+    
+    lista = []
+    for x in encuestas.filter(sexo_jefe=sexo):
+        query = AreaProtegida.objects.filter(encuesta=x, respuesta__in=[2,3,4,5]).aggregate(query=Sum('cantidad'))['query']
+        if query > 0:
+            lista.append(query)
+    
     return lista    
 
 def familias_practicas(request):
@@ -370,11 +381,20 @@ def familias_practicas(request):
      
     hombre = len(conservacion_h)
     por_hombre = round(saca_porcentajes(hombre,hombre_jefes),1)
+    area_hombre = manzana2(request, 1)
+    csa_total_h = 0
+    for suma in area_hombre:
+        csa_total_h += suma
     mujer = len(conservacion_m)
     por_mujer = round(saca_porcentajes(mujer,mujer_jefes),1)
+    area_mujer = manzana2(request, 2)
+    csa_total_m = 0
+    for suma in area_mujer:
+        csa_total_m += suma
     
     total_h_m = hombre + mujer
     por_total_h_m = round(saca_porcentajes(total_h_m,total),1)
+    area_total = csa_total_h + csa_total_m #Esta es area de CSA
     
     no_total = total - total_h_m
     por_no_total = round(saca_porcentajes(no_total,total),1)
