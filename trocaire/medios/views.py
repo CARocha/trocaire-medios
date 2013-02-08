@@ -1032,15 +1032,15 @@ def get_participacion(query_param, organismo):
 
 def ingreso_agropecuario(request):
     encuestas = _query_set_filtrado(request)
-    query = PrincipalesFuentes.objects.filter(encuesta__in=encuestas)    
+    query = TotalIngreso.objects.filter(encuesta__in=encuestas)    
     
     #obtener queries segun jefe de familia
-    query_hombre = PrincipalesFuentes.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1))
-    query_mujer = PrincipalesFuentes.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2))
+    query_hombre = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=1))
+    query_mujer = TotalIngreso.objects.filter(encuesta__in=encuestas.filter(sexo_jefe=2))
             
-    ingreso_agropecuario = {'total': query.filter(fuentes_ap__gte=1).count(),
-            'hombre': query_hombre.filter(fuentes_ap__gte=1).count(), 
-            'mujer': query_mujer.filter(fuentes_ap__gte=1).count()}
+    ingreso_agropecuario = {'total': query.filter(total_ap__gte=1).count(),
+            'hombre': query_hombre.filter(total_ap__gte=1).count(), 
+            'mujer': query_mujer.filter(total_ap__gte=1).count()}
     dondetoy = "actividadesagro"
     return render_to_response('encuestas/ingreso_agropecuario.html', RequestContext(request, locals()))
 
