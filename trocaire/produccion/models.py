@@ -7,28 +7,28 @@ class CPeriodos(models.Model):
     unidad = models.CharField(max_length=6)
 
     def __unicode__(self):
-        return self.nombre
+        return u'%s - %s' % (self.nombre, self.unidad)
         
 class CPermanentes(models.Model):
     nombre = models.CharField(max_length=200)
     unidad = models.CharField(max_length=6)
 
     def __unicode__(self):
-        return self.nombre
+        return u'%s - %s' % (self.nombre, self.unidad)
         
 class CAnuales(models.Model):
     nombre = models.CharField(max_length=200)
     unidad = models.CharField(max_length=6)
 
     def __unicode__(self):
-        return self.nombre
+        return u'%s - %s' % (self.nombre, self.unidad)
         
 class CHortalizas(models.Model):
     nombre = models.CharField(max_length=200)
     unidad = models.CharField(max_length=6)
 
     def __unicode__(self):
-        return self.nombre
+        return u'%s - %s' % (self.nombre, self.unidad)
         
 class CultivosPeriodos(models.Model):
     cultivos = models.ForeignKey(CPeriodos, verbose_name="Cultivos de periodos")
