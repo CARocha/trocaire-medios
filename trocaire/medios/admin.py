@@ -30,7 +30,7 @@ class AdminDescripcionInline(admin.TabularInline):
     
 class AdminEscolaridadInline(admin.TabularInline):
     model = Escolaridad
-    fields = ('beneficia',)
+    fields = ('beneficia','conyugue')
     extra = 1
     max_num = 1
     can_delete = True
@@ -73,7 +73,7 @@ class AdminTierraInline(admin.TabularInline):
     
 class AdminPropiedadInline(admin.TabularInline):
     model = Propiedad
-    fields = ('ciclo',)
+    fields = ('conflicto','ciclo','zonas')
     extra = 1
     max_num = 1
     can_delete = True
