@@ -126,12 +126,12 @@
         <a href="/encuestas/datos-x-sexo/">Sexo jefe de familia</a>
         <a href="/encuestas/sexo-beneficiario/">Sexo de beneficiario/a y jefatura de familia</a>
         <a href="/encuestas/escolaridad/">Escolaridad de beneficiario/a</a>
-        {% if request.session.fecha == '2010' %}
+        {% if request.session.fecha != '2012' %}
         <a href="/encuestas/dependencia/">Dependencia familiar</a>
         {%endif%}
         <div class="clean"></div>
     <div class="indicadorcategoria">INGRESOS FAMILIARES</div>
-        {% if request.session.fecha == '2010' %}
+        {% if request.session.fecha != '2012' %}
         <a href="/encuestas/credito/">Acceso a crédito </a>
         {%endif%}
         <a href="/encuestas/ingreso-agropecuario/">% de Familias con Ingresos Agropecuarios</a>
@@ -152,7 +152,7 @@
         <div class="clean"></div>
         
     <div class="indicadorcategoria">PRODUCCIÓN SOSTENIBLE</div>
-        {% if request.session.fecha == '2010' %}
+        {% if request.session.fecha != '2012' %}
         <a href="/encuestas/familias-practicas/">Conservación de suelo y agua</a>
         {%endif%}
         <a href="/encuestas/diversificacion-productiva/">Diversificación productiva</a>
@@ -161,7 +161,7 @@
        <a href="/encuestas/cpermanentes/">Cult. permanentes</a>
        <a href="/encuestas/canuales/">Cult. anuales</a>
         <div class="clean"></div>
-    {% if request.session.fecha == '2010' %}    
+    {% if request.session.fecha != '2012' %}    
     <div class="indicadorcategoria">ACCESO A TIERRA Y AGUA</div>
         <a href="/encuestas/agua-clorada/">Agua segura</a>
         <a href="/encuestas/gastan-horas/">Tiempo de recolección de agua</a>
