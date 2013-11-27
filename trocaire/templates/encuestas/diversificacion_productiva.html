@@ -66,9 +66,13 @@
                 legend: leyenda,
                 tooltip: tooltip,
                 plotOptions: plotOptions,
-                series: [{name: 'Total', data: [{% for key, value in dicc.items %}{{value|calcular_frecuencia:total}}, {% endfor %}]},
-                		{name: 'Hombre Jefe', data: [{% for key, value in dicc_hombre.items %}{{value|calcular_frecuencia:total_hombre}}, {% endfor %}]},
-                		{name: 'Mujer Jefa', data: [{% for key, value in dicc_mujer.items %}{{value|calcular_frecuencia:total_mujer}}, {% endfor %}]}
+                series: [{name: 'Total', data: [{% for key, value in dicc.items %}{% with acumulada=dicc.values|frec_acumul:forloop.counter0 %}{{acumulada|calcular_frecuencia:total}}{% endwith %}, {% endfor %}]},
+                        {name: 'Hombre Jefe', data: [{% for key, value in dicc_hombre.items %}{% with acumulada=dicc_hombre.values|frec_acumul:forloop.counter0 %}                  
+                        {{acumulada|calcular_frecuencia:total_hombre}}              
+                        {% endwith %}, {% endfor %}]},
+                        {name: 'Mujer Jefa', data: [{% for key, value in dicc_mujer.items %}{% with acumulada=dicc_mujer.values|frec_acumul:forloop.counter0 %}                     
+                        {{acumulada|calcular_frecuencia:total_mujer}}               
+                        {% endwith %}, {% endfor %}]}
                 ]
             });
     });
@@ -89,25 +93,42 @@
 	<caption>{{titulo}}</caption>
 	<thead>
 		<tr>
-			<th>Grupos</th>
-			<th>Total: {{total}}</th>			
-			<th>%</th>
-			<th>Hombre Jefe: {{total_hombre}}</th>
-			<th>%</th>
-			<th>Mujere Jefe: {{total_mujer}}</th>
-			<th>%</th>			
+			<th rowspan="2">Grupos</th>
+			<th colspan="3">Total: {{total}}</th>			
+			<th colspan="3">Hombre Jefe: {{total_hombre}}</th>
+			<th colspan="3">Mujere Jefe: {{total_mujer}}</th>		
 		</tr>
+        <tr>            
+            <th>Frecuencia Simple</th>
+            <th>Frecuencia Acumulada</th>           
+            <th>%</th>
+            <th>Frecuencia Simple</th>
+            <th>Frecuencia Acumulada</th>           
+            <th>%</th>
+            <th>Frecuencia Simple</th>
+            <th>Frecuencia Acumulada</th>           
+            <th>%</th>          
+        </tr>       
 	</thead>
 		<tbody>
 			{% for key, value in dicc.items %}
 			<tr>
 				<td>{{labels|get_value:key}}</td>
 				<td>{{value}}</td>
-				<td>{{value|calcular_frecuencia:total}}</td>
-				<td>{{dicc_hombre|get_value:key}}</td>
-				<td>{{dicc_hombre|get_value:key|calcular_frecuencia:total_hombre}}</td>
-				<td>{{dicc_mujer|get_value:key}}</td>		
-				<td>{{dicc_mujer|get_value:key|calcular_frecuencia:total_mujer}}</td>	
+                {% with acumulada=dicc.values|frec_acumul:forloop.counter0 %}
+                <td>{{acumulada}}</td>
+                <td>{{acumulada|calcular_frecuencia:total}}</td>                
+                {% endwith %}
+				<td>{{dicc_hombre|get_value:key}}</td>              
+                {% with acumulada=dicc_hombre.values|frec_acumul:forloop.counter0 %}
+                <td>{{acumulada}}</td>
+                <td>{{acumulada|calcular_frecuencia:total_hombre}}</td>             
+                {% endwith %}               
+				<td>{{dicc_mujer|get_value:key}}</td>       
+                {% with acumulada=dicc_mujer.values|frec_acumul:forloop.counter0 %}
+                <td>{{acumulada}}</td>
+                <td>{{acumulada|calcular_frecuencia:total_mujer}}</td>              
+                {% endwith %}	
 			</tr>
 			{% endfor %}
 		</tbody>
