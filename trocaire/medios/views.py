@@ -330,8 +330,11 @@ def agua_clorada(request):
     mujer= helmy[0][3] + giacoman[0][3]
     por_mujer = helmy[0][4] + giacoman[0][4]
     total= helmy[0][5] + giacoman[0][5]
-    por_total = round(float(total)/float(numero)*100,2)
-
+    try:
+        por_total = round(float(total)/float(numero)*100,2)
+    except:
+        por_total = 0.0
+        
     dondetoy = "cloran"
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
