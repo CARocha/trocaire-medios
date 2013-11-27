@@ -324,7 +324,14 @@ def agua_clorada(request):
     
     helmy = comelon(request,2,1)
     giacoman = mano_quebrada(request,2,1)
-    #print giacoman
+    consolidado = []
+    varon= helmy[0][1] + giacoman[0][1]
+    por_varon = helmy[0][2] + giacoman[0][2]
+    mujer= helmy[0][3] + giacoman[0][3]
+    por_mujer = helmy[0][4] + giacoman[0][4]
+    total= helmy[0][5] + giacoman[0][5]
+    por_total = round(float(total)/float(numero)*100,2)
+
     dondetoy = "cloran"
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
