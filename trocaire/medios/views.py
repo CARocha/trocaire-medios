@@ -334,7 +334,7 @@ def agua_clorada(request):
         por_total = round(float(total)/float(numero)*100,2)
     except:
         por_total = 0.0
-        
+
     dondetoy = "cloran"
     return render_to_response('encuestas/agua_clorada.html', RequestContext(request,locals()))
     
@@ -560,6 +560,16 @@ def acceso_agua(request):
     total_manzadas_goteo = total_lista_g_h + total_lista_g_m
     total_manzanas_gravedad = total_lista_gra_h + total_lista_gra_m
     total_manzanas_otros = total_o_h + total_o_m
+
+    gran_total = total_aspersion + total_goteo + total_gravedad
+    por_gran_total = round(float(gran_total)/float(numero)*100,2)
+    mujer_total = aspersion_m + goteo_m + gravedad_m
+    por_mujer_total = round(float(mujer_total)/float(mujer_jefes)*100,2)
+    hombre_total = aspersion_h + goteo_h + gravedad_h
+    por_hombre_total = round(float(hombre_total)/float(hombre_jefes)*100,2)
+
+
+
     dondetoy = "accesoagua"
     return render_to_response('encuestas/acceso_agua.html', RequestContext(request,locals()))
 
