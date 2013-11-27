@@ -27,6 +27,21 @@
             }
         });
 
+        $("#id_fecha").multiselect({
+            noneSelectedText: 'Fecha',
+            selectedText: 'Fecha',
+            checkAllText: 'Todos',
+            uncheckAllText: 'Quitar todos',
+            minWidth: 200,
+            beforeclose: function(event, ui){
+                var selectos = $("#id_fecha").multiselect("getChecked").map(function(){
+                    console.log(this.value)
+                    return this.value;
+                }).get();
+                
+            }
+        });
+
 
         var departamento = document.getElementById("id_departamento");
         var municipio = document.getElementById("id_municipio");

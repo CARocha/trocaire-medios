@@ -11,7 +11,7 @@
     <div class="filtro"><b>Municipio</b><br>{{request.session.municipio}}</div>
     {% endif %}
     {% if request.session.fecha %}
-    <div class="filtro"><b>Fecha</b><br>{{request.session.fecha}}</div>
+    <div class="filtro"><b>Fecha</b><br>{%for b in request.session.fecha%}{{b}},{%endfor%}</div>
     {% endif %}
 <!--
     {% if request.session.parametros %}

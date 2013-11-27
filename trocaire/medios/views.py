@@ -24,7 +24,7 @@ import copy
 def _query_set_filtrado(request):
     params = {}
     if 'fecha' in request.session:
-        params['fecha'] = request.session['fecha']
+        params['fecha__in'] = request.session['fecha']
     
     if request.session['contraparte']:   
         params['contraparte__in'] = request.session['contraparte']
@@ -444,7 +444,13 @@ def acceso_tierra(request):
     dicc_mujer = area_total_rangos(query.filter(encuesta__sexo_jefe=2))
     
     promedio_mz = round(query.aggregate(promedio=Avg('area_total'))['promedio'], 2)       
-    
+    suma = 0
+    for obj in dicc.items():
+        if obj[0] > 3:
+            suma += obj[1]
+
+    porcentaje = round(float(suma)/float(total_all) * 100,2)
+
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
 

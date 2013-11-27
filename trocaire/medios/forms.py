@@ -28,7 +28,7 @@ class CustomChoiceField(forms.ChoiceField):
         self.choices.insert(0, (None , '--------'))
 
 class ConsultarForm(forms.Form):
-    fecha = CustomChoiceField(choices=get_anios())
+    fecha = forms.MultipleChoiceField(choices=get_anios())
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.all().order_by('nombre'), 
                                           required=False, empty_label="Todos los Departamentos")
     municipio = forms.CharField(widget = forms.Select, required=False)
