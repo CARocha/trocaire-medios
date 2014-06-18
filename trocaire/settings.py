@@ -77,5 +77,5 @@ INSTALLED_APPS = (
     'south',
     'smart_selects',
     'django.contrib.humanize',
-    
+
 )
