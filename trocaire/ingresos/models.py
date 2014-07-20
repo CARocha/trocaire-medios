@@ -92,7 +92,7 @@ class CultivosIPeriodos(models.Model):
     total = models.FloatField(editable=False)
 
     class Meta:
-        verbose_name_plural = "Ventas agricolas"
+        verbose_name_plural = "Cultivos ingreso periodos"
 
     def save(self, *args, **kwargs):
         '''Save sobrecargado para calcular totales'''

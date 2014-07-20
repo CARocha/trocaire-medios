@@ -1439,3 +1439,346 @@ def calcular_mediana(lista):
             return calcular_promedio([lista[index_1-1], lista[index_2-1]])
         except:
             return 0
+
+
+# funcion para exportar spss datos
+from medios.models import CHOICE_SEXO
+#@session_required
+def volcar_xls(request, modelo):
+    #encuestas = _queryset_filtrado_descarga(request)
+    #_query_set_filtrado
+    encuestas = _query_set_filtrado(request)
+    ayuda = modelo
+
+    resultados = []
+    
+    for encuesta in encuestas:
+        filas = []
+        filas.append(encuesta.fecha)
+        filas.append(encuesta.municipio)
+        filas.append(encuesta.comarca)
+        filas.append(encuesta.beneficiario)
+        filas.append(encuesta.encuestador)
+        filas.append(encuesta.contraparte)
+        #filas.append(','.join(map(unicode, encuesta.organizacion.all().values_list(u'nombre',flat=True))))
+        
+        if modelo == '1':
+            composicion = encuesta.composicion_set.all()
+            for obj in composicion:
+                filas.append(obj.get_sexo_display)
+                filas.append(obj.edad)
+                filas.append(obj.get_estado_display)
+                filas.append(obj.get_beneficio_display)
+                filas.append(obj.get_relacion_display)
+                filas.append(obj.get_sexo_jefe_display)
+                filas.append(obj.num_familia)
+                filas.append(obj.dependientes)
+        if modelo == '2':
+            escolaridad = encuesta.escolaridad_set.all()
+            for obj in escolaridad:
+                filas.append(obj.get_beneficia_display)
+                filas.append(obj.get_conyugue_display)
+        if modelo == '3':
+            inmigracion = encuesta.inmigracion_set.all()
+            for obj in inmigracion:
+                filas.append(obj.get_inmigra_display)
+                filas.append(obj.mujer)
+                filas.append(obj.hombre)
+        if modelo == '4':
+            accesoescuela = encuesta.accesoescuela_set.all()
+            for obj in accesoescuela:
+                filas.append(obj.get_acceso_display)
+                filas.append(obj.fem_estudia)
+                filas.append(obj.fem_no_estudia)
+                filas.append(obj.mas_estudia)
+                filas.append(obj.mas_no_estudia)
+        if modelo == '5':
+            razonesnoestudia = encuesta.razonesnoestudia_set.all()
+            for obj in razonesnoestudia:
+                filas.append(obj.get_acceso_display)
+                filas.append(obj.fem_no_estudia)
+                filas.append(obj.mas_no_estudia)
+        if modelo == '6':
+            agua = encuesta.agua_set.all()
+            for obj in agua:
+                filas.append(obj.sistema)
+                filas.append(obj.get_calidad_display)
+                filas.append(obj.get_clorada_display)
+                filas.append(obj.get_tiene_display)
+                filas.append(obj.get_tiempo_display)
+                filas.append(obj.get_techo_display)
+                filas.append(obj.get_piso_display)
+                filas.append(obj.get_paredes_display)
+                filas.append(obj.get_servicio_display)
+                filas.append(obj.cuartos)
+                filas.append(obj.get_estado_display)
+        if modelo == '7':
+            tierra = encuesta.tierra_set.all()
+            for obj in tierra:
+                filas.append(obj.get_area_display)
+                filas.append(obj.mujer)
+                filas.append(obj.hombre)
+                filas.append(obj.ambos)
+                filas.append(obj.area_total)
+        if modelo == '8':
+            propiedad = encuesta.propiedad_set.all()
+            for obj in propiedad:
+                filas.append(obj.get_conflicto_display)
+                filas.append(','.join(map(unicode, obj.ciclo.all().values_list(u'nombre',flat=True))))
+                filas.append(','.join(map(unicode, obj.zonas.all().values_list(u'nombre',flat=True))))
+        if modelo == '9':
+            cultivosperiodos = encuesta.cultivosperiodos_set.all()
+            for obj in cultivosperiodos:   
+                filas.append(obj.cultivos)
+                filas.append(obj.primera)
+                filas.append(obj.postrera)
+                filas.append(obj.apante)
+                filas.append(obj.p_primera)
+                filas.append(obj.p_postrera)
+                filas.append(obj.p_apante)
+                filas.append(obj.productividad)
+        if modelo == '10':
+            cultivospermanentes = encuesta.cultivospermanentes_set.all()
+            for obj in cultivospermanentes:
+                filas.append(obj.cultivos)
+                filas.append(obj.manzana)
+                filas.append(obj.produccion)
+                filas.append(obj.productividad)
+        if modelo == '11':
+            cultivosanuales = encuesta.cultivosanuales_set.all()
+            for obj in cultivosanuales:
+                filas.append(obj.cultivos)
+                filas.append(obj.manzana)
+                filas.append(obj.produccion)
+                filas.append(obj.productividad)
+        if modelo == '12':
+            hortalizas = encuesta.hortalizas_set.all()
+            for obj in hortalizas:
+                filas.append(obj.cultivos)
+                filas.append(obj.manzana)
+                filas.append(obj.produccion)
+                filas.append(obj.productividad)
+        if modelo == '13':
+            consumo = encuesta.consumodiario_set.all()
+            for obj in consumo:
+                filas.append(obj.maiz)
+                filas.append(obj.frijol)
+        if modelo == '14':
+            limitaciones = encuesta.principallimitacion_set.all()
+            for obj in limitaciones:
+                filas.append(obj.opcion1)
+                filas.append(obj.opcion2)
+                filas.append(obj.opcion3)
+        if modelo == '15':
+            patio = encuesta.patiocultivada_set.all()
+            for obj in patio:
+                filas.append(obj.invierno)
+                filas.append(obj.verano)
+        if modelo == '16':
+            arboles = encuesta.arboles_set.all()
+            for obj in arboles:
+                filas.append(obj.patio)
+                filas.append(obj.otra)
+        if modelo == '17':
+            calidadpatio = encuesta.calidadpatio_set.all()
+            for obj in calidadpatio:
+                filas.append(obj.calidad)
+        if modelo == '18':
+            ganadomayor= encuesta.ganadomayor_set.all()
+            for obj in ganadomayor:
+                filas.append(obj.ganado)
+                filas.append(obj.cantidad)
+        if modelo == '19':
+            principalesfuentes = encuesta.principalesfuentes_set.all()
+            for obj in principalesfuentes:
+                filas.append(','.join(map(unicode, obj.fuente.all().values_list(u'nombre',flat=True))))
+        if modelo == '20':
+            ingresoperiodo = encuesta.cultivosiperiodos_set.all()
+            for obj in ingresoperiodo:
+                filas.append(obj.cultivo)
+                filas.append(obj.cuanto_primera)
+                filas.append(obj.cuanto_postrera)
+                filas.append(obj.cuanto_apante)
+                filas.append(obj.precio_primera)
+                filas.append(obj.precio_postrera)
+                filas.append(obj.precio_apante)
+                filas.append(obj.total)
+        if modelo == '21':
+            ingresopermanente = encuesta.cultivosipermanentes_set.all()
+            for obj in ingresopermanente:
+                filas.append(obj.cultivo)
+                filas.append(obj.cuanto)
+                filas.append(obj.precio)
+                filas.append(obj.total)
+        if modelo == '22':
+            ingresoestacional = encuesta.cultivosiestacionales_set.all()
+            for obj in ingresoestacional:
+                filas.append(obj.cultivo)
+                filas.append(obj.cuanto)
+                filas.append(obj.precio)
+                filas.append(obj.total)
+        if modelo == '23':
+            ingresohostaliza = encuesta.ihortalizas_set.all()
+            for obj in ingresohostaliza:
+                filas.append(obj.hortaliza)
+                filas.append(obj.cuanto)
+                filas.append(obj.precio)
+                filas.append(obj.total)
+        if modelo == '24':
+            ingresopatio = encuesta.ingresopatio_set.all()
+            for obj in ingresopatio:
+                filas.append(obj.invierno)
+                filas.append(obj.verano)
+        if modelo == '25':
+            ingresoganado = encuesta.ingresoganado_set.all()
+            for obj in ingresoganado:
+                filas.append(obj.ganado)
+                filas.append(obj.vendidos)
+                filas.append(obj.valor)
+                filas.append(obj.total)
+        if modelo == '26':
+            ingresoprocesado = encuesta.productosprocesado_set.all()
+            for obj in ingresoprocesado:
+                filas.append(obj.producto)
+                filas.append(obj.cantidad)
+                filas.append(obj.monto)
+        if modelo == '27':
+            ingresoultimos = encuesta.lactios_set.all()
+            for obj in ingresoultimos:
+                filas.append(obj.producto)
+                filas.append(obj.invierno_precio)
+                filas.append(obj.cantidad_invi)
+                filas.append(obj.verano_precio)
+                filas.append(obj.cantidad_vera)
+                filas.append(obj.total)
+        if modelo == '28':
+            otrosingresos = encuesta.otrosingresos_set.all()
+            for obj in otrosingresos:
+                filas.append(obj.actividad)
+                filas.append(obj.mayo)
+                filas.append(obj.junio)
+                filas.append(obj.julio)
+                filas.append(obj.agosto)
+                filas.append(obj.septiembre)
+                filas.append(obj.octubre)
+                filas.append(obj.noviembre)
+                filas.append(obj.diciembre)
+                filas.append(obj.enero)
+                filas.append(obj.febrero)
+                filas.append(obj.marzo)
+                filas.append(obj.abril)
+                filas.append(obj.total)
+        if modelo == '29':
+            comercializar = encuesta.principalforma_set.all()
+            for obj in comercializar:
+                filas.append(obj.get_principal_display())
+        if modelo == '30':
+            vendeproducto = encuesta.vendeproducto_set.all()
+            for obj in vendeproducto:
+                filas.append(obj.get_principal_display)
+                filas.append(obj.get_forma_display)
+        if modelo == '31':
+            riego = encuesta.riego_set.all()
+            for obj in riego:
+                filas.append(obj.get_respuesta_display)
+                filas.append(obj.area)
+        if modelo == '32':
+            areaprotegida = encuesta.areaprotegida_set.all()
+            for obj in areaprotegida:
+                filas.append(obj.get_respuesta_display)
+                filas.append(obj.cantidad)
+        if modelo == '33':
+            tecnologia = encuesta.usotecnologia_set.all()
+            for obj in tecnologia:
+                filas.append(obj.get_tecnologia_display)
+                filas.append(obj.get_granos_display)
+                filas.append(obj.get_anuales_display)
+                filas.append(obj.get_permanentes_display)
+                filas.append(obj.get_pastos_display)
+        if modelo == '34':
+            semilla = encuesta.semilla_set.all()
+            for obj in semilla:
+                filas.append(obj.get_maiz_display)
+                filas.append(obj.get_frijol_display)
+        if modelo == '35':
+            diversidad = encuesta.diversidad_set.all()
+            for obj in diversidad:
+                filas.append(obj.alimento)
+                filas.append(obj.get_respuesta_display)
+        if modelo == '36':
+            crisis = encuesta.crisis_set.all()
+            for obj in crisis:
+                filas.append(obj.get_escases_display)
+                filas.append(obj.causa)
+                filas.append(','.join(map(unicode, obj.enfrentar.all().values_list(u'nombre',flat=True))))
+        if modelo == '37':
+            credito = encuesta.accesocredito_set.all()
+            for obj in credito:
+                filas.append(','.join(map(unicode, obj.hombre.all().values_list(u'nombre',flat=True))))
+                filas.append(','.join(map(unicode, obj.mujer.all().values_list(u'nombre',flat=True))))
+                filas.append(','.join(map(unicode, obj.otro_hombre.all().values_list(u'nombre',flat=True))))
+                filas.append(','.join(map(unicode, obj.otro_mujer.all().values_list(u'nombre',flat=True))))
+        if modelo == '38':
+            participacion = encuesta.participacion_set.all()
+            for obj in participacion:
+                filas.append(obj.get_organismo_display)
+                filas.append(obj.get_respuesta_display)
+        if modelo == '39':
+            cpc = encuesta.participacioncpc_set.all()
+            for obj in cpc:
+                filas.append(obj.get_organismo_display)
+                filas.append(obj.hombre)
+                filas.append(obj.mujer)
+                filas.append(obj.ambos)
+        if modelo == '40':
+            frecuencia = encuesta.frecuencia_set.all()
+            for obj in frecuencia:
+                filas.append(obj.get_organismo_display)
+                filas.append(obj.get_respuesta_display)
+        if modelo == '41':
+            genero = encuesta.genero_set.all()
+            for obj in genero:
+                filas.append(obj.get_responsabilidades_display)
+                filas.append(obj.get_respuesta_display)
+        if modelo == '42':
+            tomadecicion = encuesta.tomadecicion_set.all()
+            for obj in tomadecicion:
+                filas.append(obj.get_aspectos_display)
+                filas.append(obj.get_respuesta_display)
+
+    
+        resultados.append(filas)
+
+    dict = {'resultados':resultados,'tiposexo':tiposexo, 'PEnergia':PEnergia, 
+            'usotierra':usotierra,'reforestacion':reforestacion, 
+            'animales':animales, 'cultivos':cultivos,
+            'manejo':manejo, 'semilla':semilla, 'rubro':rubro, 
+            'otrosingresos':otrosingresos, 'equipo':equipo, 'herramienta':herramienta,
+            'transporte':transporte, 'ahorro':ahorro, 'seguridad':seguridad,
+            'fenomeno':fenomeno, 'riesgos':riesgos, 'ayuda':ayuda}
+    return dict
+
+def spss_xls(request, modela):
+    varia = modela
+    dict = volcar_xls(request, modelo=varia)
+    return write_xls('simas/spss.html', dict, 'spss.xls')
+
+def write_xls(template_src, context_dict, filename):
+    response = render_to_response(template_src, context_dict)
+    response['Content-Disposition'] = 'attachment; filename='+filename
+    response['Content-Type'] = 'application/vnd.ms-excel'
+    response['Charset']='UTF-8'
+    return response 
+
+
+
+
+
+
+
+
+
+
+
+
+

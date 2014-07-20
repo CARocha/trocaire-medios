@@ -43,4 +43,5 @@ urlpatterns = patterns('trocaire.medios.views',
     url(r'^encuestas/cpermanentes/$', 'cultivos_permanentes', name="cultivos_permanentes"),
     url(r'^encuestas/canuales/$', 'cultivos_anuales', name="cultivos_anuales"),
     url(r'^encuestas/ingreso-desglose/$', 'ingreso_desglosado', name="ingreso_desglosado"),
+    url(r'^exportar/(?P<modela>\d+)/$', 'spss_xls'),
 )
