@@ -1442,16 +1442,52 @@ def calcular_mediana(lista):
 
 
 # funcion para exportar spss datos
-from medios.models import CHOICE_SEXO
+from medios.models import CHOICE_SEXO, CHOICE_DESCRIPCION, CHOICE_INMIGRACION, \
+CHOICE_ACCESO, CHOICE_AREA, CHOICE_SINO
+from calidad_vida.models import CHOICE_NO_ESTUDIA, Abastece
+from produccion.models import CPeriodos, CPermanentes, CAnuales, CHortalizas, Ganado
+from tecnologia.models import CHOICE_RIEGO, CHOICE_CSA, CHOICE_TECNOLOGIAS
+from diversidad_alimentaria.models import Alimentos
+from participacion_ciudadana.models import CHOICE_CIUDADANA, CHOICE_CIUDADANA_DOS, CHOICE_CIUDADANA_TRES
+from genero.models import CHOICE_GENERO, CHOICE_ASPECTO
+from ingresos.models import Ganados
 #@session_required
 def volcar_xls(request, modelo):
-    #encuestas = _queryset_filtrado_descarga(request)
-    #_query_set_filtrado
     encuestas = _query_set_filtrado(request)
     ayuda = modelo
+    si_no = CHOICE_SINO
+    descripcion = CHOICE_DESCRIPCION
+    choice_inmigracion = CHOICE_INMIGRACION
+    acceso_escuela = CHOICE_ACCESO
+    no_estudia = CHOICE_NO_ESTUDIA
+    abastece = Abastece.objects.all()
+    tierra_area = CHOICE_AREA
+    cultivos_periodos = CPeriodos.objects.all()
+    cultivos_permanentes = CPermanentes.objects.all()
+    cultivos_anuales = CAnuales.objects.all()
+    cultivos_hortaliza = CHortalizas.objects.all()
+    ganado_mayor = Ganado.objects.all()
+    ingreso_periodo = CIPeriodos.objects.all()
+    ingreso_permanente = CIPermanentes.objects.all()
+    ingreso_estacionales = CIEstacionales.objects.all()
+    ingreso_hortaliza = CIHortalizas.objects.all()
+    ingreso_ganados = Ganados.objects.all()
+    ingreso_procesados = PProcesado.objects.all()
+    ingreso_ultimo = Productos.objects.all()
+    ingreso_otros = OtrasActividades.objects.all()
+    ingreso_vende_producto = ProductosPrincipales.objects.all()
+    #...
+    choice_riego = CHOICE_RIEGO
+    choice_csa = CHOICE_CSA
+    choice_tecnologia = CHOICE_TECNOLOGIAS
+    choice_alimentos = Alimentos.objects.all()
+    choice_ciudada = CHOICE_CIUDADANA
+    choice_ciudada_dos = CHOICE_CIUDADANA_DOS
+    choice_ciudada_tres = CHOICE_CIUDADANA_TRES
+    choice_genero = CHOICE_GENERO
+    choice_aspecto = CHOICE_ASPECTO
 
     resultados = []
-    
     for encuesta in encuestas:
         filas = []
         filas.append(encuesta.fecha)
@@ -1460,8 +1496,6 @@ def volcar_xls(request, modelo):
         filas.append(encuesta.beneficiario)
         filas.append(encuesta.encuestador)
         filas.append(encuesta.contraparte)
-        #filas.append(','.join(map(unicode, encuesta.organizacion.all().values_list(u'nombre',flat=True))))
-        
         if modelo == '1':
             composicion = encuesta.composicion_set.all()
             for obj in composicion:
@@ -1582,7 +1616,7 @@ def volcar_xls(request, modelo):
         if modelo == '17':
             calidadpatio = encuesta.calidadpatio_set.all()
             for obj in calidadpatio:
-                filas.append(obj.calidad)
+                filas.append(obj.get_calidad_display)
         if modelo == '18':
             ganadomayor= encuesta.ganadomayor_set.all()
             for obj in ganadomayor:
@@ -1618,8 +1652,8 @@ def volcar_xls(request, modelo):
                 filas.append(obj.precio)
                 filas.append(obj.total)
         if modelo == '23':
-            ingresohostaliza = encuesta.ihortalizas_set.all()
-            for obj in ingresohostaliza:
+            ingresohortaliza = encuesta.ihortalizas_set.all()
+            for obj in ingresohortaliza:
                 filas.append(obj.hortaliza)
                 filas.append(obj.cuanto)
                 filas.append(obj.precio)
@@ -1675,7 +1709,7 @@ def volcar_xls(request, modelo):
         if modelo == '30':
             vendeproducto = encuesta.vendeproducto_set.all()
             for obj in vendeproducto:
-                filas.append(obj.get_principal_display)
+                filas.append(obj.principal)
                 filas.append(obj.get_forma_display)
         if modelo == '31':
             riego = encuesta.riego_set.all()
@@ -1717,7 +1751,7 @@ def volcar_xls(request, modelo):
                 filas.append(','.join(map(unicode, obj.hombre.all().values_list(u'nombre',flat=True))))
                 filas.append(','.join(map(unicode, obj.mujer.all().values_list(u'nombre',flat=True))))
                 filas.append(','.join(map(unicode, obj.otro_hombre.all().values_list(u'nombre',flat=True))))
-                filas.append(','.join(map(unicode, obj.otro_mujer.all().values_list(u'nombre',flat=True))))
+                filas.append(','.join(map(unicode, obj.otra_mujer.all().values_list(u'nombre',flat=True))))
         if modelo == '38':
             participacion = encuesta.participacion_set.all()
             for obj in participacion:
@@ -1749,19 +1783,28 @@ def volcar_xls(request, modelo):
     
         resultados.append(filas)
 
-    dict = {'resultados':resultados,'tiposexo':tiposexo, 'PEnergia':PEnergia, 
-            'usotierra':usotierra,'reforestacion':reforestacion, 
-            'animales':animales, 'cultivos':cultivos,
-            'manejo':manejo, 'semilla':semilla, 'rubro':rubro, 
-            'otrosingresos':otrosingresos, 'equipo':equipo, 'herramienta':herramienta,
-            'transporte':transporte, 'ahorro':ahorro, 'seguridad':seguridad,
-            'fenomeno':fenomeno, 'riesgos':riesgos, 'ayuda':ayuda}
+    dict = {'resultados':resultados, 'descripcion':descripcion, 
+            'choice_inmigracion':choice_inmigracion,'acceso_escuela':acceso_escuela,
+            'no_estudia':no_estudia ,'tierra_area':tierra_area, 
+            'cultivos_periodos':cultivos_periodos,'cultivos_permanentes':cultivos_permanentes,
+            'cultivos_anuales':cultivos_anuales, 'cultivos_hortaliza':cultivos_hortaliza,
+            'ganado_mayor':ganado_mayor,'ingreso_periodo':ingreso_periodo,
+            'ingreso_permanente':ingreso_permanente, 'ingreso_estacionales':ingreso_estacionales,
+            'ingreso_hortaliza':ingreso_hortaliza, 'ingreso_ganados':ingreso_ganados,
+            'ingreso_procesados':ingreso_procesados, 'ingreso_ultimo':ingreso_ultimo,
+            'ingreso_otros':ingreso_otros, 'ingreso_vende_producto':ingreso_vende_producto,
+            'choice_riego':choice_riego, 'choice_csa':choice_csa, 'choice_tecnologia':choice_tecnologia,
+            'choice_alimentos':choice_alimentos, 'choice_ciudada':choice_ciudada,
+            'choice_ciudada_dos':choice_ciudada_dos, 'choice_ciudada_tres':choice_ciudada_tres,
+            'choice_genero':choice_genero, 'choice_aspecto':choice_aspecto, 'ayuda':ayuda,
+
+    }
     return dict
 
 def spss_xls(request, modela):
     varia = modela
     dict = volcar_xls(request, modelo=varia)
-    return write_xls('simas/spss.html', dict, 'spss.xls')
+    return write_xls('spss.html', dict, 'spss.xls')
 
 def write_xls(template_src, context_dict, filename):
     response = render_to_response(template_src, context_dict)
@@ -1769,16 +1812,3 @@ def write_xls(template_src, context_dict, filename):
     response['Content-Type'] = 'application/vnd.ms-excel'
     response['Charset']='UTF-8'
     return response 
-
-
-
-
-
-
-
-
-
-
-
-
-

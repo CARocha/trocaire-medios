@@ -1,0 +1,409 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}Hoja spss{% endblock %}</title>
+</head>
+<body>
+{% block contenido %}
+    <table>
+        <tr>
+            <!-- datos generales -->
+            <th>Año de la encuesta</th>
+            <th>Municipio</th>
+            <th>Comarca</th>
+            <th>Beneficiario</th>
+            <th>Encuestador</th>
+            <th>Contraparte</th>
+            <!-- composicion de la familia -->
+            {% if ayuda == '1' %}
+                <th>Sexo del beneficiario</th>
+                <th>Edad del </th>
+                <th>Estado civil</th>
+                <th>El o la beneficiario/a es el jefe de familas</th>
+                <th>Si no es jefe/a de famila... cuál es su relación con el jefe de Familia</th>
+                <th>Si no es jefe/a... Cuál es el sexo del jefe de familia</th>
+                <th>Número de familias que viven en la vivienda</th>
+                <th>Número de dependientes</th>
+            {% endif %}
+            
+            <!-- Escolaridad -->
+            {% if ayuda == '2' %}
+                    <th>Educación beneficiario</th>
+                    <th>Educación conyuge</th>
+            {% endif %}
+            
+            <!-- Inmigracion-->
+            {% if ayuda == '3' %}
+                {% for obj in  choice_inmigracion%}
+                    <th>Inmigración</th>
+                    <th>Mujer</th>
+                    <th>Hombre</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- acceso a escuela -->
+            {% if ayuda == '4' %}
+            	{% for obj in acceso_escuela %}
+            		<th>Acceso a la escuela</th>
+	                <th>Femenino estudia</th>
+	                <th>Femenino no estudia</th>
+	                <th>Masculino estudia</th>
+	                <th>Masculino no estudia</th>
+            	{% endfor %}
+            {% endif %}
+            
+            <!-- Razones de porque no estudian -->
+            {% if ayuda == '5' %}
+            	{% for obj in no_estudia %}
+            		<th>Acceso a la escuela</th>
+	                <th>Femenino no estudia</th>
+	                <th>Masculino no estudia</th>
+            	{% endfor %}
+            {% endif %}
+            
+            <!-- agua -->
+            {% if ayuda == '6' %}
+	            	<th>Sistema de agua</th>
+	                <th>Calidad del agua</th>
+	                <th>Si no viene clorada ¿le da usted tratamiento?</th>
+	                <th>Tiene agua todo los dias en verano</th>
+	                <th>Cuánto tiempo diario le toma traer el agua en verano</th>
+	                <th>Materiales del techo</th>
+	                <th>Materiales del piso</th>
+	                <th>Materiales en las paredes</th>
+	                <th>Servicio higiénico</th>
+	                <th>Número de cuartos en la vivienda (ambientes)</th>
+	                <th>La vivienda se encuentra en buen o mal estado</th>
+            {% endif %}
+            
+            <!-- Tierra -->
+            {% if ayuda == '7' %}
+            	{% for obj in tierra_area %}
+            		<th>Área y propiedad en Manzanas</th>
+	                <th>De la mujer</th>
+	                <th>Del hombre</th>
+	                <th>De ambos</th>
+	                <th>Total</th>
+            	{% endfor %} 
+            {% endif %}
+            
+            <!-- propiedad -->
+            {% if ayuda == '8' %}
+                <th>Tiene conflicto</th>
+                <th>ciclo agricola de un año. Para sus actividades agropecuarias alquilo, hizo mediería o le prestaron</th>
+                <th>En su propiedad y en la casa. ¿Hay zonas de riesgo?</th>
+            {% endif %}
+            
+            <!-- Cultivos periodos -->
+            {% if ayuda == '9' %}
+            	{% for obj in cultivos_periodos %}
+            		<th>Cultivos de periodos</th>
+	                <th>Ciclo de Primera</th>
+	                <th>Ciclo de Postrera</th>
+	                <th>Ciclo de Apante</th>
+	                <th>Producción del ciclo de Primera</th>
+	                <th>Producción del ciclo de postrera</th>
+	                <th>Producción del ciclo de apante</th>
+	                <th>Productividad</th>
+            	{% endfor %}
+            {% endif %}
+            
+            <!-- Cultivos permanentes -->
+            {% if ayuda == '10' %}
+                {% for obj in cultivos_permanentes %}
+                    <th>Cultivos Permanentes</th>
+                    <th>Área Manzanas</th>
+                    <th>Producción</th>
+                    <th>Productividad</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Cultivos anuales -->
+            {% if ayuda == '11' %}
+                {% for obj in cultivos_anuales %}
+                    <th>Cultivos Anuales</th>
+                    <th>Área Manzanas</th>
+                    <th>Producción</th>
+                    <th>Productividad</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- cultivos hostalizas -->
+            {% if ayuda == '12' %}
+                {% for obj in cultivos_hortaliza %}
+                    <th>Cultivos</th>
+                   	<th>Área Manzanas</th>
+                    <th>Producción</th>
+                    <th>Productividad</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- consumo diario de maiz y frijol -->
+            {% if ayuda == '13' %}
+                <th>Consumo Maíz</th>
+                <th>Consumo Frijol</th>
+            {% endif %}
+            
+            <!-- Principal limitacion aumentar produccion -->
+            {% if ayuda == '14' %}
+                    <th>Limitación aumentar producción: opcion1</th>
+                    <th>Limitación aumentar producción: opcion2</th>
+                    <th>Limitación aumentar producción: opcion3</th>
+            {% endif %}
+            
+            <!-- cultivos de patios -->
+            {% if ayuda == '15' %}
+                <th>Invierno</th>
+                <th>Verano</th>
+            {% endif %}
+            
+            <!-- Arboles frutales en el patio -->
+            {% if ayuda == '16' %}
+                <th>Arboles frutales en el patio</th>
+                <th>En otras areas</th>
+            {% endif %}
+            
+            <!-- Calidad del patio -->
+            {% if ayuda == '17' %}
+                    <th>Calidad del patio</th>
+            {% endif %}
+
+            <!-- Ganado mayor -->
+            {% if ayuda == '18' %}
+                {% for obj in ganado_mayor %}
+                    <th>Ganado</th>
+                    <th>Cantidad</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Principal fuente de ingreso -->
+            {% if ayuda == '19' %}
+                <th>Principal fuente de ingreso</th>
+            {% endif %}
+            
+            <!-- ingreso periodo -->
+            {% if ayuda == '20' %}
+            	{% for obj in ingreso_periodo %}
+            		<th>Cultivo</th>
+	                <th>Cuanto vendio en ciclo de primera</th>
+	                <th>Cuanto vendio en ciclo de postrera</th>
+	                <th>Cuanto vendio en ciclo de apante</th>
+	                <th>Precio de venta de ciclo primera</th>
+	                <th>Precio de venta de ciclo de postrera</th>
+	                <th>Precio de venta de ciclo de apante</th>
+	                <th>Total</th>
+            	{% endfor %}
+            {% endif %}
+            
+            <!-- ingreso permanentes -->
+            {% if ayuda == '21' %}
+                {% for obj in ingreso_permanente %}
+                    <th>Cultivo</th>
+                    <th>Cuánto vendio</th>
+                    <th>Precio de venta</th>
+                    <th>Total</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- ingreso estacionales -->
+            {% if ayuda == '22' %}
+                {% for obj in ingreso_estacionales %}
+                    <th>Cultivo</th>
+                    <th>Cuánto vendio</th>
+                    <th>Precio de venta</th>
+                    <th>Total</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- ingreso hortaliza -->
+            {% if ayuda == '23' %}
+                {% for obj in ingreso_hortaliza %}
+                    <th>Hortaliza</th>
+                    <th>Cuánto vendio</th>
+                    <th>Precio de venta</th>
+                    <th>Total</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Ingreso por patio -->
+            {% if ayuda == '24' %}
+                    <th>Monto de los ingreso obtenido en invierno</th>
+                    <th>Monto de los ingreso obtenido en verano</th>
+            {% endif %}
+            
+            <!-- ingreso por ganado-->
+            {% if ayuda == '25' %}
+            	{% for obj in ingreso_ganados  %}
+            		<th>Ganado</th>
+	                <th>Número de animales vendidos</th>
+	                <th>Valor de venta</th>
+	                <th>Total</th>
+            	{% endfor %}
+            {% endif %}
+            
+            <!-- ingreso por productos procesados -->
+            {% if ayuda == '26' %}
+                {% for obj in ingreso_procesados %}
+                    <th>Producto</th>
+                    <th>Cantidad vendida anualmente</th>
+                    <th>Monto de los ingresos obtenidos</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Lactios o producto ultimo año -->
+            {% if ayuda == '27' %}
+                {% for obj in ingreso_ultimo %}
+                    <th>Producto</th>
+                    <th>Invierno precio</th>
+                    <th>Cantidad en Invierno</th>
+                    <th>Verano precio</th>
+                    <th>Cantidad en Verano</th>
+                    <th>Total</th>
+                {% endfor %}
+            {% endif %}
+            
+            <!-- Otros ingresos -->
+            {% if ayuda == '28' %}
+                {% for obj in ingreso_otros %}
+                    <th>Actividad</th>
+                    <th>Mayo</th>
+                    <th>Junio</th>
+                    <th>Julio</th>
+                    <th>Agosto</th>
+                    <th>Septiembre</th>
+                    <th>Octubre</th>
+                    <th>Noviembre</th>
+                    <th>Diciembre</th>
+                    <th>Enero</th>
+                    <th>Febrero</th>
+                    <th>Marzo</th>
+                    <th>Abril</th>
+                    <th>Total</th>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Principal forma de comercializar sus productos -->
+            {% if ayuda == '29' %}
+                <th>Cuál es la principal forma de comercializar su producción</th>
+            {% endif %}
+
+            <!-- vende cada uno de los siguientes productos -->
+            {% if ayuda == '30' %}
+            	{% for obj in ingreso_vende_producto %}
+            		<th>Rubro</th>
+                	<th>Forma principal de venta</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Riegos -->
+            {% if ayuda == '31' %}
+            	{% for obj in choice_riego %}
+            		<th>Técnologia</th>
+            		<th>Área regadas en Manzanas</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Área protegida con obras de CSA (En manzana) -->
+            {% if ayuda == '32' %}
+                {% for obj in choice_csa %}
+            		<th>Respuesta</th>
+            		<th>Cantidad protegida en Manzanas</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Tecnologia utilizada en la producción agropecuaria -->
+            {% if ayuda == '33' %}
+                {% for obj in choice_tecnologia %}
+            		<th>tecnologia</th>
+            		<th>Granos y hortalizas</th>
+            		<th>Anuales</th>
+            		<th>Permanentes</th>
+            		<th>Pastos</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Semilla -->
+            {% if ayuda == '34' %}
+                <th>Maiz</th>
+                <th>Frijol</th>
+            {% endif %}
+
+            <!-- Diversidad alimentaria -->
+            {% if ayuda == '35' %}
+                {% for obj in choice_alimentos %}
+            		<th>Alimentos</th>
+            		<th>Respuesta</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Crisis alimentaria -->
+            {% if ayuda == '36' %}
+                <th>Podria decirnos si su familia ha enfrentado escases de alimentos</th>
+                <th>Podria decirnos cual fue la causa principal de la crisis de comida que vivieron</th>
+                <th> Si tuvieron crisis podria decirnos, como hicieron para enfrentarla</th>
+            {% endif %}
+
+            <!-- crédito -->
+            {% if ayuda == '37' %}
+                <th>Crédito Hombre</th>
+                <th>Crédito Mujer</th>
+                <th>Crédito Otro hombre que vive en el hogar</th>
+                <th>Crédito Otra mujer que vive en el hogar</th>
+            {% endif %}
+
+            <!-- Podria decirnos si esto organismo que le vamos a mencionar son muy beneficioso -->
+            {% if ayuda == '38' %}
+            	{% for obj in choice_ciudada %}
+            		<th>Organismo</th>
+            		<th>Respuesta</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Quien de la familia participa en los CPC y AC -->
+            {% if ayuda == '39' %}
+                {% for obj in choice_ciudada_dos %}
+            		<th>Organismo</th>
+            		<th>Hombre</th>
+            		<th>Mujer</th>
+            		<th>Ambos</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Podria decirnos con que frecuencia participan en estas estructuras-->
+            {% if ayuda == '40' %}
+                {% for obj in choice_ciudada_tres %}
+            		<th>Organismo</th>
+            		<th>Respuesta</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Con que frecuenca los hombre de la casa asumen responsabilidadess -->
+            {% if ayuda == '41' %}
+                {% for obj in choice_genero %}
+            		<th>Organismo</th>
+            		<th>Respuesta</th>
+            	{% endfor %}
+            {% endif %}
+
+            <!-- Quién toma la decisión final -->
+            {% if ayuda == '42' %}
+                {% for obj in choice_aspecto %}
+            		<th>Organismo</th>
+            		<th>Respuesta</th>
+            	{% endfor %}
+            {% endif %}
+
+            
+        </tr>
+    {% for obj in resultados  %}
+    <tr>
+        {% for data in obj %}
+            <td>{{data}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock contenido %}
+</body>
+</html>
