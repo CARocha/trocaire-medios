@@ -168,6 +168,10 @@ a{
     height: 46px;
     background: url(../img/title_bar.png) repeat-x;    
 }
+.title_barr{
+    height: 89px;
+    background-color: #cacaca;    
+}
 .content .wrapper{
     border-left: 1px #d7d7d7 solid;
     border-right: 1px #d7d7d7 solid;

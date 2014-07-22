@@ -453,13 +453,19 @@ def acceso_tierra(request):
     dicc_hombre = area_total_rangos(query.filter(encuesta__sexo_jefe=1))    
     dicc_mujer = area_total_rangos(query.filter(encuesta__sexo_jefe=2))
     
-    promedio_mz = round(query.aggregate(promedio=Avg('area_total'))['promedio'], 2)       
+    try:
+        promedio_mz = round(query.aggregate(promedio=Avg('area_total'))['promedio'], 2)
+    except:
+        pass       
     suma = 0
     for obj in dicc.items():
         if obj[0] > 3:
             suma += obj[1]
 
-    porcentaje = round(float(suma)/float(total_all) * 100,2)
+    try:
+        porcentaje = round(float(suma)/float(total_all) * 100,2)
+    except:
+        pass
 
     dondetoy = "accesotierra"
     return render_to_response('encuestas/acceso_tierra.html', RequestContext(request,locals()))
