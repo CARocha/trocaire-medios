@@ -7,7 +7,7 @@ from django.utils import simplejson
 from django.template.defaultfilters import slugify
 
 #importaciones de los models
-from forms import ConsultarForm
+from forms import ConsultarForm, MapaForm
 from trocaire.medios.templatetags.tools import *
 from trocaire.medios.models import *
 from trocaire.familia.models import *
@@ -20,6 +20,28 @@ from trocaire.produccion.models import *
 from trocaire.formas_propiedad.models import *
 from trocaire.genero.models import *
 import copy
+
+
+def _queryset_filtrado_mapa(request):
+    '''metodo para obtener el queryset de encuesta 
+    segun los filtros del formulario que son pasados
+    por la variable de sesion'''
+    #anio = int(request.session['fecha'])
+    #diccionario de parametros del queryset
+    params = {}
+    if 'fecha1' in request.session:
+        params['year'] = request.session['fecha1']
+
+    unvalid_keys = []
+    for key in params:
+        if not params[key]:
+            unvalid_keys.append(key)
+    
+    for key in unvalid_keys:
+        del params[key]
+    
+    return Encuesta.objects.filter(**params)
+
 
 def _query_set_filtrado(request):
     params = {}
@@ -190,6 +212,7 @@ def consultar(request):
                               context_instance=RequestContext(request))
 
 def consultarsimple(request):
+    form1 = MapaForm()
     if request.method == 'POST':
         form = ConsultarForm(request.POST)
         if form.is_valid():
@@ -1445,7 +1468,26 @@ def calcular_mediana(lista):
             return calcular_promedio([lista[index_1-1], lista[index_2-1]])
         except:
             return 0
-
+#Los puntos en el mapa
+def obtener_lista(request):
+    b = _queryset_filtrado_mapa(request)   
+    lista = []    
+    data = {}
+    
+    for obj in b:  
+        key = 'hombres' if obj.sexo_jefe == 1 else 'mujeres'
+        name = obj.comarca.municipio.nombre
+        try:                
+            data[name][key] += 1
+        except:
+            if obj.comarca.municipio.latitud:
+                data[name] = dict(hombres=0, mujeres=0, 
+                                  lon=float(obj.comarca.municipio.longitud),
+                                  lat=float(obj.comarca.municipio.latitud),)
+                data[name][key] += 1
+                                        
+    lista.append(data)    
+    return HttpResponse(simplejson.dumps(lista), mimetype='application/javascript')
 
 # funcion para exportar spss datos
 from medios.models import CHOICE_SEXO, CHOICE_DESCRIPCION, CHOICE_INMIGRACION, \

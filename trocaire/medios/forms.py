@@ -61,3 +61,7 @@ class ConsultarForm(forms.Form):
     #finca_num_productos_min = forms.FloatField(required=False) #rango
     #magia
     next_url = forms.CharField(widget=forms.HiddenInput, required=False)
+
+
+class MapaForm(forms.Form):
+    fecha1 = forms.ChoiceField(choices=get_anios(), label = 'fecha')
