@@ -1673,7 +1673,7 @@ def volcar_xls(request, modelo):
         if modelo == '19':
             principalesfuentes = encuesta.principalesfuentes_set.all()
             for obj in principalesfuentes:
-                filas.append(','.join(map(unicode, obj.fuente.all().values_list(u'nombre',flat=True))))
+                filas.append(','.join(map(unicode, obj.fuente.all().values_list(u'id',flat=True))))
         if modelo == '20':
             ingresoperiodo = encuesta.cultivosiperiodos_set.all()
             for obj in ingresoperiodo:
