@@ -55,13 +55,19 @@
     }
     .infowindow{font-size: 13px; color: #069;}  
     .infowindow span{color: #4E4E4E;}
-    .infowindow .info{font-size: 13px; margin-top: 6px;} 
+    .infowindow .info{font-size: 13px; margin-top: 6px;}
+    .formulario_mapa {
+    	padding-top: 10px;
+    	padding-bottom: 10px;
+    	margin-left: 440px;
+    } 
+
 </style>
 
-<div class="consulta_mapa">
+<div class="formulario_mapa">
     <form  action="." method="POST">{% csrf_token %}
         {{form.fecha1}}
-        <input type="submit" name="yearactual" value="Refresh">
+        <input type="submit" name="yearactual" value="Refrescar">
     </form>
 </div>
 <div id="mapaindex">
