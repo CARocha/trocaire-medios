@@ -30,7 +30,7 @@ def _queryset_filtrado_mapa(request):
     #diccionario de parametros del queryset
     params = {}
     if 'fecha1' in request.session:
-        params['year'] = request.session['fecha1']
+        params['fecha'] = request.session['fecha1']
 
     unvalid_keys = []
     for key in params:
@@ -212,7 +212,6 @@ def consultar(request):
                               context_instance=RequestContext(request))
 
 def consultarsimple(request):
-    form1 = MapaForm()
     if request.method == 'POST':
         form = ConsultarForm(request.POST)
         if form.is_valid():
@@ -275,6 +274,17 @@ def reset_parameters(request):
 def index(request, template_name="index.html"):
     return render_to_response(template_name, locals(),
                               context_instance=RequestContext(request))
+
+def ver_mapita(request, template_name="mapa.html"):
+    #familias = Encuesta.objects.all().count()
+    if request.method == 'POST':
+        form = MapaForm(request.POST)
+        if form.is_valid():
+            request.session['fecha1'] = form.cleaned_data['fecha1']   
+    else:
+        form = MapaForm() 
+    return render_to_response(template_name, locals(),
+                               context_instance=RequestContext(request))
 
 #FUNCIONES UTILITARIAS PARA TODO EL SITIO 
 def get_municipios(request, departamento):
@@ -1473,11 +1483,14 @@ def obtener_lista(request):
     b = _queryset_filtrado_mapa(request)   
     lista = []    
     data = {}
+
+    #for tuma in b:
+    #    print u'sexoEncuesta: %s, sexoFamilia: %s' % (tuma.sexo_jefe, tuma.composicion_set.get(encuesta__id=tuma.id).sexo)
     
     for obj in b:  
-        key = 'hombres' if obj.sexo_jefe == 1 else 'mujeres'
+        key = 'hombres' if obj.composicion_set.get(encuesta__id=obj.id).sexo == 1 else 'mujeres'
         name = obj.comarca.municipio.nombre
-        try:                
+        try:    
             data[name][key] += 1
         except:
             if obj.comarca.municipio.latitud:
@@ -1554,7 +1567,7 @@ def volcar_xls(request, modelo):
                 filas.append(obj.get_relacion_display)
                 filas.append(obj.get_sexo_jefe_display)
                 filas.append(obj.num_familia)
-                filas.append(obj.dependientes)
+                filas.append(int(obj.dependientes))
         if modelo == '2':
             escolaridad = encuesta.escolaridad_set.all()
             for obj in escolaridad:
@@ -1673,7 +1686,7 @@ def volcar_xls(request, modelo):
         if modelo == '19':
             principalesfuentes = encuesta.principalesfuentes_set.all()
             for obj in principalesfuentes:
-                filas.append(','.join(map(unicode, obj.fuente.all().values_list(u'id',flat=True))))
+                filas.append(','.join(map(unicode, obj.fuente.all().values_list(u'nombre',flat=True))))
         if modelo == '20':
             ingresoperiodo = encuesta.cultivosiperiodos_set.all()
             for obj in ingresoperiodo:

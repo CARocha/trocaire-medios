@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="{{MEDIA_URL}}js/markerclusterer.js"></script>
+
+<script type="text/javascript">
+    var map;
+    $(document).ready(function() {
+    var infowindow = new google.maps.InfoWindow();
+
+    var myLatlng = new google.maps.LatLng(13.125,-85.243);
+    var myOptions = {
+        zoom: 8,
+        mapTypeControl: true,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    $.getJSON('/mapa/', function(data) {
+        $.each(data[0], function(name, item) {
+            var latlng = new google.maps.LatLng(item.lat, item.lon);
+            var marker = new google.maps.Marker({
+                position : latlng,
+                map : map,
+                title : name,
+                icon : 'http://chart.apis.google.com/chart?chst=d_bubble_text_small&chld=bbT|'+(item.hombres+item.mujeres)+'|FABF15|000000',
+                item : ''                   
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+                var text = '<div class="infowindow"><b>'+name+'</b><br><div class="info">';
+                text += '<span>"Hombres:" </span>'+item.hombres+'<br> <span> "Mujeres:"</span> '+item.mujeres;                
+                text += '<br><span>"Total:"</span> '+(item.hombres+item.mujeres)+'</div></div>';
+                infowindow.setContent(text);
+            });
+        });
+    });
+
+}); // fin del documents
+</script>
+<style type="text/css">
+.hidden{
+	visibility: hidden;
+}
+</style>
+{% endblock %}
+
+{% block contenido %}
+<style type="text/css">
+    #map_canvas {
+    height: 600px;
+    margin: 0 auto;
+    width: 800px;
+    }
+    .infowindow{font-size: 13px; color: #069;}  
+    .infowindow span{color: #4E4E4E;}
+    .infowindow .info{font-size: 13px; margin-top: 6px;} 
+</style>
+
+<div class="consulta_mapa">
+    <form  action="." method="POST">{% csrf_token %}
+        {{form.fecha1}}
+        <input type="submit" name="yearactual" value="Refresh">
+    </form>
+</div>
+<div id="mapaindex">
+    <div id="map_canvas"></div>
+</div>
+{% endblock %}
