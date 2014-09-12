@@ -56,18 +56,44 @@
     .infowindow{font-size: 13px; color: #069;}  
     .infowindow span{color: #4E4E4E;}
     .infowindow .info{font-size: 13px; margin-top: 6px;}
+
     .formulario_mapa {
     	padding-top: 10px;
     	padding-bottom: 10px;
-    	margin-left: 440px;
+    	margin-left: 320px;
     } 
 
+    .styled-select select {
+	   background: #ccc;
+	   width: 160px;
+	   padding: 5px;
+	   font-size: 16px;
+	   line-height: 1;
+	   border: 0;
+	   border-radius: 0;
+	   height: 34px;
+	   
+   	}
+   	input[type=submit] {
+   		padding:5px 15px; 
+   		background:#ccc; 
+   		border:0 none;
+		cursor:pointer;
+		-webkit-border-radius: 5px;
+		border-radius: 5px; 
+	}
+	fieldset {
+		margin-right: 290px;
+	}
 </style>
 
-<div class="formulario_mapa">
+<div class="styled-select formulario_mapa">
     <form  action="." method="POST">{% csrf_token %}
+    <fieldset>
+    	<legend>Consultar:</legend>
         {{form.fecha1}}
-        <input type="submit" name="yearactual" value="Refrescar">
+        	<input type="submit" name="yearactual" value="Refrescar">
+    </fieldset>
     </form>
 </div>
 <div id="mapaindex">
