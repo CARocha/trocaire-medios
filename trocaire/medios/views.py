@@ -1840,6 +1840,12 @@ def volcar_xls(request, modelo):
             for obj in tomadecicion:
                 filas.append(obj.get_aspectos_display)
                 filas.append(obj.get_respuesta_display)
+        if modelo == '43':
+            descripcion1 = encuesta.descripcion_set.all()
+            for obj in descripcion1:
+                filas.append(obj.get_descripcion_display)
+                filas.append(obj.femenino)
+                filas.append(obj.masculino)
 
     
         resultados.append(filas)
