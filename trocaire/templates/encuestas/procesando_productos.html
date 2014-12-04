@@ -80,7 +80,9 @@
 <div class="title_bar">
     <div class="titulo">Procesamiento y comercializacion de productos</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
     <div class="titulo der"><a href="/exportar/26/">xls producto procesado</a></div>
+    {%endif%}
 </div>
 <div class="contraparts">
 {% include "encuestas/filtros_seleccionados.html" %}

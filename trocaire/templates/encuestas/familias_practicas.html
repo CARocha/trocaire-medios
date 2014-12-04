@@ -77,7 +77,9 @@ $(document).ready(function() {
 <div class="title_bar">
     <div class="titulo">Conservación de Suelo y Agua</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
     <div class="titulo der"><a href="/exportar/32/">xls Conservacion CSA</a></div>
+    {%endif%}
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>

@@ -80,7 +80,9 @@
 <div class="title_bar">
     <div class="titulo">Uso de tecnología orgánica</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
     <div class="titulo der"><a href="/exportar/33/">xls tecnología utilizada</a></div>
+    {%endif%}
 </div>
 <div class="contraparts">
 {% include "encuestas/filtros_seleccionados.html" %}

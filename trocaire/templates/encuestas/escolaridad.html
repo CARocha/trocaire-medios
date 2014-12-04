@@ -61,7 +61,9 @@
 <div class="title_bar">
     <div class="titulo">Nivel de escolaridad de los beneficiarios/as</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
     <div class="titulo der"><a href="/exportar/2/">Exportar hoja para spss&rarr;</a></div>
+    {%endif%}
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>

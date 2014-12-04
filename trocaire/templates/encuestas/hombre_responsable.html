@@ -107,7 +107,9 @@ $(document).ready(function() {
 <div class="title_bar">
     <div class="titulo">Hombres realizando tareas domésticas</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
     <div class="titulo der"><a href="/exportar/41/">xls hombres tareas domesticas</a></div>
+    {%endif%}
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>

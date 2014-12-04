@@ -33,6 +33,7 @@
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
+{% if request.user.is_authenticated %}
 Exportacion para spss:
 <div class="title_barr">
     <div class="titulo der"><a href="/exportar/20/">xls Periodo</a></div>
@@ -45,6 +46,7 @@ Exportacion para spss:
     <div class="titulo der"><a href="/exportar/27/">xls Lactios</a></div>
     <div class="titulo der"><a href="/exportar/28/">xls Otros ingresos</a></div>
 </div>
+{%endif%}
 <br>
 <ul id="desglos" class="desglos">
 	<li class="active"><a href="#contentHome">Familias con jefes hombres</a></li>

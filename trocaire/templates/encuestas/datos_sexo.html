@@ -78,7 +78,9 @@
 <div class="title_bar">
     <div class="titulo">Sexo de jefe de familia y beneficiario/a</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
     <div class="titulo der"><a href="/exportar/1/">Exportar hoja para spss&rarr;</a></div>
+    {%endif%}
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>

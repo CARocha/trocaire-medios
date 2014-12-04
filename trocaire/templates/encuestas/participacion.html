@@ -125,7 +125,9 @@
 <div class="title_bar">
     <div class="titulo">Participación Ciudadana de la Familia</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
     <div class="titulo der"><a href="/exportar/39/">xls Participación</a></div>
+    {%endif%}
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 <div>
