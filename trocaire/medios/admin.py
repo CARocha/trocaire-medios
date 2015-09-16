@@ -21,13 +21,13 @@ class AdminComposicionInline(admin.TabularInline):
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 class AdminDescripcionInline(admin.TabularInline):
     model = Descripcion
     extra = 1
     max_num = 5
     can_delete = True
-    
+
 class AdminEscolaridadInline(admin.TabularInline):
     model = Escolaridad
     fields = ('beneficia','conyugue')
@@ -36,19 +36,19 @@ class AdminEscolaridadInline(admin.TabularInline):
     can_delete = True
 
 # calidad de vida
-    
+
 class AdminInmigracionInline(admin.TabularInline):
     model = Inmigracion
     extra = 1
     max_num = 5
     can_delete = True
-    
+
 class AdminAccesoEscuela(admin.TabularInline):
     model = AccesoEscuela
     extra = 1
     max_num = 3
     can_delete = True
-    
+
 class AdminRazonesNoEstudia(admin.TabularInline):
     model = RazonesNoEstudia
     extra = 1
@@ -60,7 +60,7 @@ class AdminAbasteceInline(admin.TabularInline):
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 admin.site.register(Abastece)
 
 # formas y propiedad
@@ -70,14 +70,14 @@ class AdminTierraInline(admin.TabularInline):
     extra = 1
     max_num = 7
     can_delete = True
-    
+
 class AdminPropiedadInline(admin.TabularInline):
     model = Propiedad
     fields = ('conflicto','ciclo','zonas')
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 admin.site.register(Ciclo)
 admin.site.register(Riegos)
 
@@ -88,8 +88,8 @@ class AdminCultivosPeriodosInline(admin.TabularInline):
     extra = 1
     max_num = 8
     can_delete = True
-    
-    
+
+
 admin.site.register(CPeriodos)
 admin.site.register(CPermanentes)
 admin.site.register(CAnuales)
@@ -101,25 +101,25 @@ class AdminCultivosPermanentesInline(admin.TabularInline):
     extra = 1
     max_num = 8
     can_delete = True
-    
+
 class AdminCultivosAnualesInline(admin.TabularInline):
     model = CultivosAnuales
     extra = 1
     max_num = 8
     can_delete = True
-    
+
 class AdminHortalizaInline(admin.TabularInline):
     model = Hortalizas
     extra = 1
     max_num = 8
     can_delete = True
-    
+
 class AdminConsumoDiarioInline(admin.TabularInline):
     model = ConsumoDiario
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 class AdminPricipalLimitacionInline(admin.TabularInline):
     model = PrincipalLimitacion
     extra = 1
@@ -127,31 +127,31 @@ class AdminPricipalLimitacionInline(admin.TabularInline):
     can_delete = True
 
 admin.site.register(Limitaciones)
-    
+
 class AdminPatioCultivadaInline(admin.TabularInline):
     model = PatioCultivada
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 class AdminArbolesInline(admin.TabularInline):
     model = Arboles
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 class AdminCalidadPatioInline(admin.TabularInline):
     model = CalidadPatio
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 class AdminGanadoMayorInline(admin.TabularInline):
     model = GanadoMayor
     extra = 1
     max_num = 11
     can_delete = True
-    
+
 admin.site.register(Ganado)
 
 # Ingresos
@@ -161,7 +161,7 @@ class AdminPrincipalesFuentesInline(admin.TabularInline):
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 admin.site.register(Fuentes)
 
 class AdminCultivosIPeriodosInline(admin.TabularInline):
@@ -169,20 +169,20 @@ class AdminCultivosIPeriodosInline(admin.TabularInline):
     extra = 1
     max_num = 8
     can_delete = True
-    
+
 class AdminCultivosIPermanentesInline(admin.TabularInline):
     model = CultivosIPermanentes
     extra = 1
     max_num = 8
     can_delete = True
-    
+
 class AdminCultivosIEstacionalesInline(admin.TabularInline):
     model = CultivosIEstacionales
     extra = 1
     max_num = 9
     can_delete = True
-    
-    
+
+
 class AdminIHortalizasInline(admin.TabularInline):
     model = IHortalizas
     fields = ('hortaliza','cuanto','precio',)
@@ -206,7 +206,7 @@ class AdminIngresoGanadoInline(admin.TabularInline):
     extra = 1
     max_num = 12
     can_delete = True
-        
+
 admin.site.register(Ganados)
 
 class AdminLactiosInline(admin.TabularInline):
@@ -214,14 +214,14 @@ class AdminLactiosInline(admin.TabularInline):
     extra = 1
     max_num = 5
     can_delete = True
-    
+
 admin.site.register(Productos)
 
 class AdminProductosProcesadoInline(admin.TabularInline):
     model = ProductosProcesado
     extra = 1
     max_num = 12
-    can_delete = True   
+    can_delete = True
 
 admin.site.register(PProcesado)
 
@@ -238,7 +238,7 @@ class AdminOtrosIngresosInline(admin.StackedInline):
     extra = 1
     max_num = 12
     can_delete = True
-    
+
 admin.site.register(OtrasActividades)
 
 class AdminPrincipalFormaInline(admin.TabularInline):
@@ -246,13 +246,13 @@ class AdminPrincipalFormaInline(admin.TabularInline):
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 class AdminVendeProductoInline(admin.TabularInline):
     model = VendeProducto
     extra = 1
     max_num = 16
     can_delete = True
-    
+
 admin.site.register(ProductosPrincipales)
 
 # tecnologia
@@ -262,33 +262,33 @@ class AdminRiegoInline(admin.TabularInline):
     extra = 1
     max_num = 5
     can_delete = True
-    
+
 class AdminAreaProtegidaInline(admin.TabularInline):
     model = AreaProtegida
     extra = 1
     max_num = 6
     can_delete = True
-    
+
 class AdminUsoTecnologiaInline(admin.TabularInline):
     model = UsoTecnologia
     extra = 1
     max_num = 4
     can_delete = True
-    
+
 class AdminSemillaInline(admin.TabularInline):
     model = Semilla
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 # diversidad alimentaria
-    
+
 class AdminDiversidadInline(admin.TabularInline):
     model = Diversidad
     extra = 1
     max_num = 21
     can_delete = True
-    
+
 admin.site.register(Alimentos)
 
 # crisis sobre seguridad alimentaria
@@ -298,7 +298,7 @@ class AdminCrisisInline(admin.TabularInline):
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 admin.site.register(EstrategiaCrisis)
 
 class AdminAccesoCreditoInline(admin.TabularInline):
@@ -306,9 +306,9 @@ class AdminAccesoCreditoInline(admin.TabularInline):
     extra = 1
     max_num = 1
     can_delete = True
-    
+
 admin.site.register(Credito)
-    
+
 # participacion ciudadana
 
 class AdminParticipacionInline(admin.TabularInline):
@@ -316,19 +316,19 @@ class AdminParticipacionInline(admin.TabularInline):
     extra = 1
     max_num = 2
     can_delete = True
-    
+
 class AdminParticipacionCPCInline(admin.TabularInline):
     model = ParticipacionCPC
     extra = 1
     max_num = 2
     can_delete = True
-    
+
 class AdminFrecuenciaInline(admin.TabularInline):
     model = Frecuencia
     extra = 1
     max_num = 2
     can_delete = True
-    
+
 # genero
 
 class AdminGeneroInline(admin.TabularInline):
@@ -336,24 +336,30 @@ class AdminGeneroInline(admin.TabularInline):
     extra = 1
     max_num = 6
     can_delete = True
-    
+
 class AdminTomaDecicionInline(admin.TabularInline):
     model = TomaDecicion
     extra = 1
     max_num = 6
     can_delete = True
-    
+
+class AdminFotosFamiliaInline(admin.TabularInline):
+    model = FotosFamilia
+    extra = 1
+    max_num = 6
+    can_delete = True
+
 class EncuestaAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.usuario = request.user
         obj.save()
-        
+
     def queryset(self, request):
         qs = super(EncuestaAdmin, self).queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(usuario=request.user)
-        
+
     save_on_top = True
     actions_on_top = True
     exclude = ('usuario',)
@@ -369,7 +375,7 @@ class EncuestaAdmin(admin.ModelAdmin):
                AdminPrincipalFormaInline,AdminVendeProductoInline,AdminRiegoInline,AdminAreaProtegidaInline,
                AdminUsoTecnologiaInline,AdminSemillaInline,AdminDiversidadInline,AdminCrisisInline,
                AdminAccesoCreditoInline,AdminParticipacionInline,AdminParticipacionCPCInline,AdminFrecuenciaInline,
-               AdminGeneroInline,AdminTomaDecicionInline,              
+               AdminGeneroInline,AdminTomaDecicionInline,AdminFotosFamiliaInline,
                ]
     list_display = ['beneficiario', 'municipio', 'comarca', 'contraparte' ]
     list_filter = ['contraparte','fecha']
@@ -379,8 +385,8 @@ class EncuestaAdmin(admin.ModelAdmin):
     #    css = {
     #        'all': ('/archivos/css/admin.css',),
     #    }
-               
+
 admin.site.register(Encuesta, EncuestaAdmin)
 admin.site.register(Contraparte)
 admin.site.register(Recolector)
-    
+
