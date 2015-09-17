@@ -200,3 +200,6 @@ class Portada(models.Model):
 
     def __unicode__(self):
         return self.titulo
+
+    class Meta:
+        verbose_name_plural = "Fotos para la portada"
