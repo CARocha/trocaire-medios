@@ -36,6 +36,7 @@ class Encuesta(models.Model):
     beneficiario = models.CharField('Nombre del Beneficiario/a', max_length=200)
     encuestador = models.ForeignKey(Recolector, verbose_name="Nombre del encuestador")
     contraparte = models.ForeignKey(Contraparte, null=True, blank=True)
+    altura = models.FloatField(null=True, blank=True)
     latitud = models.FloatField(null=True, blank=True)
     longitud = models.FloatField(null=True, blank=True)
     usuario = models.ForeignKey(User)
@@ -192,3 +193,10 @@ class FotosFamilia(models.Model):
 
     class Meta:
         verbose_name_plural = "Fotos de la familia"
+
+class Portada(models.Model):
+    titulo = models.CharField(max_length=250)
+    imagen = models.ImageField(upload_to="uploads/portada/")
+
+    def __unicode__(self):
+        return self.titulo
