@@ -375,7 +375,7 @@ class EncuestaAdmin(admin.ModelAdmin):
                AdminPrincipalFormaInline,AdminVendeProductoInline,AdminRiegoInline,AdminAreaProtegidaInline,
                AdminUsoTecnologiaInline,AdminSemillaInline,AdminDiversidadInline,AdminCrisisInline,
                AdminAccesoCreditoInline,AdminParticipacionInline,AdminParticipacionCPCInline,AdminFrecuenciaInline,
-               AdminGeneroInline,AdminTomaDecicionInline,AdminFotosFamiliaInline,
+               AdminGeneroInline,AdminTomaDecicionInline,
                ]
     list_display = ['beneficiario', 'municipio', 'comarca', 'contraparte' ]
     list_filter = ['contraparte','fecha']
@@ -386,7 +386,12 @@ class EncuestaAdmin(admin.ModelAdmin):
     #        'all': ('/archivos/css/admin.css',),
     #    }
 
+
+class ContraparteAdmin(admin.ModelAdmin):
+    inlines = [AdminFotosFamiliaInline]
+
+
 admin.site.register(Encuesta, EncuestaAdmin)
-admin.site.register(Contraparte)
+admin.site.register(Contraparte, ContraparteAdmin)
 admin.site.register(Recolector)
-admin.site.register(Portada)
+#admin.site.register(Portada)
