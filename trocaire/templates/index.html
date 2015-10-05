@@ -1,51 +1,443 @@
-{% extends "base.html" %}
-{% block extratitle %}Home{% endblock %}
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+		<title>Trocaire</title>
 
-{% block banner %}
-<div class="banner">
-        <div class="wrapper">
-                <div class="intro">
-                    <div class="title">
-                        "Programa Medios de Vida Sostenibles"
-                    </div><br>
-                    <div class="desc">
-Este programa pretende contribuir a la construcción de medios de vida sostenibles que mejoren la calidad de vida de la población rural vulnerable en la zona Norte de la Región Central de Nicaragua.
-<br><br>
-Esto a través del mejoramiento de la seguridad alimentaria y nutricional de las familias, así como el incremento  de sus ingresos por medio del fortalecimiento de procesos sostenibles de producción agroecológica y de comercialización.
-                    </div>
-                </div>
-                <div class="salidas">
-<!--                    <a href="#" class="mapeo"></a>-->
-                    <a href="/consultarsimple" class="monitoreo"></a>
-                    <a href="/consultar/" class="monitoreo_avanzado"></a>
-<!--                    <a href="#" class="recursos"></a>-->
-                </div>
-                <div class="clean"></div>
-        </div>
-</div>
-{% endblock %}
+		<!-- CSS  -->
+		<link href="{{MEDIA_URL}}css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<link href="{{MEDIA_URL}}css/main.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	</head>
+	<body>
 
-{% block contenido %}
-<div class="title_bar">
-    <a href="/organizaciones" class="orglink"></a>
-    <div class="clean"></div>
-</div>
-<div class="contraparts">
-    <div class="logos">
-        <a href="/organizaciones#ugag"><img src="{{MEDIA_URL}}img/ugag.jpg" alt="logo" class="cp"></a>
-        <img src="{{MEDIA_URL}}img/separador.png" alt="line" class="line">
-         <a href="/organizaciones#coacov"><img src="{{MEDIA_URL}}img/coacov.jpg" alt="logo" class="cp"></a>
+	<div class="navbar-fixed">
+		<nav class="menu">
+		    <div class="nav-wrapper">
+		    	<a href="/" class="brand-logo"><img src="{{MEDIA_URL}}img/trocaire.png" alt=""></a>
+		    	<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
-        <img src="{{MEDIA_URL}}img/separador.png" alt="line" class="line">
-        <a href="/organizaciones#coder"><img src="{{MEDIA_URL}}img/coder.jpg" alt="logo" class="cp"></a>
-        <img src="{{MEDIA_URL}}img/separador.png" alt="line" class="line">
-       <a href="/organizaciones#addac"><img src="{{MEDIA_URL}}img/addac.jpg" alt="logo" class="cp"></a>
-        <img src="{{MEDIA_URL}}img/separador.png" alt="line" class="line">
-               <a href="/organizaciones#octupan"><img src="{{MEDIA_URL}}img/octupan.jpg" alt="logo" class="cp"></a>
-        <div class="clean"></div>
-        <br>
-        <img src="{{MEDIA_URL}}img/sep_hor.png" alt="line">
-        <br><br>
-    </div>
-</div>
-{% endblock %}
+		      	<ul  class="right hide-on-med-and-down">
+		        
+		        	<li><a href="/consultarsimple">Consultas</a></li>
+		        	<li><a href="/consultar/">Consultas Avanzadas</a></li>
+                    <li><a href="/ver_mapa/">Mapa</a></li>
+		        	<li><a href="/admin">Iniciar Sesión</a></li>
+		      	</ul>
+		      	<ul class="side-nav" id="mobile-demo">
+		        
+		        	<li><a href="/consultarsimple">Consultas</a></li>
+		        	<li><a href="/consultar/">Consultas Avanzadas</a></li>
+                    <li><a href="/ver_mapa/">Mapa</a></li>
+		        	<li><a href="/admin">Iniciar Sesión</a></li>
+	
+		      	</ul>
+		    </div>
+		</nav>
+	</div>
+
+	<div class="slider">
+		<ul class="slides">
+			
+			<li>
+				<img src="{{MEDIA_URL}}img/2.jpg"> <!-- random image -->
+
+			</li>
+			<li>
+				<img src="{{MEDIA_URL}}img/3.JPG"> <!-- random image -->
+
+			</li>
+
+			<li>
+				<img src="{{MEDIA_URL}}img/5.jpg"> <!-- random image -->
+
+			</li>
+		</ul>
+	</div>
+	<div class=" container info-programa z-depth-1">
+		<h2>Programa Medios de Vida Sostenibles</h2>
+
+		<p>
+			Este programa pretende contribuir a la construcción de medios de vida sostenibles que mejoren la calidad de vida de la población rural vulnerable en la zona Norte de la Región Central de Nicaragua.
+		<br>
+		<br>
+			Esto a través del mejoramiento de la seguridad alimentaria y nutricional de las familias, así como el incremento de sus ingresos por medio del fortalecimiento de procesos sostenibles de producción agroecológica y de comercialización.
+		</p>
+	</div>
+
+
+	<div class="container graficos">
+		<div class="row">
+
+			<h4>Indicadores básicos del programa medios de vida sostenibles</h4>
+
+			<div class="col s12 m6 l6">
+				<div class="card">
+					<div class="card-image waves-effect waves-block waves-light">
+						<div id="grafico1"></div>
+					</div>
+					<div class="card-content">
+						<span class="card-title activator grey-text text-darken-4">Titulo indicador</span>
+						<p><a href="#">Ver detalle</a></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col s12 m6 l6">
+				<div class="card">
+					<div class="card-image waves-effect waves-block waves-light">
+						<div id="grafico2"></div>
+					</div>
+					<div class="card-content">
+						<span class="card-title activator grey-text text-darken-4">Titulo indicador</span>
+						<p><a href="#">Ver detalle</a></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col s12 m6 l6">
+				<div class="card">
+					<div class="card-image waves-effect waves-block waves-light">
+						<div id="grafico3"></div>
+					</div>
+					<div class="card-content">
+						<span class="card-title activator grey-text text-darken-4">Titulo indicador</span>
+						<p><a href="#">Ver detalle</a></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col s12 m6 l6">
+				<div class="card">
+					<div class="card-image waves-effect waves-block waves-light">
+						<div id="grafico4"></div>
+					</div>
+					<div class="card-content">
+						<span class="card-title activator grey-text text-darken-4">Titulo indicador</span>
+						<p><a href="#">Ver detalle</a></p>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+
+
+
+		<footer class="page-footer z-depth-1">
+			<div class="container">
+				<div class="row">
+					
+					<h4>Organizaciones</h4>
+					<ul>
+						<li class="col s2">
+                            <a href="/organizaciones#ugag">
+                               <img class="responsive-img" src="{{MEDIA_URL}}img/ugaq.png" alt="">  
+                            </a>
+                        </li>
+						<li class="col s2 ">
+                            <a href="/organizaciones#coacov">
+                                <img class="responsive-img" src="{{MEDIA_URL}}img/coacov.png" alt="">
+                            </a>
+                        </li>
+						<li class="col s2 ">
+                            <a href="/organizaciones#coder">
+                                <img class="responsive-img" src="{{MEDIA_URL}}img/coder.jpg" alt="">
+                            </a>
+                        </li>
+						<li class="col s2 ">
+                            <a href="/organizaciones#addac">
+                                <img class="responsive-img" src="{{MEDIA_URL}}img/addac.jpg" alt="">
+                            </a>
+                        </li>
+						<li class="col s2 ">
+                            <a href="/organizaciones#octupan">
+                                <img class="responsive-img" src="{{MEDIA_URL}}img/octupan.jpg" alt="">
+                            </a>
+                        </li>
+						<li class="col s2 ">
+                            <a href="">
+                                <img class="responsive-img" src="{{MEDIA_URL}}img/una.png" alt="">
+                            </a>
+                        </li>
+					</ul>
+
+				</div>
+			</div>
+			<div class="footer-copyright">
+				<div class="container">
+				Desarrollado por <a class="white-text text-lighten-3" href="http://simas.org.ni">SIMAS</a> con Django Framework
+				</div>
+			</div>
+		</footer>
+
+
+		<!--  Scripts-->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<script src="{{MEDIA_URL}}js/materialize.js"></script>
+		<script src="{{MEDIA_URL}}js/site.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+      		$('.slider').slider({
+      			full_width: false,
+      			height:550,
+      		});
+    	});
+    	$(".button-collapse").sideNav();
+
+		</script>
+		
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script type="text/javascript">
+			$(function () {
+			    $('#grafico1').highcharts({
+			        chart: {
+			            type: 'column'
+			        },
+			        title: {
+			            text: ''
+			        },
+			        xAxis: {
+			            categories: [
+			                'Jan',
+			                'Feb',
+			                'Mar',
+			                'Apr',
+			                'May',
+			                'Jun',
+			                'Jul',
+			                'Aug',
+			                'Sep',
+			                'Oct',
+			                'Nov',
+			                'Dec'
+			            ],
+			            crosshair: true
+			        },
+			        yAxis: {
+			            min: 0,
+			            title: {
+			                text: 'Rainfall (mm)'
+			            }
+			        },
+			        tooltip: {
+			            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+			                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+			            footerFormat: '</table>',
+			            shared: true,
+			            useHTML: true
+			        },
+			        plotOptions: {
+			            column: {
+			                pointPadding: 0.2,
+			                borderWidth: 0
+			            }
+			        },
+			        series: [{
+			            name: 'Tokyo',
+			            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+
+			        }, {
+			            name: 'New York',
+			            data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
+
+			        }, {
+			            name: 'London',
+			            data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
+
+			        }, {
+			            name: 'Berlin',
+			            data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
+
+			        }]
+			    });
+			});
+
+			$(function () {
+
+			    $(document).ready(function () {
+
+			        // Build the chart
+			        $('#grafico2').highcharts({
+			            chart: {
+			                plotBackgroundColor: null,
+			                plotBorderWidth: null,
+			                plotShadow: false,
+			                type: 'pie'
+			            },
+			            title: {
+			                text: ''
+			            },
+			            tooltip: {
+			                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			            },
+			            plotOptions: {
+			                pie: {
+			                    allowPointSelect: true,
+			                    cursor: 'pointer',
+			                    dataLabels: {
+			                        enabled: false
+			                    },
+			                    showInLegend: true
+			                }
+			            },
+			            series: [{
+			                name: "Brands",
+			                colorByPoint: true,
+			                data: [{
+			                    name: "Microsoft Internet Explorer",
+			                    y: 56.33
+			                }, {
+			                    name: "Chrome",
+			                    y: 24.03,
+			                    sliced: true,
+			                    selected: true
+			                }, {
+			                    name: "Firefox",
+			                    y: 10.38
+			                }, {
+			                    name: "Safari",
+			                    y: 4.77
+			                }, {
+			                    name: "Opera",
+			                    y: 0.91
+			                }, {
+			                    name: "Proprietary or Undetectable",
+			                    y: 0.2
+			                }]
+			            }]
+			        });
+			    });
+			});
+
+
+			$(function () {
+
+			    $(document).ready(function () {
+
+			        // Build the chart
+			        $('#grafico3').highcharts({
+			            chart: {
+			                plotBackgroundColor: null,
+			                plotBorderWidth: null,
+			                plotShadow: false,
+			                type: 'pie'
+			            },
+			            title: {
+			                text: ''
+			            },
+			            tooltip: {
+			                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+			            },
+			            plotOptions: {
+			                pie: {
+			                    allowPointSelect: true,
+			                    cursor: 'pointer',
+			                    dataLabels: {
+			                        enabled: false
+			                    },
+			                    showInLegend: true
+			                }
+			            },
+			            series: [{
+			                name: "Brands",
+			                colorByPoint: true,
+			                data: [{
+			                    name: "Microsoft Internet Explorer",
+			                    y: 56.33
+			                }, {
+			                    name: "Chrome",
+			                    y: 24.03,
+			                    sliced: true,
+			                    selected: true
+			                }, {
+			                    name: "Firefox",
+			                    y: 10.38
+			                }, {
+			                    name: "Safari",
+			                    y: 4.77
+			                }, {
+			                    name: "Opera",
+			                    y: 0.91
+			                }, {
+			                    name: "Proprietary or Undetectable",
+			                    y: 0.2
+			                }]
+			            }]
+			        });
+			    });
+			});
+
+			$(function () {
+			    $('#grafico4').highcharts({
+			        chart: {
+			            type: 'column'
+			        },
+			        title: {
+			            text: ''
+			        },
+			        xAxis: {
+			            categories: [
+			                'Jan',
+			                'Feb',
+			                'Mar',
+			                'Apr',
+			                'May',
+			                'Jun',
+			                'Jul',
+			                'Aug',
+			                'Sep',
+			                'Oct',
+			                'Nov',
+			                'Dec'
+			            ],
+			            crosshair: true
+			        },
+			        yAxis: {
+			            min: 0,
+			            title: {
+			                text: 'Rainfall (mm)'
+			            }
+			        },
+			        tooltip: {
+			            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+			                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+			            footerFormat: '</table>',
+			            shared: true,
+			            useHTML: true
+			        },
+			        plotOptions: {
+			            column: {
+			                pointPadding: 0.2,
+			                borderWidth: 0
+			            }
+			        },
+			        series: [{
+			            name: 'Tokyo',
+			            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+
+			        }, {
+			            name: 'New York',
+			            data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
+
+			        }, {
+			            name: 'London',
+			            data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
+
+			        }, {
+			            name: 'Berlin',
+			            data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
+
+			        }]
+			    });
+			});
+
+		</script>
+	</body>
+</html>
+					
