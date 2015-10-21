@@ -377,7 +377,7 @@ class EncuestaAdmin(admin.ModelAdmin):
                AdminAccesoCreditoInline,AdminParticipacionInline,AdminParticipacionCPCInline,AdminFrecuenciaInline,
                AdminGeneroInline,AdminTomaDecicionInline,
                ]
-    list_display = ['beneficiario', 'municipio', 'comarca', 'contraparte' ]
+    list_display = ['beneficiario', 'municipio', 'comarca', 'contraparte','fecha']
     list_filter = ['contraparte','fecha']
     search_fields = ['beneficiario']
     #date_hierarchy = 'fecha'
