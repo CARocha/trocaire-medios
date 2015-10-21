@@ -14,7 +14,7 @@ CHOICE_GENERO = (
                 
 CHOICE_GENERO_RESPUESTA = (
                     (1,'Lo hace con frecuencia'),
-                    (2,'Algunas veces'),
+                    (2,'Hacen algunas cosas buenas'),
                     (3,'Muy poco o nunca lo hacen'),
                     (4,'No tiene niños/as')
                     

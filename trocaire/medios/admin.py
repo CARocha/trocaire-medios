@@ -371,7 +371,7 @@ class EncuestaAdmin(admin.ModelAdmin):
                AdminArbolesInline,AdminCalidadPatioInline,AdminGanadoMayorInline,
                AdminPrincipalesFuentesInline,AdminCultivosIPeriodosInline,AdminCultivosIPermanentesInline,
                AdminCultivosIEstacionalesInline,AdminIHortalizasInline,AdminIngresoPatioInline,
-               AdminIngresoGanadoInline,AdminProductosProcesadoInline,AdminLactiosInline,AdminOtrosIngresosInline,
+               AdminIngresoGanadoInline,AdminLactiosInline,AdminProductosProcesadoInline,AdminOtrosIngresosInline,
                AdminPrincipalFormaInline,AdminVendeProductoInline,AdminRiegoInline,AdminAreaProtegidaInline,
                AdminUsoTecnologiaInline,AdminSemillaInline,AdminDiversidadInline,AdminCrisisInline,
                AdminAccesoCreditoInline,AdminParticipacionInline,AdminParticipacionCPCInline,AdminFrecuenciaInline,

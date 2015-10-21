@@ -241,7 +241,7 @@ var chart;
             series: [
             {
                 name: 'Agua segura',
-                data: [{{por_varon}},{{por_mujer}},{{por_total}}],
+                data: [{{varon|calcular_frecuencia:hombre_jefes}},{{mujer|calcular_frecuencia:mujer_jefes}},{{por_total}}],
                 dataLabels: {
                         enabled: true,
                         rotation: 0,
@@ -338,9 +338,9 @@ var chart;
         <tr>
             <td>Agua segura</td>
             <td>{{varon}}</td>
-            <td>{{por_varon}}</td>
+            <td>{{varon|calcular_frecuencia:hombre_jefes}}</td>
             <td>{{mujer}}</td>
-            <td>{{por_mujer}}</td>
+            <td>{{mujer|calcular_frecuencia:mujer_jefes}}</td>
             <td>{{total}}</td>
         </tr>
     </tbody>

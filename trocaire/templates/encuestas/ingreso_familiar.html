@@ -16,6 +16,8 @@
         cambio = 24.90;
     }else if ( {{b}} == 2014) {
         cambio = 26.07;
+    }else if ( {{b}} == 2015) {
+        cambio = 27.66;
     }
     {%endfor%}
 
@@ -115,6 +117,8 @@
                 <td>{{promedio.total|currency}} (<b>US$</b> {{promedio.total|dolarizar:24.90}})</td>{%endif%}
                 {% if request.session.fecha.0 == '2014' %}
                 <td>{{promedio.total|currency}} (<b>US$</b> {{promedio.total|dolarizar:26.07}})</td>{%endif%}
+                {% if request.session.fecha.0 == '2015' %}
+                <td>{{promedio.total|currency}} (<b>US$</b> {{promedio.total|dolarizar:27.66}})</td>{%endif%}
 
 
                 {% if request.session.fecha.0 == '2010' %}
@@ -125,6 +129,8 @@
                 <td>{{promedio.hombre_jefe|currency}} (<b>US$</b> {{promedio.hombre_jefe|dolarizar:24.90}})</td>{%endif%}
                 {% if request.session.fecha.0 == '2014' %}
                 <td>{{promedio.hombre_jefe|currency}} (<b>US$</b> {{promedio.hombre_jefe|dolarizar:26.07}})</td>{%endif%}
+                {% if request.session.fecha.0 == '2015' %}
+                <td>{{promedio.hombre_jefe|currency}} (<b>US$</b> {{promedio.hombre_jefe|dolarizar:27.66}})</td>{%endif%}
 
                 {% if request.session.fecha.0 == '2010' %}
 				<td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:20.60}})</td>{%endif%}
@@ -133,7 +139,9 @@
                 {% if request.session.fecha.0 == '2013' %}
                 <td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:24.90}})</td>{%endif%}
                 {% if request.session.fecha.0 == '2014' %}
-                <td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:26.07}})</td>{%endif%} 
+                <td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:26.07}})</td>{%endif%}
+                {% if request.session.fecha.0 == '2015' %}
+                <td>{{promedio.mujer_jefe|currency}} (<b>US$</b> {{promedio.mujer_jefe|dolarizar:27.66}})</td>{%endif%} 
 
 
 			</tr>
@@ -147,6 +155,8 @@
                 <td>{{mediana.total|currency}} (<b>US$</b> {{mediana.total|dolarizar:24.90}})</td>{%endif%}
                 {% if request.session.fecha.0 == '2014' %}
                 <td>{{mediana.total|currency}} (<b>US$</b> {{mediana.total|dolarizar:26.07}})</td>{%endif%}
+                {% if request.session.fecha.0 == '2015' %}
+                <td>{{mediana.total|currency}} (<b>US$</b> {{mediana.total|dolarizar:27.66}})</td>{%endif%}
 
                 {% if request.session.fecha.0 == '2010' %}
 				<td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:20.60}})</td>{%endif%}
@@ -156,6 +166,8 @@
                 <td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:24.90}})</td>{%endif%}
                 {% if request.session.fecha.0 == '2014' %}
                 <td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:26.07}})</td>{%endif%}
+                {% if request.session.fecha.0 == '2015' %}
+                <td>{{mediana.hombre_jefe|currency}} (<b>US$</b> {{mediana.hombre_jefe|dolarizar:27.66}})</td>{%endif%}
 
 
                 {% if request.session.fecha.0 == '2010' %}
@@ -166,6 +178,8 @@
                 <td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:24.90}})</td>{%endif%}
                 {% if request.session.fecha.0 == '2014' %}
                 <td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:26.07}})</td>{%endif%}
+                {% if request.session.fecha.0 == '2015' %}
+                <td>{{mediana.mujer_jefe|currency}} (<b>US$</b> {{mediana.mujer_jefe|dolarizar:27.66}})</td>{%endif%}
 
 			</tr>			
 		</tbody>
