@@ -82,6 +82,9 @@
 <div class="title_bar">
     <div class="titulo">Cultivos anuales</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
+    <div class="titulo der"><a href="/exportar/11/">xls cultivos anuales</a></div>
+    {%endif%}
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 

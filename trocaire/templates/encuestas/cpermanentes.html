@@ -82,6 +82,9 @@
 <div class="title_bar">
     <div class="titulo">Cultivos permanentes</div>
     <div class="titulo der"><a href="/consultarsimple/">&larr; Volver</a></div>
+    {% if request.user.is_authenticated %}
+    <div class="titulo der"><a href="/exportar/10/">xls cultivos permanentes</a></div>
+    {%endif%}
 </div>
 {% include "encuestas/filtros_seleccionados.html" %}
 
