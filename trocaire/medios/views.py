@@ -272,6 +272,48 @@ def reset_parameters(request):
 #===============================================================================
 
 def index(request, template_name="index.html"):
+    years = []
+    for en in Encuesta.objects.order_by('fecha').values_list('fecha', flat=True):
+        years.append((en, en))
+
+    fechas_anuales = list(sorted(set(years)))
+
+    agua_segura = {}
+    riegos = {}
+    for obj in fechas_anuales:
+        total_encuesta = Encuesta.objects.filter(fecha=obj[0]).count()
+        
+        total_1 = Encuesta.objects.filter(fecha=obj[0], agua__calidad=1,agua__clorada=3).count()
+        total_2 = Encuesta.objects.filter(fecha=obj[0], agua__calidad__in=[2,3],agua__clorada=1).count()
+        total = total_1 + total_2
+        porcentaje_total = round((float(total)/float(total_encuesta))*100,2)
+
+        hombre_1 = Encuesta.objects.filter(fecha=obj[0], sexo_jefe=1, agua__calidad=1,agua__clorada=3).count()
+        hombre_2 = Encuesta.objects.filter(fecha=obj[0], sexo_jefe=1, agua__calidad__in=[2,3],agua__clorada=1).count()
+        total_hombre = hombre_1 + hombre_2
+        porcentaje_hombre = round((float(total_hombre)/float(total_encuesta))*100,2)
+
+        mujer_1 = Encuesta.objects.filter(fecha=obj[0], sexo_jefe=2, agua__calidad=1,agua__clorada=3).count()
+        mujer_2 = Encuesta.objects.filter(fecha=obj[0], sexo_jefe=2, agua__calidad__in=[2,3],agua__clorada=1).count()
+        total_mujer = mujer_1 + mujer_2
+        porcentaje_mujer = round((float(total_mujer)/float(total_encuesta))*100,2)
+        
+        agua_segura[obj[1]] = (porcentaje_total,porcentaje_hombre,porcentaje_mujer)
+
+        riego_no_tiene = Encuesta.objects.filter(fecha=obj[0], riego__respuesta=1).count()
+        riego_aspercion = Encuesta.objects.filter(fecha=obj[0], riego__respuesta=2).count()
+        riego_goteo = Encuesta.objects.filter(fecha=obj[0], riego__respuesta=3).count()
+        riego_gravedad = Encuesta.objects.filter(fecha=obj[0], riego__respuesta=4).count()
+
+        #riegos[obj[1]] = (riego_no_tiene,riego_aspercion,riego_goteo,riego_gravedad)
+
+        riegos[obj[1]] = (round(float(riego_no_tiene)/float(total_encuesta)*100,2),
+                       round(float(riego_aspercion)/float(total_encuesta)*100,2),
+                       round(float(riego_goteo)/float(total_encuesta)*100,2),
+                       round(float(riego_gravedad)/float(total_encuesta)*100,2)
+                       )
+
+ 
     return render_to_response(template_name, locals(),
                               context_instance=RequestContext(request))
 
@@ -1194,7 +1236,8 @@ def diversidad_alimentaria(request):
               5: 'Al menos 5', 6: 'Al menos 6',
               7: 'Al menos 7'}
     dondetoy = "diversidad_ali"
-    return render_to_response('encuestas/diversidad_alimentaria.html', RequestContext(request, locals()))
+    return render_to_response('encuestas/diversidad_alimentaria.html', 
+                                RequestContext(request, locals()))
 
 def get_diversidad_dicc(query):
     dicc = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0}
